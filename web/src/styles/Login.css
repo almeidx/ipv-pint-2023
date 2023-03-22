@@ -1,0 +1,21 @@
+.container {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-image: url(/login-bg.jpeg);
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 30vh;
+  min-width: fit-content;
+  padding-inline: 2rem;
+  border-radius: 30px;
+  backdrop-filter: brightness(1.6);
+}

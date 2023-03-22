@@ -1,11 +1,9 @@
-import "../styles/Home.css";
-
 import { Navbar } from "../components/NavBar.jsx";
 
-export function Home() {
+export function Oportunidades() {
   return (
     <>
-      <Navbar page="/" />
+      <Navbar page="oportunidades" />
     </>
   );
 }

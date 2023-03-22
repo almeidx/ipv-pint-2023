@@ -1,11 +1,9 @@
-import "../styles/Home.css";
-
 import { Navbar } from "../components/NavBar.jsx";
 
-export function Home() {
+export function Beneficios() {
   return (
     <>
-      <Navbar page="/" />
+      <Navbar page="beneficios" />
     </>
   );
 }
