@@ -1,9 +1,9 @@
-import { Navbar } from "../components/NavBar.jsx";
+import { NavBar } from "../components/NavBar.jsx";
 
 export function Beneficios() {
   return (
     <>
-      <Navbar page="beneficios" />
+      <NavBar page="beneficios" />
     </>
   );
 }

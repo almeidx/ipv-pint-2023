@@ -1,52 +1,50 @@
 import Nav from "react-bootstrap/Nav";
-import NavLink from "react-bootstrap/NavLink";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 import { BiBell } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 import softinsaSvg from "../assets/softinsa.svg";
+import { Link } from "react-router-dom";
 
-export function Navbar({ page }) {
+export function NavBar({ page }) {
   return (
-    <BootstrapNavbar bg="primary" variant="dark">
+    <BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>
       <NavbarBrand href="/">
         <img src={softinsaSvg} alt="Softinsa" />
       </NavbarBrand>
 
       <Nav className="me-auto">
-        <NavLink href="/" className={getSelectedClass(page, "/")}>
+        <Link to="/" className={getSelectedClass(page, "/")}>
           Início
-        </NavLink>
-        <NavLink href="/beneficios" className={getSelectedClass(page, "beneficios")}>
+        </Link>
+        <Link to="/beneficios" className={getSelectedClass(page, "beneficios")}>
           Benefícios
-        </NavLink>
-        <NavLink href="/vagas" className={getSelectedClass(page, "vagas")}>
+        </Link>
+        <Link to="/vagas" className={getSelectedClass(page, "vagas")}>
           Vagas
-        </NavLink>
-        <NavLink href="/oportunidades" className={getSelectedClass(page, "oportunidades")}>
+        </Link>
+        <Link to="/oportunidades" className={getSelectedClass(page, "oportunidades")}>
           Oportunidades
-        </NavLink>
-        <NavLink href="/ideias" className={getSelectedClass(page, "ideias")}>
+        </Link>
+        <Link to="/ideias" className={getSelectedClass(page, "ideias")}>
           Ideias
-        </NavLink>
-        <NavLink href="/contacto" className={getSelectedClass(page, "contacto")}>
+        </Link>
+        <Link to="/contacto" className={getSelectedClass(page, "contacto")}>
           Contacto
-        </NavLink>
+        </Link>
       </Nav>
 
-      <Nav>
-        <div className="right-icons">
-          <BiBell color="white" size={24} />
+      <Nav className="me-4 d-flex justify-content-center align-items-center gap-3">
+        <BiBell color="white" size={24} />
 
-          <NavLink href="/login">
-            <FaRegUserCircle color="white" size={24} />
-          </NavLink>
-        </div>
+        <Link to="/login">
+          <FaRegUserCircle color="white" size={24} />
+        </Link>
       </Nav>
     </BootstrapNavbar>
   );
 }
 
 function getSelectedClass(page, path) {
-  return page === path ? "navbar-selected" : "";
+  return page === path ? "active nav-link" : "nav-link";
 }

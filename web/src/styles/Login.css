@@ -1,21 +1,27 @@
-.container {
-  min-height: 100vh;
-  min-width: 100vw;
+.login-cnt {
   background-image: url(/login-bg.jpeg);
   background-size: cover;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 30vh;
-  min-width: fit-content;
-  padding-inline: 2rem;
-  border-radius: 30px;
-  backdrop-filter: brightness(1.6);
+.form {
+  border-radius: 2rem;
+  color: white;
+
+  background-color: rgba(8, 37, 139, 0.52);
+
+  padding-inline: 3rem;
+  padding-block: 2rem;
+}
+
+.title {
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.password-icon {
+  position: absolute;
+  top: 30 !important;
+  left: 50;
 }

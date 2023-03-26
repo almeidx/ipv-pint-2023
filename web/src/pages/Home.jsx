@@ -1,11 +1,16 @@
 import "../styles/Home.css";
 
-import { Navbar } from "../components/NavBar.jsx";
+import { NavBar } from "../components/NavBar.jsx";
+import { Footer } from "../components/Footer.jsx";
 
 export function Home() {
   return (
     <>
-      <Navbar page="/" />
+      <NavBar page="/" />
+
+      <main className="min-h-without-navbar">abc</main>
+
+      <Footer />
     </>
   );
 }

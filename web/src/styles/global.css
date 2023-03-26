@@ -14,6 +14,10 @@
   -webkit-text-size-adjust: 100%;
 } */
 
+:root {
+  --bs-primary-rgb: 63, 81, 181;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +28,6 @@
   min-height: 100vh;
 }
 
-.navbar-selected {
-  color: #fff;
+.min-h-without-navbar {
+  min-height: calc(100vh - 5rem);
 }
