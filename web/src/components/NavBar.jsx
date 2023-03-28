@@ -6,6 +6,10 @@ import { FaRegUserCircle } from "react-icons/fa";
 import softinsaSvg from "../assets/softinsa.svg";
 import { Link } from "react-router-dom";
 
+/**
+ * @param {Object} props
+ * @param {string} props.page
+ */
 export function NavBar({ page }) {
   return (
     <BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>

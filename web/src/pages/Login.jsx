@@ -3,10 +3,13 @@ import "../styles/Login.css";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import { Link } from "react-router-dom";
-import { RiLockPasswordLine, RiFacebookCircleFill } from "react-icons/ri";
+import { Google } from "../components/Google.jsx";
+import { Facebook } from "../components/Facebook.jsx";
+import { LoginContainer } from "../components/LoginContainer.jsx";
 import { MdAlternateEmail } from "react-icons/md";
-import { GrGoogle } from "react-icons/gr";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 export function Login() {
   /** @param {SubmitEvent} event */
@@ -17,53 +20,69 @@ export function Login() {
   }
 
   return (
-    <div className="login-cnt min-vw-100 min-vh-100">
-      <Form onSubmit={handleSubmit} className="col-3 form d-flex flex-column">
-        <h1 className="text-white mb-5 title">Login</h1>
+    <LoginContainer handleSubmit={handleSubmit}>
+      <h1 className="text-white mb-5 title">Login</h1>
 
-        <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
-          <Form.Control type="email" placeholder="Email" />
-        </Form.Group>
+      <InputGroup className="col-12 mb-3">
+        <InputGroup.Text id="email-icon">
+          <MdAlternateEmail />
+        </InputGroup.Text>
+        <Form.Control placeholder="Email" aria-label="Email" aria-describedby="email-icon" id="email" />
+      </InputGroup>
 
-        <Form.Group className="password-container" controlId="formBasicPassword">
-          <Form.Control type="password" placeholder="Password" className="" />
-        </Form.Group>
+      <InputGroup className="col-12 mb-1">
+        <InputGroup.Text id="password-icon">
+          <RiLockPasswordLine />
+        </InputGroup.Text>
+        <Form.Control
+          placeholder="Password"
+          aria-label="Password"
+          aria-describedby="password-icon"
+          id="password"
+          type="password"
+        />
+      </InputGroup>
 
-        <Form.Group controlId="formBasicCheckbox" className="pb-3">
-          <Form.Text>
-            <a className="text-white fst-italic text-decoration-none" href="#">
-              Esqueceu-se da password?
-            </a>
-          </Form.Text>
-        </Form.Group>
+      <Form.Group controlId="formBasicCheckbox" className="pb-3">
+        <Link className="text-white fst-italic text-decoration-none" to="/mudar-password">
+          Esqueceu-se da password?
+        </Link>
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Lembrar Password" />
-        </Form.Group>
+      <Form.Group className="mb-3" controlId="lembrar-password">
+        <Form.Check type="checkbox" label="Lembrar Password" />
+      </Form.Group>
 
-        <Button variant="primary" type="submit" className="col-8 p-2 mx-auto mb-5 bg-white text-black rounded-5">
-          Login
+      <Button variant="primary" type="submit" className="col-8 p-2 mx-auto mb-5 bg-white text-black rounded-5">
+        Login
+      </Button>
+
+      <Form.Group className="mt-3 mb-2 d-flex justify-content-center" controlId="formBasicCheckbox">
+        <Button
+          variant="primary"
+          type="submit"
+          className="col-5 p-2 rounded-3 mx-auto bg-white text-black d-flex justify-content-center align-items-center gap-2"
+        >
+          <Google /> Google
         </Button>
 
-        <Form.Group className="mt-3 mb-2  d-flex justify-content-center" controlId="formBasicCheckbox">
-          <Button variant="primary" type="submit" className="col-5 p-2 rounded-3 mx-auto bg-white text-black">
-            Google
-          </Button>
+        <Button
+          variant="primary"
+          type="submit"
+          className="col-5 rounded-3 mx-auto bg-white text-black d-flex justify-content-center align-items-center gap-2"
+        >
+          <Facebook /> Facebook
+        </Button>
+      </Form.Group>
 
-          <Button variant="primary" type="submit" className="col-5 rounded-3 mx-auto bg-white text-black">
-            Facebook
-          </Button>
-        </Form.Group>
-
-        <Form.Group controlId="formBasicCheckbox" className="  mx-auto">
-          <Form.Text className="text-white">
-            Ainda não tem uma conta?{" "}
-            <Link className="text-white" to="/signup">
-              Crie uma
-            </Link>
-          </Form.Text>
-        </Form.Group>
-      </Form>
-    </div>
+      <Form.Group controlId="formBasicCheckbox" className="mx-auto">
+        <Form.Text className="text-white">
+          Ainda não tem uma conta?{" "}
+          <Link className="text-white" to="/signup">
+            Crie uma
+          </Link>
+        </Form.Text>
+      </Form.Group>
+    </LoginContainer>
   );
 }

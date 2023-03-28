@@ -11,17 +11,11 @@
 
   background-color: rgba(8, 37, 139, 0.52);
 
-  padding-inline: 3rem;
+  padding-inline: 2.5rem;
   padding-block: 2rem;
 }
 
 .title {
   font-size: 4em;
   font-weight: bold;
-}
-
-.password-icon {
-  position: absolute;
-  top: 30 !important;
-  left: 50;
 }

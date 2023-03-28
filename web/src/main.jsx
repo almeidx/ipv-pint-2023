@@ -12,6 +12,8 @@ import { Login } from "./pages/Login.jsx";
 import { Oportunidades } from "./pages/Oportunidades.jsx";
 import { SignUp } from "./pages/SignUp.jsx";
 import { Vagas } from "./pages/Vagas.jsx";
+import { MudarPassword } from "./pages/MudarPassword.jsx";
+import { VerificarConta } from "./pages/VerificarConta.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -26,6 +28,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
         <Route path="/login" Component={Login} />
         <Route path="/signup" Component={SignUp} />
+        <Route path="/mudar-password" Component={MudarPassword} />
+        <Route path="/verificar-conta" Component={VerificarConta} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
