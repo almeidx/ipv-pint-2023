@@ -1,5 +1,5 @@
 .login-cnt {
-  background-image: url(/login-bg.jpeg);
+  background-image: url(/static/login-bg.jpeg);
   background-size: cover;
   display: grid;
   place-items: center;

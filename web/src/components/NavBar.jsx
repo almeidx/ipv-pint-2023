@@ -3,8 +3,8 @@ import BootstrapNavbar from "react-bootstrap/Navbar";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 import { BiBell } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
-import softinsaSvg from "../assets/softinsa.svg";
 import { Link } from "react-router-dom";
+import softinsaSvg from "../assets/softinsa.svg";
 
 /**
  * @param {Object} props
@@ -49,6 +49,10 @@ export function NavBar({ page }) {
   );
 }
 
+/**
+ * @param {string} page
+ * @param {string} path
+ */
 function getSelectedClass(page, path) {
   return page === path ? "active nav-link" : "nav-link";
 }

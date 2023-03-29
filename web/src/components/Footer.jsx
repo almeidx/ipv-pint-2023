@@ -1,6 +1,6 @@
-import { RiFacebookCircleFill, RiLinkedinBoxLine, RiInstagramLine } from "react-icons/ri";
-import softinsaLogoSmall from "../assets/softinsa-logo-small.svg";
+import { RiFacebookCircleFill, RiInstagramLine, RiLinkedinBoxLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import softinsaLogoSmall from "../assets/softinsa-logo-small.svg";
 
 export function Footer() {
   return (
