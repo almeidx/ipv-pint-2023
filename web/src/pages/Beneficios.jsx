@@ -1,73 +1,93 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import { FaSearch } from "react-icons/fa";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
+import { SearchBar } from "../components/SearchBar.jsx";
 
 export function Beneficios() {
   const [beneficios, setBeneficios] = useState([
     {
+      id: 1,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 2,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 3,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 4,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 5,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 6,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 7,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 8,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 9,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 10,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 11,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
     {
+      id: 12,
       iconHref: "/static/beneficio-dentista.png",
       title: "Dentista",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut ultricies ultricies,",
     },
   ]);
+  const [search, setSearch] = useState("");
+
+  const filteredBeneficios = search
+    ? beneficios.filter(
+        ({ title, description }) =>
+          title.toLowerCase().includes(search.toLowerCase()) || description.toLowerCase().includes(search.toLowerCase())
+      )
+    : beneficios;
 
   return (
     <>
@@ -75,20 +95,15 @@ export function Beneficios() {
 
       <main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
         <Container className="pt-5 col-11">
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Pesquise por benefícios..." />
-            <div className="input-group-append">
-              <button className="btn btn-primary" style={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}>
-                <FaSearch />
-              </button>
-            </div>
-          </div>
+          <SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
         </Container>
 
         <Container className="pt-3 col-11 row mx-auto gap-5">
-          {beneficios.map((beneficio) => (
-            <Beneficio {...beneficio} />
-          ))}
+          {filteredBeneficios.length ? (
+            filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
+          ) : (
+            <p>Não encontrado</p>
+          )}
         </Container>
       </main>
 
