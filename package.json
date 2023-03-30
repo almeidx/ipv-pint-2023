@@ -1,0 +1,9 @@
+{
+	"name": "ipv-pint-2023",
+	"scripts": {
+		"fmt": "pnpm format",
+		"format": "prettier --write .",
+		"server": "pnpm --filter server",
+		"web": "pnpm --filter web"
+	}
+}

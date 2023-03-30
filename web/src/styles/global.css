@@ -15,19 +15,19 @@
 } */
 
 :root {
-  --bs-primary-rgb: 63, 81, 181;
+	--bs-primary-rgb: 63, 81, 181;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 #root {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 .min-h-without-navbar {
-  min-height: calc(100vh - 5rem);
+	min-height: calc(100vh - 5rem);
 }

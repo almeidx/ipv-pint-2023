@@ -16,21 +16,21 @@ import { MudarPassword } from "./pages/MudarPassword.jsx";
 import { VerificarConta } from "./pages/VerificarConta.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" Component={Home} />
-        <Route path="/beneficios" Component={Beneficios} />
-        <Route path="/contacto" Component={Contacto} />
-        <Route path="/ideias" Component={Ideias} />
-        <Route path="/oportunidades" Component={Oportunidades} />
-        <Route path="/vagas" Component={Vagas} />
+	<React.StrictMode>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" Component={Home} />
+				<Route path="/beneficios" Component={Beneficios} />
+				<Route path="/contacto" Component={Contacto} />
+				<Route path="/ideias" Component={Ideias} />
+				<Route path="/oportunidades" Component={Oportunidades} />
+				<Route path="/vagas" Component={Vagas} />
 
-        <Route path="/login" Component={Login} />
-        <Route path="/signup" Component={SignUp} />
-        <Route path="/mudar-password" Component={MudarPassword} />
-        <Route path="/verificar-conta" Component={VerificarConta} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+				<Route path="/login" Component={Login} />
+				<Route path="/signup" Component={SignUp} />
+				<Route path="/mudar-password" Component={MudarPassword} />
+				<Route path="/verificar-conta" Component={VerificarConta} />
+			</Routes>
+		</BrowserRouter>
+	</React.StrictMode>,
 );

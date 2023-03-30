@@ -6,64 +6,81 @@ import { IoLocationOutline } from "react-icons/io5";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 
+const contactMethods = [
+	{
+		icon: IoLocationOutline,
+		title: "Morada",
+		links: [
+			{
+				title: "Edifício Office Oriente nº3 - B6 1990-138 Lisboa",
+				href: "https://goo.gl/maps/L7vwXB8kAUbd3sBUA",
+			},
+		],
+	},
+	{
+		icon: AiOutlinePhone,
+		title: "Contacto",
+		links: [
+			{
+				title: "+351 213 219 600",
+				href: "tel:+351 213 219 600",
+			},
+		],
+	},
+	{
+		icon: AiOutlineMail,
+		title: "Email",
+		links: [
+			{
+				title: "comercial@pt.softinsa.com",
+				href: "mailto:comercial@pt.softinsa.com",
+			},
+			{
+				title: "marketing@pt.softinsa.com",
+				href: "mailto:marketing@pt.softinsa.com",
+			},
+			{
+				title: "geral@pt.softinsa.com",
+				href: "mailto:geral@pt.softinsa.com",
+			},
+		],
+	},
+];
+
 export function Contacto() {
 	return (
 		<>
 			<NavBar page="contacto" />
 
 			<main
-				className="min-h-without-navbar"
-				style={{ backgroundImage: "url(/static/contacto-bg.png)", backgroundSize: "cover" }}
+				className="min-h-without-navbar d-grid"
+				style={{ backgroundImage: "url(/static/contacto-bg.png)", backgroundSize: "cover", placeItems: "center" }}
 			>
-				<Container className="row col-11">
-					<div className="col d-flex flex-column ">
-						<div className="d-flex flex-row">
-							<IoLocationOutline size={50} />
-							<div className="">
-								<h4>Morada</h4>
-								<a href="https://goo.gl/maps/L7vwXB8kAUbd3sBUA" className="text-decoration-none">
-									Edifício Office Oriente nº3 - B6 1990-138 Lisboa
-								</a>
-							</div>
-						</div>
-
-						<div className="d-flex flex-row">
-							<AiOutlinePhone size={50} />
-							<div>
-								<h4>Contacto</h4>
-								<a href="tel:+351 213 219 600" className="text-decoration-none">
-									+351 213 219 600
-								</a>
-							</div>
-						</div>
-
-						<div className="d-flex flex-row">
-							<AiOutlineMail size={50} />
-
-							<div>
-								<h4>Email</h4>
-
-								<a href="mailto:comercial@pt.softinsa.com">comercial@pt.softinsa.com</a>
-								<a href="mailto:marketing@pt.softinsa.com">marketing@pt.softinsa.com</a>
-								<a href="mailto:geral@pt.softinsa.com">geral@pt.softinsa.com</a>
-							</div>
-						</div>
+				<Container className="row col-11 mx-auto">
+					<div className="col d-flex flex-column justify-content-between">
+						{contactMethods.map(({ icon, title, links }, idx) => (
+							<ContactMethod key={`method-${idx}`} icon={icon} title={title} links={links} />
+						))}
 					</div>
 
-					<Form className="col p-5 bg-white">
-						<Form.Group className="mb-3" controlId="nome">
-							<Form.Control placeholder="Nome" />
+					<Form className="col-3 px-3 pt-3 pb-3 gap-4 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column">
+						<Form.Text style={{ fontSize: "1.2rem" }}>Deixe a sua mensagem</Form.Text>
+
+						<Form.Group className="mb-3 w-100" controlId="nome">
+							<Form.Control placeholder="Nome" style={{ borderTop: "none", borderLeft: "none", borderRight: "none" }} />
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="email">
-							<Form.Control type="email" placeholder="Email" />
+						<Form.Group className="mb-3 w-100" controlId="email">
+							<Form.Control
+								type="email"
+								placeholder="Email"
+								style={{ borderTop: "none", borderLeft: "none", borderRight: "none" }}
+							/>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="message">
-							<Form.Control placeholder="Mensagem" />
-						</Form.Group>
+						<Form.Control className="mb-3" as="textarea" placeholder="Mensagem" rows={5} />
 
-						<Button variant="primary" type="submit">
+						<Button variant="primary" type="submit" className="px-5">
 							Enviar
 						</Button>
 					</Form>
@@ -72,5 +89,31 @@ export function Contacto() {
 
 			<Footer />
 		</>
+	);
+}
+
+/**
+ * @param {Object} props
+ * @param {string} props.title
+ * @param {React.ComponentType} props.icon
+ * @param {Object[]} props.links
+ * @param {string} props.links[].title
+ * @param {string} props.links[].href
+ */
+function ContactMethod({ title, icon: Icon, links }) {
+	return (
+		<div className="d-flex flex-row align-items-center gap-4 text-white">
+			<Icon size={50} />
+
+			<div className="d-flex flex-column">
+				<h4 style={{ fontWeight: "light", fontSize: "1.8rem" }}>{title}</h4>
+
+				{links.map(({ title, href }, idx) => (
+					<a key={`link-${idx}`} href={href} style={{ color: "lightgray" }}>
+						{title}
+					</a>
+				))}
+			</div>
+		</div>
 	);
 }
