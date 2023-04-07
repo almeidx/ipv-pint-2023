@@ -67,15 +67,11 @@ export function Contacto() {
 						<Form.Text style={{ fontSize: "1.2rem" }}>Deixe a sua mensagem</Form.Text>
 
 						<Form.Group className="mb-3 w-100" controlId="nome">
-							<Form.Control placeholder="Nome" style={{ borderTop: "none", borderLeft: "none", borderRight: "none" }} />
+							<Form.Control placeholder="Nome" className="border-top-0 border-start-0 border-end-0" />
 						</Form.Group>
 
 						<Form.Group className="mb-3 w-100" controlId="email">
-							<Form.Control
-								type="email"
-								placeholder="Email"
-								style={{ borderTop: "none", borderLeft: "none", borderRight: "none" }}
-							/>
+							<Form.Control type="email" placeholder="Email" className="border-top-0 border-start-0 border-end-0" />
 						</Form.Group>
 
 						<Form.Control className="mb-3" as="textarea" placeholder="Mensagem" rows={5} />

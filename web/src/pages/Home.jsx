@@ -58,7 +58,7 @@ export function Home() {
  */
 function PageCard({ title, description, icon: Icon, href }) {
 	return (
-		<Link to={href} className="text-reset" style={{ width: "fit-content", textDecoration: "none" }}>
+		<Link to={href} className="text-reset text-decoration-none" style={{ width: "fit-content" }}>
 			<Card style={{ width: "18rem", height: "20rem", borderRadius: "1rem" }}>
 				<Card.Body className="d-flex justify-content-center align-items-center flex-column">
 					<Icon color="#3f51b5" size={90} />

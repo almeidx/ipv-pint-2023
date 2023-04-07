@@ -128,8 +128,8 @@ export function Ideias() {
 
 				<Alert
 					show={showAlert}
-					className="d-flex justify-content-between align-items-center gap-5 py-0"
-					style={{ width: "fit-content", position: "fixed", bottom: "1rem", right: "1rem" }}
+					className="d-flex justify-content-between align-items-center gap-5 py-0 position-fixed"
+					style={{ width: "fit-content", bottom: "1rem", right: "1rem" }}
 					variant="success"
 				>
 					<p className="pt-3">
@@ -137,8 +137,7 @@ export function Ideias() {
 					</p>
 
 					<button
-						className="bg-transparent"
-						style={{ border: "none" }}
+						className="bg-transparent border-0"
 						onClick={() => {
 							setShowAlert(false);
 

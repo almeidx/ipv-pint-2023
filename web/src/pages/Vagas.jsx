@@ -91,8 +91,8 @@ export function Vagas() {
 						label="Mostrar vagas cheias"
 						checked={vagasCheias}
 						onChange={() => setVagasCheias((state) => !state)}
-						style={{ backgroundColor: "white", width: "fit-content" }}
-						className="ps-5 pe-3 py-2 rounded-pill mt-4"
+						style={{ width: "fit-content" }}
+						className="ps-5 pe-3 py-2 rounded-pill mt-4 bg-white"
 						id="vagasCheias"
 					/>
 				</Container>
@@ -123,8 +123,8 @@ function Vaga({ iconHref, title, description, vagas }) {
 					src={iconHref}
 					height="110px"
 					width="110px"
-					className="rounded-circle"
-					style={{ width: "110px", position: "absolute", top: "-3.4rem", left: "5.5rem" }}
+					className="rounded-circle position-absolute"
+					style={{ width: "110px", top: "-3.4rem", left: "5.5rem" }}
 				/>
 
 				<Card.Title className="title my-3" style={{ fontSize: "2rem", paddingTop: "2rem" }}>
@@ -135,7 +135,7 @@ function Vaga({ iconHref, title, description, vagas }) {
 
 				<Card.Text style={{ fontSize: "1.1rem" }}>{description}</Card.Text>
 
-				<Card.Footer className="d-flex align-items-center" style={{ backgroundColor: "white" }}>
+				<Card.Footer className="d-flex align-items-center bg-white">
 					<Button className="mx-auto">Candidatar</Button>
 				</Card.Footer>
 			</Card.Body>
