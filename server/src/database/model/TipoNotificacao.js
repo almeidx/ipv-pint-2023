@@ -9,14 +9,20 @@ create table TIPOS_DE_NOTIFICACAO (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define("tipos_de_notificacao", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_TIPO_NOTIFICACAO",
+module.exports = sequelize.define(
+	"tipos_de_notificacao",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_TIPO_NOTIFICACAO",
+			allowNull: false,
+		},
+		name: {
+			type: DataTypes.TEXT,
+			field: "NOME_TIPO_NOTIFICACAO",
+			allowNull: false,
+		},
 	},
-	name: {
-		type: DataTypes.TEXT,
-		field: "NOME_TIPO_NOTIFICACAO",
-	},
-});
+	{ timestamps: false },
+);

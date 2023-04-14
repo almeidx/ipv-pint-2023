@@ -14,31 +14,50 @@ create table BENEFICIOS (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const Utilizador = require("./Utilizador.js");
 
-module.exports = sequelize.define("beneficios", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_BENEFICIO",
+const Beneficio = sequelize.define(
+	"beneficios",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_BENEFICIO",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		idCriador: {
+			type: DataTypes.INTEGER,
+			field: "ID_USER",
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+			allowNull: false,
+		},
+		dataValidade: {
+			type: DataTypes.DATE,
+			field: "DATA_VALIDADE",
+		},
+		content: {
+			type: DataTypes.STRING,
+			field: "CONTEUDO_BENEFICIO",
+			allowNull: false,
+		},
+		shortContent: {
+			type: DataTypes.STRING,
+			field: "DESCRICAO_PEQUENA",
+			allowNull: false,
+		},
+		iconeBeneficio: {
+			type: DataTypes.STRING,
+			field: "ICONE_BENEFICIO",
+			allowNull: false,
+		},
 	},
-	idUser: {
-		type: DataTypes.INTEGER,
-		field: "ID_USER",
-	},
-	dataValidade: {
-		type: DataTypes.DATE,
-		field: "DATA_VALIDADE",
-	},
-	content: {
-		type: DataTypes.STRING,
-		field: "CONTEUDO_BENEFICIO",
-	},
-	shortContent: {
-		type: DataTypes.STRING,
-		field: "DESCRICAO_PEQUENA",
-	},
-	iconeBeneficio: {
-		type: DataTypes.STRING,
-		field: "ICONE_BENEFICIO",
-	},
-});
+	{ timestamps: false },
+);
+
+Beneficio.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idCriador" });
+
+module.exports = Beneficio;

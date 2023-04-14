@@ -12,16 +12,37 @@ create table CONTACTOS_DE_NEGOCIO (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const Negocio = require("./Negocio.js");
+const Contacto = require("./Contacto.js");
 
-module.exports = sequelize.define("contactos_de_negocio", {
-	idNegocio: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_OPORTUNIDADE",
+const ContactoNegocio = sequelize.define(
+	"contactos_de_negocio",
+	{
+		idNegocio: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_OPORTUNIDADE",
+			allowNull: false,
+			/*references: {
+			model: "negocios",
+			key: "id",
+		},*/
+		},
+		idContacto: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_CONTACTO",
+			allowNull: false,
+			/*references: {
+			model: "contactos",
+			key: "id",
+		},*/
+		},
 	},
-	idContacto: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_CONTACTO",
-	},
-});
+	{ timestamps: false },
+);
+
+ContactoNegocio.belongsTo(Negocio, { foreignKey: "idNegocio" });
+ContactoNegocio.belongsTo(Contacto, { foreignKey: "idContacto" });
+
+module.exports = ContactoNegocio;

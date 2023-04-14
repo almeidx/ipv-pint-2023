@@ -6,7 +6,7 @@ create table NEGOCIOS (
    UTI_ID_USER          int                  not null,
    ID_CLIENTE           int                  not null,
    ID_CENTRO_TRABALHO   int                  not null,
-   DESCRICAO_OPORTUNIDADE text                 not null,
+   DESCRICAO_OPORTUNIDADE text               not null,
    TITULO_OPORTUNIDADE  text                 not null,
    ESTADO_ATUAL         int                  not null,
    constraint PK_NEGOCIOS primary key (ID_OPORTUNIDADE),
@@ -25,43 +25,90 @@ create table NEGOCIOS (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const AreaNegocio = require("./AreaNegocio.js");
+const CentroTrabalho = require("./CentroTrabalho.js");
+const Cliente = require("./Cliente.js");
+const Utilizador = require("./Utilizador.js");
 
-module.exports = sequelize.define("negocios", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_OPORTUNIDADE",
+const Negocio = sequelize.define(
+	"negocios",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_OPORTUNIDADE",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		idAreaNegocio: {
+			type: DataTypes.INTEGER,
+			field: "ID_AREA_NEGOCIO",
+			allowNull: false,
+			// references: {
+			// 	model: "area_de_negocio",
+			// 	key: "id",
+			// },
+		},
+		idUser: {
+			type: DataTypes.INTEGER,
+			field: "ID_USER",
+			allowNull: false,
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+		},
+		idFuncionarioResponsavel: {
+			type: DataTypes.INTEGER,
+			field: "UTI_ID_USER",
+			allowNull: false,
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+		},
+		idCliente: {
+			type: DataTypes.INTEGER,
+			field: "ID_CLIENTE",
+			allowNull: false,
+			// references: {
+			// 	model: "clientes",
+			// 	key: "id",
+			// },
+		},
+		idCentroTrabalho: {
+			type: DataTypes.INTEGER,
+			field: "ID_CENTRO_TRABALHO",
+			allowNull: false,
+			// references: {
+			// 	model: "centros_de_trabalho",
+			// 	key: "id",
+			// },
+		},
+		description: {
+			type: DataTypes.STRING,
+			field: "DESCRICAO_OPORTUNIDADE",
+			allowNull: false,
+		},
+		title: {
+			type: DataTypes.STRING,
+			field: "TITULO_OPORTUNIDADE",
+			allowNull: false,
+		},
+		status: {
+			type: DataTypes.INTEGER,
+			field: "ESTADO_ATUAL",
+			allowNull: false,
+		},
 	},
-	idAreaNegocio: {
-		type: DataTypes.INTEGER,
-		field: "ID_AREA_NEGOCIO",
-	},
-	idUser: {
-		type: DataTypes.INTEGER,
-		field: "ID_USER",
-	},
-	idFuncionarioResponsavel: {
-		type: DataTypes.INTEGER,
-		field: "UTI_ID_USER",
-	},
-	idCliente: {
-		type: DataTypes.INTEGER,
-		field: "ID_CLIENTE",
-	},
-	idCentroTrabalho: {
-		type: DataTypes.INTEGER,
-		field: "ID_CENTRO_TRABALHO",
-	},
-	description: {
-		type: DataTypes.STRING,
-		field: "DESCRICAO_OPORTUNIDADE",
-	},
-	title: {
-		type: DataTypes.STRING,
-		field: "TITULO_OPORTUNIDADE",
-	},
-	status: {
-		type: DataTypes.INTEGER,
-		field: "ESTADO_ATUAL",
-	},
-});
+	{ timestamps: false },
+);
+
+Negocio.hasOne(AreaNegocio, { sourceKey: "idAreaNegocio", foreignKey: "id" });
+Negocio.belongsTo(Cliente, { foreignKey: "idCliente" });
+Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id" });
+
+Negocio.hasOne(Utilizador, { sourceKey: "idUser", foreignKey: "id" });
+Negocio.hasOne(Utilizador, { sourceKey: "idFuncionarioResponsavel", foreignKey: "id" });
+
+module.exports = Negocio;

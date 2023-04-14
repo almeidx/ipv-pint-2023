@@ -14,34 +14,48 @@ create table VAGAS (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define("vagas", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_VAGA",
+const Vaga = sequelize.define(
+	"vagas",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_VAGA",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		amountSlots: {
+			type: DataTypes.INTEGER,
+			field: "QUANTIDADE_VAGAS",
+			allowNull: false,
+		},
+		public: {
+			type: DataTypes.BOOLEAN,
+			field: "PUBLICA",
+			allowNull: false,
+		},
+		icon: {
+			type: DataTypes.STRING,
+			field: "ICONE_VAGA",
+			allowNull: false,
+		},
+		title: {
+			type: DataTypes.STRING,
+			field: "TITULO_VAGA",
+			allowNull: false,
+		},
+		description: {
+			type: DataTypes.STRING,
+			field: "DESCRICAO_VAGA",
+			allowNull: false,
+		},
+		status: {
+			type: DataTypes.INTEGER,
+			field: "ESTADO_VAGA",
+			allowNull: false,
+		},
 	},
-	amountSlots: {
-		type: DataTypes.INTEGER,
-		field: "QUANTIDADE_VAGAS",
-	},
-	public: {
-		type: DataTypes.BOOLEAN,
-		field: "PUBLICA",
-	},
-	icon: {
-		type: DataTypes.STRING,
-		field: "ICONE_VAGA",
-	},
-	title: {
-		type: DataTypes.STRING,
-		field: "TITULO_VAGA",
-	},
-	description: {
-		type: DataTypes.STRING,
-		field: "DESCRICAO_VAGA",
-	},
-	status: {
-		type: DataTypes.INTEGER,
-		field: "ESTADO_VAGA",
-	},
-});
+	{ timestamps: false },
+);
+
+module.exports = Vaga;

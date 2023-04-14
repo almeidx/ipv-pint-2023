@@ -13,30 +13,41 @@ create table CENTROS_DE_TRABALHO (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define("centros_de_trabalho", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_CENTRO_TRABALHO",
+module.exports = sequelize.define(
+	"centros_de_trabalho",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_CENTRO_TRABALHO",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		name: {
+			type: DataTypes.STRING,
+			field: "NOME_CENTRO",
+			allowNull: false,
+		},
+		location: {
+			type: DataTypes.STRING,
+			field: "LOCALIZACAO_CENTRO",
+			allowNull: false,
+		},
+		postalCode: {
+			type: DataTypes.STRING,
+			field: "CODIGO_POSTAL",
+			allowNull: false,
+		},
+		address: {
+			type: DataTypes.STRING,
+			field: "ENDERECO_CENTRO",
+			allowNull: false,
+		},
+		googleMapsId: {
+			type: DataTypes.STRING,
+			field: "ID_CENTRO_GOOGLE_MAPS",
+			allowNull: false,
+		},
 	},
-	name: {
-		type: DataTypes.STRING,
-		field: "NOME_CENTRO",
-	},
-	location: {
-		type: DataTypes.STRING,
-		field: "LOCALIZACAO_CENTRO",
-	},
-	postalCode: {
-		type: DataTypes.STRING,
-		field: "CODIGO_POSTAL",
-	},
-	address: {
-		type: DataTypes.STRING,
-		field: "ENDERECO_CENTRO",
-	},
-	googleMapsId: {
-		type: DataTypes.STRING,
-		field: "ID_CENTRO_GOOGLE_MAPS",
-	},
-});
+	{ timestamps: false },
+);

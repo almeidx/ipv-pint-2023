@@ -2,7 +2,7 @@
 create table REUNIOES (
    ID_REUNIAO           int                  not null,
    ID_OPORTUNIDADE      int                  null,
-   ID_NOTIFICACAO       int                  null,
+   ID_CANDIDATURA       int                  null,
    DATA_INICIO          datetime             not null,
    DURACAO_REUNIAO      int                  not null,
    TITULO_REUNIAO       text                 not null,
@@ -11,46 +11,79 @@ create table REUNIOES (
    constraint PK_REUNIOES primary key (ID_REUNIAO),
    constraint FK_REUNIOES_REUNIOES__NEGOCIOS foreign key (ID_OPORTUNIDADE)
       references NEGOCIOS (ID_OPORTUNIDADE),
-   constraint FK_REUNIOES_NOTIFICAC_NOTIFICA foreign key (ID_NOTIFICACAO)
-      references NOTIFICACOES (ID_NOTIFICACAO)
+   constraint FK_REUNIOES_REUNIAO_P_CANDIDAT foreign key (ID_CANDIDATURA)
+      references CANDIDATURAS (ID_CANDIDATURA)
 )
 */
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const Negocio = require("./Negocio.js");
+const Candidatura = require("./Candidatura.js");
+const Utilizador = require("./Utilizador.js");
 
-module.exports = sequelize.define("reunioes", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_REUNIAO",
+const Reuniao = sequelize.define(
+	"reunioes",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_REUNIAO",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		idNegocio: {
+			type: DataTypes.INTEGER,
+			field: "ID_OPORTUNIDADE",
+			// references: {
+			// 	model: "negocios",
+			// 	key: "id",
+			// },
+		},
+		idCandidatura: {
+			type: DataTypes.INTEGER,
+			field: "ID_CANDIDATURA",
+			// references: {
+			// 	model: "candidaturas",
+			// 	key: "id",
+			// },
+		},
+		startTime: {
+			type: DataTypes.DATE,
+			field: "DATA_INICIO",
+			allowNull: false,
+		},
+		duration: {
+			type: DataTypes.INTEGER,
+			field: "DURACAO_REUNIAO",
+			allowNull: false,
+		},
+		title: {
+			type: DataTypes.TEXT,
+			field: "TITULO_REUNIAO",
+			allowNull: false,
+		},
+		description: {
+			type: DataTypes.TEXT,
+			field: "DESCRICAO_REUNIAO",
+			allowNull: false,
+		},
+		subject: {
+			type: DataTypes.TEXT,
+			field: "ASSUNTO_REUNIAO",
+			allowNull: false,
+		},
 	},
-	idNegocio: {
-		type: DataTypes.INTEGER,
-		field: "ID_OPORTUNIDADE",
-	},
-	idNotificacao: {
-		type: DataTypes.INTEGER,
-		field: "ID_NOTIFICACAO",
-	},
-	startTime: {
-		type: DataTypes.DATE,
-		field: "DATA_INICIO",
-	},
-	duration: {
-		type: DataTypes.INTEGER,
-		field: "DURACAO_REUNIAO",
-	},
-	title: {
-		type: DataTypes.TEXT,
-		field: "TITULO_REUNIAO",
-	},
-	description: {
-		type: DataTypes.TEXT,
-		field: "DESCRICAO_REUNIAO",
-	},
-	subject: {
-		type: DataTypes.TEXT,
-		field: "ASSUNTO_REUNIAO",
-	},
+	{ timestamps: false },
+);
+
+Reuniao.hasOne(Negocio, { sourceKey: "idNegocio", foreignKey: "id" });
+Reuniao.hasOne(Candidatura, { sourceKey: "idCandidatura", foreignKey: "id" });
+
+Reuniao.belongsToMany(Utilizador, {
+	through: "reunioes_utilizadores",
+	foreignKey: "idReuniao",
+	otherKey: "idUtilizador",
 });
+
+module.exports = Reuniao;

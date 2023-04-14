@@ -11,19 +11,36 @@ create table CLIENTES (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const Utilizador = require("./Utilizador.js");
 
-module.exports = sequelize.define("clientes", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_CLIENTE",
+const Cliente = sequelize.define(
+	"clientes",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_CLIENTE",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		idUser: {
+			type: DataTypes.INTEGER,
+			field: "ID_USER",
+			allowNull: false,
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+		},
+		name: {
+			type: DataTypes.STRING,
+			field: "NOME_CLIENTE",
+			allowNull: false,
+		},
 	},
-	idUser: {
-		type: DataTypes.INTEGER,
-		field: "ID_USER",
-	},
-	name: {
-		type: DataTypes.STRING,
-		field: "NOME_CLIENTE",
-	},
-});
+	{ timestamps: false },
+);
+
+Cliente.belongsTo(Utilizador, { foreignKey: "idUser" });
+
+module.exports = Cliente;

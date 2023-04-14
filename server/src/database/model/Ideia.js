@@ -17,35 +17,60 @@ create table IDEIAS (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const Utilizador = require("./Utilizador.js");
 
-module.exports = sequelize.define("ideias", {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		field: "ID_IDEIA",
+const Ideia = sequelize.define(
+	"ideias",
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			field: "ID_IDEIA",
+			allowNull: false,
+			autoIncrement: true,
+		},
+		idCriador: {
+			type: DataTypes.INTEGER,
+			field: "ID_USER",
+			allowNull: false,
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+		},
+		idValidador: {
+			type: DataTypes.INTEGER,
+			field: "UTI_ID_USER",
+			// references: {
+			// 	model: "utilizadores",
+			// 	key: "id",
+			// },
+		},
+		content: {
+			type: DataTypes.STRING,
+			field: "CONTEUDO_IDEIA",
+			allowNull: false,
+		},
+		categoria: {
+			type: DataTypes.STRING,
+			field: "CATEGORIA",
+			allowNull: false,
+		},
+		dataCriacao: {
+			type: DataTypes.DATE,
+			field: "DATA_CRIACAO_IDEIA",
+			allowNull: false,
+		},
+		ideiaValidada: {
+			type: DataTypes.BOOLEAN,
+			field: "IDEIA_VALIDADA",
+			allowNull: false,
+		},
 	},
-	idUser: {
-		type: DataTypes.INTEGER,
-		field: "ID_USER",
-	},
-	validatorId: {
-		type: DataTypes.INTEGER,
-		field: "UTI_ID_USER",
-	},
-	content: {
-		type: DataTypes.STRING,
-		field: "CONTEUDO_IDEIA",
-	},
-	categoria: {
-		type: DataTypes.STRING,
-		field: "CATEGORIA",
-	},
-	dataCriacao: {
-		type: DataTypes.DATE,
-		field: "DATA_CRIACAO_IDEIA",
-	},
-	ideiaValidada: {
-		type: DataTypes.BOOLEAN,
-		field: "IDEIA_VALIDADA",
-	},
-});
+	{ timestamps: false },
+);
+
+Ideia.belongsTo(Utilizador, { foreignKey: "idCriador", targetKey: "id" });
+Ideia.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idValidador" });
+
+module.exports = Ideia;
