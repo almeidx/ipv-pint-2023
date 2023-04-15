@@ -85,6 +85,9 @@ export function NavBar({ page }) {
 				<Link to="/contacto" className={getSelectedClass(page, "contacto")}>
 					Contacto
 				</Link>
+				<Link to="/admin" className={getSelectedClass(page, "admin")}>
+					Admin
+				</Link>
 			</Nav>
 
 			<style>

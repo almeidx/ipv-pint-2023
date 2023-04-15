@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -6,66 +6,10 @@ import FormCheck from "react-bootstrap/FormCheck";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
+import { API_URL } from "../utils/constants.js";
 
 export function Vagas() {
-	const [vagas, setVagas] = useState([
-		{
-			id: 1,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 2,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 3,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 4,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 5,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 6,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 7,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-		{
-			id: 8,
-			title: "Jardineiro",
-			vagas: 15,
-			description: "Aparar as sebes do jardim",
-			iconHref: "/static/vaga-jovem.png",
-		},
-	]);
+	const [vagas, setVagas] = useState([]);
 	const [search, setSearch] = useState("");
 	const [vagasCheias, setVagasCheias] = useState(false);
 
@@ -77,6 +21,12 @@ export function Vagas() {
 				return title.includes(search.toLowerCase()) || description.includes(search.toLowerCase());
 		  })
 		: vagas;
+
+	useEffect(() => {
+		fetch(API_URL + "/vagas")
+			.then((res) => res.json())
+			.then((data) => setVagas(data));
+	}, []);
 
 	return (
 		<>
@@ -111,16 +61,19 @@ export function Vagas() {
 
 /**
  * @param {Object} props
- * @param {string} props.iconHref
+ * @param {string} props.icon
  * @param {string} props.title
  * @param {string} props.description
+ * @param {number} props.amountSlots
+ * @param {number} props.status
+ * @param {boolean} props.public
  */
-function Vaga({ iconHref, title, description, vagas }) {
+function Vaga({ icon, title, description, amountSlots }) {
 	return (
 		<Card style={{ width: "18rem", height: "15rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
 				<Card.Img
-					src={iconHref}
+					src={icon}
 					height="110px"
 					width="110px"
 					className="rounded-circle position-absolute"
@@ -131,7 +84,7 @@ function Vaga({ iconHref, title, description, vagas }) {
 					{title}
 				</Card.Title>
 
-				<Card.Subtitle className="Subtitle  ">Aberta - {vagas} vagas</Card.Subtitle>
+				<Card.Subtitle className="Subtitle  ">Aberta - {amountSlots} vagas</Card.Subtitle>
 
 				<Card.Text style={{ fontSize: "1.1rem" }}>{description}</Card.Text>
 

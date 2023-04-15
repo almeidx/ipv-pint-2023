@@ -84,6 +84,7 @@ Reuniao.belongsToMany(Utilizador, {
 	through: "reunioes_utilizadores",
 	foreignKey: "idReuniao",
 	otherKey: "idUtilizador",
+	timestamps: false,
 });
 
 module.exports = Reuniao;

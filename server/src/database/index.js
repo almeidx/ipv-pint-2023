@@ -40,3 +40,11 @@ module.exports = {
 	Reuniao,
 	NotaEntrevista,
 };
+
+/**
+ * @typedef {Object} Controller
+ * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} create
+ * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} read
+ * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} update
+ * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} delete
+ */

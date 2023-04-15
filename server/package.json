@@ -3,7 +3,8 @@
 	"private": true,
 	"main": "src/index.js",
 	"scripts": {
-		"start-dev": "env-cmd node ."
+		"start-dev": "env-cmd node .",
+		"start": "env-cmd node ."
 	},
 	"dependencies": {
 		"@prisma/client": "^4.12.0",

@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const { BeneficiosController } = require("../controllers/beneficios.js");
+const BeneficiosController = require("../controllers/beneficios.controller.js");
 
-const route = Router();
+const beneficiosRouter = Router();
 
-route.get("/", BeneficiosController.read);
+beneficiosRouter.get("/", BeneficiosController.read);
 
-module.exports = route;
+module.exports = beneficiosRouter;
