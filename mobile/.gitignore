@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# ignore changes between OS
+gradlew
+gradlew.bat
