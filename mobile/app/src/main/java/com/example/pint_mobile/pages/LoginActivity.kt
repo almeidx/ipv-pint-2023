@@ -25,7 +25,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun esqueceuPassword(_view: View) {
-
+        val intent = Intent(this, EsqueceuPasswordActivity::class.java)
+        startActivity(intent)
     }
 
     fun aindaNaoTemConta(_view: View) {

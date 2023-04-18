@@ -32,11 +32,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:layout_marginEnd="164dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="144dp"
         android:backgroundTint="@color/black"
         android:onClick="gotoBeneficios"
         android:text="Beneficios"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="116dp"
+        android:backgroundTint="@color/black"
+        android:onClick="gotoMudarPassword"
+        android:text="mudar password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

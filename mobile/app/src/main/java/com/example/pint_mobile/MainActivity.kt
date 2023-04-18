@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.LoginActivity
+import com.example.pint_mobile.pages.MudarPasswordActivity
 import com.example.pint_mobile.pages.SignUpActivity
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,11 @@ class MainActivity : AppCompatActivity() {
 
     fun gotoBeneficios(_view: View) {
         val intent = Intent(this, BeneficiosActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoMudarPassword(_view: View) {
+        val intent = Intent(this, MudarPasswordActivity::class.java)
         startActivity(intent)
     }
 }
