@@ -51,7 +51,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,5 +61,14 @@
         android:text="ideias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="148dp"
+        android:backgroundTint="@color/black"
+        android:onClick="gotoContacto"
+        android:text="contacto"
 
 </androidx.constraintlayout.widget.ConstraintLayout>

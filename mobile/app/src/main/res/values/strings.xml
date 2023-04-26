@@ -25,4 +25,12 @@
     <string name="estabelecimento">Estabelecimento</string>
     <string name="investimento">Investimento</string>
     <string name="negocio">Negócio</string>
+    <string name="enviar">Enviar</string>
+    <string name="mensagem">Mensagem</string>
+    <string name="link">
+        <a href="https://www.google.com/maps/place/Central+Office+Building/@38.7721232,-9.1005266,17z/data=!4m7!3m6!1s0xd19318123ee8efd:0x858d011a8a9909c0!8m2!3d38.7721115!4d-9.097729!15sClpFZGlmaWNpbyBPZmZpY2UgT3JpZW50ZSBSdWEgZG8gTWFyIGRhIENoaW5hICBuwrozIC0gQjYgUGFycXVlIGRhcyBOYcOnw7VlcyAxOTkwLTEzOCBMaXNib2GSARJhcGFydG1lbnRfYnVpbGRpbmfgAQA!16s%2Fg%2F11bwqmvsx3?coh=164777&amp;entry=tt&amp;shorturl=1">Edificio Office Oriente nº3 - B6 1990-138 Lisboa</a>
+    </string>
+    <string name="link2">
+        <a href="tel:+351 213 219 600">+351 213 219 600</a>
+    </string>
 </resources>
