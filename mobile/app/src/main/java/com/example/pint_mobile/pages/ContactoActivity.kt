@@ -17,6 +17,12 @@ class ContactoActivity : AppCompatActivity() {
 
         val t = findViewById<TextView>(R.id.local)
         t.movementMethod = LinkMovementMethod.getInstance()
+
+        val n = findViewById<TextView>(R.id.numerotel)
+        n.movementMethod = LinkMovementMethod.getInstance()
+
+        val m = findViewById<TextView>(R.id.mail)
+        m.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onSupportNavigateUp(): Boolean {

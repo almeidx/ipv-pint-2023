@@ -65,7 +65,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="544dp"
         android:layout_marginEnd="148dp"
         android:backgroundTint="@color/black"
         android:onClick="gotoContacto"
@@ -76,11 +76,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="418dp"
+        android:layout_marginTop="480dp"
         android:layout_marginEnd="160dp"
         android:backgroundTint="@color/black"
         android:onClick="gotoVagas"
         android:text="Vagas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="604dp"
+        android:layout_marginEnd="132dp"
+        android:backgroundTint="@color/black"
+        android:onClick="gotoCriarReuniao"
+        android:text="CriarReuniao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

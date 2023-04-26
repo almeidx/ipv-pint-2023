@@ -46,4 +46,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, VagasActivity::class.java)
         startActivity(intent)
     }
+
+    fun gotoCriarReuniao(_view: View){
+        val intent = Intent(this, CriarReuniaoActivity::class.java)
+        startActivity(intent)
+    }
 }
