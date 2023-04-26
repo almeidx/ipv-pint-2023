@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".pages.IdeiasActivity">
+
+    <Spinner
+        android:id="@+id/categorias"
+        android:layout_width="334dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="38dp"
+        android:background="@drawable/spinner_background"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ideiaInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="336dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="38dp"
+        android:paddingTop="-142dp"
+        android:hint="@string/descreva_a_sua_ideia"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/login"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="174dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="632dp"
+        android:layout_marginEnd="38dp"
+        android:backgroundTint="@color/white"
+        android:onClick="criarIdeia"
+        android:text="@string/submeter"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

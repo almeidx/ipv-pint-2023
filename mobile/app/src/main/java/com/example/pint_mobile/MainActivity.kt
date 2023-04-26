@@ -32,8 +32,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun gotoPaginaContacto(_view: View) {
-        val intent = Intent(this, PaginaContactoActivity::class.java)
+    fun gotoIdeias(_view: View) {
+        val intent = Intent(this, IdeiasActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoContacto(_view: View) {
+        val intent = Intent(this, ContactoActivity::class.java)
         startActivity(intent)
     }
 }

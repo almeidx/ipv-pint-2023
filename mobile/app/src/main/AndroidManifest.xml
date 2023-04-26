@@ -14,7 +14,10 @@
         android:theme="@style/Theme.PINTMobile"
         tools:targetApi="31">
         <activity
-            android:name=".pages.PaginaContactoActivity"
+            android:name=".pages.ContactoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.IdeiasActivity"
             android:exported="false" />
         <activity
             android:name=".pages.MudarPasswordActivity"
