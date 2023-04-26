@@ -21,7 +21,12 @@ export function SearchBar({ onSearch, placeholder }) {
 	return (
 		<Form onSubmit={onSubmit}>
 			<InputGroup className="mb-3">
-				<Form.Control placeholder={placeholder} />
+				<Form.Control
+					placeholder={placeholder}
+					onChange={(e) => {
+						onSearch(e.target.value);
+					}}
+				/>
 
 				<Button
 					className="input-group-append btn btn-primary pb-2"

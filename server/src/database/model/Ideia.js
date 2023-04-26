@@ -70,7 +70,7 @@ const Ideia = sequelize.define(
 	{ timestamps: false },
 );
 
-Ideia.belongsTo(Utilizador, { foreignKey: "idCriador", targetKey: "id" });
-Ideia.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idValidador" });
+Ideia.belongsTo(Utilizador, { foreignKey: "idCriador", targetKey: "id", as: "utilizador" });
+Ideia.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idValidador", as: "validador" });
 
 module.exports = Ideia;

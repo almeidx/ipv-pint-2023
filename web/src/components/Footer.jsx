@@ -5,7 +5,7 @@ import softinsaLogoSmall from "../assets/softinsa-logo-small.svg";
 export function Footer() {
 	return (
 		<footer
-			className="d-flex flex-wrap justify-content-between align-items-center pt-4 pb-5 border-top px-5"
+			className="d-flex flex-wrap justify-content-between align-items-center pt-4 pb-5 px-5"
 			style={{ backgroundColor: "#3f51b5" }}
 		>
 			<div className="col-md-4 d-flex align-items-center">

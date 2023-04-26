@@ -18,14 +18,15 @@
 		"react-bootstrap": "^2.7.4",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.8.0",
-		"react-router-dom": "^6.10.0"
+		"react-router-dom": "^6.10.0",
+		"swr": "^2.1.5"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.35",
-		"@types/react-dom": "^18.0.11",
-		"@vitejs/plugin-react": "^3.1.0",
-		"prettier": "^2.8.7",
-		"vite": "^4.2.1"
+		"@types/react": "^18.2.0",
+		"@types/react-dom": "^18.2.1",
+		"@vitejs/plugin-react": "^4.0.0",
+		"prettier": "^2.8.8",
+		"vite": "^4.3.2"
 	},
 	"packageManager": "pnpm@8.0.0"
 }

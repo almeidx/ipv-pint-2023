@@ -1,9 +1,9 @@
 import { NavBar } from "../components/NavBar.jsx";
 
-export function Oportunidades() {
+export function Negocios() {
 	return (
 		<>
-			<NavBar page="oportunidades" />
+			<NavBar page="negocios" />
 		</>
 	);
 }

@@ -21,7 +21,7 @@ export function Login() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<h1 className="text-white mb-5 fs-6  title">Login</h1>
+			<h1 className="text-white mb-5 title">Login</h1>
 
 			<InputGroup className="col-12 mb-3">
 				<InputGroup.Text id="email-icon">

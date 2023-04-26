@@ -76,8 +76,8 @@ export function NavBar({ page }) {
 				<Link to="/vagas" className={getSelectedClass(page, "vagas")}>
 					Vagas
 				</Link>
-				<Link to="/oportunidades" className={getSelectedClass(page, "oportunidades")}>
-					Oportunidades
+				<Link to="/negocios" className={getSelectedClass(page, "oportunidades")}>
+					Negócios
 				</Link>
 				<Link to="/ideias" className={getSelectedClass(page, "ideias")}>
 					Ideias

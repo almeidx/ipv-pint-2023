@@ -1,4 +1,4 @@
-const { Ideia } = require("../database/index.js");
+const { Ideia, Utilizador } = require("../database/index.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -24,7 +24,20 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Vaga.findAll());
+		res.json(await Ideia.findAll({
+			include: [
+				{
+					model: Utilizador,
+					as: "utilizador",
+					source: "idCriador"
+				},
+				{
+					model: Utilizador,
+					as: "validador",
+					source: "idValidador"
+				},
+			],
+		}));
 	},
 
 	update() {},

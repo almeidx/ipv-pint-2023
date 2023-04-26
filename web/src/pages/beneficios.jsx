@@ -1,28 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import useSWR from "swr";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
 import { API_URL } from "../utils/constants.js";
+import { fetcher } from "../utils/fetcher.js";
+import { FaSpinner } from "react-icons/fa";
 
 export function Beneficios() {
-	const [beneficios, setBeneficios] = useState([]);
 	const [search, setSearch] = useState("");
+	const { isLoading, data } = useSWR(API_URL + "/beneficios", fetcher);
 
 	const filteredBeneficios = search
-		? beneficios.filter(
+		? data.filter(
 				({ shortContent, content }) =>
 					shortContent.toLowerCase().includes(search.toLowerCase()) ||
 					content.toLowerCase().includes(search.toLowerCase()),
 		  )
-		: beneficios;
-
-	useEffect(() => {
-		fetch(API_URL + "/beneficios")
-			.then((response) => response.json())
-			.then((data) => setBeneficios(data));
-	}, []);
+		: data ?? [];
 
 	return (
 		<>
@@ -34,7 +31,9 @@ export function Beneficios() {
 				</Container>
 
 				<Container className="pt-3 col-11 row mx-auto gap-5">
-					{filteredBeneficios.length ? (
+					{isLoading ? (
+						<FaSpinner />
+					) : filteredBeneficios.length ? (
 						filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
 					) : (
 						<p>Não encontrado</p>

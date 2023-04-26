@@ -63,7 +63,7 @@ export function Contacto() {
 						))}
 					</div>
 
-					<Form className="col-3 px-3 pt-3 pb-3 gap-4 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column">
+					<Form className="col-4 px-3 pt-3 pb-3 gap-4 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column">
 						<Form.Text style={{ fontSize: "1.2rem" }}>Deixe a sua mensagem</Form.Text>
 
 						<Form.Group className="mb-3 w-100" controlId="nome">

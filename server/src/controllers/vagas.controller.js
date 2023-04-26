@@ -27,7 +27,11 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Vaga.findAll());
+		res.json(await Vaga.findAll({
+			order: [
+				["id", "ASC"],
+			]
+		}));
 	},
 
 	update() {},
