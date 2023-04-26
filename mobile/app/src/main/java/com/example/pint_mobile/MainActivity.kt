@@ -41,4 +41,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ContactoActivity::class.java)
         startActivity(intent)
     }
+    
+    fun gotoVagas(_view: View) {
+        val intent = Intent(this, VagasActivity::class.java)
+        startActivity(intent)
+    }
 }

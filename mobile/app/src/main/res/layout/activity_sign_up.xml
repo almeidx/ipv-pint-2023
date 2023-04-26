@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0000FF"
-    tools:context=".pages.SignUpActivity">
+    tools:context=".pages.SignUpActivity"
+    android:background="@drawable/login">
 
     <TextView
         android:id="@+id/textView"
@@ -24,12 +24,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="180dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/nome"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -43,12 +45,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="240dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/apelido"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -62,12 +66,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="300dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/email"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -82,12 +88,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="360dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/password"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -102,12 +110,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="420dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/confirmar_password"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -122,6 +132,7 @@
         style="@style/Widget.Material3.Button"
         android:layout_width="174dp"
         android:layout_height="45dp"
+        android:layout_marginStart="118dp"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="119dp"
         android:backgroundTint="@color/white"
@@ -130,6 +141,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <Button
@@ -137,6 +149,7 @@
         style="@style/Widget.Material3.Button"
         android:layout_width="140dp"
         android:layout_height="46dp"
+        android:layout_marginStart="39dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="48dp"
         android:backgroundTint="@color/white"
@@ -145,13 +158,16 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/loginFacebook"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+         />
 
     <Button
         android:id="@+id/loginFacebook"
         style="@style/Widget.Material3.Button"
         android:layout_width="140dp"
         android:layout_height="46dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="44dp"
         android:backgroundTint="@color/white"
@@ -160,17 +176,22 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/loginGoogle"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="140dp"
+        android:layout_marginBottom="63dp"
+        android:onClick="jaTemConta"
         android:text="@string/ja_tem_conta_login"
         android:textColor="@color/white"
-        android:onClick="jaTemConta"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginFacebook" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
