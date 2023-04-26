@@ -19,4 +19,10 @@
     <string name="alterar">Alterar</string>
     <string name="nova_password">Nova Password</string>
     <string name="confirmar_nova_password">Confirmar nova password</string>
+    <string name="submeter">Submeter</string>
+    <string name="descreva_a_sua_ideia">Descreva a sua ideia</string>
+    <string name="geral">Geral</string>
+    <string name="estabelecimento">Estabelecimento</string>
+    <string name="investimento">Investimento</string>
+    <string name="negocio">Negócio</string>
 </resources>
