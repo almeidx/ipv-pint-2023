@@ -33,4 +33,14 @@
     <string name="link2">
         <a href="tel:+351 213 219 600">+351 213 219 600</a>
     </string>
+    <string name="link3">
+        <a href="comercial@pt.softinsa.com">comercial@pt.softinsa.com</a>
+        <a href="marketing@pt.softinsa.com">marketing@pt.softinsa.com</a>
+        <a href="geral@pt.softinsa.com">geral@pt.softinsa.com</a>
+    </string>
+    <string name="data_reuniao">Data da Reunião</string>
+    <string name="selecione_utilizadores">Selecione os Utilizadores</string>
+    <string name="titulo_reuniao">Título da Reunião</string>
+    <string name="descricao_reuniao">Descrição da Reunião</string>
+    <string name="criar">Criar</string>
 </resources>
