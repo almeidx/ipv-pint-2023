@@ -7,11 +7,10 @@ import android.view.View
 import android.widget.TextView
 import com.example.pint_mobile.R
 
-class PaginaContactoActivity : AppCompatActivity() {
-
+class ContactoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pagina_contacto)
+        setContentView(R.layout.activity_contacto)
 
         supportActionBar?.title = "Contacto"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -28,6 +27,4 @@ class PaginaContactoActivity : AppCompatActivity() {
     fun enviar(_view: View) {
 
     }
-
-
 }
