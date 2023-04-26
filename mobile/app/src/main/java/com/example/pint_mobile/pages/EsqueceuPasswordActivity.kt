@@ -12,7 +12,7 @@ class EsqueceuPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_esqueceu_password)
 
-        supportActionBar?.title = "Mudar Password"
+        supportActionBar?.title = "Esqueceu-se da Password"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     override fun onSupportNavigateUp(): Boolean {

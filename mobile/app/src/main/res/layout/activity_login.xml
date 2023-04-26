@@ -4,32 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0000FF"
-    tools:context=".pages.LoginActivity">
+    tools:context=".pages.LoginActivity"
+    android:background="@drawable/login"
+    >
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="257dp"
         android:layout_height="123dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="116dp"
         android:text="@string/login"
+        android:textColor="@color/white"
         android:textSize="64sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="250dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/email"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -45,12 +50,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="320dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/password"
-        app:boxStrokeColor="@color/black"
         app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -64,13 +71,15 @@
         android:id="@+id/esqueceuPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="41dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="204dp"
-        android:text="@string/esqueceu_se_da_password"
-        android:textStyle="italic"
-        android:textColor="@color/white"
         android:onClick="esqueceuPassword"
+        android:text="@string/esqueceu_se_da_password"
+        android:textColor="@color/white"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <CheckBox
@@ -88,14 +97,17 @@
         style="@style/Widget.Material3.Button"
         android:layout_width="174dp"
         android:layout_height="45dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="108dp"
         android:backgroundTint="@color/white"
+        android:onClick="login"
         android:text="@string/login"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:onClick="login"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
 
     <Button
@@ -131,12 +143,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="106dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
+        android:onClick="aindaNaoTemConta"
         android:text="@string/ainda_nao_tem_uma_conta"
         android:textColor="@color/white"
-        android:onClick="aindaNaoTemConta"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginFacebook" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

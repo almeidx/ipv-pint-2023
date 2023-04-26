@@ -8,6 +8,7 @@ import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.pages.MudarPasswordActivity
 import com.example.pint_mobile.pages.SignUpActivity
+import com.example.pint_mobile.pages.VagasActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
 
     fun gotoMudarPassword(_view: View) {
         val intent = Intent(this, MudarPasswordActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoVagas(_view: View) {
+        val intent = Intent(this, VagasActivity::class.java)
         startActivity(intent)
     }
 }

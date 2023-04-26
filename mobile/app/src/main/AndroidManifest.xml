@@ -13,14 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PINTMobile"
         tools:targetApi="31">
+
+        <activity
+            android:name=".pages.VagasActivity"
+            android:exported="false" />
         <activity
             android:name=".pages.MudarPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".pages.VerificarContaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".pages.VerifcarActivity"
             android:exported="false" />
         <activity
             android:name=".pages.EsqueceuPasswordActivity"
