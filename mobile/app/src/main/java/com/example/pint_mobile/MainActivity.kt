@@ -4,11 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.example.pint_mobile.pages.BeneficiosActivity
-import com.example.pint_mobile.pages.LoginActivity
-import com.example.pint_mobile.pages.MudarPasswordActivity
-import com.example.pint_mobile.pages.SignUpActivity
-import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +32,16 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun gotoIdeias(_view: View) {
+        val intent = Intent(this, IdeiasActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoContacto(_view: View) {
+        val intent = Intent(this, ContactoActivity::class.java)
+        startActivity(intent)
+    }
+    
     fun gotoVagas(_view: View) {
         val intent = Intent(this, VagasActivity::class.java)
         startActivity(intent)

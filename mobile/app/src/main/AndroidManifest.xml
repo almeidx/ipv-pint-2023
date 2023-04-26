@@ -18,6 +18,12 @@
             android:name=".pages.VagasActivity"
             android:exported="false" />
         <activity
+            android:name=".pages.ContactoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.IdeiasActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.MudarPasswordActivity"
             android:exported="false" />
         <activity
