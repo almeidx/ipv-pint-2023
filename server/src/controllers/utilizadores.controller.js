@@ -25,6 +25,22 @@ module.exports = {
 	},
 
 	async read(req, res) {
+		const { id } = req.params;
+
+		if (id) {
+			const utilizador = await Utilizador.findByPk(id);
+
+			if (!utilizador) {
+				res.status(404).json({
+					message: "Utilizador not found",
+				});
+			}
+
+			res.json(utilizador);
+
+			return;
+		}
+
 		res.json(await Utilizador.findAll());
 	},
 

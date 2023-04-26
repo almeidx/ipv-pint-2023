@@ -1,4 +1,4 @@
-const { Beneficio } = require("../database/index.js");
+const { Beneficio, Utilizador } = require("../database/index.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -21,7 +21,16 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Beneficio.findAll());
+		res.json(
+			await Beneficio.findAll({
+				include: [
+					{
+						model: Utilizador,
+						as: "utilizador",
+					},
+				],
+			}),
+		);
 	},
 
 	update() {},

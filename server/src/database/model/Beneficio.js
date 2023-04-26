@@ -58,6 +58,6 @@ const Beneficio = sequelize.define(
 	{ timestamps: false },
 );
 
-Beneficio.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idCriador" });
+Beneficio.hasOne(Utilizador, { foreignKey: "id", sourceKey: "idCriador", as: "utilizador" });
 
 module.exports = Beneficio;

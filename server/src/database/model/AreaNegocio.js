@@ -19,7 +19,7 @@ module.exports = sequelize.define(
 			allowNull: false,
 			autoIncrement: true,
 		},
-		nome: {
+		name: {
 			type: DataTypes.STRING,
 			field: "NOME_AREA",
 			allowNull: false,

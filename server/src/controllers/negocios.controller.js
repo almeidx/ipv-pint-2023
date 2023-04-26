@@ -1,4 +1,12 @@
-const { Negocio } = require("../database/index.js");
+const {
+	Negocio,
+	Cliente,
+	AreaNegocio,
+	CentroTrabalho,
+	Utilizador,
+	ContactoNegocio,
+	Contacto,
+} = require("../database/index.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -23,7 +31,49 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Negocio.findAll());
+		const negocios = await Negocio.findAll({
+			attributes: ["id", "description", "title", "status"],
+			include: [
+				{
+					model: Cliente,
+					as: "cliente",
+					attributes: ["name"],
+				},
+				{
+					model: AreaNegocio,
+					as: "areaNegocio",
+					attributes: ["name"],
+				},
+				{
+					model: CentroTrabalho,
+					as: "centroTrabalho",
+					attributes: ["name", "location", "postalCode", "address"],
+				},
+				{
+					model: Utilizador,
+					as: "criador",
+					attributes: ["name", "email"],
+				},
+				{
+					model: Utilizador,
+					as: "funcionarioResponsavel",
+					attributes: ["name", "email"],
+				},
+				{
+					model: ContactoNegocio,
+					as: "contactos",
+					attributes: ["idContacto"],
+					include: [
+						{
+							model: Contacto,
+							attributes: ["id", "value", "type"],
+						},
+					],
+				},
+			],
+		});
+
+		res.json(negocios);
 	},
 
 	update() {},

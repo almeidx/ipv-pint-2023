@@ -4,5 +4,6 @@ const UtilizadoresController = require("../controllers/utilizadores.controller.j
 const utilizadoresRouter = Router();
 
 utilizadoresRouter.get("/", UtilizadoresController.read);
+utilizadoresRouter.get("/:id", UtilizadoresController.create);
 
 module.exports = utilizadoresRouter;

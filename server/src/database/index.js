@@ -19,6 +19,8 @@ const Notificacao = require("./model/Notificacao.js");
 const Reuniao = require("./model/Reuniao.js");
 const NotaEntrevista = require("./model/NotaEntrevista.js");
 
+Negocio.hasMany(ContactoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "contactos" });
+
 module.exports = {
 	sequelize,
 	AreaNegocio,

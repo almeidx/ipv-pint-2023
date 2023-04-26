@@ -104,11 +104,11 @@ const Negocio = sequelize.define(
 	{ timestamps: false },
 );
 
-Negocio.hasOne(AreaNegocio, { sourceKey: "idAreaNegocio", foreignKey: "id" });
-Negocio.belongsTo(Cliente, { foreignKey: "idCliente" });
-Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id" });
+Negocio.hasOne(AreaNegocio, { sourceKey: "idAreaNegocio", foreignKey: "id", as: "areaNegocio" });
+Negocio.belongsTo(Cliente, { foreignKey: "idCliente", as: "cliente" });
+Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id", as: "centroTrabalho" });
 
-Negocio.hasOne(Utilizador, { sourceKey: "idUser", foreignKey: "id" });
-Negocio.hasOne(Utilizador, { sourceKey: "idFuncionarioResponsavel", foreignKey: "id" });
+Negocio.hasOne(Utilizador, { sourceKey: "idUser", foreignKey: "id", as: "criador" });
+Negocio.hasOne(Utilizador, { sourceKey: "idFuncionarioResponsavel", foreignKey: "id", as: "funcionarioResponsavel" });
 
 module.exports = Negocio;
