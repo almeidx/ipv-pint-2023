@@ -43,4 +43,8 @@
     <string name="titulo_reuniao">Título da Reunião</string>
     <string name="descricao_reuniao">Descrição da Reunião</string>
     <string name="criar">Criar</string>
+    <string name="terminar_sessão">Terminar Sessão</string>
+    <string name="mudar_password">Mudar Password</string>
+    <string name="enviar_cv">Enviar CV(Re-enviar CV)</string>
+    <string name="inativar_conta">Inativar Conta</string>
 </resources>
