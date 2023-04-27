@@ -4,7 +4,6 @@
 
     <item
         android:title="perfil"
-        android:id="perfil"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/person"/>

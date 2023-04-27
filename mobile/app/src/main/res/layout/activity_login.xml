@@ -35,8 +35,6 @@
         app:boxStrokeColor="@color/black"
         android:background="@color/white"
         app:hintTextColor="@color/black"
-        app:boxBackgroundColor="@color/white"
-        app:boxStrokeColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
