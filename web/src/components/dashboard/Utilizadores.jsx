@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
@@ -41,7 +42,10 @@ export default function Reuniões() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Utilizadores</h2>
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Utilizadores</h2>
+				<IoMdAdd size={40} />
+			</div>
 
 			<SearchBar placeholder="Pesquise por utilizadores..." onSearch={(value) => setSearch(value)} />
 
@@ -52,7 +56,7 @@ export default function Reuniões() {
 					filtered.map(({ id, idTipoUser, name, email, lastLoginDate }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div>
-								<span className="fw-bold" style={{ fontSize: "1.3rem" }}>
+								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
 									{id} - {name}
 								</span>
 

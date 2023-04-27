@@ -1,4 +1,9 @@
+const morgan = require("morgan");
 const express = require("express");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
 const { sequelize } = require("./database/index.js");
 const beneficiosRouter = require("./routes/beneficios.js");
 const vagasRouter = require("./routes/vagas.js");
@@ -11,37 +16,62 @@ const notificacoesRouter = require("./routes/notificacoes.js");
 const negociosRouter = require("./routes/negocios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
 const cors = require("cors");
+const sgMail = require("@sendgrid/mail");
+const authRouter = require("./routes/auth.js");
+
+require("./middleware/passport.js")(passport);
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-	cors({
-		origin: "http://localhost:5173",
-		credentials: true,
-	}),
-);
+app
+	.use(
+		cors({
+			origin: process.env.NODE_ENV === "production" ? WEB_URL : /.+/,
+			credentials: true,
+			methods: ["HEAD", "GET", "POST", "PATCH", "OPTIONS", "DELETE"],
+			optionsSuccessStatus: 200,
+		}),
+	)
+	.use(express.json())
+	.use(express.urlencoded({ extended: true }))
+	.use(cookieParser())
+	.use(
+		session({
+			secret: process.env.SESSION_SECRET,
+			saveUninitialized: false,
+			resave: false,
+		}),
+	);
 
-app.get("/_health", (_req, res) => res.send("OK"));
+if (process.env.NODE_ENV === "production") {
+	app.use(helmet());
+}
 
-app.use("/beneficios", beneficiosRouter);
-app.use("/candidaturas", candidaturasRouter);
-app.use("/clientes", clientesRouter);
-app.use("/clientes/:idCliente/contactos", contactosRouter);
-app.use("/ideias", ideiasRouter);
-app.use("/negocios", negociosRouter);
-app.use("/notificacoes", notificacoesRouter);
-app.use("/reunioes", reunioesRouter);
-app.use("/utilizadores", utilizadoresRouter);
-app.use("/vagas", vagasRouter);
+app
+	.use(passport.initialize())
+	.use(passport.session())
+	.use(morgan("dev"))
+	.use("/beneficios", beneficiosRouter)
+	.use("/candidaturas", candidaturasRouter)
+	.use("/clientes", clientesRouter)
+	.use("/clientes/:idCliente/contactos", contactosRouter)
+	.use("/ideias", ideiasRouter)
+	.use("/negocios", negociosRouter)
+	.use("/notificacoes", notificacoesRouter)
+	.use("/reunioes", reunioesRouter)
+	.use("/utilizadores", utilizadoresRouter)
+	.use("/vagas", vagasRouter)
+	.use(authRouter)
+	.get("/_health", (_req, res) => res.send("OK"));
 
 (async () => {
 	console.time("Connection time");
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	// await sequelize.sync({ force: true });
+	// await sequelize.sync();
 
 	const PORT = process.env.PORT || 3333;
 

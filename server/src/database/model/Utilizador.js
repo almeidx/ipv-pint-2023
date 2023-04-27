@@ -69,6 +69,15 @@ const Utilizador = sequelize.define(
 			field: "HAS_CONFIRMED",
 			allowNull: false,
 		},
+		socialUserId: {
+			type: DataTypes.STRING,
+			field: "SOCIAL_USER_ID",
+		},
+		registrationType: {
+			type: DataTypes.ENUM("email", "google", "facebook"),
+			field: "REGISTRATION_TYPE",
+			defaultValue: "email",
+		},
 		cv: {
 			type: DataTypes.STRING,
 			field: "CV",
@@ -102,7 +111,7 @@ const Utilizador = sequelize.define(
 	{ timestamps: false },
 );
 
-Utilizador.hasOne(TipoUtilizador, { foreignKey: "id", sourceKey: "idTipoUser" });
+Utilizador.hasOne(TipoUtilizador, { foreignKey: "id", sourceKey: "idTipoUser", as: "tipoUtilizador" });
 
 module.exports = Utilizador;
 

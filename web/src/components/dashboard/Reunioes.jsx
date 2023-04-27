@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
@@ -34,7 +35,10 @@ export default function Reuniões() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Reuniões</h2>
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Reuniões</h2>
+				<IoMdAdd size={40} />
+			</div>
 
 			<SearchBar placeholder="Pesquise por reuniões..." onSearch={(value) => setSearch(value)} />
 

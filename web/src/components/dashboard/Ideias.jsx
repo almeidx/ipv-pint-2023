@@ -7,6 +7,7 @@ import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
 import { FaSpinner } from "react-icons/fa";
 import { RiCheckFill, RiCloseFill } from "react-icons/ri";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
@@ -23,7 +24,10 @@ export default function Ideias() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Ideias</h2>
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Ideias</h2>
+				<IoMdAdd size={40} />
+			</div>
 
 			<SearchBar placeholder="Pesquise por ideias..." onSearch={(value) => setSearch(value)} />
 
@@ -34,7 +38,7 @@ export default function Ideias() {
 					data.map(({ id, dataCriacao, categoria, utilizador, content }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center">
 							<div>
-								<span className="fw-bold text-wrap">
+								<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 									{id} - {content}
 								</span>
 

@@ -53,17 +53,18 @@ export function Contacto() {
 			<NavBar page="contacto" />
 
 			<main
-				className="min-h-without-navbar d-grid"
+				className="min-h-without-navbar d-flex flex-row justify-content-center align-items-center"
 				style={{ backgroundImage: "url(/static/contacto-bg.png)", backgroundSize: "cover", placeItems: "center" }}
 			>
-				<Container className="row col-11 mx-auto">
-					<div className="col d-flex flex-column justify-content-between">
+				<Container className="row col-6 d-flex justify-content-center align-items-center flex-column">
+					<div className="col-6 d-flex flex-column justify-content-center gap-5">
 						{contactMethods.map(({ icon, title, links }, idx) => (
 							<ContactMethod key={`method-${idx}`} icon={icon} title={title} links={links} />
 						))}
 					</div>
-
-					<Form className="col-4 px-3 pt-3 pb-3 gap-4 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column">
+				</Container>
+				<Container className="row col-6 d-flex justify-content-center align-items-center">
+					<Form className="col-6 px-3 pt-3 pb-3 gap-5 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column">
 						<Form.Text style={{ fontSize: "1.2rem" }}>Deixe a sua mensagem</Form.Text>
 
 						<Form.Group className="mb-3 w-100" controlId="nome">

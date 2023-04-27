@@ -8,6 +8,7 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
 import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");
@@ -34,7 +35,10 @@ export default function Candidaturas() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Candidaturas</h2>
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Candidaturas</h2>
+				<IoMdAdd size={40} />
+			</div>
 
 			<SearchBar placeholder="Pesquise por candidaturas..." onSearch={(value) => setSearch(value)} />
 
@@ -45,7 +49,7 @@ export default function Candidaturas() {
 					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center">
 							<div>
-								<span className="fw-bold">
+								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
 									{id} - {utilizador.name}
 								</span>
 

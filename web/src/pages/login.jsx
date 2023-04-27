@@ -1,22 +1,52 @@
-import React from "react";
 import "../styles/Login.css";
-
+import React, { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
-import { Google } from "../components/Google.jsx";
-import { Facebook } from "../components/Facebook.jsx";
-import { LoginContainer } from "../components/LoginContainer.jsx";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
+import { Facebook } from "../components/Facebook.jsx";
+import { Google } from "../components/Google.jsx";
+import { LoginContainer } from "../components/LoginContainer.jsx";
+import { UserContext } from "../contexts/UserContext.jsx";
+import { API_URL } from "../utils/constants.js";
+import {} from "react-router-dom";
 
 export function Login() {
+	const { setUser } = useContext(UserContext);
+	const navigate = useNavigate();
+
 	/** @param {SubmitEvent} event */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
-		console.log(event);
+		const email = event.target.elements.email.value;
+		const password = event.target.elements.password.value;
+
+		const response = await fetch(API_URL + "/auth/email", {
+			credentials: "include",
+			method: "POST",
+			headers: {
+				"Access-Control-Allow-Credentials": "true",
+				"Access-Control-Allow-Origin": API_URL,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ email, password }),
+		});
+
+		if (!response.ok) {
+			alert("failed login");
+			return;
+		}
+
+		console.log(response.headers.entries());
+
+		const data = await response.json();
+
+		setUser(data.user);
+
+		navigate("/");
 	}
 
 	return (

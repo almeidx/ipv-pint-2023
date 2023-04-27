@@ -11,15 +11,61 @@ import { LoginContainer } from "../components/LoginContainer.jsx";
 import { BsPerson } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { API_URL } from "../utils/constants.js";
 
 export function SignUp() {
 	/** @param {SubmitEvent} event */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
 		console.log(event);
 
-		window.location.href = "/verificar-conta";
+		const name = event.target.elements.nome.value;
+		const surname = event.target.elements.apelido.value;
+		const email = event.target.elements.email.value;
+		const password = event.target.elements.password.value;
+		const confirmPassword = event.target.elements["confirmar-password"].value;
+
+		console.log({
+			name,
+			surname,
+			email,
+			password,
+			confirmPassword,
+		});
+
+		if (password !== confirmPassword) {
+			alert("As passwords não coincidem");
+			return;
+		}
+		try {
+			const response = await fetch(API_URL + "/auth/register", {
+				credentials: "include",
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name: `${name} ${surname}`, email, password, confirmPassword }),
+			});
+
+			if (!response.ok) {
+				if (response.status === 400) {
+					const data = await response.json();
+
+					alert(data.message);
+				}
+
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			const data = await response.json();
+
+			setUser(data.user);
+		} catch (error) {
+			console.error(error);
+
+			alert(error.message);
+		}
 	}
 
 	return (

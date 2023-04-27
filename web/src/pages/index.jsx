@@ -30,7 +30,7 @@ export function Home() {
 						href="/vagas"
 					/>
 					<PageCard
-						title="Oportunidades"
+						title="Negócios"
 						description="Negócios, Parcerias e os Investimentos que existem na empresa e de potenciais novas oportunidades"
 						icon={FaHandHoldingUsd}
 						href="/oportunidades"

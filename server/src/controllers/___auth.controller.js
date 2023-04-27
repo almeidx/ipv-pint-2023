@@ -1,8 +1,9 @@
 const { Utilizador } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const sgMail = require("@sendgrid/mail");
-const { authenticate } = require("../database/model/Utilizador.js");
+const { authenticate, makeSalt } = require("../database/model/Utilizador.js");
 const { OAuth2Client } = require("google-auth-library");
+const dedent = require("dedent");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -38,7 +39,7 @@ module.exports = {
 			name,
 			email,
 			password,
-			salt: "",
+			salt: makeSalt(),
 			hasConfirmed: false,
 			confirmCode: token,
 			confirmDateStart: new Date(),
@@ -48,7 +49,7 @@ module.exports = {
 			from: process.env.EMAIL_FROM,
 			to: email,
 			subject: "Account activation link",
-			html: `
+			html: dedent`
 				<h1>Please use the following link to activate your account</h1>
 				<p>${process.env.WEB_URL}/auth/activate/${token}</p>
 				<hr />
@@ -61,6 +62,11 @@ module.exports = {
 
 			res.json({
 				message: `Email has been sent to ${email}. Follow the instructions to activate your account`,
+				user: {
+					id: user.id,
+					name: user.name,
+					email: user.email,
+				},
 			});
 		} catch (error) {
 			console.log(error);
@@ -239,7 +245,7 @@ exports.forgotPassword = async function forgotPassword(req, res) {
 		from: process.env.EMAIL_FROM,
 		to: email,
 		subject: "Password reset link",
-		html: `
+		html: dedent`
 			<h1>Please use the following link to reset your password</h1>
 			<p>${process.env.WEB_URL}/auth/password/reset/${token}</p>
 			<hr />

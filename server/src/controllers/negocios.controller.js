@@ -6,6 +6,7 @@ const {
 	Utilizador,
 	ContactoNegocio,
 	Contacto,
+	EstadoNegocio,
 } = require("../database/index.js");
 
 /** @type {import("../database/index.js").Controller} */
@@ -32,7 +33,7 @@ module.exports = {
 
 	async read(req, res) {
 		const negocios = await Negocio.findAll({
-			attributes: ["id", "description", "title", "status"],
+			attributes: ["id", "description", "title", "status", "createdAt"],
 			include: [
 				{
 					model: Cliente,
@@ -69,6 +70,12 @@ module.exports = {
 							attributes: ["id", "value", "type"],
 						},
 					],
+				},
+				{
+					model: EstadoNegocio,
+					as: "estados",
+					attributes: ["estado", "dataFinalizacao"],
+					order: [["estado", "ASC"]],
 				},
 			],
 		});

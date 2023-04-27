@@ -32,7 +32,7 @@ export function Vagas() {
 		<>
 			<NavBar page="vagas" />
 
-			<main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 " style={{ backgroundColor: "#c5cae9" }}>
 				<Container className="pt-5 col-11">
 					<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
 
@@ -47,7 +47,7 @@ export function Vagas() {
 					/>
 				</Container>
 
-				<Container className="col-11 pt-4 row mx-auto gap-5">
+				<Container className="col-12 pt-4 row mx-auto gap-5 d-flex">
 					{filteredVagas.map(({ id, ...vaga }) => (
 						<Vaga key={id} {...vaga} />
 					))}
@@ -70,14 +70,14 @@ export function Vagas() {
  */
 function Vaga({ icon, title, description, amountSlots }) {
 	return (
-		<Card style={{ width: "18rem", height: "15rem", borderRadius: "1rem", marginTop: "4rem" }}>
+		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
 				<Card.Img
 					src={icon}
 					height="110px"
 					width="110px"
 					className="rounded-circle position-absolute"
-					style={{ width: "110px", top: "-3.4rem", left: "5.5rem" }}
+					style={{ width: "110px", top: "-3.4rem", left: "7.5rem" }}
 				/>
 
 				<Card.Title className="title my-3" style={{ fontSize: "2rem", paddingTop: "2rem" }}>
@@ -86,10 +86,12 @@ function Vaga({ icon, title, description, amountSlots }) {
 
 				<Card.Subtitle className="Subtitle  ">Aberta - {amountSlots} vagas</Card.Subtitle>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>{description}</Card.Text>
+				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
+					{description}
+				</Card.Text>
 
 				<Card.Footer className="d-flex align-items-center bg-white">
-					<Button className="mx-auto">Candidatar</Button>
+					<Button className="mx-auto mt-2">Candidatar</Button>
 				</Card.Footer>
 			</Card.Body>
 		</Card>

@@ -19,7 +19,9 @@ const Notificacao = require("./model/Notificacao.js");
 const Reuniao = require("./model/Reuniao.js");
 const NotaEntrevista = require("./model/NotaEntrevista.js");
 
+// Estas relações têm que estar definidas aqui devido a um import cíclico
 Negocio.hasMany(ContactoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "contactos" });
+Negocio.hasMany(EstadoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "estados" });
 
 module.exports = {
 	sequelize,

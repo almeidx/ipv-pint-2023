@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Nav from "react-bootstrap/Nav";
@@ -13,6 +13,7 @@ import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import softinsaSvg from "../assets/softinsa.svg";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
+import { UserContext } from "../contexts/UserContext.jsx";
 
 /**
  * @param {Object} props
@@ -46,6 +47,10 @@ export function NavBar({ page }) {
 			type: "negocio",
 		},
 	]);
+
+	const { user } = useContext(UserContext);
+
+	console.log("navbar user", user);
 
 	function handleDeleteAll() {
 		setNotifications([]);
@@ -139,9 +144,19 @@ export function NavBar({ page }) {
 					</Button>
 				</OverlayTrigger>
 
-				<Link to="/login">
-					<FaRegUserCircle color="white" size={24} />
-				</Link>
+				{user ? (
+					<Link
+						to="/profile"
+						className="bg-white rounded-circle text-center"
+						style={{ width: "2rem", height: "2rem", textDecoration: "none" }}
+					>
+						{user.name[0].toUpperCase()}
+					</Link>
+				) : (
+					<Link to="/login">
+						<FaRegUserCircle color="white" size={24} />
+					</Link>
+				)}
 			</Nav>
 		</BootstrapNavbar>
 	);

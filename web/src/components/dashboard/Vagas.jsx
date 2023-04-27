@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");
@@ -24,10 +25,11 @@ export default function Vagas() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Vagas</h2>
-
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Vagas</h2>
+				<IoMdAdd size={40} />
+			</div>
 			<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
-
 			<ListGroup>
 				{isLoading ? (
 					<FaSpinner />
@@ -38,7 +40,7 @@ export default function Vagas() {
 								<img src={icon} height="64" width="64" className="me-1" />
 
 								<div>
-									<span className="fw-bold text-wrap">
+									<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 										{id} - {title}
 									</span>
 

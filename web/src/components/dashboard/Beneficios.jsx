@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -33,7 +34,10 @@ export default function Beneficios() {
 
 	return (
 		<Container className="py-4">
-			<h2 className="mb-5">Benefícios</h2>
+			<div className="d-flex justify-content-between">
+				<h2 className="mb-5">Benefícios</h2>
+				<IoMdAdd size={40} />
+			</div>
 
 			<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
 
@@ -46,7 +50,7 @@ export default function Beneficios() {
 							<div className="d-flex gap-2">
 								<img src={iconeBeneficio} height="65" width="65" className="me-2" />
 								<div>
-									<span className="fw-bold">
+									<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
 										{id} - {shortContent}
 									</span>
 

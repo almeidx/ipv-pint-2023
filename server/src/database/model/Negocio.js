@@ -100,6 +100,11 @@ const Negocio = sequelize.define(
 			field: "ESTADO_ATUAL",
 			allowNull: false,
 		},
+		createdAt: {
+			type: DataTypes.DATE,
+			field: "DATA_CRIACAO",
+			allowNull: false,
+		},
 	},
 	{ timestamps: false },
 );

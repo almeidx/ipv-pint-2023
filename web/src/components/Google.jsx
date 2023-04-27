@@ -1,7 +1,7 @@
 export function Google() {
 	return (
 		<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<g clip-path="url(#clip0_940_272820)">
+			<g clipPath="url(#clip0_940_272820)">
 				<path
 					d="M24.4671 13.1845C24.4671 12.3687 24.401 11.5486 24.2599 10.7461H12.9411V15.3671H19.4228C19.1539 16.8574 18.2896 18.1758 17.0242 19.0136V22.0119H20.8911C23.162 19.9219 24.4671 16.8354 24.4671 13.1845Z"
 					fill="#4285F4"
