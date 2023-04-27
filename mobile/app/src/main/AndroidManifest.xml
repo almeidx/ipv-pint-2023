@@ -39,10 +39,14 @@
             android:exported="false" />
         <activity
             android:name=".pages.SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="fullSensor"/>
         <activity
             android:name=".pages.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="fullSensor"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
