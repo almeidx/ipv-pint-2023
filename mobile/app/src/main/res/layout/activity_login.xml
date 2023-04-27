@@ -19,6 +19,7 @@
         android:textSize="64sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,8 +34,6 @@
         android:hint="@string/email"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
-        android:background="@color/white"
-        app:hintTextColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,13 +84,15 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <CheckBox
-        android:layout_width="152dp"
+        android:layout_width="180dp"
         android:layout_height="34dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="221dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="192dp"
         android:text="@string/lembrar_password"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
 
     <Button

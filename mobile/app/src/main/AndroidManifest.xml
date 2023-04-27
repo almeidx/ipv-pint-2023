@@ -40,13 +40,13 @@
         <activity
             android:name=".pages.SignUpActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="fullSensor"/>
+            android:theme="@style/Theme.Material3.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pages.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="fullSensor"/>
+            android:theme="@style/Theme.Material3.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
