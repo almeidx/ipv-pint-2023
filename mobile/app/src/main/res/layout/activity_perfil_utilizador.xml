@@ -7,46 +7,83 @@
     android:background="#C5CAE9"
     tools:context=".pages.PerfilUtilizadorActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="@string/nomeUser"
+            android:gravity="left|center"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:paddingStart="40dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="@string/emailUser"
+            android:gravity="left|center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:paddingStart="40dp"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="54dp"
         android:text="@string/mudar_password"
         android:background="@color/white"
         android:textColor="@color/black"
         android:gravity="left|center"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:drawableStart="@drawable/lock"/>
+        android:drawableStart="@drawable/lock"
+        android:paddingStart="10dp"
+        android:drawablePadding="10dp"/>
 
     <TextView
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="108dp"
         android:text="@string/enviar_cv"
         android:background="@color/white"
         android:textColor="@color/black"
         android:gravity="left|center"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:drawableStart="@drawable/cv"/>
+        android:drawableStart="@drawable/cv"
+        android:paddingStart="10dp"
+        android:drawablePadding="10dp"/>
 
     <TextView
         android:id="@+id/inativar_conta"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="163dp"
         android:text="@string/inativar_conta"
         android:background="@color/white"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:gravity="left|center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:drawableStart="@drawable/baseline_delete_24"
+        android:paddingStart="10dp"
+        android:drawablePadding="10dp"/>
 
     <Button
         android:id="@+id/terminar_sessao"
@@ -60,6 +97,7 @@
         android:text="@string/terminar_sessão"
         android:textColor="@color/black"
         android:textSize="16sp"
+        android:onClick="terminarsessao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -56,4 +56,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun gotoPerfil(_view: View){
+        val intent = Intent(this, PerfilUtilizadorActivity::class.java)
+        startActivity(intent)
+    }
 }

@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="perfil"
-        android:orderInCategory="100"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/person"/>
+        android:id="@+id/inicio"
+        android:icon="@drawable/home"
+        android:title="Início"/>
+
+    <item
+        android:id="@+id/noticacao"
+        android:icon="@drawable/notifications"
+        android:title="Notificação"/>
+
+    <item
+        android:id="@+id/mais"
+        android:icon="@drawable/more"
+        android:title="Mais"/>
 
 </menu>
