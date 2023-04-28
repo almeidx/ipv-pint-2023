@@ -10,6 +10,14 @@ import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
 import { IoMdAdd } from "react-icons/io";
 
+const tiposUtilizador = [
+	"Utilizador",
+	"Gestor de Ideias",
+	"Gestor de Recursos Humanos",
+	"Gestor de Negocios",
+	"Administrador",
+];
+
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(API_URL + "/utilizadores", fetcher);
@@ -20,7 +28,7 @@ export default function Reuniões() {
 				({ name, email }) =>
 					name.toLowerCase().includes(search.toLowerCase()) || email.toLowerCase().includes(search.toLowerCase()),
 			),
-		[(data, search)],
+		[data, search],
 	);
 
 	const formatter = new Intl.DateTimeFormat("pt-PT", {
@@ -32,20 +40,9 @@ export default function Reuniões() {
 		minute: "2-digit",
 	});
 
-	const tiposUtilizador = {
-		1: "Utilizador",
-		2: "Gestor de Ideias",
-		3: "Gestor de Recursos Humanos",
-		4: "Gestor de Negocios",
-		5: "Administrador",
-	};
-
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Utilizadores</h2>
-				<IoMdAdd size={40} />
-			</div>
+			<h2 className="mb-3">Utilizadores</h2>
 
 			<SearchBar placeholder="Pesquise por utilizadores..." onSearch={(value) => setSearch(value)} />
 
@@ -65,12 +62,14 @@ export default function Reuniões() {
 								</p>
 
 								<p className="mb-0" style={{ fontSize: "0.90rem" }}>
-									Tipo de utilizador: <span className="fw-bold">{tiposUtilizador[idTipoUser]}</span>
+									Tipo de utilizador: <span className="fw-bold">{tiposUtilizador[idTipoUser - 1]}</span>
 								</p>
 
-								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-									Ultimo login: {formatter.format(new Date(lastLoginDate))}
-								</p>
+								{lastLoginDate ? (
+									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
+										Ultimo login: {formatter.format(new Date(lastLoginDate))}
+									</p>
+								) : null}
 							</div>
 
 							<div className="d-flex gap-2 justify-content-center align-items-center">

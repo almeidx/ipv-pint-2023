@@ -20,7 +20,7 @@ export default function Beneficios() {
 					content.toLowerCase().includes(search.toLowerCase()) ||
 					shortContent.toLowerCase().includes(search.toLowerCase()),
 			),
-		[(data, search)],
+		[data, search],
 	);
 
 	const formatter = new Intl.DateTimeFormat("pt-PT", {
@@ -34,8 +34,8 @@ export default function Beneficios() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Benefícios</h2>
+			<div className="d-flex justify-content-between mb-2">
+				<h2>Benefícios</h2>
 				<IoMdAdd size={40} />
 			</div>
 
@@ -49,6 +49,7 @@ export default function Beneficios() {
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div className="d-flex gap-2">
 								<img src={iconeBeneficio} height="65" width="65" className="me-2" />
+
 								<div>
 									<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
 										{id} - {shortContent}

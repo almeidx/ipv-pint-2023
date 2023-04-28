@@ -25,17 +25,19 @@ export default function Vagas() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Vagas</h2>
+			<div className="d-flex justify-content-between mb-2">
+				<h2>Vagas</h2>
 				<IoMdAdd size={40} />
 			</div>
+
 			<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
+
 			<ListGroup>
 				{isLoading ? (
 					<FaSpinner />
 				) : (
 					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center">
+						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`vaga-${id}`}>
 							<div className="d-flex gap-2">
 								<img src={icon} height="64" width="64" className="me-1" />
 

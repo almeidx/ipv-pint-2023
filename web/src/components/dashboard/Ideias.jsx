@@ -8,6 +8,7 @@ import { SearchBar } from "../SearchBar.jsx";
 import { FaSpinner } from "react-icons/fa";
 import { RiCheckFill, RiCloseFill } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
@@ -24,9 +25,11 @@ export default function Ideias() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Ideias</h2>
-				<IoMdAdd size={40} />
+			<div className="d-flex justify-content-between mb-2">
+				<h2>Ideias</h2>
+				<Link to="/ideias">
+					<IoMdAdd size={40} color="black" />
+				</Link>
 			</div>
 
 			<SearchBar placeholder="Pesquise por ideias..." onSearch={(value) => setSearch(value)} />

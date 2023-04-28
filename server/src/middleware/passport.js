@@ -23,7 +23,7 @@ module.exports = function (passport) {
 
 				const user = await Utilizador.findOne({
 					where: { email: username },
-					attributes: ["id", "name", "hashedPassword"],
+					attributes: ["id", "name", "email", "hashedPassword"],
 					include: [
 						{
 							model: TipoUtilizador,

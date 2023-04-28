@@ -50,7 +50,10 @@ export function Admin() {
 								className="mb-3 bg-transparent fw-bold text-white text-decoration-none pb-3 border-top-0 border-start-0 border-end-0 text-start"
 								style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
 								type="button"
-								onClick={() => setSection(link)}
+								onClick={() => {
+									history.pushState(null, null, `/admin?p=${link}`);
+									setSection(link);
+								}}
 							>
 								{name}
 							</button>
