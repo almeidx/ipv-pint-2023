@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { IoMdAdd } from "react-icons/io";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -45,7 +45,7 @@ export default function Beneficios() {
 				<IoMdAdd size={40} />
 			</div>
 
-			<SearchBar placeholder="Pesquise por Negócios..." onSearch={(value) => setSearch(value)} />
+			<SearchBar placeholder="Pesquise por negócios..." onSearch={(value) => setSearch(value)} />
 
 			<ListGroup>
 				{isLoading ? (

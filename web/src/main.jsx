@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/global.css";
 
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Beneficios } from "./pages/beneficios.jsx";
@@ -15,7 +15,7 @@ import { Vagas } from "./pages/vagas.jsx";
 import { MudarPassword } from "./pages/mudar-password.jsx";
 import { VerificarConta } from "./pages/verificar-conta.jsx";
 import { Admin } from "./pages/admin.jsx";
-import { UserContext, UserProvider } from "./contexts/UserContext.jsx";
+import { UserProvider } from "./contexts/UserContext.jsx";
 import { Profile } from "./pages/profile.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
