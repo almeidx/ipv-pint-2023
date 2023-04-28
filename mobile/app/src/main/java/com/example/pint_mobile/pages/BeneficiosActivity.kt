@@ -20,8 +20,10 @@ class BeneficiosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beneficios)
 
+
+
         supportActionBar?.title = "Benefícios"
-        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
         beneficiosAdapter = BeneficioAdapter(beneficiosList)

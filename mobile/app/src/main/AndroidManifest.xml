@@ -14,7 +14,10 @@
         android:theme="@style/Theme.PINTMobile"
         tools:targetApi="31">
         <activity
-            android:name=".PerfilUtilizadorActivity"
+            android:name=".pages.NegociosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".utils.Negocio"
             android:exported="false" />
         <activity
             android:name=".pages.CriarReuniaoActivity"
