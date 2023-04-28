@@ -50,8 +50,6 @@ export function NavBar({ page }) {
 
 	const { user } = useContext(UserContext);
 
-	console.log("navbar user", user);
-
 	function handleDeleteAll() {
 		setNotifications([]);
 	}

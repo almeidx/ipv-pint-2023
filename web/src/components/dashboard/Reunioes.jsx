@@ -21,7 +21,7 @@ export default function Reuniões() {
 					description.toLowerCase().includes(search.toLowerCase()) ||
 					subject.toLowerCase().includes(search.toLowerCase()),
 			),
-		[(data, search)],
+		[data, search],
 	);
 
 	const formatter = new Intl.DateTimeFormat("pt-PT", {
@@ -35,8 +35,8 @@ export default function Reuniões() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Reuniões</h2>
+			<div className="d-flex justify-content-between mb-2">
+				<h2>Reuniões</h2>
 				<IoMdAdd size={40} />
 			</div>
 
@@ -53,11 +53,7 @@ export default function Reuniões() {
 									{id} - {title}: <span className="fw-normal">{subject}</span>
 								</span>
 
-								{/* <p className="mb-0 fw-bold" style={{ fontSize: "0.9rem" }}>
-									Assunto: {subject}
-								</p>
-								*/}
-								<p className="mb-3">{description}</p>
+								<p className="mb-2">{description}</p>
 
 								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
 									{formatter.format(new Date(startTime))} - {duration} minutos

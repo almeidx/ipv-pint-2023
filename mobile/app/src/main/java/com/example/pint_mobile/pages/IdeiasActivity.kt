@@ -16,6 +16,9 @@ class IdeiasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ideias)
 
+        supportActionBar?.title = "Ideias"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val items = arrayOf(getString(R.string.geral), getString(R.string.estabelecimento), getString(
                     R.string.investimento), getString(R.string.negocio))
         val spinner = findViewById<Spinner>(R.id.categorias)
@@ -33,6 +36,11 @@ class IdeiasActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     fun criarIdeia(_view: View) {

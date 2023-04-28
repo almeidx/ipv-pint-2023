@@ -17,6 +17,9 @@
             android:name=".pages.PerfilUtilizadorActivity"
             android:exported="false" />
         <activity
+            android:name=".pages.NegociosActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.CriarReuniaoActivity"
             android:exported="false" />
         <activity

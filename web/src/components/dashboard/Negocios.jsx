@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { IoMdAdd } from "react-icons/io";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -26,7 +26,7 @@ export default function Beneficios() {
 					areaNegocio.name.toLowerCase().includes(search.toLowerCase()) ||
 					cliente.name.toLowerCase().includes(search.toLowerCase()),
 			),
-		[(data, search)],
+		[data, search],
 	);
 
 	const formatter = new Intl.DateTimeFormat("pt-PT", {
@@ -40,12 +40,12 @@ export default function Beneficios() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Negócios</h2>
+			<div className="d-flex justify-content-between mb-2">
+				<h2>Negócios</h2>
 				<IoMdAdd size={40} />
 			</div>
 
-			<SearchBar placeholder="Pesquise por Negócios..." onSearch={(value) => setSearch(value)} />
+			<SearchBar placeholder="Pesquise por negócios..." onSearch={(value) => setSearch(value)} />
 
 			<ListGroup>
 				{isLoading ? (
@@ -65,42 +65,42 @@ export default function Beneficios() {
 							createdAt,
 							estados,
 						}) => (
-							<ListGroup.Item className="d-flex  align-items-center" key={id}>
+							<ListGroup.Item className="d-flex align-items-center" key={id}>
 								<div className="col-12">
-									<span className="fw-bold" style={{ fontSize: "1.2rem" }}>
-										{id} - {title}: &nbsp;
-									</span>
+									<div className="d-flex align-items-center mb-2">
+										<span className="fw-bold" style={{ fontSize: "1.2rem" }}>
+											{id} - {title}: &nbsp;
+										</span>
 
-									{description}
+										{description}
+									</div>
 
 									<Progresso estados={estados ?? []} />
 
-									<div
-										className="col-12 mt-2 "
-										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											flexDirection: "row",
-											position: "relative",
-										}}
-									>
-										<div>
+									<div className="row align-self-center mt-2">
+										<div className="col-sm">
 											<p className="mb-0">
-												<span className="fw-bold">Cliente:</span>
-												{cliente.name} - {areaNegocio.name}
+												<span className="fw-bold">Cliente:</span> {cliente.name}
+											</p>
+
+											<p className="mb-0">
+												<span className="fw-bold">Area:</span> {areaNegocio.name}
 											</p>
 
 											<p className="mb-0">
 												<span className="fw-bold">Criador:</span> {criador.name} ({criador.email})
 											</p>
+
 											<p className="mb-0">
 												<span className="fw-bold">Responsável:</span> {funcionarioResponsavel.name} (
 												{funcionarioResponsavel.email})
 											</p>
+
 											<span className="fw-bold">Contactos:</span>
+
 											<ul className="mb-0">
 												{contactos.map(({ idContacto, contacto }) => (
-													<li key={idContacto}>
+													<li key={`${id}-contacto-${idContacto}`}>
 														<a
 															style={{ color: "black", listStyle: "none" }}
 															href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
@@ -112,30 +112,24 @@ export default function Beneficios() {
 											</ul>
 										</div>
 
-										<div
-											className="mb-0"
-											style={{
-												minWidth: "20rem",
-												position: "absolute",
-												right: "30%",
-											}}
-										>
-											<p className="mb-0">
-												<span className="fw-bold">Centro de Trabalho:</span>
-												<ul className="mb-0">
-													<li>{centroTrabalho.name}</li>
-													<li>{centroTrabalho.location}</li>
-													<li>{centroTrabalho.postalCode}</li>
-													<li>{centroTrabalho.address}</li>
-												</ul>
-											</p>
+										<div className="mb-0 col-sm">
+											<span className="fw-bold ms-5">Centro de Trabalho associado:</span>
+
+											<ul className="mb-0 ms-5">
+												<li>{centroTrabalho.name}</li>
+												<li>{centroTrabalho.location}</li>
+												<li>{centroTrabalho.postalCode}</li>
+												<li>{centroTrabalho.address}</li>
+											</ul>
 										</div>
-										<div className="d-flex col-2	 gap-2 justify-content-center align-items-center">
+
+										<div className="d-flex col-sm gap-2 justify-content-end align-items-top ">
 											<RiPencilLine size={32} />
 											<RiCloseFill size={32} />
 										</div>
 									</div>
-									<p className="mb-0 mt-3" style={{ fontSize: "0.85rem" }}>
+
+									<p className="mb-0 mt-2" style={{ fontSize: "0.85rem" }}>
 										{formatter.format(new Date(createdAt))}
 									</p>
 								</div>
@@ -184,22 +178,22 @@ function Progresso({ estados }) {
 	return (
 		<ProgressBar style={{ height: "1.3rem", width: "100%" }}>
 			{estadosNames.map(({ color, name }, index) => (
-				<OverlayTrigger
-					key={`overlay-${index}`}
-					placement="top"
-					overlay={
-						<Tooltip id={`tooltip-${index}`}>
-							{obj.get(index) ? new Date(obj.get(index)).toLocaleDateString() : new Date().toLocaleDateString()}
-						</Tooltip>
-					}
-				>
-					<ProgressBar
-						style={{ backgroundColor: color, color: "black" }}
-						now={hasState(index) ? 20 : 0}
-						key={index}
-						label={name}
-					/>
-				</OverlayTrigger>
+				// <OverlayTrigger
+				// 	key={`overlay-${index}`}
+				// 	placement="top"
+				// 	overlay={
+				// 		<Tooltip id={`tooltip-${index}`}>
+				// 			{obj.get(index) ? new Date(obj.get(index)).toLocaleDateString() : new Date().toLocaleDateString()}
+				// 		</Tooltip>
+				// 	}
+				// >
+				<ProgressBar
+					style={{ backgroundColor: color, color: "black" }}
+					now={hasState(index) ? 20 : 0}
+					key={index}
+					label={name}
+				/>
+				// </OverlayTrigger>
 			))}
 		</ProgressBar>
 	);

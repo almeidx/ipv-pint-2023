@@ -10,6 +10,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="164dp"
+        android:onClick="gotoNegocios"
+        android:text="Negocios"
+        android:backgroundTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="159dp"
         android:layout_marginEnd="167dp"
         android:onClick="gotoLogin"

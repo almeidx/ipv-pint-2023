@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.pages.BeneficiosActivity
+import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.VagasActivity
 import org.json.JSONException
 
@@ -49,6 +50,32 @@ class API {
                     )
 
                     list.add(vaga)
+                }
+
+                allList.addAll(list)
+
+                adapter.notifyDataSetChanged()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+            }, { error -> error.printStackTrace() })
+
+            queue.add(request)
+        }
+
+        fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter: NegociosActivity.NegocioAdapter, ctx: Context) {
+            val queue = Volley.newRequestQueue(ctx)
+
+            val request = JsonArrayRequest(Request.Method.GET, "https://pint-api.almeidx.dev/negocios", null, { response -> try {
+                for (i in 0 until response.length()) {
+                    val rawNegocio = response.getJSONObject(i)
+                    val negocio = Negocio(
+                        rawNegocio.getString("title"),
+                        rawNegocio.getString("description"),
+                        rawNegocio.getJSONObject("cliente").getString("name"),
+                    )
+
+                    list.add(negocio)
                 }
 
                 allList.addAll(list)

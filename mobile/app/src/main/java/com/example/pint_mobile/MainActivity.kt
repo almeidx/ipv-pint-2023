@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+    fun gotoNegocios(_view: View) {
+        val intent = Intent(this, NegociosActivity::class.java)
+        startActivity(intent)
+    }
 
     fun gotoLogin(_view: View) {
         val intent = Intent(this, LoginActivity::class.java)

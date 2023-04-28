@@ -21,7 +21,7 @@ class VagasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vagas)
 
         supportActionBar?.title = "Vagas"
-        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val lista = findViewById<ListView>(R.id.listaVagas)
         vagasAdapter = VagaAdapter(vagasList)

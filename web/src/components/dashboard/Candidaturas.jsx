@@ -35,10 +35,7 @@ export default function Candidaturas() {
 
 	return (
 		<Container className="py-4">
-			<div className="d-flex justify-content-between">
-				<h2 className="mb-5">Candidaturas</h2>
-				<IoMdAdd size={40} />
-			</div>
+			<h2 className="mb-3">Candidaturas</h2>
 
 			<SearchBar placeholder="Pesquise por candidaturas..." onSearch={(value) => setSearch(value)} />
 
@@ -53,7 +50,7 @@ export default function Candidaturas() {
 									{id} - {utilizador.name}
 								</span>
 
-								<p>
+								<p className="mb-0">
 									{formatter.format(new Date(submissionDate))} - {vaga.title}
 								</p>
 							</div>

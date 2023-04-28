@@ -78,7 +78,7 @@ export function Ideias() {
 				<Container className="col-11 pt-4 row mx-auto gap-5">
 					{categories.map((category) => (
 						<CategoriaCard
-							key={category.category}
+							key={`cat-card-${category.category}`}
 							{...category}
 							selected={selectedCategory === category.category}
 							onClick={() => setSelectedCategory(handleCategoryChange(category, selectedCategory))}
@@ -97,16 +97,14 @@ export function Ideias() {
 					</div>
 
 					<ButtonGroup className="mb-2">
-						{categories.map((category) => (
+						{categories.map(({ category, title }) => (
 							<Button
-								key={category.category}
+								key={`cat-btn-${category}`}
 								className="ideias-cat-btn mb-4 border-white"
-								style={{
-									backgroundColor: selectedCategory === category.category ? "rgba(255, 255, 255, 0.5)" : "transparent",
-								}}
+								style={{ backgroundColor: selectedCategory === category ? "#ffffff50" : "transparent" }}
 								onClick={() => setSelectedCategory(handleCategoryChange(category, selectedCategory))}
 							>
-								{category.title}
+								{title}
 							</Button>
 						))}
 					</ButtonGroup>

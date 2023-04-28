@@ -1,8 +1,9 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
+import { FaSpinner } from "react-icons/fa";
+import { useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
-import { FaSpinner } from "react-icons/fa";
 
 const Candidaturas = lazy(() => import("../components/dashboard/Candidaturas.jsx"));
 const Ideias = lazy(() => import("../components/dashboard/Ideias.jsx"));
@@ -12,19 +13,24 @@ const Beneficios = lazy(() => import("../components/dashboard/Beneficios.jsx"));
 const Reunioes = lazy(() => import("../components/dashboard/Reunioes.jsx"));
 const Utilizadores = lazy(() => import("../components/dashboard/Utilizadores.jsx"));
 
-const sections = ["Candidaturas", "Ideias", "Negócios", "Vagas", "Benefícios", "Reuniões", "Utilizadores"];
+const sections = [
+	{ name: "Candidaturas", link: "candidaturas" },
+	{ name: "Ideias", link: "ideias" },
+	{ name: "Negócios", link: "negocios" },
+	{ name: "Vagas", link: "vagas" },
+	{ name: "Benefícios", link: "beneficios" },
+	{ name: "Reuniões", link: "reunioes" },
+	{ name: "Utilizadores", link: "utilizadores" },
+];
 
 export function Admin() {
-	const [section, setSection] = useState(sections[0]);
+	const [searchParams] = useSearchParams();
+	const [section, setSection] = useState(sections[0].link);
 
 	useEffect(() => {
-		const hash = window.location.hash;
-		const sectionName = hash.slice(1);
-
-		if (!sectionName || !isValidSection(sectionName)) {
-			setSection(sections[0]);
-		} else {
-			setSection(sectionName);
+		const paramSection = searchParams.get("p");
+		if (paramSection && isValidSection(paramSection)) {
+			setSection(paramSection);
 		}
 	}, []);
 
@@ -38,16 +44,19 @@ export function Admin() {
 					style={{ width: "18rem", backgroundColor: "#546beb" }}
 				>
 					<Nav className="nav-pills flex-column mb-auto">
-						{sections.map((name, idx) => (
-							<a
-								href={"#" + name}
+						{sections.map(({ name, link }, idx) => (
+							<button
 								key={name}
-								className="mb-3 bg-transparent fw-bold text-white text-decoration-none pb-3"
-								style={{ borderBottom: idx === sections.length - 1 ? "" : "1px solid lightgray" }}
-								onClick={() => setSection(name)}
+								className="mb-3 bg-transparent fw-bold text-white text-decoration-none pb-3 border-top-0 border-start-0 border-end-0 text-start"
+								style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
+								type="button"
+								onClick={() => {
+									history.pushState(null, null, `/admin?p=${link}`);
+									setSection(link);
+								}}
 							>
 								{name}
-							</a>
+							</button>
 						))}
 					</Nav>
 				</div>
@@ -59,19 +68,19 @@ export function Admin() {
 						</div>
 					}
 				>
-					{section === "Candidaturas" ? (
+					{section === "candidaturas" ? (
 						<Candidaturas />
-					) : section === "Ideias" ? (
+					) : section === "ideias" ? (
 						<Ideias />
-					) : section === "Negócios" ? (
+					) : section === "negocios" ? (
 						<Negocios />
-					) : section === "Vagas" ? (
+					) : section === "vagas" ? (
 						<Vagas />
-					) : section === "Benefícios" ? (
+					) : section === "beneficios" ? (
 						<Beneficios />
-					) : section === "Reuniões" ? (
+					) : section === "reunioes" ? (
 						<Reunioes />
-					) : section === "Utilizadores" ? (
+					) : section === "utilizadores" ? (
 						<Utilizadores />
 					) : null}
 				</Suspense>
@@ -86,5 +95,5 @@ export function Admin() {
  * @param {string} section
  */
 function isValidSection(section) {
-	return sections.includes(section);
+	return sections.some(({ link }) => link === section);
 }
