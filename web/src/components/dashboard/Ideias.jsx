@@ -1,27 +1,19 @@
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
+import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { RiCheckFill, RiCloseFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
+import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { FaSpinner } from "react-icons/fa";
-import { RiCheckFill, RiCloseFill } from "react-icons/ri";
-import { IoMdAdd } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(API_URL + "/ideias", fetcher);
-
-	const formatter = new Intl.DateTimeFormat("pt-PT", {
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-
-		hour: "2-digit",
-		minute: "2-digit",
-	});
 
 	return (
 		<Container className="py-4">
@@ -46,7 +38,7 @@ export default function Ideias() {
 								</span>
 
 								<p className="mb-0">
-									{categoria} - {utilizador.name} - {formatter.format(new Date(dataCriacao))}
+									{categoria} - {utilizador.name} - {formatDate(new Date(dataCriacao))}
 								</p>
 							</div>
 

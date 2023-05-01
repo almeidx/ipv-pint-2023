@@ -1,5 +1,6 @@
-import Form from "react-bootstrap/Form";
 import "../styles/Login.css";
+
+import Form from "react-bootstrap/Form";
 
 /**
  * @param {Object} props

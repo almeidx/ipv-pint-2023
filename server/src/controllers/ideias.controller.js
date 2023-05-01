@@ -14,7 +14,7 @@ module.exports = {
 
 			return res.json(ideia);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 
 			res.status(500).json({
 				message: "Internal server error",
@@ -24,20 +24,22 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Ideia.findAll({
-			include: [
-				{
-					model: Utilizador,
-					as: "utilizador",
-					source: "idCriador"
-				},
-				{
-					model: Utilizador,
-					as: "validador",
-					source: "idValidador"
-				},
-			],
-		}));
+		res.json(
+			await Ideia.findAll({
+				include: [
+					{
+						model: Utilizador,
+						as: "utilizador",
+						source: "idCriador",
+					},
+					{
+						model: Utilizador,
+						as: "validador",
+						source: "idValidador",
+					},
+				],
+			}),
+		);
 	},
 
 	update() {},

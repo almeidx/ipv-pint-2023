@@ -2,12 +2,12 @@ import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { IoMdAdd } from "react-icons/io";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");
@@ -51,8 +51,6 @@ export default function Vagas() {
 									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
 										{statusToText(status)} - {public_ ? "Publica" : "Só para colaboradores"} - {amountSlots} vagas
 									</p>
-
-									<p className="mb-0">{/* {formatter.format(new Date(dataCriacao))} */}</p>
 								</div>
 							</div>
 

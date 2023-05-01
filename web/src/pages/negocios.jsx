@@ -1,12 +1,13 @@
+import "../styles/negocios.css";
+
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import { NavBar } from "../components/NavBar.jsx";
-import { Footer } from "../components/Footer.jsx";
-import { API_URL } from "../utils/constants.js";
-import { fetcher } from "../utils/fetcher.js";
 import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
-import "../styles/negocios.css";
+import { Footer } from "../components/Footer.jsx";
+import { NavBar } from "../components/NavBar.jsx";
+import { API_URL } from "../utils/constants.js";
+import { fetcher } from "../utils/fetcher.js";
 
 export function Negocios() {
 	const { isLoading, data } = useSWR(API_URL + "/negocios", fetcher);

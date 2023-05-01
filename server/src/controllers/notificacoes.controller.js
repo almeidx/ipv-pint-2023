@@ -17,13 +17,26 @@ module.exports = {
 			});
 			res.json(notificacao);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			res.status(500).json({ error: "Internal server error" });
 		}
 	},
 
 	async read(req, res) {
-		res.json(await Notificacao.findAll());
+		if (!req.isAuthenticated()) {
+			res.status(401).json({
+				message: "Not logged in",
+			});
+			return;
+		}
+
+		res.json(
+			await Notificacao.findAll({
+				where: {
+					idUser: req.user.id,
+				},
+			}),
+		);
 	},
 
 	update() {},

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pages.Negocio_onclickActivity">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="35dp"
+        android:padding="5dp"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
+        />
+
+    <TextView
+        android:id="@+id/descricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:paddingVertical="5dp"
+        android:textSize="20dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+    <TextView
+        android:id="@+id/cliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:paddingVertical="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descricao" />
+
+    <TextView
+        android:id="@+id/areadeNegocio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:paddingVertical="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cliente" />
+
+    <TextView
+        android:id="@+id/Criador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:text="Criador:"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/areadeNegocio" />
+
+    <TextView
+        android:id="@+id/criadorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Criador" />
+
+    <TextView
+        android:id="@+id/criadorEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/criadorName" />
+
+    <TextView
+        android:id="@+id/Funcionario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:text="Funcionario responsavel:"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/criadorEmail" />
+
+    <TextView
+        android:id="@+id/FuncName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Funcionario" />
+
+    <TextView
+        android:id="@+id/FuncEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="5dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/FuncName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

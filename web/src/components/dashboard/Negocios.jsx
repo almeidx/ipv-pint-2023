@@ -1,15 +1,14 @@
 import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import Tooltip from "react-bootstrap/Tooltip";
 import { FaSpinner } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
+import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
 
 export default function Beneficios() {
@@ -28,15 +27,6 @@ export default function Beneficios() {
 			),
 		[data, search],
 	);
-
-	const formatter = new Intl.DateTimeFormat("pt-PT", {
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-
-		hour: "2-digit",
-		minute: "2-digit",
-	});
 
 	return (
 		<Container className="py-4">
@@ -125,12 +115,12 @@ export default function Beneficios() {
 
 										<div className="d-flex col-sm gap-2 justify-content-end align-items-top ">
 											<RiPencilLine size={32} />
-											<RiCloseFill size={32} />
+											<RiCloseFill size={32} color="red" />
 										</div>
 									</div>
 
 									<p className="mb-0 mt-2" style={{ fontSize: "0.85rem" }}>
-										{formatter.format(new Date(createdAt))}
+										{formatDate(new Date(createdAt))}
 									</p>
 								</div>
 							</ListGroup.Item>

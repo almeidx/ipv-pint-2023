@@ -11,12 +11,13 @@ import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 class PerfilUtilizadorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_utilizador)
+
+
 
         supportActionBar?.title = "Perfil"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -50,6 +51,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -63,3 +65,4 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
 
 
 }
+

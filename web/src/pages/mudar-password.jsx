@@ -1,14 +1,13 @@
-import React from "react";
 import "../styles/Login.css";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { LoginContainer } from "../components/LoginContainer.jsx";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { useQuery } from "../hooks/useQuery.jsx";
-import { Link } from "react-router-dom";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { LoginContainer } from "../components/LoginContainer.jsx";
+import { useQuery } from "../hooks/useQuery.jsx";
 
 export function MudarPassword() {
 	const query = useQuery();
@@ -77,7 +76,7 @@ export function MudarPassword() {
 				/>
 			</InputGroup>
 
-			<Button variant="primary" type="submit" className="col-8 p-2 mx-auto mb-5 bg-white text-black rounded-5 mt-4">
+			<Button variant="light" type="submit" className="col-8 p-2 mx-auto mb-5 rounded-5 mt-4">
 				Alterar
 			</Button>
 		</LoginContainer>

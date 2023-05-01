@@ -17,7 +17,7 @@ module.exports = {
 
 			res.json(vaga);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 
 			res.status(500).json({
 				message: "Internal server error",
@@ -27,11 +27,11 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		res.json(await Vaga.findAll({
-			order: [
-				["id", "ASC"],
-			]
-		}));
+		res.json(
+			await Vaga.findAll({
+				order: [["id", "ASC"]],
+			}),
+		);
 	},
 
 	update() {},

@@ -15,7 +15,7 @@ module.exports = {
 
 			res.json(beneficio);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			res.status(500).json({ error: "Internal server error" });
 		}
 	},

@@ -32,8 +32,6 @@ authRouter.post("/auth/email", async (req, res, next) => {
 });
 
 authRouter.get("/auth/user", (req, res) => {
-	console.log("/auth/user req.user", req.user);
-
 	if (!req.user) {
 		res.status(401).json({
 			message: "Not logged in",

@@ -1,44 +1,49 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/global.css";
 
-import React from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext.jsx";
+import { Error404 } from "./pages/404.jsx";
+import { Admin } from "./pages/admin.jsx";
 import { Beneficios } from "./pages/beneficios.jsx";
+import { Calendar } from "./pages/calendar.jsx";
 import { Contacto } from "./pages/contacto.jsx";
-import { Home } from "./pages/index.jsx";
 import { Ideias } from "./pages/ideias.jsx";
+import { Home } from "./pages/index.jsx";
 import { Login } from "./pages/login.jsx";
+import { MudarPassword } from "./pages/mudar-password.jsx";
 import { Negocios } from "./pages/negocios.jsx";
+import { Profile } from "./pages/profile.jsx";
 import { SignUp } from "./pages/sign-up.jsx";
 import { Vagas } from "./pages/vagas.jsx";
-import { MudarPassword } from "./pages/mudar-password.jsx";
 import { VerificarConta } from "./pages/verificar-conta.jsx";
-import { Admin } from "./pages/admin.jsx";
-import { UserProvider } from "./contexts/UserContext.jsx";
-import { Profile } from "./pages/profile.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
+	<StrictMode>
 		<UserProvider>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" Component={Home} />
-					<Route path="/beneficios" Component={Beneficios} />
-					<Route path="/contacto" Component={Contacto} />
-					<Route path="/ideias" Component={Ideias} />
-					<Route path="/negocios" Component={Negocios} />
-					<Route path="/vagas" Component={Vagas} />
+					<Route path="/" element={<Home />} />
+					<Route path="/beneficios" element={<Beneficios />} />
+					<Route path="/contacto" element={<Contacto />} />
+					<Route path="/ideias" element={<Ideias />} />
+					<Route path="/negocios" element={<Negocios />} />
+					<Route path="/vagas" element={<Vagas />} />
 
-					<Route path="/login" Component={Login} />
-					<Route path="/signup" Component={SignUp} />
-					<Route path="/mudar-password" Component={MudarPassword} />
-					<Route path="/verificar-conta" Component={VerificarConta} />
-					<Route path="/profile" Component={Profile} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/mudar-password" element={<MudarPassword />} />
+					<Route path="/verificar-conta" element={<VerificarConta />} />
+					<Route path="/profile" element={<Profile />} />
+					<Route path="/calendar" element={<Calendar />} />
 
-					<Route path="/admin" Component={Admin} />
+					<Route path="/admin" element={<Admin />} />
+
+					<Route path="*" element={<Error404 />} />
 				</Routes>
 			</BrowserRouter>
 		</UserProvider>
-	</React.StrictMode>,
+	</StrictMode>,
 );

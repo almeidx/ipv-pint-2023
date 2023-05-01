@@ -20,7 +20,6 @@ create table UTILIZADORES (
 */
 
 const { DataTypes } = require("sequelize");
-const { crypto } = require("node:crypto");
 const sequelize = require("../connection.js");
 const TipoUtilizador = require("./TipoUtilizador.js");
 
@@ -114,21 +113,3 @@ const Utilizador = sequelize.define(
 Utilizador.hasOne(TipoUtilizador, { foreignKey: "id", sourceKey: "idTipoUser", as: "tipoUtilizador" });
 
 module.exports = Utilizador;
-
-exports.makeSalt = function makeSalt() {
-	return `${Math.round(new Date().valueOf() * Math.random())}`;
-};
-
-exports.encryptPassword = function encryptPassword(password, salt) {
-	if (!password) return "";
-
-	try {
-		return crypto.createHmac("sha1", salt).update(password).digest("hex");
-	} catch {
-		return "";
-	}
-};
-
-exports.authenticate = function authenticate(password, hashedPassword, salt) {
-	return encryptPassword(password, salt) === hashedPassword;
-};
