@@ -24,7 +24,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
-        nav.setOnNavigationItemSelectedListener() { item ->
+        nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.inicio -> {
                     Toast.makeText(applicationContext, "inicio", Toast.LENGTH_SHORT).show()
@@ -35,8 +35,18 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                     true
                 }
                 R.id.mais -> {
-                    Toast.makeText(applicationContext, "mais", Toast.LENGTH_SHORT).show()
-                    true
+                    /*val buttonShow = findViewById<ButtonShow>(R.id.buttonShow)
+                    buttonShow.setOnClickListener {
+                        val bottomSheetDialog = BottomSheetDialog(this@MainActivity, R.style.BottomSheetDialogTheme)
+                        val bottomSheetView = layoutInflater.inflate(R.layout.layout_bottom_sheet, findViewById<LinearLayout>(R.id.bottomSheetContainer))
+                        bottomSheetView.findViewById<Button>(R.id.buttonShare).setOnClickListener {
+                            Toast.makeText(this@MainActivity, "Share", Toast.LENGTH_SHORT).show()
+                            bottomSheetDialog.dismiss()
+                        }
+                        bottomSheetDialog.setContentView(bottomSheetView)
+                        bottomSheetDialog.show()
+                    }*/
+                    //precisa mudanças
                 }
                 else -> false
             }
