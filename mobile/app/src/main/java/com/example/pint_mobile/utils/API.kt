@@ -73,8 +73,12 @@ class API {
                         rawNegocio.getString("title"),
                         rawNegocio.getString("description"),
                         rawNegocio.getJSONObject("cliente").getString("name"),
+                        rawNegocio.getJSONObject("criador").getString("email"),
+                        rawNegocio.getJSONObject("criador").getString("name"),
+                        rawNegocio.getJSONObject("areaNegocio").getString("name"),
+                        rawNegocio.getJSONObject("funcionarioResponsavel").getString("name"),
+                        rawNegocio.getJSONObject("funcionarioResponsavel").getString("email"),
                     )
-
                     list.add(negocio)
                 }
 
