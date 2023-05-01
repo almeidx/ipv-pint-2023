@@ -49,4 +49,6 @@
     <string name="inativar_conta">Inativar Conta</string>
     <string name="nomeUser">Rodrigo Almeida</string>
     <string name="emailUser">rodrigo@gmail.me</string>
+    <string name="pesquise_por_negocios" />
+    <string name="pesquise_por_negocios2">pesquise_por_negocios</string>
 </resources>

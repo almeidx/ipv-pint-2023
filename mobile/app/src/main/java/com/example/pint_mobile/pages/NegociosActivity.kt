@@ -1,5 +1,6 @@
 
 package com.example.pint_mobile.pages
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -55,7 +56,6 @@ class NegociosActivity : AppCompatActivity() {
                 false
             }
         }
-
     }
 
 
@@ -74,9 +74,23 @@ class NegociosActivity : AppCompatActivity() {
             clienteNegocio.text = negocio.cliente
 
 
+            view.setOnClickListener {
+                val intent = Intent(view.context, Negocio_onclickActivity::class.java)
+
+                intent.putExtra("titulo", negocio.titulo)
+                intent.putExtra("descricao", negocio.descricao)
+                intent.putExtra("cliente", negocio.cliente)
+                intent.putExtra("criador", negocio.criador)
+                intent.putExtra("criadorEmail", negocio.criadorEmail)
+                intent.putExtra("areaNegocio", negocio.areaNegocio)
+                intent.putExtra("FuncName", negocio.FuncionarioName)
+                intent.putExtra("FuncEmail", negocio.FuncionarioEmail)
+
+                view.context.startActivity(intent)
+            }
+
             return view
         }
-
         override fun getItem(position: Int): Negocio {
             return negocios[position]
         }
@@ -94,4 +108,6 @@ class NegociosActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+
 }

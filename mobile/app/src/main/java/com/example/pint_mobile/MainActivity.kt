@@ -60,4 +60,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, PerfilUtilizadorActivity::class.java)
         startActivity(intent)
     }
+
+    fun gotoNotificacoes(_view: View){
+        val intent = Intent(this, NotificacoesActivity::class.java)
+        startActivity(intent)
+    }
 }
