@@ -1,4 +1,4 @@
-const { Utilizador } = require("../database/index.js");
+const { Utilizador, TipoUtilizador } = require("../database/index.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
 			res.json(utilizador);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 
 			res.status(500).json({
 				message: "Internal server error",
@@ -41,7 +41,18 @@ module.exports = {
 			return;
 		}
 
-		res.json(await Utilizador.findAll());
+		res.json(
+			await Utilizador.findAll({
+				attributes: ["id", "name", "email", "lastLoginDate"],
+				include: [
+					{
+						model: TipoUtilizador,
+						as: "tipoUtilizador",
+						attributes: ["name", "id"],
+					},
+				],
+			}),
+		);
 	},
 
 	update() {},

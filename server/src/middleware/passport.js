@@ -19,8 +19,6 @@ module.exports = function (passport) {
 				session: true,
 			},
 			async function (username, password, done) {
-				console.log(`trying to log in as ${username}:${password}`);
-
 				const user = await Utilizador.findOne({
 					where: { email: username },
 					attributes: ["id", "name", "email", "hashedPassword"],
@@ -42,7 +40,6 @@ module.exports = function (passport) {
 				const passwordMatches = await bcrypt.compare(password, userObj.hashedPassword);
 
 				if (passwordMatches) {
-					console.log("successful login", userObj);
 					const { hashedPassword, ...userWithoutPassword } = userObj;
 
 					return done(null, userWithoutPassword);

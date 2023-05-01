@@ -36,7 +36,7 @@ export function Admin() {
 
 	return (
 		<>
-			<NavBar page="admin" />
+			<NavBar />
 
 			<main className="min-h-without-navbar d-flex" style={{ backgroundColor: "#c5cae9" }}>
 				<div

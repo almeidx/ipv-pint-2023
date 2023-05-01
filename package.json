@@ -5,5 +5,8 @@
 		"format": "prettier --write .",
 		"server": "pnpm --filter server",
 		"web": "pnpm --filter web"
+	},
+	"devDependencies": {
+		"prettier": "^2.8.8"
 	}
 }

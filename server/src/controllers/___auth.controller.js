@@ -69,7 +69,7 @@ module.exports = {
 				},
 			});
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 
 			res.status(500).json({
 				message: "Internal server error",
@@ -123,7 +123,7 @@ module.exports = {
 				},
 			});
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 
 			res.status(500).json({
 				message: "Internal server error",
@@ -267,7 +267,7 @@ exports.forgotPassword = async function forgotPassword(req, res) {
 			message: `Email has been sent to ${email}. Follow the instructions to reset your password`,
 		});
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 
 		res.status(500).json({
 			message: "Internal server error",

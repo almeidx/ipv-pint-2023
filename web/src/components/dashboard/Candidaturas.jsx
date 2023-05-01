@@ -3,12 +3,12 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { BiNotepad } from "react-icons/bi";
 import { BsCalendarDate } from "react-icons/bs";
+import { FaSpinner } from "react-icons/fa";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
+import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { FaSpinner } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");
@@ -23,15 +23,6 @@ export default function Candidaturas() {
 			),
 		[data, search],
 	);
-
-	const formatter = new Intl.DateTimeFormat("pt-PT", {
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-
-		hour: "2-digit",
-		minute: "2-digit",
-	});
 
 	return (
 		<Container className="py-4">
@@ -51,7 +42,7 @@ export default function Candidaturas() {
 								</span>
 
 								<p className="mb-0">
-									{formatter.format(new Date(submissionDate))} - {vaga.title}
+									{formatDate(new Date(submissionDate))} - {vaga.title}
 								</p>
 							</div>
 

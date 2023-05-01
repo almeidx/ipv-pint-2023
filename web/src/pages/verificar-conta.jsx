@@ -1,11 +1,10 @@
-import React from "react";
 import "../styles/Login.css";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { LoginContainer } from "../components/LoginContainer.jsx";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { LoginContainer } from "../components/LoginContainer.jsx";
 
 export function VerificarConta() {
 	/** @param {SubmitEvent} event */
@@ -35,12 +34,12 @@ export function VerificarConta() {
 				<Form.Control placeholder="Código" aria-label="Código" aria-describedby="code-icon" />
 			</InputGroup>
 
-			<Form.Group className="mt-3 mb-2 d-flex justify-content-around" controlId="formBasicCheckbox">
-				<Button variant="primary" type="submit" className="col-5 p-2 rounded-5 bg-white text-black">
+			<Form.Group className="mt-3 mb-2 d-flex justify-content-around" controlId="">
+				<Button variant="light" type="submit" className="col-5 rounded-5">
 					Submeter
 				</Button>
 
-				<Button variant="primary" type="submit" className="col-5  p-2 rounded-5 bg-white text-black">
+				<Button variant="light" type="submit" className="col-5 rounded-5">
 					Re-enviar
 				</Button>
 			</Form.Group>

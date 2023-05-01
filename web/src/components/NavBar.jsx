@@ -1,64 +1,28 @@
-import { useContext, useState } from "react";
+import { Suspense, lazy, useContext } from "react";
 import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import Nav from "react-bootstrap/Nav";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import { BiBell } from "react-icons/bi";
-import { BsCalendar2DayFill, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { FaHandHoldingUsd, FaRegUserCircle } from "react-icons/fa";
-import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
+import { BiBell, BiChevronDown } from "react-icons/bi";
+import { FaRegUserCircle, FaSpinner } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import softinsaSvg from "../assets/softinsa.svg";
-import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
 import { UserContext } from "../contexts/UserContext.jsx";
+
+const Notifications = lazy(() => import("./Notifications.jsx"));
 
 /**
  * @param {Object} props
- * @param {string} props.page
+ * @param {string} [props.page]
  */
 export function NavBar({ page }) {
-	const [notifications, setNotifications] = useState([
-		{
-			id: 1,
-			description: "Reunião dia ",
-			appendDate: new Date(2023, 9, 25),
-			createdAt: new Date().setTime(new Date().getTime() - 2 * 60 * 60 * 1000),
-			type: "event",
-		},
-		{
-			id: 2,
-			description: "Pasta dos Dentes",
-			createdAt: new Date().setTime(new Date().getTime() - 2 * 60 * 60 * 1000),
-			type: "beneficio",
-		},
-		{
-			id: 3,
-			description: "Limpeza",
-			createdAt: new Date().setTime(new Date().getTime() - 2 * 60 * 60 * 1000),
-			type: "vaga",
-		},
-		{
-			id: 4,
-			description: "Google",
-			createdAt: new Date().setTime(new Date().getTime() - 2 * 60 * 60 * 1000),
-			type: "negocio",
-		},
-	]);
-
 	const { user } = useContext(UserContext);
 
 	function handleDeleteAll() {
-		setNotifications([]);
-	}
-
-	/**
-	 * @param {number} id
-	 */
-	function handleSingleDelete(id) {
-		setNotifications((notifications) => notifications.filter((notification) => notification.id !== id));
+		// setNotifications([]);
 	}
 
 	return (
@@ -88,9 +52,6 @@ export function NavBar({ page }) {
 				<Link to="/contacto" className={getSelectedClass(page, "contacto")}>
 					Contacto
 				</Link>
-				<Link to="/admin" className={getSelectedClass(page, "admin")}>
-					Admin
-				</Link>
 			</Nav>
 
 			<style>
@@ -113,26 +74,16 @@ export function NavBar({ page }) {
 							<Popover.Header as="h3">
 								<div className="me-auto d-flex justify-content-between align-items-center">
 									Notificações
-									<Button
-										className="bg-transparent text-black border-0"
-										onClick={handleDeleteAll}
-										disabled={!notifications.length}
-									>
+									<Button className="bg-transparent text-black border-0" onClick={handleDeleteAll} disabled={true}>
 										Apagar todas
 									</Button>
 								</div>
 							</Popover.Header>
 
 							<Popover.Body>
-								{notifications.length ? (
-									<ListGroup>
-										{notifications.map((notification) => (
-											<Notification key={notification.id} {...notification} onDelete={handleSingleDelete} />
-										))}
-									</ListGroup>
-								) : (
-									<p>Não há notificações de momento</p>
-								)}
+								<Suspense fallback={<FaSpinner />}>
+									<Notifications />
+								</Suspense>
 							</Popover.Body>
 						</Popover>
 					}
@@ -143,13 +94,43 @@ export function NavBar({ page }) {
 				</OverlayTrigger>
 
 				{user ? (
-					<Link
-						to="/profile"
-						className="bg-white rounded-circle text-center"
-						style={{ width: "2rem", height: "2rem", textDecoration: "none" }}
-					>
-						{user.name[0].toUpperCase()}
-					</Link>
+					<>
+						<style>
+							{`
+								.dropdown-toggle::after {
+									display: none !important;
+								}
+							`}
+						</style>
+
+						<Dropdown>
+							<Dropdown.Toggle variant="light" className="rounded-circle p-0 border-0">
+								<BiChevronDown color="black" size={24} />
+							</Dropdown.Toggle>
+
+							<Dropdown.Menu align="end">
+								<Dropdown.Header>{user.name}</Dropdown.Header>
+
+								<li>
+									<Link className="dropdown-item" to="/profile">
+										Perfil
+									</Link>
+								</li>
+
+								<li>
+									<Link className="dropdown-item" to="/calendar">
+										Calendário
+									</Link>
+								</li>
+
+								<li>
+									<Link className="dropdown-item" to="/admin">
+										Painel de administração
+									</Link>
+								</li>
+							</Dropdown.Menu>
+						</Dropdown>
+					</>
 				) : (
 					<Link to="/login">
 						<FaRegUserCircle color="white" size={24} />
@@ -160,80 +141,8 @@ export function NavBar({ page }) {
 	);
 }
 
-function Notification({ description, appendDate, createdAt, type, onDelete, id }) {
-	let composedDescription;
-	if (appendDate) {
-		const formatter = new Intl.DateTimeFormat("pt-PT", {
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-
-			hour: "2-digit",
-			minute: "2-digit",
-		});
-
-		composedDescription = `${description} dia ${formatter.format(createdAt)}`;
-	} else {
-		composedDescription = description;
-	}
-
-	const Icon = getIcon(type);
-
-	return (
-		<ListGroup.Item className="d-flex justify-content-between align-items-center">
-			<Icon size={24} />
-
-			<div className="ps-3 me-auto">
-				<div className="fw-bold">{getTitle(type)}</div>
-				{composedDescription}
-			</div>
-
-			<div className="d-flex gap-2 justify-content-between align-items-center">
-				<span style={{ fontSize: "0.8rem" }}>{getRelativeTimeString(createdAt)}</span>
-				<Button className="bg-transparent border-0 px-0" onClick={() => onDelete(id)}>
-					<RiCloseFill size={24} color="black" />
-				</Button>
-			</div>
-		</ListGroup.Item>
-	);
-}
-
 /**
- * @param {string} type
- */
-function getTitle(type) {
-	switch (type) {
-		case "beneficio":
-			return "Novo benefício";
-		case "vaga":
-			return "Nova vaga";
-		case "negocio":
-			return "Novo negócio";
-		case "evento":
-		default:
-			return "Novo evento";
-	}
-}
-
-/**
- * @param {string} type
- */
-function getIcon(type) {
-	switch (type) {
-		case "beneficio":
-			return RiTrophyFill;
-		case "vaga":
-			return BsFillFileEarmarkPersonFill;
-		case "negocio":
-			return FaHandHoldingUsd;
-		case "evento":
-		default:
-			return BsCalendar2DayFill;
-	}
-}
-
-/**
- * @param {string} page
+ * @param {string|undefined} page
  * @param {string} path
  */
 function getSelectedClass(page, path) {

@@ -2,12 +2,13 @@ import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { FaSpinner } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
+import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
-import { IoMdAdd } from "react-icons/io";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -22,15 +23,6 @@ export default function Beneficios() {
 			),
 		[data, search],
 	);
-
-	const formatter = new Intl.DateTimeFormat("pt-PT", {
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-
-		hour: "2-digit",
-		minute: "2-digit",
-	});
 
 	return (
 		<Container className="py-4">
@@ -58,14 +50,14 @@ export default function Beneficios() {
 									<p className="mb-0">{content}</p>
 
 									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-										{formatter.format(new Date(dataValidade))}
+										{formatDate(new Date(dataValidade))}
 									</p>
 								</div>
 							</div>
 
 							<div className="d-flex gap-2 justify-content-center align-items-center">
 								<RiPencilLine size={32} />
-								<RiCloseFill size={32} />
+								<RiCloseFill size={32} color="red" />
 							</div>
 						</ListGroup.Item>
 					))

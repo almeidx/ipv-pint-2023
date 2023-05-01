@@ -1,5 +1,6 @@
 import "../styles/Login.css";
-import React, { useContext } from "react";
+
+import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -11,7 +12,6 @@ import { Google } from "../components/Google.jsx";
 import { LoginContainer } from "../components/LoginContainer.jsx";
 import { UserContext } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
-import {} from "react-router-dom";
 
 export function Login() {
 	const { setUser } = useContext(UserContext);
@@ -39,8 +39,6 @@ export function Login() {
 			alert("failed login");
 			return;
 		}
-
-		console.log(response.headers.entries());
 
 		const data = await response.json();
 
@@ -83,23 +81,23 @@ export function Login() {
 				<Form.Check type="checkbox" label="Lembrar Password" />
 			</Form.Group>
 
-			<Button variant="primary" type="submit" className="col-8 p-2 mx-auto mb-5 bg-white text-black rounded-5">
+			<Button variant="light" type="submit" className="col-8 p-2 mx-auto mb-5 rounded-5">
 				Login
 			</Button>
 
 			<Form.Group className="mt-3 mb-2 d-flex justify-content-center" controlId="formBasicCheckbox">
 				<Button
-					variant="primary"
+					variant="light"
 					type="submit"
-					className="col-5 p-2 rounded-3 mx-auto bg-white text-black d-flex justify-content-center align-items-center gap-2"
+					className="col-5 p-2 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
 				>
 					<Google /> Google
 				</Button>
 
 				<Button
-					variant="primary"
+					variant="light"
 					type="submit"
-					className="col-5 rounded-3 mx-auto bg-white text-black d-flex justify-content-center align-items-center gap-2"
+					className="col-5 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
 				>
 					<Facebook /> Facebook
 				</Button>

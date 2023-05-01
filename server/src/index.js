@@ -17,7 +17,9 @@ const negociosRouter = require("./routes/negocios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
 const cors = require("cors");
 const sgMail = require("@sendgrid/mail");
+const getConnectPgFn = require("connect-pg-simple");
 const authRouter = require("./routes/auth.js");
+const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
 
 require("./middleware/passport.js")(passport);
 
@@ -25,34 +27,39 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 
-app
-	.use(
-		cors({
-			origin: process.env.NODE_ENV === "production" ? process.env.WEB_URL : /.+/,
-			credentials: true,
-			methods: ["HEAD", "GET", "POST", "PATCH", "OPTIONS", "DELETE"],
-			optionsSuccessStatus: 200,
-		}),
-	)
-	.use(express.json())
-	.use(express.urlencoded({ extended: true }))
-	.use(cookieParser())
-	.use(
-		session({
-			secret: process.env.SESSION_SECRET,
-			saveUninitialized: false,
-			resave: false,
-		}),
-	);
+app.use(
+	cors({
+		origin: process.env.NODE_ENV === "production" ? process.env.WEB_URL : /.+/,
+		credentials: true,
+		methods: ["HEAD", "GET", "POST", "PATCH", "OPTIONS", "DELETE"],
+		optionsSuccessStatus: 200,
+	}),
+);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(helmet());
 }
 
 app
+	.use(express.json())
+	.use(cookieParser(process.env.SESSION_SECRET))
+	.use(
+		session({
+			secret: process.env.SESSION_SECRET,
+			saveUninitialized: false,
+			resave: false,
+			store: new (getConnectPgFn(session))({
+				conObject: {
+					connectionString: process.env.DATABASE_URL,
+					ssl: true,
+				},
+			}),
+		}),
+	)
 	.use(passport.initialize())
 	.use(passport.session())
 	.use(morgan("dev"))
+	.use(authRouter)
 	.use("/beneficios", beneficiosRouter)
 	.use("/candidaturas", candidaturasRouter)
 	.use("/clientes", clientesRouter)
@@ -62,8 +69,8 @@ app
 	.use("/notificacoes", notificacoesRouter)
 	.use("/reunioes", reunioesRouter)
 	.use("/utilizadores", utilizadoresRouter)
+	.use("/tipos-utilizador", tiposUtilizadorRouter)
 	.use("/vagas", vagasRouter)
-	.use(authRouter)
 	.get("/_health", (_req, res) => res.send("OK"));
 
 (async () => {
