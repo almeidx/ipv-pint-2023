@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+
 class PerfilUtilizadorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +44,6 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
