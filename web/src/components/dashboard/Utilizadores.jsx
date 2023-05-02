@@ -6,13 +6,13 @@ import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import { BiNoEntry } from "react-icons/bi";
-import { FaSpinner } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { Spinner } from "../Spinner.jsx";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
@@ -55,7 +55,7 @@ export default function Reuniões() {
 
 			<ListGroup>
 				{isLoading ? (
-					<FaSpinner />
+					<Spinner />
 				) : (
 					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>

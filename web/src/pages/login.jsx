@@ -7,8 +7,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { Facebook } from "../components/Facebook.jsx";
-import { Google } from "../components/Google.jsx";
+import { Facebook } from "../components/icons/Facebook.jsx";
+import { Google } from "../components/icons/Google.jsx";
 import { LoginContainer } from "../components/LoginContainer.jsx";
 import { UserContext } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
@@ -90,6 +90,9 @@ export function Login() {
 					variant="light"
 					type="submit"
 					className="col-5 p-2 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					onClick={() => {
+						window.open(API_URL + "/auth/google", "_self");
+					}}
 				>
 					<Google /> Google
 				</Button>
@@ -98,6 +101,9 @@ export function Login() {
 					variant="light"
 					type="submit"
 					className="col-5 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					onClick={() => {
+						window.open(API_URL + "/auth/facebook", "_self");
+					}}
 				>
 					<Facebook /> Facebook
 				</Button>

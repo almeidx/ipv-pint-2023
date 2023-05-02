@@ -13,13 +13,13 @@ export function Negocios() {
 	const { isLoading, data } = useSWR(API_URL + "/negocios", fetcher);
 
 	// const filteredNegocios = search
-	// 	? data.filter((negocio) => {
+	// 	? (data ?? []).filter((negocio) => {
 	// 			const title = negocio.title.toLowerCase();
 	// 			const description = negocio.description.toLowerCase();
 
 	// 			return title.includes(search.toLowerCase()) || description.includes(search.toLowerCase());
 	//
-	// 	: data;
+	// 	: data ?? [];
 
 	const filteredNegocios = data ?? [];
 
@@ -63,7 +63,9 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 				<Card.Title className="title my-3" style={{ fontSize: "2rem" }}>
 					{title}
 				</Card.Title>
+
 				<hr />
+
 				<Card.Text style={{ fontSize: "1.1rem" }}>
 					<span className="fw-bold">{areaNegocio.name}</span> - {description}
 				</Card.Text>

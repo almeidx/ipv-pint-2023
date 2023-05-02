@@ -1,25 +1,26 @@
-const morgan = require("morgan");
-const express = require("express");
-const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const passport = require("passport");
-const { sequelize } = require("./database/index.js");
-const beneficiosRouter = require("./routes/beneficios.js");
-const vagasRouter = require("./routes/vagas.js");
-const ideiasRouter = require("./routes/ideias.js");
-const reunioesRouter = require("./routes/reunioes.js");
-const utilizadoresRouter = require("./routes/utilizadores.js");
-const contactosRouter = require("./routes/contactos.js");
-const clientesRouter = require("./routes/clientes.js");
-const notificacoesRouter = require("./routes/notificacoes.js");
-const negociosRouter = require("./routes/negocios.js");
-const candidaturasRouter = require("./routes/candidaturas.js");
 const cors = require("cors");
-const sgMail = require("@sendgrid/mail");
+const express = require("express");
 const getConnectPgFn = require("connect-pg-simple");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const passport = require("passport");
+const session = require("express-session");
+const sgMail = require("@sendgrid/mail");
+const { sequelize } = require("./database/index.js");
 const authRouter = require("./routes/auth.js");
+const beneficiosRouter = require("./routes/beneficios.js");
+const candidaturasRouter = require("./routes/candidaturas.js");
+const clientesRouter = require("./routes/clientes.js");
+const contactosRouter = require("./routes/contactos.js");
+const ideiasRouter = require("./routes/ideias.js");
+const mensagensRouter = require("./routes/mensagens.js");
+const negociosRouter = require("./routes/negocios.js");
+const notificacoesRouter = require("./routes/notificacoes.js");
+const reunioesRouter = require("./routes/reunioes.js");
 const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
+const utilizadoresRouter = require("./routes/utilizadores.js");
+const vagasRouter = require("./routes/vagas.js");
 
 require("./middleware/passport.js")(passport);
 
@@ -65,11 +66,12 @@ app
 	.use("/clientes", clientesRouter)
 	.use("/clientes/:idCliente/contactos", contactosRouter)
 	.use("/ideias", ideiasRouter)
+	.use("/mensagens", mensagensRouter)
 	.use("/negocios", negociosRouter)
 	.use("/notificacoes", notificacoesRouter)
 	.use("/reunioes", reunioesRouter)
-	.use("/utilizadores", utilizadoresRouter)
 	.use("/tipos-utilizador", tiposUtilizadorRouter)
+	.use("/utilizadores", utilizadoresRouter)
 	.use("/vagas", vagasRouter)
 	.get("/_health", (_req, res) => res.send("OK"));
 

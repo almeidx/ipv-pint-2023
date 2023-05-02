@@ -5,16 +5,16 @@ import useSWR from "swr";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
+import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { FaSpinner } from "react-icons/fa";
 
 export function Beneficios() {
 	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(API_URL + "/beneficios", fetcher);
 
 	const filteredBeneficios = search
-		? data.filter(
+		? (data ?? []).filter(
 				({ shortContent, content }) =>
 					shortContent.toLowerCase().includes(search.toLowerCase()) ||
 					content.toLowerCase().includes(search.toLowerCase()),
@@ -32,7 +32,7 @@ export function Beneficios() {
 
 				<Container className="pt-3 col-11 row mx-auto gap-5">
 					{isLoading ? (
-						<FaSpinner />
+						<Spinner />
 					) : filteredBeneficios.length ? (
 						filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
 					) : (

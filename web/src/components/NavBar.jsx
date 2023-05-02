@@ -7,10 +7,12 @@ import NavbarBrand from "react-bootstrap/NavbarBrand";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { BiBell, BiChevronDown } from "react-icons/bi";
-import { FaRegUserCircle, FaSpinner } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import softinsaSvg from "../assets/softinsa.svg";
 import { UserContext } from "../contexts/UserContext.jsx";
+import { API_URL } from "../utils/constants.js";
+import { Spinner } from "./Spinner.jsx";
 
 const Notifications = lazy(() => import("./Notifications.jsx"));
 
@@ -43,7 +45,7 @@ export function NavBar({ page }) {
 				<Link to="/vagas" className={getSelectedClass(page, "vagas")}>
 					Vagas
 				</Link>
-				<Link to="/negocios" className={getSelectedClass(page, "oportunidades")}>
+				<Link to="/negocios" className={getSelectedClass(page, "negocios")}>
 					Negócios
 				</Link>
 				<Link to="/ideias" className={getSelectedClass(page, "ideias")}>
@@ -81,7 +83,7 @@ export function NavBar({ page }) {
 							</Popover.Header>
 
 							<Popover.Body>
-								<Suspense fallback={<FaSpinner />}>
+								<Suspense fallback={<Spinner />}>
 									<Notifications />
 								</Suspense>
 							</Popover.Body>
@@ -127,6 +129,12 @@ export function NavBar({ page }) {
 									<Link className="dropdown-item" to="/admin">
 										Painel de administração
 									</Link>
+								</li>
+
+								<li>
+									<Dropdown.Item onClick={() => window.open(API_URL + "/auth/logout", "_self")}>
+										Terminar sessão
+									</Dropdown.Item>
 								</li>
 							</Dropdown.Menu>
 						</Dropdown>

@@ -1,9 +1,10 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { FaSpinner } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
+import { Spinner } from "../components/Spinner.jsx";
+import Mensagens from "../components/dashboard/Mensagens.jsx";
 
 const Candidaturas = lazy(() => import("../components/dashboard/Candidaturas.jsx"));
 const Ideias = lazy(() => import("../components/dashboard/Ideias.jsx"));
@@ -14,13 +15,14 @@ const Reunioes = lazy(() => import("../components/dashboard/Reunioes.jsx"));
 const Utilizadores = lazy(() => import("../components/dashboard/Utilizadores.jsx"));
 
 const sections = [
+	{ name: "Benefícios", link: "beneficios" },
 	{ name: "Candidaturas", link: "candidaturas" },
 	{ name: "Ideias", link: "ideias" },
+	{ name: "Mensagens", link: "mensagens" },
 	{ name: "Negócios", link: "negocios" },
-	{ name: "Vagas", link: "vagas" },
-	{ name: "Benefícios", link: "beneficios" },
 	{ name: "Reuniões", link: "reunioes" },
 	{ name: "Utilizadores", link: "utilizadores" },
+	{ name: "Vagas", link: "vagas" },
 ];
 
 export function Admin() {
@@ -63,8 +65,8 @@ export function Admin() {
 
 				<Suspense
 					fallback={
-						<div className="min-h-screen-no-footer flex items-center justify-center">
-							<FaSpinner className="h-auto w-60" />
+						<div className="min-h-screen-no-footer flex items-center justify-center p-5">
+							<Spinner />
 						</div>
 					}
 				>
@@ -82,6 +84,8 @@ export function Admin() {
 						<Reunioes />
 					) : section === "utilizadores" ? (
 						<Utilizadores />
+					) : section === "mensagens" ? (
+						<Mensagens />
 					) : null}
 				</Suspense>
 			</main>

@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { FaSpinner } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
@@ -10,6 +9,7 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { Spinner } from "../Spinner.jsx";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -39,7 +39,7 @@ export default function Beneficios() {
 
 			<ListGroup>
 				{isLoading ? (
-					<FaSpinner />
+					<Spinner />
 				) : (
 					filtered.map(
 						({
