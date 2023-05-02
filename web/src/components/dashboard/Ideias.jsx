@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
-import { FaSpinner } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { RiCheckFill, RiCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -10,6 +9,7 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { Spinner } from "../Spinner.jsx";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
@@ -28,7 +28,7 @@ export default function Ideias() {
 
 			<ListGroup>
 				{isLoading ? (
-					<FaSpinner />
+					<Spinner />
 				) : (
 					data.map(({ id, dataCriacao, categoria, utilizador, content }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center">

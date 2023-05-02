@@ -40,5 +40,5 @@ module.exports = {
 
 	update() {},
 
-	delete() {},
+	delete_() {},
 };

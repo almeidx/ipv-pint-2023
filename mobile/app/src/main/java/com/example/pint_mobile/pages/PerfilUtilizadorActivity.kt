@@ -26,7 +26,6 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
-dasdasd
 
         nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -39,7 +38,8 @@ dasdasd
                     true
                 }
                 R.id.mais -> {
-
+                    Toast.makeText(applicationContext, "mais", Toast.LENGTH_SHORT).show()
+                    true
                 }
                 else -> false
             }

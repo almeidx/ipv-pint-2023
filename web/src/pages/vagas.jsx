@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import FormCheck from "react-bootstrap/FormCheck";
+import useSWR from "swr";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
 import { API_URL } from "../utils/constants.js";
+import { fetcher } from "../utils/fetcher.js";
+import { Spinner } from "../components/Spinner.jsx";
 
 export function Vagas() {
-	const [vagas, setVagas] = useState([]);
 	const [search, setSearch] = useState("");
 	const [vagasCheias, setVagasCheias] = useState(false);
+	const { data, isLoading } = useSWR(API_URL + "/vagas", fetcher);
 
 	const filteredVagas = search
-		? vagas.filter((vaga) => {
-				const title = vaga.title.toLowerCase();
-				const description = vaga.description.toLowerCase();
-
-				return title.includes(search.toLowerCase()) || description.includes(search.toLowerCase());
-		  })
-		: vagas;
-
-	useEffect(() => {
-		fetch(API_URL + "/vagas")
-			.then((res) => res.json())
-			.then((data) => setVagas(data));
-	}, []);
+		? (data ?? []).filter(
+				(vaga) =>
+					vaga.title.toLowerCase().includes(search.toLowerCase()) || vaga.description.includes(search.toLowerCase()),
+		  )
+		: data ?? [];
 
 	return (
 		<>
@@ -48,9 +43,7 @@ export function Vagas() {
 				</Container>
 
 				<Container className="col-12 pt-4 row mx-auto gap-5 d-flex">
-					{filteredVagas.map(({ id, ...vaga }) => (
-						<Vaga key={id} {...vaga} />
-					))}
+					{isLoading ? <Spinner /> : filteredVagas.map(({ id, ...vaga }) => <Vaga key={id} {...vaga} />)}
 				</Container>
 			</main>
 

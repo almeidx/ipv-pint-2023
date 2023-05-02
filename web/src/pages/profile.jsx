@@ -17,6 +17,8 @@ export function Profile() {
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [showSaveButton, setShowSaveButton] = useState(false);
 
+	// todo: disallow editing fields if used social login
+
 	function handleProfileValueChange(type, value) {
 		if (type === "name") {
 			setName(value);

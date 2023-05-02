@@ -7,6 +7,6 @@ class Vaga (shortContent: String, content: String, public: Boolean, amountSlots:
     val slots = amountSlots
 
     fun compareToString(text: String): Boolean {
-        return titulo.contains(text, true) || descricao.contains(text, true)
+        return titulo.contains(text, true) || descricao.contains(text, true) || slots.toString().contains(text, true)
     }
 }

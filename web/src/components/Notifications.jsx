@@ -1,13 +1,14 @@
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { BsCalendar2DayFill, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { FaHandHoldingUsd, FaSpinner } from "react-icons/fa";
+import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
+import { Spinner } from "./Spinner.jsx";
 
 export default function Notifications() {
 	const { data, isLoading, error } = useSWR(API_URL + "/notificacoes", fetcher);
@@ -28,7 +29,7 @@ export default function Notifications() {
 	return (
 		<>
 			{isLoading ? (
-				<FaSpinner />
+				<Spinner />
 			) : data.length ? (
 				<ListGroup>
 					{data.map((notification) => (

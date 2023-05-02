@@ -3,12 +3,12 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { BiNotepad } from "react-icons/bi";
 import { BsCalendarDate } from "react-icons/bs";
-import { FaSpinner } from "react-icons/fa";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
+import { Spinner } from "../Spinner.jsx";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");
@@ -32,7 +32,7 @@ export default function Candidaturas() {
 
 			<ListGroup>
 				{isLoading ? (
-					<FaSpinner />
+					<Spinner />
 				) : (
 					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center">

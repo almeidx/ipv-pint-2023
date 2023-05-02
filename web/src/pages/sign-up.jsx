@@ -7,8 +7,8 @@ import { BsPerson } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { Facebook } from "../components/Facebook.jsx";
-import { Google } from "../components/Google.jsx";
+import { Facebook } from "../components/icons/Facebook.jsx";
+import { Google } from "../components/icons/Google.jsx";
 import { LoginContainer } from "../components/LoginContainer.jsx";
 import { API_URL } from "../utils/constants.js";
 

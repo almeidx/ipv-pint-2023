@@ -33,7 +33,7 @@ export function Home() {
 						title="Negócios"
 						description="Negócios, Parcerias e os Investimentos que existem na empresa e de potenciais novas oportunidades"
 						icon={FaHandHoldingUsd}
-						href="/oportunidades"
+						href="/negocios"
 					/>
 					<PageCard
 						title="Ideias"
