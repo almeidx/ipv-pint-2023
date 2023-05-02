@@ -85,6 +85,10 @@ class NegociosActivity : AppCompatActivity() {
                 intent.putExtra("areaNegocio", negocio.areaNegocio)
                 intent.putExtra("FuncName", negocio.FuncionarioName)
                 intent.putExtra("FuncEmail", negocio.FuncionarioEmail)
+                intent.putExtra("centroTrabalhoName", negocio.centroTrabalhoName)
+                intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
+                intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
+                intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
 
                 view.context.startActivity(intent)
             }
