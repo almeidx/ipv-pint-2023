@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -70,6 +71,17 @@ class VagasActivity : AppCompatActivity() {
             tituloVaga.text = vaga.titulo
             descricaoVaga.text = vaga.descricao
             inforcoesVaga.text = "${if(vaga.publico) "Aberta" else "Colaboradores"} | Vagas: ${vaga.slots}"
+
+            view.setOnClickListener {
+                val intent = Intent(view.context, Vaga_onCickActivity::class.java)
+
+                intent.putExtra("titulo", vaga.titulo)
+                intent.putExtra("descricao", vaga.descricao)
+                intent.putExtra("publico", if(vaga.publico) "Aberta" else "Colaboradores")
+                intent.putExtra("slots", vaga.slots.toString())
+
+                view.context.startActivity(intent)
+            }
 
             return view
         }

@@ -35,18 +35,8 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                     true
                 }
                 R.id.mais -> {
-                    /*val buttonShow = findViewById<ButtonShow>(R.id.buttonShow)
-                    buttonShow.setOnClickListener {
-                        val bottomSheetDialog = BottomSheetDialog(this@MainActivity, R.style.BottomSheetDialogTheme)
-                        val bottomSheetView = layoutInflater.inflate(R.layout.layout_bottom_sheet, findViewById<LinearLayout>(R.id.bottomSheetContainer))
-                        bottomSheetView.findViewById<Button>(R.id.buttonShare).setOnClickListener {
-                            Toast.makeText(this@MainActivity, "Share", Toast.LENGTH_SHORT).show()
-                            bottomSheetDialog.dismiss()
-                        }
-                        bottomSheetDialog.setContentView(bottomSheetView)
-                        bottomSheetDialog.show()
-                    }*/
-                    //precisa mudanças
+                    Toast.makeText(applicationContext, "mais", Toast.LENGTH_SHORT).show()
+                    true
                 }
                 else -> false
             }

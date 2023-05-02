@@ -22,6 +22,11 @@ class Negocio_onclickActivity : AppCompatActivity() {
         val areaNegocio = intent.getStringExtra("areaNegocio")
         val FuncName = intent.getStringExtra("FuncName")
         val FuncEmail = intent.getStringExtra("FuncEmail")
+        val centroTrabalhoName = intent.getStringExtra("centroTrabalhoName")
+        val centroTrabalhoLocation = intent.getStringExtra("centroTrabalhoLocation")
+        val centroTrabalhoPostalCode = intent.getStringExtra("centroTrabalhoPostalCode")
+        val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
+
 
         // Exibir as informações na TextView
         val tituloTextView = findViewById<TextView>(R.id.titulo)
@@ -47,6 +52,18 @@ class Negocio_onclickActivity : AppCompatActivity() {
 
         val funcEmailTextView = findViewById<TextView>(R.id.FuncEmail)
         funcEmailTextView.text = FuncEmail
+
+        val centroTrabalhoNameTextView = findViewById<TextView>(R.id.centroTrabalhoName)
+        centroTrabalhoNameTextView.text = centroTrabalhoName
+
+        val centroTrabalhoLocationTextView = findViewById<TextView>(R.id.centroTrabalholocation)
+        centroTrabalhoLocationTextView.text = centroTrabalhoLocation
+
+        val centroTrabalhoPostalCodeTextView = findViewById<TextView>(R.id.centroTrabalhopostalCode)
+        centroTrabalhoPostalCodeTextView.text = centroTrabalhoPostalCode
+
+        val centroTrabalhoAdressTextView = findViewById<TextView>(R.id.centroTrabalhoaddress)
+        centroTrabalhoAdressTextView.text = centroTrabalhoAdress
 
 
     }
