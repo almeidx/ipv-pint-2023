@@ -80,4 +80,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, NotificacoesActivity::class.java)
         startActivity(intent)
     }
+
+    fun gotoPaginaAdmin(_view: View){
+        val intent = Intent(this, Pagina_Admin_Activity::class.java)
+        startActivity(intent)
+    }
 }
