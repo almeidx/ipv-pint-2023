@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +21,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_utilizador)
 
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
         supportActionBar?.title = "Perfil"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -28,7 +30,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
         nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.inicio -> {
-                    Toast.makeText(applicationContext, "inicio", Toast.LENGTH_SHORT).show()
+
                     true
                 }
                 R.id.noticacao -> {

@@ -12,4 +12,5 @@
     <color name="bg">#C5CAE9</color>
     <color name="gray">#808080</color>
     <color name="loginStatusBarColor">#000116</color>
+    <color name="tudo">#3F51B5</color>
 </resources>

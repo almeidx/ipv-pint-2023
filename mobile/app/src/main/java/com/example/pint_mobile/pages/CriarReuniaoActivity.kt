@@ -3,6 +3,7 @@ package com.example.pint_mobile.pages
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 
 class CriarReuniaoActivity : AppCompatActivity() {
@@ -12,6 +13,8 @@ class CriarReuniaoActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Criar Reunião"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
     }
 
     override fun onSupportNavigateUp(): Boolean {

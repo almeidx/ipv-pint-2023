@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 
@@ -14,6 +15,8 @@ class MudarPasswordActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Mudar Password"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
     }
 
     override fun onSupportNavigateUp(): Boolean {
