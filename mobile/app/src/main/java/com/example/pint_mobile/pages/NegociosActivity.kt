@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Negocio
@@ -27,6 +28,7 @@ class NegociosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_negocios)
 
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
 
         supportActionBar?.title = "Negócios"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

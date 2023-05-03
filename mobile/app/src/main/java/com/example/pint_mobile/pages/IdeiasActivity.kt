@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 
 class IdeiasActivity : AppCompatActivity() {
@@ -15,6 +16,8 @@ class IdeiasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ideias)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
 
         supportActionBar?.title = "Ideias"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

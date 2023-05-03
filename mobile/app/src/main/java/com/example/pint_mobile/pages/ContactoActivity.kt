@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 
 class ContactoActivity : AppCompatActivity() {
@@ -23,6 +24,8 @@ class ContactoActivity : AppCompatActivity() {
 
         val m = findViewById<TextView>(R.id.mail)
         m.movementMethod = LinkMovementMethod.getInstance()
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
     }
 
     override fun onSupportNavigateUp(): Boolean {

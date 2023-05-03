@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Vaga
@@ -20,6 +21,8 @@ class VagasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vagas)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
 
         supportActionBar?.title = "Vagas"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

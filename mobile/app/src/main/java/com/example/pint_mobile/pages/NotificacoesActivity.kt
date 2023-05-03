@@ -3,6 +3,7 @@ package com.example.pint_mobile.pages
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -13,6 +14,8 @@ class NotificacoesActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Notificações"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
