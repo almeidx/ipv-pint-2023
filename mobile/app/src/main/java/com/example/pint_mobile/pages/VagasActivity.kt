@@ -28,7 +28,7 @@ class VagasActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val lista = findViewById<ListView>(R.id.listaVagas)
-        vagasAdapter = VagaAdapter(vagasList)
+        vagasAdapter = VagaAdapter(vagasList, R.layout.item_vaga)
 
         lista.adapter = vagasAdapter
 
@@ -62,17 +62,15 @@ class VagasActivity : AppCompatActivity() {
         return true
     }
 
-    class VagaAdapter(private val vagas: ArrayList<Vaga>) : BaseAdapter() {
+    class VagaAdapter(private val vagas: ArrayList<Vaga>, private val item: Int) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(R.layout.item_vaga, parent, false)
+            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val vaga = vagas[position]
 
             val tituloVaga  = view.findViewById<TextView>(R.id.titulo_vaga)
-            val descricaoVaga = view.findViewById<TextView>(R.id.descricao_vaga)
             val inforcoesVaga = view.findViewById<TextView>(R.id.informacoes_vaga)
 
             tituloVaga.text = vaga.titulo
-            descricaoVaga.text = vaga.descricao
             inforcoesVaga.text = "${if(vaga.publico) "Aberta" else "Colaboradores"} | Vagas: ${vaga.slots}"
 
             view.setOnClickListener {

@@ -22,7 +22,6 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_perfil_utilizador)
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
-
         supportActionBar?.title = "Perfil"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -39,7 +38,10 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                     true
                 }
                 R.id.mais -> {
-                    Toast.makeText(applicationContext, "mais", Toast.LENGTH_SHORT).show()
+                    fun gotoLogin(_view: View) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
                     true
                 }
                 else -> false
@@ -55,6 +57,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
     fun terminarsessao(view: View) {
 
     }
+
 
 
 }

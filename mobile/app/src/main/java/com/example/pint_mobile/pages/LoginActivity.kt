@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.API
+import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +18,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(_view: View) {
+        val emailInput = findViewById<TextInputEditText>(R.id.email)
+        val passwordInput = findViewById<TextInputEditText>(R.id.password)
 
+        val email = emailInput.text.toString()
+        val password = passwordInput.text.toString()
+
+        API.login(email, password, this)
     }
 
     fun loginGoogle(_view: View) {
