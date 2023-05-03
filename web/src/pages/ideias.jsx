@@ -74,7 +74,7 @@ export function Ideias() {
 		<>
 			<NavBar page="ideias" />
 
-			<main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 bg-main">
 				<Container className="col-11 pt-4 row mx-auto gap-5">
 					{categories.map((category) => (
 						<CategoriaCard

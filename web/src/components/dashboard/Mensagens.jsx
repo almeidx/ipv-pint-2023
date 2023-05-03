@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Spinner } from "../Spinner.jsx";
-import { SearchBar } from "../SearchBar.jsx";
-import { BiTrash } from "react-icons/bi";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link } from "react-router-dom";
+import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
+import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
-import useSWR from "swr";
+import { formatDate } from "../../utils/formatDate.js";
+import { SearchBar } from "../SearchBar.jsx";
+import { Spinner } from "../Spinner.jsx";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
@@ -43,18 +45,18 @@ export default function Mensagens() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, dataCriacao, criador, content, registered }) => (
+					filtered.map(({ id, createdAt, criador, content, registered }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center">
 							<div>
 								<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 									{id} - {criador.name}
 								</span>
 
-								<p>{content}</p>
+								<p className="mb-0">{content}</p>
 
-								<p className="mb-0">
-									{registered ? "Utilizador registado" : "Sem registo"} - {criador.email} -{" "}
-									{formatDate(new Date(dataCriacao))}
+								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
+									{registered ? "Utilizador registado" : `Sem registo - ${criador.email}`} -{" "}
+									{formatDate(new Date(createdAt))}
 								</p>
 							</div>
 

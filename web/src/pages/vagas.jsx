@@ -27,7 +27,7 @@ export function Vagas() {
 		<>
 			<NavBar page="vagas" />
 
-			<main className="min-h-without-navbar pb-5 " style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 bg-main">
 				<Container className="pt-5 col-11">
 					<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
 
@@ -77,7 +77,7 @@ function Vaga({ icon, title, description, amountSlots }) {
 					{title}
 				</Card.Title>
 
-				<Card.Subtitle className="Subtitle  ">Aberta - {amountSlots} vagas</Card.Subtitle>
+				<Card.Subtitle>Aberta - {amountSlots} vagas</Card.Subtitle>
 
 				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
 					{description}

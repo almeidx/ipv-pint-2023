@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/global.css";
 
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { Error404 } from "./pages/404.jsx";
@@ -20,7 +20,7 @@ import { SignUp } from "./pages/sign-up.jsx";
 import { Vagas } from "./pages/vagas.jsx";
 import { VerificarConta } from "./pages/verificar-conta.jsx";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<UserProvider>
 			<BrowserRouter>

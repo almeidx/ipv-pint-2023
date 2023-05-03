@@ -15,7 +15,7 @@ export function Calendar() {
 		<>
 			<NavBar />
 
-			<main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 bg-main">
 				<Container className="py-5 d-flex justify-content-between">
 					<ReactCalendar value={value} onChange={onChange} />
 

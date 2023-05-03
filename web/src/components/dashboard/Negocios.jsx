@@ -113,7 +113,7 @@ export default function Beneficios() {
 											</ul>
 										</div>
 
-										<div className="d-flex col-sm gap-2 justify-content-end align-items-top ">
+										<div className="d-flex col-sm gap-2 justify-content-end align-items-top">
 											<RiPencilLine size={32} />
 											<RiCloseFill size={32} color="red" />
 										</div>

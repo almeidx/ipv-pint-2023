@@ -8,7 +8,7 @@ export function Error404() {
 		<>
 			<NavBar />
 
-			<main className="min-h-without-navbar pb-5 d-flex align-items-center" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 d-flex align-items-center bg-main">
 				<Container className="py-5 text-center vertical-center">
 					<h1>404</h1>
 

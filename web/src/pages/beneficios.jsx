@@ -25,7 +25,7 @@ export function Beneficios() {
 		<>
 			<NavBar page="beneficios" />
 
-			<main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 bg-main">
 				<Container className="pt-5 col-11">
 					<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
 				</Container>

@@ -40,7 +40,7 @@ export function Admin() {
 		<>
 			<NavBar />
 
-			<main className="min-h-without-navbar d-flex" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar d-flex bg-main">
 				<div
 					className="d-flex flex-column flex-shrink-0 p-3 text-white min-h-without-navbar"
 					style={{ width: "18rem", backgroundColor: "#546beb" }}

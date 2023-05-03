@@ -6,28 +6,18 @@ import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
+import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 
 export function Negocios() {
 	const { isLoading, data } = useSWR(API_URL + "/negocios", fetcher);
 
-	// const filteredNegocios = search
-	// 	? (data ?? []).filter((negocio) => {
-	// 			const title = negocio.title.toLowerCase();
-	// 			const description = negocio.description.toLowerCase();
-
-	// 			return title.includes(search.toLowerCase()) || description.includes(search.toLowerCase());
-	//
-	// 	: data ?? [];
-
-	const filteredNegocios = data ?? [];
-
 	return (
 		<>
 			<NavBar page="negocios" />
 
-			<main className="min-h-without-navbar pb-5" style={{ backgroundColor: "#c5cae9" }}>
+			<main className="min-h-without-navbar pb-5 bg-main">
 				<Container className="col-11 pt-4 row mx-auto gap-5">
 					<Card className="negocio-card negocio-add" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 						<Card.Body className="d-flex" style={{ flexDirection: "column" }}>
@@ -37,9 +27,8 @@ export function Negocios() {
 							<RxPlusCircled className="m-auto negocio-card-icon" size="7rem" />
 						</Card.Body>
 					</Card>
-					{filteredNegocios.map((negocio) => (
-						<Negocio key={negocio.id} {...negocio} />
-					))}
+
+					{isLoading ? <Spinner /> : data.map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
 				</Container>
 			</main>
 

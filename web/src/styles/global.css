@@ -31,3 +31,7 @@
 .min-h-without-navbar {
 	min-height: calc(100vh - 5rem);
 }
+
+.bg-main {
+	background-color: #c5cae9;
+}

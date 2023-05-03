@@ -14,7 +14,7 @@ module.exports = {
 
 		const options = {
 			content,
-			dataCriacao: new Date(),
+			createdAt: new Date(),
 		};
 
 		if (req.user) {
@@ -60,7 +60,7 @@ module.exports = {
 				.map((m) => m.toJSON())
 				.map(({ criador, name, email, ...mensagem }) => ({
 					...mensagem,
-					criador: criador ? criador.toJSON() : { name, email },
+					criador: criador ?? { name, email },
 					registered: !!criador,
 				})),
 		);

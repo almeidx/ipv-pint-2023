@@ -42,8 +42,8 @@ export function Profile() {
 			<NavBar />
 
 			<main
-				className="min-h-without-navbar py-5 d-flex justify-content-center align-items-center"
-				style={{ backgroundImage: "url(/static/perfil-bg.jpg)", backgroundSize: "cover", position: "relative" }}
+				className="min-h-without-navbar py-5 d-flex justify-content-center align-items-center position-relative"
+				style={{ backgroundImage: "url(/static/perfil-bg.jpg)", backgroundSize: "cover" }}
 			>
 				{user ? (
 					<>
@@ -57,7 +57,6 @@ export function Profile() {
 									width: "24rem",
 									transform: "translate(-50%, 0)",
 								}}
-								id-
 							>
 								<p className="mb-0">Guardar alterações?</p>
 
