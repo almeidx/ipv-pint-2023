@@ -7,19 +7,20 @@
     tools:context=".pages.VagasActivity"
     android:background="@color/bg"
     android:orientation="vertical">
-    >
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="290dp"
-        android:layout_height="64dp"
+        android:layout_width="250dp"
+        android:layout_height="52dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
         android:hint="@string/pesquise_por_beneficios"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,19 +37,20 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="64dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/historico"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:background="@color/white"
             android:src="@drawable/history"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,20 +59,21 @@
 
     <ListView
         android:id="@+id/listaVagas"
-        android:layout_width="365dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="67dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/cardView"
-        app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="0.062" />
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <include layout="@layout/bottombar"
+        android:id="@+id/nao"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

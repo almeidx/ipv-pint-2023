@@ -11,10 +11,10 @@
         android:id="@+id/textInputLayout6"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="39dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/data_reuniao"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
@@ -37,42 +37,40 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout7"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="333dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/selecione_utilizadores"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/selecione_utilizadores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/cancel"
-            />
+            android:drawableEnd="@drawable/cancel" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout8"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="333dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="235dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/titulo_reuniao"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/titulo_reuniao"
@@ -84,42 +82,45 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutDescReuniao"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="333dp"
-        android:layout_height="275dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="325dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/descricao_reuniao"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descricao_reuniao"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top"
-             />
+            android:gravity="top" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/criar"
         style="@style/Widget.Material3.Button"
-        android:layout_width="333dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="65dp"
         android:backgroundTint="@color/white"
         android:onClick="criar"
         android:text="@string/criar"
         android:textColor="@color/black"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutDescReuniao"  />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDescReuniao" />
+
+        <include layout="@layout/bottombar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

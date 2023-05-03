@@ -30,7 +30,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
         nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.inicio -> {
-                    Toast.makeText(applicationContext, "inicio", Toast.LENGTH_SHORT).show()
+
                     true
                 }
                 R.id.noticacao -> {
