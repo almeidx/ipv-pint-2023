@@ -4,7 +4,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"start-dev": "env-cmd node .",
-		"start": "node ."
+		"start": "env-cmd node ."
 	},
 	"dependencies": {
 		"@sendgrid/mail": "^7.7.0",
