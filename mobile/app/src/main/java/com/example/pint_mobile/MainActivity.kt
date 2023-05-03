@@ -1,16 +1,31 @@
 package com.example.pint_mobile
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.pint_mobile.pages.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+
+        val cookie = sharedPreferences.getString("cookie", "") ?: ""
+        val user = sharedPreferences.getString("user", "") ?: ""
+
+        Toast.makeText(
+            this,
+            user,
+            Toast.LENGTH_LONG
+        ).show()
     }
+
     fun gotoNegocios(_view: View) {
         val intent = Intent(this, NegociosActivity::class.java)
         startActivity(intent)
