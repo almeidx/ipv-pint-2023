@@ -21,7 +21,6 @@ class API {
                         rawBeneficio.getString("shortContent"),
                         rawBeneficio.getString("content")
                     )
-
                     list.add(beneficio)
                 }
 

@@ -10,8 +10,8 @@ import android.widget.*
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Beneficio
-
 class BeneficiosActivity : AppCompatActivity() {
+
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficioAdapter
@@ -20,13 +20,11 @@ class BeneficiosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beneficios)
 
-
-
         supportActionBar?.title = "Benefícios"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
-        beneficiosAdapter = BeneficioAdapter(beneficiosList)
+        beneficiosAdapter = BeneficioAdapter(beneficiosList, R.layout.item_beneficio)
 
         lista.adapter = beneficiosAdapter
 
@@ -60,9 +58,9 @@ class BeneficiosActivity : AppCompatActivity() {
         return true
     }
 
-    class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>) : BaseAdapter() {
+    class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(R.layout.item_beneficio, parent, false)
+            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val beneficio = beneficios[position]
 
             val tituloBeneficio = view.findViewById<TextView>(R.id.titulo_beneficio)
