@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="204dp"
+        android:layout_marginEnd="25dp"
         android:onClick="esqueceuPassword"
         android:text="@string/esqueceu_se_da_password"
         android:textColor="@color/white"
@@ -94,16 +94,17 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword"
+        android:buttonTint="@color/gray"/>
 
     <Button
         android:id="@+id/login"
         style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginEnd="100dp"
         android:backgroundTint="@color/white"
         android:onClick="login"
         android:text="@string/login"

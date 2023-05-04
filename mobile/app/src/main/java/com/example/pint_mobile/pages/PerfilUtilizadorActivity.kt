@@ -40,10 +40,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                     true
                 }
                 R.id.mais -> {
-                    val bottomSheetDialog = BottomSheetDialog(this)
-                    val bottomSheetView = layoutInflater.inflate(R.layout., null)
-                    bottomSheetDialog.setContentView(bottomSheetView)
-                    bottomSheetDialog.show()
+
                     true
                 }
                 else -> false

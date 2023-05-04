@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 
 class EsqueceuPasswordActivity : AppCompatActivity() {
@@ -14,6 +15,8 @@ class EsqueceuPasswordActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Esqueceu-se da Password"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
