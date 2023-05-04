@@ -204,6 +204,6 @@
         app:layout_constraintTop_toBottomOf="@+id/Utilizador"/>
 
 
-
+    <include layout="@layout/bottombar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

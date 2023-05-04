@@ -14,6 +14,7 @@ import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class PerfilUtilizadorActivity : AppCompatActivity() {
 
@@ -27,6 +28,7 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+
         nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.inicio -> {
@@ -38,10 +40,10 @@ class PerfilUtilizadorActivity : AppCompatActivity() {
                     true
                 }
                 R.id.mais -> {
-                    fun gotoLogin(_view: View) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    }
+                    val bottomSheetDialog = BottomSheetDialog(this)
+                    val bottomSheetView = layoutInflater.inflate(R.layout., null)
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
                     true
                 }
                 else -> false
