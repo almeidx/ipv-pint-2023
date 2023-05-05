@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,7 +28,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+    />
 
     <TextView
         android:id="@+id/Candidaturas"
@@ -48,7 +49,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Beneficios"/>
+        app:layout_constraintTop_toBottomOf="@+id/Beneficios" />
 
     <TextView
         android:id="@+id/Ideias"
@@ -69,7 +70,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Candidaturas"/>
+        app:layout_constraintTop_toBottomOf="@+id/Candidaturas" />
 
     <TextView
         android:id="@+id/Mensagens"
@@ -90,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Ideias"/>
+        app:layout_constraintTop_toBottomOf="@+id/Ideias" />
 
     <TextView
         android:id="@+id/Negocios"
@@ -111,9 +112,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Mensagens"/>
-
-
+        app:layout_constraintTop_toBottomOf="@+id/Mensagens" />
 
 
     <TextView
@@ -136,7 +135,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Negocios"
-         />
+    />
 
     <TextView
         android:id="@+id/Reunioes"
@@ -157,8 +156,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Reporting"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/Reporting" />
 
 
     <TextView
@@ -180,7 +178,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Reunioes"/>
+        app:layout_constraintTop_toBottomOf="@+id/Reunioes" />
 
     <TextView
         android:id="@+id/Vaga"
@@ -201,7 +199,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Utilizador"/>
+        app:layout_constraintTop_toBottomOf="@+id/Utilizador" />
 
-    <include layout="@layout/bottombar"/>
+    <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

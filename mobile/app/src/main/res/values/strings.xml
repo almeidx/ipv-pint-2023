@@ -49,6 +49,8 @@
     <string name="desativar_conta">Desativar Conta</string>
     <string name="nomeUser">Rodrigo Almeida</string>
     <string name="emailUser">rodrigo@gmail.me</string>
+    <string name="signup">Ou crie conta com uma das abaixo</string>
+    <string name="pesquise_por_vagas">Pesquise por Vagas</string>
     <string name="inicio">Início</string>
     <string name="notificacoes">Notificações</string>
     <string name="mais">Mais</string>

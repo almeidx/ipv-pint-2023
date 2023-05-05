@@ -10,34 +10,33 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="257dp"
-        android:layout_height="123dp"
-        android:layout_marginStart="38dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="84dp"
+        android:layout_marginEnd="25dp"
         android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="64sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout13"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="333dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="250dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/email"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -49,34 +48,33 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="333dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="320dp"
-        android:layout_marginEnd="38dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
         android:hint="@string/password"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/esqueceuPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="204dp"
+        android:layout_marginEnd="25dp"
         android:onClick="esqueceuPassword"
         android:text="@string/esqueceu_se_da_password"
         android:textColor="@color/white"
@@ -86,25 +84,27 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <CheckBox
-        android:layout_width="180dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="192dp"
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
         android:text="@string/lembrar_password"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword"
+        android:buttonTint="@color/gray"/>
 
     <Button
         android:id="@+id/login"
         style="@style/Widget.Material3.Button"
-        android:layout_width="174dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="108dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
         android:backgroundTint="@color/white"
         android:onClick="loginBtn"
         android:text="@string/login"
@@ -113,47 +113,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
     <Button
         android:id="@+id/loginGoogle"
         style="@style/Widget.Material3.Button"
         android:layout_width="140dp"
         android:layout_height="46dp"
-        android:layout_marginTop="156dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/white"
         android:onClick="loginGoogle"
         android:text="@string/google"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/loginFacebook"
-        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <Button
         android:id="@+id/loginFacebook"
         style="@style/Widget.Material3.Button"
         android:layout_width="140dp"
         android:layout_height="46dp"
-        android:layout_marginTop="156dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
         android:backgroundTint="@color/white"
+        android:onClick="loginFacebook"
         android:text="@string/facebook"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:onClick="loginFacebook"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/esqueceuPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="67dp"
         android:onClick="aindaNaoTemConta"
         android:text="@string/ainda_nao_tem_uma_conta"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginFacebook" />
