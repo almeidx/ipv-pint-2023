@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded"
+    android:padding="10dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/titulo_ideia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold"
+        android:drawableEnd="@drawable/arrow_right"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/content"
+        />
+
+    <TextView
+        android:id="@+id/categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/divider"
+        />
+
+    <TextView
+        android:id="@+id/criador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/categoria"
+        />
+
+    <TextView
+        android:id="@+id/data_criacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_below="@id/criador"
+        />
+</LinearLayout>

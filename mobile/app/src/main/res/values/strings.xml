@@ -55,4 +55,6 @@
     <string name="notificacoes">Notificações</string>
     <string name="mais">Mais</string>
     <string name="password_atual">Password atual</string>
+    <string name="pesquisar_utilizador">Pesquisar Utilizador</string>
+    <string name="pesquise_por_negocios">Pesquise por negócios</string>
 </resources>

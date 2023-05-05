@@ -1,5 +1,5 @@
-
 package com.example.pint_mobile.pages
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,7 +28,7 @@ class NegociosActivity : AppCompatActivity() {
         setupActivityListeners(window, supportActionBar, this, "Negócios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
-        negociosAdapter = NegocioAdapter(negociosList)
+        negociosAdapter = NegocioAdapter(negociosList, R.layout.item_negocio)
 
         lista.adapter = negociosAdapter
 
@@ -55,9 +55,9 @@ class NegociosActivity : AppCompatActivity() {
     }
 
 
-    class NegocioAdapter(private val negocios: ArrayList<Negocio>) : BaseAdapter() {
+    class NegocioAdapter(private val negocios: ArrayList<Negocio>, private val item: Int) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(R.layout.item_negocio, parent, false)
+            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val negocio = negocios[position]
 
             val tituloNegocio  = view.findViewById<TextView>(R.id.titulo_negocio)

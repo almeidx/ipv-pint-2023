@@ -2,22 +2,17 @@ package com.example.pint_mobile.utils
 
 import android.content.Context
 import android.content.Intent
-import com.android.volley.NetworkResponse
-import com.android.volley.ParseError
 import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
+import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.UnsupportedEncodingException
-import java.nio.charset.Charset
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -106,6 +101,56 @@ fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter
     }
     }, { error -> error.printStackTrace() })
 
+    queue.add(request)
+}
+
+fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador>, adapter: AdminUtilizadoresActivity.UtilizadorAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/utilizadores", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawUser = response.getJSONObject(i)
+            val user = Utilizador(
+                rawUser.getInt("id"),
+                rawUser.getString("name"),
+                rawUser.getString("email"),
+                rawUser.getString("lastLoginDate"),
+                rawUser.getJSONObject("tipoUtilizador").getInt("id"),
+                rawUser.getJSONObject("tipoUtilizador").getString("name")
+            )
+            list.add(user)
+        }
+        allList.addAll(list)
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: AdminIdeiasActivity.IdeiaAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/ideias", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawIdeia = response.getJSONObject(i)
+            val ideia = Ideia(
+                rawIdeia.getString("content"),
+                rawIdeia.getString("categoria"),
+                rawIdeia.getString("dataCriacao"),
+                rawIdeia.getJSONObject("utilizador").getString("name")
+            )
+            list.add(ideia)
+        }
+
+        allList.addAll(list)
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
     queue.add(request)
 }
 
