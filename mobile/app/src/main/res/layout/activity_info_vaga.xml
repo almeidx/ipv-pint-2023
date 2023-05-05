@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.Vaga_onCickActivity"
+    tools:context=".pages.InfoVagaActivity"
     android:background="@color/bg"
     >
 
@@ -125,5 +125,5 @@
 
     </LinearLayout>
 
-
+    <include layout="@layout/bottombar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

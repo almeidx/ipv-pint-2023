@@ -4,15 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.loginStatusBarColor)
+        setupActivityListeners(window, supportActionBar, this)
     }
 
     fun criarConta(_view: View) {

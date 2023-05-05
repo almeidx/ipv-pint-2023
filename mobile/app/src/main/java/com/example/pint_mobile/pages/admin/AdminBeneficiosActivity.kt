@@ -1,4 +1,4 @@
-package com.example.pint_mobile.pages.Admin
+package com.example.pint_mobile.pages.admin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,11 +7,11 @@ import android.widget.EditText
 import android.widget.ListView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
-import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Beneficio
+import com.example.pint_mobile.utils.listaBeneficios
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class AdminBeneficiosActivity : AppCompatActivity() {
-
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficiosActivity.BeneficioAdapter
@@ -21,15 +21,14 @@ class AdminBeneficiosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_beneficios)
 
-        supportActionBar?.title = "Beneficios Administração"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Administração de Benefícios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
         beneficiosAdapter = BeneficiosActivity.BeneficioAdapter(beneficiosList, R.layout.item_beneficio_admin)
 
         lista.adapter = beneficiosAdapter
 
-        API.listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
+        listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->

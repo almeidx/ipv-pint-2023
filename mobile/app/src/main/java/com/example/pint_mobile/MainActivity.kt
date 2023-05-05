@@ -1,27 +1,23 @@
 package com.example.pint_mobile
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.pint_mobile.pages.*
+import com.example.pint_mobile.utils.getCurrentUser
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-
-        val cookie = sharedPreferences.getString("cookie", "") ?: ""
-        val user = sharedPreferences.getString("user", "") ?: ""
+        val user = getCurrentUser(this)
 
         Toast.makeText(
             this,
-            user,
+            user?.name ?: "Não tem sessão iniciada",
             Toast.LENGTH_LONG
         ).show()
     }
@@ -60,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ContactoActivity::class.java)
         startActivity(intent)
     }
-    
+
     fun gotoVagas(_view: View) {
         val intent = Intent(this, VagasActivity::class.java)
         startActivity(intent)
@@ -72,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun gotoPerfil(_view: View){
-        val intent = Intent(this, PerfilUtilizadorActivity::class.java)
+        val intent = Intent(this, PerfilActivity::class.java)
         startActivity(intent)
     }
 
@@ -81,8 +77,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun gotoPaginaAdmin(_view: View){
-        val intent = Intent(this, Pagina_Admin_Activity::class.java)
+    fun gotoAdmin(_view: View){
+        val intent = Intent(this, AdminActivity::class.java)
         startActivity(intent)
     }
 }

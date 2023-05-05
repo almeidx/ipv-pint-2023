@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.view.View
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class VerificarContaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verificar_conta)
-        supportActionBar?.title = "Verificar Conta"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setupActivityListeners(window, supportActionBar, this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -20,12 +21,12 @@ class VerificarContaActivity : AppCompatActivity() {
         return true
     }
 
-    fun SubmeterCodigo(_view: View) {
+    fun submeterCodigo(_view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
-    fun ReenviarCodigo() {
+    fun reenviarCodigo() {
 
     }
 }

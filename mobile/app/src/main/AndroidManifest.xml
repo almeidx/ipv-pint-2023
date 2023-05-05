@@ -15,40 +15,40 @@
         android:theme="@style/Theme.PINTMobile"
         tools:targetApi="31">
         <activity
-            android:name=".pages.Admin.AdminIdeiasActivity"
+            android:name=".pages.admin.AdminIdeiasActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminBeneficiosActivity"
+            android:name=".pages.admin.AdminBeneficiosActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminNegociosActivity"
+            android:name=".pages.admin.AdminNegociosActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminVagasActivity"
+            android:name=".pages.admin.AdminVagasActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminUtilizadoresActivity"
+            android:name=".pages.admin.AdminUtilizadoresActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminCandidaturasActivity"
+            android:name=".pages.admin.AdminCandidaturasActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Admin.AdminReportingActivity"
+            android:name=".pages.admin.AdminReportingActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Pagina_Admin_Activity"
+            android:name=".pages.AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Vaga_onCickActivity"
+            android:name=".pages.InfoVagaActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.Negocio_onclickActivity"
+            android:name=".pages.InfoNegocioActivity"
             android:exported="false" />
         <activity
             android:name=".pages.NotificacoesActivity"
             android:exported="false" />
         <activity
-            android:name=".pages.PerfilUtilizadorActivity"
+            android:name=".pages.PerfilActivity"
             android:exported="false" />
         <activity
             android:name=".pages.NegociosActivity"
@@ -67,12 +67,15 @@
             android:exported="false" />
         <activity
             android:name=".pages.MudarPasswordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".pages.VerificarContaActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".pages.EsqueceuPasswordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".pages.BeneficiosActivity"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.Admin.AdminVagasActivity"
+    tools:context=".pages.admin.AdminVagasActivity"
     android:background="@color/bg"
     android:orientation="vertical">
     >
@@ -17,7 +17,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="45dp"
-        android:hint="pesquise por vagas"
+        android:hint="Pesquise por vagas"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,4 +47,5 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:layout_constraintVertical_bias="1.0" />
 
+    <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

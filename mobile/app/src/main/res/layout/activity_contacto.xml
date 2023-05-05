@@ -138,5 +138,4 @@
         app:layout_constraintTop_toBottomOf="@+id/numerotel" />
 
     <include layout="@layout/bottombar"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

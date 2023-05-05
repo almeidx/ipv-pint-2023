@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Beneficio
-class BeneficiosActivity : AppCompatActivity() {
+import com.example.pint_mobile.utils.listaBeneficios
+import com.example.pint_mobile.utils.setupActivityListeners
 
+class BeneficiosActivity : AppCompatActivity() {
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficioAdapter
@@ -21,16 +21,14 @@ class BeneficiosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beneficios)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
-        supportActionBar?.title = "Benefícios"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Benefícios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
         beneficiosAdapter = BeneficioAdapter(beneficiosList, R.layout.item_beneficio)
 
         lista.adapter = beneficiosAdapter
 
-        API.listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
+        listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
