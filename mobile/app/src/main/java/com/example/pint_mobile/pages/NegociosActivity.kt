@@ -3,7 +3,6 @@ package com.example.pint_mobile.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +11,12 @@ import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Negocio
+import com.example.pint_mobile.utils.listaNegocios
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class NegociosActivity : AppCompatActivity() {
-
     private val negociosList = ArrayList<Negocio>()
     private val allNegociosList = ArrayList<Negocio>()
     private lateinit var negociosAdapter: NegocioAdapter
@@ -28,17 +25,14 @@ class NegociosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_negocios)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
-
-        supportActionBar?.title = "Negócios"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Negócios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
         negociosAdapter = NegocioAdapter(negociosList)
 
         lista.adapter = negociosAdapter
 
-        API.listaNegocios(negociosList, allNegociosList, negociosAdapter, this)
+        listaNegocios(negociosList, allNegociosList, negociosAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
@@ -70,14 +64,12 @@ class NegociosActivity : AppCompatActivity() {
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
-
             tituloNegocio.text = negocio.titulo
             descricaoNegocio.text = negocio.descricao
             clienteNegocio.text = negocio.cliente
 
-
             view.setOnClickListener {
-                val intent = Intent(view.context, Negocio_onclickActivity::class.java)
+                val intent = Intent(view.context, InfoNegocioActivity::class.java)
 
                 intent.putExtra("titulo", negocio.titulo)
                 intent.putExtra("descricao", negocio.descricao)
@@ -114,6 +106,4 @@ class NegociosActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-
 }

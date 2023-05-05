@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    tools:context=".pages.Admin.AdminReportingActivity">
+    tools:context=".pages.admin.AdminReportingActivity">
 
+    <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

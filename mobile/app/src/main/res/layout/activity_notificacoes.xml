@@ -7,6 +7,4 @@
     tools:context=".pages.NotificacoesActivity">
 
     <include layout="@layout/bottombar"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

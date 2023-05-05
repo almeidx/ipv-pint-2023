@@ -7,14 +7,14 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class ContactoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacto)
 
-        supportActionBar?.title = "Contacto"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Contacto", findViewById(R.id.bottombar))
 
         val t = findViewById<TextView>(R.id.local)
         t.movementMethod = LinkMovementMethod.getInstance()

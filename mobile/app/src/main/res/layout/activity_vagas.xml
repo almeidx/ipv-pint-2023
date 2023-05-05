@@ -73,7 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <include layout="@layout/bottombar"
-        android:id="@+id/nao"/>
+    <include layout="@layout/bottombar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

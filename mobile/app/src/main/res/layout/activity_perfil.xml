@@ -6,33 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C5CAE9"
-    tools:context=".pages.PerfilUtilizadorActivity">
-    <LinearLayout
+    tools:context=".pages.PerfilActivity">
+
+    <TextView
+        android:id="@+id/nomeUser"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="vertical"
+        android:layout_height="26dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="26dp"
-            android:text="@string/nomeUser"
-            android:gravity="left|center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:background="@color/white"
-            android:paddingStart="40dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="26dp"
-            android:text="@string/emailUser"
-            android:gravity="left|center"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:background="@color/white"
-            android:paddingStart="40dp"/>
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emailUser"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeUser" />
 
     <TextView
         android:id="@+id/password"
@@ -73,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="163dp"
-        android:text="@string/inativar_conta"
+        android:text="@string/desativar_conta"
         android:background="@color/white"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -83,7 +79,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:drawableStart="@drawable/baseline_delete_24"
         android:paddingStart="10dp"
-        android:drawablePadding="10dp"/>
+        android:drawablePadding="10dp" />
 
     <Button
         android:id="@+id/terminar_sessao"
@@ -97,10 +93,10 @@
         android:text="@string/terminar_sessão"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:onClick="terminarsessao"
+        android:onClick="terminarSessao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include layout="@layout/bottombar"/>
+    <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

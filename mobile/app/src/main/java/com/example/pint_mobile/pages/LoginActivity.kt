@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.API
+import com.example.pint_mobile.utils.login
+import com.example.pint_mobile.utils.setupActivityListeners
 import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : AppCompatActivity() {
@@ -14,17 +14,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.loginStatusBarColor)
+        setupActivityListeners(window, supportActionBar, this)
     }
 
-    fun login(_view: View) {
+    fun loginBtn(_view: View) {
         val emailInput = findViewById<TextInputEditText>(R.id.email)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
 
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
 
-        API.login(email, password, this)
+        login(email, password, this)
     }
 
     fun loginGoogle(_view: View) {

@@ -45,8 +45,12 @@
     <string name="criar">Criar</string>
     <string name="terminar_sessão">Terminar Sessão</string>
     <string name="mudar_password">Mudar Password</string>
-    <string name="enviar_cv">Enviar CV(Re-enviar CV)</string>
-    <string name="inativar_conta">Inativar Conta</string>
+    <string name="enviar_cv">Enviar CV</string>
+    <string name="desativar_conta">Desativar Conta</string>
     <string name="nomeUser">Rodrigo Almeida</string>
     <string name="emailUser">rodrigo@gmail.me</string>
+    <string name="inicio">Início</string>
+    <string name="notificacoes">Notificações</string>
+    <string name="mais">Mais</string>
+    <string name="password_atual">Password atual</string>
 </resources>

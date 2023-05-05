@@ -4,14 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.setupActivityListeners
 
-class Negocio_onclickActivity : AppCompatActivity() {
+class InfoNegocioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_negocio_onclick)
+        setContentView(R.layout.activity_info_negocio)
 
-        supportActionBar?.title = "Negócio item"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Informação de Negócio",  findViewById(R.id.bottombar))
 
         // Receber as informações do negócio enviado pela activity anterior
         val titulo = intent.getStringExtra("titulo")
@@ -27,7 +27,6 @@ class Negocio_onclickActivity : AppCompatActivity() {
         val centroTrabalhoPostalCode = intent.getStringExtra("centroTrabalhoPostalCode")
         val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
 
-
         // Exibir as informações na TextView
         val tituloTextView = findViewById<TextView>(R.id.titulo)
         tituloTextView.text = titulo
@@ -42,10 +41,10 @@ class Negocio_onclickActivity : AppCompatActivity() {
         areaNegocioTextView.text = areaNegocio
 
         val criadorTextView = findViewById<TextView>(R.id.criadorName)
-        criadorTextView.text = "- " + criador
+        criadorTextView.text = "- $criador"
 
         val criadorEmailTextView = findViewById<TextView>(R.id.criadorEmail)
-        criadorEmailTextView.text ="- " + criadorEmail
+        criadorEmailTextView.text = "- $criadorEmail"
 
         val funcNameTextView = findViewById<TextView>(R.id.FuncName)
         funcNameTextView.text = FuncName
@@ -64,8 +63,6 @@ class Negocio_onclickActivity : AppCompatActivity() {
 
         val centroTrabalhoAdressTextView = findViewById<TextView>(R.id.centroTrabalhoaddress)
         centroTrabalhoAdressTextView.text = centroTrabalhoAdress
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

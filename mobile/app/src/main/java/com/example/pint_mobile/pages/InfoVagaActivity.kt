@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.widget.TextView
 import com.example.pint_mobile.R
 
-class Vaga_onCickActivity : AppCompatActivity() {
+class InfoVagaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vaga_on_cick)
+        setContentView(R.layout.activity_info_vaga)
 
         supportActionBar?.title = "Vaga item"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -29,7 +29,6 @@ class Vaga_onCickActivity : AppCompatActivity() {
 
         val slotsTextView = findViewById<TextView>(R.id.slots)
         slotsTextView.text = slots
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

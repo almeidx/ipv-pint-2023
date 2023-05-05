@@ -7,8 +7,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class IdeiasActivity : AppCompatActivity() {
     lateinit var categoria: String
@@ -17,10 +17,7 @@ class IdeiasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ideias)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
-
-        supportActionBar?.title = "Ideias"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Ideias", findViewById(R.id.bottombar))
 
         val items = arrayOf(getString(R.string.geral), getString(R.string.estabelecimento), getString(
                     R.string.investimento), getString(R.string.negocio))

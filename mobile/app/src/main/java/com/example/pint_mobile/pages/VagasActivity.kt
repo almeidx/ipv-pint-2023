@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.API
 import com.example.pint_mobile.utils.Vaga
+import com.example.pint_mobile.utils.listaVagas
+import com.example.pint_mobile.utils.setupActivityListeners
 
 class VagasActivity : AppCompatActivity() {
     private val vagasList = ArrayList<Vaga>()
@@ -22,17 +22,14 @@ class VagasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vagas)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.tudo)
-
-        supportActionBar?.title = "Vagas"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupActivityListeners(window, supportActionBar, this, "Vagas", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaVagas)
         vagasAdapter = VagaAdapter(vagasList, R.layout.item_vaga)
 
         lista.adapter = vagasAdapter
 
-        API.listaVagas(vagasList, allVagasList, vagasAdapter, this)
+        listaVagas(vagasList, allVagasList, vagasAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
@@ -74,7 +71,7 @@ class VagasActivity : AppCompatActivity() {
             inforcoesVaga.text = "${if(vaga.publico) "Aberta" else "Colaboradores"} | Vagas: ${vaga.slots}"
 
             view.setOnClickListener {
-                val intent = Intent(view.context, Vaga_onCickActivity::class.java)
+                val intent = Intent(view.context, InfoVagaActivity::class.java)
 
                 intent.putExtra("titulo", vaga.titulo)
                 intent.putExtra("descricao", vaga.descricao)
