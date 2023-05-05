@@ -1,142 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity"
+>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="164dp"
-        android:onClick="gotoNegocios"
-        android:text="Negocios"
-        android:backgroundTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="96dp"
+		android:layout_marginEnd="164dp"
+		android:onClick="gotoNegocios"
+		android:text="Negocios"
+		android:backgroundTint="@color/black"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="159dp"
-        android:layout_marginEnd="167dp"
-        android:onClick="gotoLogin"
-        android:text="Login"
-        android:backgroundTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="159dp"
+		android:layout_marginEnd="167dp"
+		android:onClick="gotoLogin"
+		android:text="Login"
+		android:backgroundTint="@color/black"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:layout_marginEnd="164dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoSignUp"
-        android:text="Sign Up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="228dp"
+		android:layout_marginEnd="164dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoSignUp"
+		android:text="Sign Up"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="144dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoBeneficios"
-        android:text="Beneficios"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="292dp"
+		android:layout_marginEnd="144dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoBeneficios"
+		android:text="Beneficios"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="348dp"
-        android:layout_marginEnd="116dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoMudarPassword"
-        android:text="mudar password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="348dp"
+		android:layout_marginEnd="116dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoMudarPassword"
+		android:text="mudar password"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="416dp"
-        android:layout_marginEnd="164dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoIdeias"
-        android:text="ideias"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="416dp"
+		android:layout_marginEnd="164dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoIdeias"
+		android:text="ideias"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="544dp"
-        android:layout_marginEnd="148dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoContacto"
-        android:text="contacto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="544dp"
+		android:layout_marginEnd="148dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoContacto"
+		android:text="contacto"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="160dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoVagas"
-        android:text="Vagas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="480dp"
+		android:layout_marginEnd="160dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoVagas"
+		android:text="Vagas"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="604dp"
-        android:layout_marginEnd="132dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoCriarReuniao"
-        android:text="CriarReuniao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="604dp"
+		android:layout_marginEnd="132dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoCriarReuniao"
+		android:text="CriarReuniao"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="172dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoPerfil"
-        android:text="Perfil"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="0dp"
+		android:layout_marginEnd="172dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoPerfil"
+		android:text="Perfil"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="168dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoNotificacoes"
-        android:text="Notificacoes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="48dp"
+		android:layout_marginEnd="168dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoNotificacoes"
+		android:text="Notificacoes"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="670dp"
-        android:layout_marginEnd="172dp"
-        android:backgroundTint="@color/black"
-        android:onClick="gotoAdmin"
-        android:text="Pagina Admin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="670dp"
+		android:layout_marginEnd="172dp"
+		android:backgroundTint="@color/black"
+		android:onClick="gotoAdmin"
+		android:text="Pagina Admin"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 </androidx.constraintlayout.widget.ConstraintLayout>

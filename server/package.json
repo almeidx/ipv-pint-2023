@@ -26,6 +26,7 @@
 		"sequelize": "^6.31.1"
 	},
 	"devDependencies": {
+		"@prettier/plugin-xml": "^2.2.0",
 		"@types/dedent": "^0.7.0",
 		"env-cmd": "^10.1.0"
 	}

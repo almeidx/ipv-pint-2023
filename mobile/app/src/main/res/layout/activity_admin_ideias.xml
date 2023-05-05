@@ -1,49 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    tools:context=".pages.admin.AdminIdeiasActivity">
+<?xml version="1.0" encoding="utf-8" ?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/bg"
+	tools:context=".pages.admin.AdminIdeiasActivity"
+>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginStart="25dp"
-        android:hint="pesquise pela ideia"
-        app:boxBackgroundColor="@color/white"
-        app:boxStrokeColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+		android:id="@+id/textInputLayout"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="25dp"
+		android:hint="pesquise pela ideia"
+		app:boxBackgroundColor="@color/white"
+		app:boxStrokeColor="@color/black"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/pesquisa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+			android:id="@+id/pesquisa"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+		/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
-        android:id="@+id/listaIdeias"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="67dp"
-        android:divider="@color/bg"
-        android:dividerHeight="5dp"
-        android:background="@color/bg"
-        app:layout_constraintBottom_toTopOf="@+id/include"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/include"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+		android:id="@+id/listaIdeias"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginStart="25dp"
+		android:layout_marginTop="110dp"
+		android:layout_marginEnd="25dp"
+		android:layout_marginBottom="67dp"
+		android:divider="@color/bg"
+		android:dividerHeight="5dp"
+		android:background="@color/bg"
+		app:layout_constraintBottom_toTopOf="@+id/include"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/include"
+		app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+	/>
 
     <include layout="@layout/bottombar" />
 
