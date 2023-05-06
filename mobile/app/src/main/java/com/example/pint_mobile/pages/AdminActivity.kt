@@ -54,4 +54,14 @@ class AdminActivity : AppCompatActivity() {
         val intent = Intent(this, AdminIdeiasActivity::class.java)
         startActivity(intent)
     }
+
+    fun gotoAdminMensagens(_view: android.view.View) {
+        val intent = Intent(this, AdminMensagensActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoAdminReunioes(_view: android.view.View) {
+        val intent = Intent(this, AdminReunioesActivity::class.java)
+        startActivity(intent)
+    }
 }

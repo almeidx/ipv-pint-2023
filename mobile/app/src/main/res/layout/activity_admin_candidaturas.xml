@@ -5,9 +5,51 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/bg"
 	tools:context=".pages.admin.AdminCandidaturasActivity"
->
+	android:background="@color/bg"
+	android:orientation="vertical"
+	>
+	>
 
-    <include layout="@layout/bottombar" />
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/textInputLayout"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+		android:layout_width="350dp"
+		android:layout_height="64dp"
+		android:layout_marginTop="40dp"
+		android:layout_marginEnd="31dp"
+		android:hint="@string/pequise_por_candidaturas"
+		app:boxBackgroundColor="@color/white"
+		app:boxStrokeColor="@color/black"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		>
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/pesquisa"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/search"
+			android:drawablePadding="2dp"
+			/>
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<ListView
+		android:id="@+id/listaCandidaturas"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginStart="25dp"
+		android:layout_marginTop="130dp"
+		android:layout_marginEnd="25dp"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="20dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@id/textInputLayout"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+		app:layout_constraintVertical_bias="1.0"
+		/>
+
+	<include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
