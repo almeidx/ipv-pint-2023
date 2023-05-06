@@ -5,7 +5,7 @@ class Reuniao ( title: String, description: String, subject: String, date: Strin
     val title = title
     val description = description
     val subject = subject
-    val date = formatarData(date)
+    val date = formatDate(date)!!
     val duration = duration
 
     fun compareToString(search: String): Boolean {

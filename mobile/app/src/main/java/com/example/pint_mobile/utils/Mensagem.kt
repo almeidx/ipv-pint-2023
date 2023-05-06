@@ -4,8 +4,8 @@ class Mensagem ( name: String, content: String, date: String, registed: Boolean)
 
     val nome = name
     val conteudo = content
-    val data = formatarData(date)
-    val registado= registed
+    val data = formatDate(date)!!
+    val registado = registed
 
     fun compareToString(search: String): Boolean {
         return nome.contains(search, ignoreCase = true) ||
