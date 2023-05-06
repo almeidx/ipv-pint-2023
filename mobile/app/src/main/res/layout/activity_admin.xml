@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/bg"
-	tools:context=".pages.AdminActivity"
->
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/layoutX"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingBottom="30dp"
+		tools:context=".pages.AdminActivity">
 
     <TextView
 		android:id="@+id/Beneficios"
@@ -88,7 +94,7 @@
 		android:background="@drawable/rounded"
 		android:text="Mensagens"
 		android:drawableEnd="@drawable/arrow_right"
-		android:onClick="goToAdminMensagens"
+		android:onClick="gotoAdminMensagens"
 		android:textSize="20sp"
 		android:textStyle="bold"
 		app:layout_constraintHorizontal_bias="0.0"
@@ -155,7 +161,7 @@
 		android:background="@drawable/rounded"
 		android:text="Reuniões"
 		android:drawableEnd="@drawable/arrow_right"
-		android:onClick="goToAdminReunioes"
+		android:onClick="gotoAdminReunioes"
 		android:textSize="20sp"
 		android:textStyle="bold"
 		app:layout_constraintHorizontal_bias="0.0"
@@ -208,6 +214,6 @@
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/Utilizador"
 	/>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/bottombar" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

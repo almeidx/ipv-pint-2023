@@ -14,10 +14,15 @@ import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
 import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
+import com.example.pint_mobile.pages.admin.AdminMensagensActivity
+import com.example.pint_mobile.pages.admin.AdminReunioesActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -159,27 +164,100 @@ fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: Admi
     queue.add(request)
 }
 
-fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivity.NotificacaoAdapter, ctx: Context) {
+fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatura>, adapter: AdminCandidaturasActivity.CandidaturaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = object : JsonArrayRequest(Request.Method.GET, "$API_URL/notificacoes", null, { response -> try {
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/candidaturas", null, { response -> try {
         for (i in 0 until response.length()) {
-            val rawNotificacao = response.getJSONObject(i)
-            val notificacao = Notificacao(
-                rawNotificacao.getString("content"),
-                rawNotificacao.getBoolean("seen"),
-                rawNotificacao.getString("createdAt"),
-                rawNotificacao.getInt("type"),
-                if (rawNotificacao.has("additionalDate")) rawNotificacao.getString("additionalDate") else null
+            val rawCandidatura = response.getJSONObject(i)
+            val candidatura = Candidatura(
+                rawCandidatura.getJSONObject("utilizador").getString("name"),
+                rawCandidatura.getJSONObject("vaga").getString("title"),
+                rawCandidatura.getJSONObject("vaga").getString("description"),
+                rawCandidatura.getString("submissionDate")
             )
-            list.add(notificacao)
+            list.add(candidatura)
         }
+
+        allList.addAll(list)
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+
+fun listaMensagens(list: ArrayList<Mensagem>, allList: ArrayList<Mensagem>, adapter: AdminMensagensActivity.MensagemAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/mensagens", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawMensagem = response.getJSONObject(i)
+            val mensagem = Mensagem(
+                rawMensagem.getJSONObject("criador").getString("name"),
+                rawMensagem.getString("content"),
+                rawMensagem.getString("createdAt"),
+                rawMensagem.getBoolean("registered")
+            )
+            list.add(mensagem)
+        }
+
+        allList.addAll(list)
 
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
     }
-    }, { error -> error.printStackTrace() }) {
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter: AdminReunioesActivity.ReuniaoAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/reunioes", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawReuniao = response.getJSONObject(i)
+            val reuniao = Reuniao(
+                rawReuniao.getString("title"),
+                rawReuniao.getString("description"),
+                rawReuniao.getString("subject"),
+                rawReuniao.getString("startTime"),
+                rawReuniao.getString("duration"),
+            )
+            list.add(reuniao)
+        }
+
+        allList.addAll(list)
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+
+fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivity.NotificacaoAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = object : JsonArrayRequest(Request.Method.GET, "$API_URL/notificacoes", null,
+        { response ->
+            for (i in 0 until response.length()) {
+                val rawNotificacao = response.getJSONObject(i)
+                val notificacao = Notificacao(
+                    rawNotificacao.getString("content"),
+                    rawNotificacao.getBoolean("seen"),
+                    rawNotificacao.getString("createdAt"),
+                    rawNotificacao.getInt("type"),
+                    if (rawNotificacao.has("additionalDate")) rawNotificacao.getString("additionalDate") else null
+                )
+                list.add(notificacao)
+            }
+        }, { error -> error.printStackTrace() }) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = HashMap<String, String>()
 
@@ -191,7 +269,6 @@ fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivit
             return headers
         }
     }
-
 
     queue.add(request)
 }
