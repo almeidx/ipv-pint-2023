@@ -8,5 +8,17 @@
 	tools:context=".pages.NotificacoesActivity"
 >
 
-    <include layout="@layout/bottombar" />
+	<ListView
+		android:id="@+id/lista_notificacoes"
+		android:layout_width="411dp"
+		android:layout_height="674dp"
+		app:layout_constraintBottom_toTopOf="@+id/include2"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.0"
+	/>
+
+	<include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

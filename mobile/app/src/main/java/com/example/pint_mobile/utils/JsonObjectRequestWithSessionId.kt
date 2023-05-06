@@ -10,7 +10,7 @@ import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 
-class JsonObjectRequestWithSessionId(
+open class JsonObjectRequestWithSessionId(
         method: Int,
         url: String?,
         jsonRequest: JSONObject?,

@@ -2,12 +2,17 @@ package com.example.pint_mobile.utils
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+import com.android.volley.NetworkResponse
 import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.ServerError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.NegociosActivity
+import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.VagasActivity
 import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
@@ -154,6 +159,43 @@ fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: Admi
     queue.add(request)
 }
 
+fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivity.NotificacaoAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = object : JsonArrayRequest(Request.Method.GET, "$API_URL/notificacoes", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawNotificacao = response.getJSONObject(i)
+            val notificacao = Notificacao(
+                rawNotificacao.getString("content"),
+                rawNotificacao.getBoolean("seen"),
+                rawNotificacao.getString("createdAt"),
+                rawNotificacao.getInt("type"),
+                if (rawNotificacao.has("additionalDate")) rawNotificacao.getString("additionalDate") else null
+            )
+            list.add(notificacao)
+        }
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() }) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+
+            val cookieHeader = getCookie(ctx)
+            if (cookieHeader != null) {
+                headers["Cookie"] = cookieHeader
+            }
+
+            return headers
+        }
+    }
+
+
+    queue.add(request)
+}
+
 fun login(email: String, password: String, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
@@ -175,6 +217,69 @@ fun login(email: String, password: String, ctx: Context) {
         { error ->
             error.printStackTrace()
         })
+
+    queue.add(request)
+}
+
+fun signup(nome: String, email: String, password: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("name", nome)
+    body.put("email", email)
+    body.put("password", password)
+
+    val request = object : JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/register", body,
+        { response ->
+            val cookie = response.getString("cookie")
+            val data = response.getJSONObject("data")
+            val user = data.getJSONObject("user")
+
+            saveCurrentUser(ctx, user, cookie)
+
+            val intent = Intent(ctx, MainActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
+            error.printStackTrace()
+        }) {
+            override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+                val statusCode = response?.statusCode ?: 0
+                if (statusCode == 400) {
+                    val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                    if (json.has("message")) {
+                        val message = json.getString("message")
+                        Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                    }
+
+                    throw ServerError()
+                }
+
+                return super.parseNetworkResponse(response)
+            }
+        }
+
+    queue.add(request)
+}
+
+fun getUserInfo(cookie: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val request = object : JsonObjectRequestWithSessionId(Method.GET, "$API_URL/auth/user", null, Response.Listener { response ->
+        val data = response.getJSONObject("data")
+        val user = data.getJSONObject("user")
+
+        saveCurrentUser(ctx, user, cookie)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = HashMap<String, String>()
+            headers["Cookie"] = getCookie(cookie)
+            return headers
+        }
+    }
 
     queue.add(request)
 }

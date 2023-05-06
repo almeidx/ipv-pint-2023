@@ -6,12 +6,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.example.pint_mobile.pages.*
+import com.example.pint_mobile.utils.getCookieValue
 import com.example.pint_mobile.utils.getCurrentUser
+import com.example.pint_mobile.utils.getUserInfo
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val cookie = getCookieValue(this)
+        if (cookie != null) {
+            getUserInfo(cookie, this)
+        }
 
         val user = getCurrentUser(this)
 
