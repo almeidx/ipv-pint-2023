@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.pint_mobile.pages.*
 import com.example.pint_mobile.utils.getCookieValue
 import com.example.pint_mobile.utils.getCurrentUser
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity() {
             user?.name ?: "Não tem sessão iniciada",
             Toast.LENGTH_LONG
         ).show()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     fun gotoNegocios(_view: View) {
