@@ -1,22 +1,26 @@
 package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
-import com.example.pint_mobile.pages.InfoVagaActivity
+import com.example.pint_mobile.pages.admin.edit.CriarBeneficioActivity
 import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
 import com.example.pint_mobile.utils.setupActivityListeners
+
 
 class AdminBeneficiosActivity : AppCompatActivity() {
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficiosActivity.BeneficioAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,9 +56,12 @@ class AdminBeneficiosActivity : AppCompatActivity() {
                 false
             }
         }
-
     }
 
+    fun criarBeneficio(view: View) {
+        val intent = Intent(this, CriarBeneficioActivity::class.java)
+        startActivity(intent)
+    }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
