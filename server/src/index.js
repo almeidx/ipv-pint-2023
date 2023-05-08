@@ -17,6 +17,7 @@ const ideiasRouter = require("./routes/ideias.js");
 const mensagensRouter = require("./routes/mensagens.js");
 const negociosRouter = require("./routes/negocios.js");
 const notificacoesRouter = require("./routes/notificacoes.js");
+const reportingRouter = require("./routes/reporting.js");
 const reunioesRouter = require("./routes/reunioes.js");
 const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
 const utilizadoresRouter = require("./routes/utilizadores.js");
@@ -69,6 +70,7 @@ app
 	.use("/mensagens", mensagensRouter)
 	.use("/negocios", negociosRouter)
 	.use("/notificacoes", notificacoesRouter)
+	.use("/reporting", reportingRouter)
 	.use("/reunioes", reunioesRouter)
 	.use("/tipos-utilizador", tiposUtilizadorRouter)
 	.use("/utilizadores", utilizadoresRouter)

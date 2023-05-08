@@ -1,11 +1,17 @@
+import { useMemo, useState } from "react";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiLightbulbFill, RiTrophyFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import useSWR from "swr";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
+import { Spinner } from "../components/Spinner.jsx";
+import { API_URL } from "../utils/constants.js";
+import { fetcher } from "../utils/fetcher.js";
 
 export function Home() {
 	return (
@@ -16,6 +22,12 @@ export function Home() {
 				className="min-h-without-navbar"
 				style={{ backgroundImage: "url(/static/home-bg.jpeg)", backgroundSize: "cover" }}
 			>
+				<Container className="col-12 row mx-auto gap-3 py-5 px-4">
+					<ReportingCard title="Utilizadores registados" endpoint="/utilizadores" />
+					<ReportingCard title="Candidaturas" endpoint="/candidaturas" />
+					<ReportingCard title="Negócios criados" endpoint="/negocios" />
+				</Container>
+
 				<Container className="col-12 row mx-auto gap-3">
 					<PageCard
 						title="Benefícios"
@@ -46,6 +58,41 @@ export function Home() {
 
 			<Footer />
 		</>
+	);
+}
+
+const INTERVALS = [
+	{ name: "Diário", value: 1 },
+	{ name: "Semanal", value: 7 },
+	{ name: "Mensal", value: 30 },
+	{ name: "Total", value: "all" },
+];
+
+/**
+ * @param {Object} props
+ * @param {string} props.title
+ * @param {string} props.endpoint
+ */
+function ReportingCard({ title, endpoint }) {
+	const [intervalIndex, setIntervalIndex] = useState(0);
+	const intervalData = useMemo(() => INTERVALS[intervalIndex], [intervalIndex]);
+	const { data, isLoading } = useSWR(API_URL + "/reporting" + endpoint + "?interval=" + intervalData.value, fetcher);
+
+	function handleIntervalChange() {
+		setIntervalIndex((idx) => (idx === INTERVALS.length - 1 ? 0 : idx + 1));
+	}
+
+	return (
+		<div className="col px-4 py-3 bg-white rounded-3" style={{ width: "18rem" }}>
+			<span className="d-flex justify-content-between">
+				{title}
+
+				<Button variant="secondary" onClick={handleIntervalChange} disabled={isLoading} size="sm">
+					{intervalData.name}
+				</Button>
+			</span>
+			{isLoading ? <Spinner size="sm" /> : <p className="mb-0">{data}</p>}
+		</div>
 	);
 }
 
