@@ -89,9 +89,6 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
-      performance-now:
-        specifier: ^2.1.0
-        version: 2.1.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1804,10 +1801,6 @@ packages:
 
   /pause@0.0.1:
     resolution: {integrity: sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==}
-    dev: false
-
-  /performance-now@2.1.0:
-    resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
     dev: false
 
   /pg-connection-string@2.5.0:
