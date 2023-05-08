@@ -8,7 +8,7 @@
 	tools:context=".pages.admin.AdminCandidaturasActivity"
 	android:background="@color/bg"
 	android:orientation="vertical"
-	>
+>
 	>
 
 	<LinearLayout
@@ -21,7 +21,8 @@
 		android:orientation="horizontal"
 		app:layout_constraintEnd_toStartOf="@+id/include3"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent">
+		app:layout_constraintTop_toTopOf="parent"
+	>
 
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/textInputLayout"
@@ -33,7 +34,7 @@
 			app:boxStrokeColor="@color/black"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			>
+		>
 
 			<com.google.android.material.textfield.TextInputEditText
 				android:id="@+id/pesquisa"
@@ -41,7 +42,7 @@
 				android:layout_height="wrap_content"
 				android:drawableStart="@drawable/search"
 				android:drawablePadding="2dp"
-				/>
+			/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<ImageView
@@ -50,7 +51,7 @@
 			android:src="@drawable/add"
 			android:layout_gravity="center"
 			android:layout_marginLeft="15dp"
-			/>
+		/>
 
 	</LinearLayout>
 
@@ -69,7 +70,7 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/linearPesquisa"
 		app:layout_constraintVertical_bias="0.0"
-		/>
+	/>
 
 	<include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
