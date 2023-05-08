@@ -15,6 +15,9 @@
         android:theme="@style/Theme.PINTMobile"
         tools:targetApi="31">
         <activity
+            android:name=".pages.admin.edit.BeneficiosEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.admin.AdminMensagensActivity"
             android:exported="false" />
         <activity

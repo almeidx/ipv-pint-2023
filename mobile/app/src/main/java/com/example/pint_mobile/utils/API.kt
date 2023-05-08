@@ -257,6 +257,8 @@ fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivit
                 )
                 list.add(notificacao)
             }
+
+            adapter.notifyDataSetChanged()
         }, { error -> error.printStackTrace() }) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = HashMap<String, String>()

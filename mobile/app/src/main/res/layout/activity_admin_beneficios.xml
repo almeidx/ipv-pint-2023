@@ -12,10 +12,11 @@
     <com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/textInputLayout"
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-		android:layout_width="350dp"
+		android:layout_width="match_parent"
 		android:layout_height="64dp"
 		android:layout_marginTop="40dp"
-		android:layout_marginEnd="31dp"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="25dp"
 		android:hint="@string/pesquise_por_beneficios"
 		app:boxBackgroundColor="@color/white"
 		app:boxStrokeColor="@color/black"
@@ -33,10 +34,11 @@
 
     <ListView
 		android:id="@+id/listaBeneficios"
-		android:layout_width="350dp"
+		android:layout_width="match_parent"
 		android:layout_height="569dp"
 		android:layout_marginTop="40dp"
-		android:layout_marginEnd="31dp"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="25dp"
 		android:divider="@android:color/darker_gray"
 		android:dividerHeight="1dp"
 		app:layout_constraintEnd_toEndOf="parent"

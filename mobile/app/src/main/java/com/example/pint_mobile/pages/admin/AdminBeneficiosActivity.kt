@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -7,6 +8,7 @@ import android.widget.EditText
 import android.widget.ListView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
+import com.example.pint_mobile.pages.InfoVagaActivity
 import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
 import com.example.pint_mobile.utils.setupActivityListeners
@@ -24,7 +26,7 @@ class AdminBeneficiosActivity : AppCompatActivity() {
         setupActivityListeners(window, supportActionBar, this, "Administração de Benefícios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
-        beneficiosAdapter = BeneficiosActivity.BeneficioAdapter(beneficiosList, R.layout.item_beneficio_admin)
+        beneficiosAdapter = BeneficiosActivity.BeneficioAdapter(beneficiosList, R.layout.item_beneficio_admin, true)
 
         lista.adapter = beneficiosAdapter
 
