@@ -42,7 +42,7 @@ export default function Ideias() {
 								</p>
 							</div>
 
-							<div className="d-flex gap-2 justify-content-center align-items-center">
+							<div className="d-flex justify-content-center align-items-center gap-2">
 								<RiCheckFill size={32} color="green" />
 								<RiCloseFill size={32} color="red" />
 							</div>

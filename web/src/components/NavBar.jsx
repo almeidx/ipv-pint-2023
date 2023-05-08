@@ -65,7 +65,7 @@ export function NavBar({ page }) {
 				`}
 			</style>
 
-			<Nav className="me-4 d-flex justify-content-center align-items-center gap-2">
+			<Nav className="d-flex justify-content-center align-items-center me-4 gap-2">
 				<OverlayTrigger
 					trigger="click"
 					key="bottom"
@@ -74,9 +74,9 @@ export function NavBar({ page }) {
 					overlay={
 						<Popover id="popover-positioned-bottom" className="nav-popover">
 							<Popover.Header as="h3">
-								<div className="me-auto d-flex justify-content-between align-items-center">
+								<div className="d-flex justify-content-between align-items-center me-auto">
 									Notificações
-									<Button className="bg-transparent text-black border-0" onClick={handleDeleteAll} disabled={true}>
+									<Button className="border-0 bg-transparent text-black" onClick={handleDeleteAll} disabled={true}>
 										Apagar todas
 									</Button>
 								</div>
@@ -90,7 +90,7 @@ export function NavBar({ page }) {
 						</Popover>
 					}
 				>
-					<Button className="bg-transparent border-0">
+					<Button className="border-0 bg-transparent">
 						<BiBell color="white" size={24} />
 					</Button>
 				</OverlayTrigger>
@@ -106,7 +106,7 @@ export function NavBar({ page }) {
 						</style>
 
 						<Dropdown>
-							<Dropdown.Toggle variant="light" className="rounded-circle p-0 border-0">
+							<Dropdown.Toggle variant="light" className="rounded-circle border-0 p-0">
 								<BiChevronDown color="black" size={24} />
 							</Dropdown.Toggle>
 

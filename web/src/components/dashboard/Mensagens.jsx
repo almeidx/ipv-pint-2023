@@ -60,8 +60,8 @@ export default function Mensagens() {
 								</p>
 							</div>
 
-							<div className="d-flex gap-2 justify-content-center align-items-center">
-								<Button onClick={() => handleDelete(id)} className="bg-transparent border-0">
+							<div className="d-flex justify-content-center align-items-center gap-2">
+								<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent">
 									<BiTrash size={32} color="red" />
 								</Button>
 							</div>

@@ -74,8 +74,8 @@ export function Ideias() {
 		<>
 			<NavBar page="ideias" />
 
-			<main className="min-h-without-navbar pb-5 bg-main">
-				<Container className="col-11 pt-4 row mx-auto gap-5">
+			<main className="min-h-without-navbar bg-main pb-5">
+				<Container className="col-11 row mx-auto gap-5 pt-4">
 					{categories.map((category) => (
 						<CategoriaCard
 							key={`cat-card-${category.category}`}
@@ -90,8 +90,8 @@ export function Ideias() {
 					className="rounded-5 col-8"
 					style={{ backgroundColor: "#357fd6", marginTop: "-5rem", padding: "5rem 5rem 2rem" }}
 				>
-					<div className="d-flex justify-content-center align-items-center py-3 mb-4">
-						<h1 className="text-white mx-auto" style={{ fontSize: "4rem" }}>
+					<div className="d-flex justify-content-center align-items-center mb-4 py-3">
+						<h1 className="mx-auto text-white" style={{ fontSize: "4rem" }}>
 							Submeta a sua ideia
 						</h1>
 					</div>
@@ -115,7 +115,7 @@ export function Ideias() {
 						<div className="d-flex justify-content-center align-items-center">
 							<Button
 								type="submit"
-								className="rounded-pill px-5 mt-4 ideias-cat-btn bg-transparent border-white"
+								className="rounded-pill ideias-cat-btn mt-4 border-white bg-transparent px-5"
 								ref={enviarBtnRef}
 							>
 								Enviar
@@ -126,8 +126,8 @@ export function Ideias() {
 
 				<Alert
 					show={showAlert}
-					className="d-flex justify-content-between align-items-center gap-5 py-0 position-fixed"
-					style={{ width: "fit-content", bottom: "1rem", right: "1rem" }}
+					className="d-flex justify-content-between align-items-center position-fixed w-fit gap-5 py-0"
+					style={{ bottom: "1rem", right: "1rem" }}
 					variant="success"
 				>
 					<p className="pt-3">
@@ -135,7 +135,7 @@ export function Ideias() {
 					</p>
 
 					<button
-						className="bg-transparent border-0"
+						className="border-0 bg-transparent"
 						onClick={() => {
 							setShowAlert(false);
 
@@ -165,11 +165,11 @@ export function Ideias() {
 function CategoriaCard({ icon: Icon, title, description, category, selected, onClick }) {
 	return (
 		<Card
-			className="CategoriaCard"
+			className="categoria-card"
 			style={{
 				backgroundColor: selected ? "#6c7db8" : "",
 				width: "18rem",
-				height: "16	rem",
+				height: "16rem",
 				borderRadius: "1rem",
 				marginTop: "1rem",
 				cursor: "pointer",
@@ -183,7 +183,9 @@ function CategoriaCard({ icon: Icon, title, description, category, selected, onC
 					{title}
 				</Card.Title>
 
-				<Card.Text style={{ fontSize: "1rem", textAlign: "center" }}>{description}</Card.Text>
+				<Card.Text className="text-center" style={{ fontSize: "1rem" }}>
+					{description}
+				</Card.Text>
 			</Card.Body>
 		</Card>
 	);

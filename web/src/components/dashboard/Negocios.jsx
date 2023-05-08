@@ -92,7 +92,7 @@ export default function Beneficios() {
 												{contactos.map(({ idContacto, contacto }) => (
 													<li key={`${id}-contacto-${idContacto}`}>
 														<a
-															style={{ color: "black", listStyle: "none" }}
+															className="text-black"
 															href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
 														>
 															{contacto.value}
@@ -102,7 +102,7 @@ export default function Beneficios() {
 											</ul>
 										</div>
 
-										<div className="mb-0 col-sm">
+										<div className="col-sm mb-0">
 											<span className="fw-bold ms-5">Centro de Trabalho associado:</span>
 
 											<ul className="mb-0 ms-5">
@@ -113,7 +113,7 @@ export default function Beneficios() {
 											</ul>
 										</div>
 
-										<div className="d-flex col-sm gap-2 justify-content-end align-items-top">
+										<div className="d-flex col-sm justify-content-end align-items-top gap-2">
 											<RiPencilLine size={32} />
 											<RiCloseFill size={32} color="red" />
 										</div>
@@ -166,7 +166,7 @@ function Progresso({ estados }) {
 	}
 
 	return (
-		<ProgressBar style={{ height: "1.3rem", width: "100%" }}>
+		<ProgressBar className="w-100" style={{ height: "1.3rem" }}>
 			{estadosNames.map(({ color, name }, index) => (
 				// <OverlayTrigger
 				// 	key={`overlay-${index}`}
@@ -178,7 +178,8 @@ function Progresso({ estados }) {
 				// 	}
 				// >
 				<ProgressBar
-					style={{ backgroundColor: color, color: "black" }}
+					className="text-black"
+					style={{ backgroundColor: color }}
 					now={hasState(index) ? 20 : 0}
 					key={index}
 					label={name}

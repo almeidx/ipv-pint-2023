@@ -79,13 +79,13 @@ export default function Reuniões() {
 								) : null}
 							</div>
 
-							<div className="d-flex gap-2 justify-content-center align-items-center">
+							<div className="d-flex justify-content-center align-items-center gap-2">
 								<Button
 									onClick={() => {
 										setUserId(id);
 										setShowEditModal(true);
 									}}
-									className="bg-transparent border-0"
+									className="border-0 bg-transparent"
 								>
 									<RiPencilLine size={32} color="black" />
 								</Button>

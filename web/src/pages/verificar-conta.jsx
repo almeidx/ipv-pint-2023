@@ -16,7 +16,7 @@ export function VerificarConta() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<h1 className="text-white title mb-4" style={{ fontSize: "3rem" }}>
+			<h1 className="title mb-4 text-white" style={{ fontSize: "3rem" }}>
 				Verificar Conta
 			</h1>
 
@@ -34,7 +34,7 @@ export function VerificarConta() {
 				<Form.Control placeholder="Código" aria-label="Código" aria-describedby="code-icon" />
 			</InputGroup>
 
-			<Form.Group className="mt-3 mb-2 d-flex justify-content-around" controlId="">
+			<Form.Group className="d-flex justify-content-around mb-2 mt-3" controlId="">
 				<Button variant="light" type="submit" className="col-5 rounded-5">
 					Submeter
 				</Button>
