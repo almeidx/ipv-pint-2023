@@ -32,7 +32,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ListView
+	<ListView
 		android:id="@+id/listaBeneficios"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -40,13 +40,14 @@
 		android:layout_marginTop="110dp"
 		android:layout_marginEnd="25dp"
 		android:layout_marginBottom="67dp"
-		android:divider="@android:color/darker_gray"
-		android:dividerHeight="1dp"
-		app:layout_constraintBottom_toTopOf="@+id/include"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/include"
-		app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-	/>
+		android:divider="@android:color/transparent"
+		android:dividerHeight="20dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@id/cardView"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/linearPesquisa"
+		app:layout_constraintVertical_bias="0.0"
+		/>
 
     <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
