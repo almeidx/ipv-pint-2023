@@ -23,14 +23,14 @@ export function MudarPassword() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<div className="d-flex align-items-center gap-1 mb-5">
+			<div className="d-flex align-items-center mb-5 gap-1">
 				{!fromProfile ? (
 					<Link to="/login">
 						<HiOutlineArrowLeft size={32} color="white" />
 					</Link>
 				) : null}
 
-				<h1 className="text-white title" style={{ fontSize: "2rem" }}>
+				<h1 className="title text-white" style={{ fontSize: "2rem" }}>
 					Mudar Password
 				</h1>
 			</div>
@@ -76,7 +76,7 @@ export function MudarPassword() {
 				/>
 			</InputGroup>
 
-			<Button variant="light" type="submit" className="col-8 p-2 mx-auto mb-5 rounded-5 mt-4">
+			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mb-5 mt-4 p-2">
 				Alterar
 			</Button>
 		</LoginContainer>

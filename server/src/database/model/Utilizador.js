@@ -106,6 +106,12 @@ const Utilizador = sequelize.define(
 			field: "ACTIVE_ACCOUNT",
 			allowNull: false,
 		},
+		createdAt: {
+			type: DataTypes.DATE,
+			field: "DATA_CRIACAO",
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+		},
 	},
 	{ timestamps: false },
 );

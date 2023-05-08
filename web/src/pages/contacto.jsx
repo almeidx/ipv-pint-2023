@@ -110,10 +110,13 @@ export function Contacto() {
 		<>
 			<NavBar page="contacto" />
 
-			<main
-				className="min-h-without-navbar d-flex flex-row justify-content-center align-items-center position-relative"
-				style={{ backgroundImage: "url(/static/contacto-bg.png)", backgroundSize: "cover", placeItems: "center" }}
-			>
+			<main className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center">
+				<img
+					src="/static/contacto-bg.png"
+					className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
+					fetchpriority="high"
+				/>
+
 				<Container className="row col-6 d-flex justify-content-center align-items-center flex-column">
 					<div className="col-6 d-flex flex-column justify-content-center gap-5">
 						{contactMethods.map(({ icon, title, links }, idx) => (
@@ -124,12 +127,12 @@ export function Contacto() {
 
 				<Container className="row col-6 d-flex justify-content-center align-items-center">
 					<Form
-						className="col-6 px-3 pt-3 pb-3 gap-5 bg-white rounded-3 d-flex justify-content-center align-items-center flex-column"
+						className="col-6 rounded-3 d-flex justify-content-center align-items-center flex-column gap-5 bg-white px-3 pb-3 pt-3"
 						onSubmit={handleSubmit}
 					>
 						<Form.Text style={{ fontSize: "1.2rem" }}>Deixe a sua mensagem</Form.Text>
 
-						<Form.Group className="mb-3 w-100" controlId="nome">
+						<Form.Group className="w-100 mb-3" controlId="nome">
 							<Form.Control
 								placeholder="Nome"
 								className="border-top-0 border-start-0 border-end-0"
@@ -139,7 +142,7 @@ export function Contacto() {
 							/>
 						</Form.Group>
 
-						<Form.Group className="mb-3 w-100" controlId="email">
+						<Form.Group className="w-100 mb-3" controlId="email">
 							<Form.Control
 								type="email"
 								placeholder="Email"
@@ -171,7 +174,7 @@ export function Contacto() {
 					className="position-absolute"
 					style={{ bottom: "1rem", right: "1rem" }}
 				>
-					<Toast.Body className="d-flex gap-2 align-items-center justify-content-between">
+					<Toast.Body className="d-flex align-items-center justify-content-between gap-2">
 						<p className="mb-0">
 							<TbSend size={24} /> Mensagem enviada com sucesso
 						</p>
@@ -196,11 +199,13 @@ export function Contacto() {
  */
 function ContactMethod({ title, icon: Icon, links }) {
 	return (
-		<div className="d-flex flex-row align-items-center gap-4 text-white">
+		<div className="d-flex align-items-center flex-row gap-4 text-white">
 			<Icon size={50} />
 
 			<div className="d-flex flex-column">
-				<h4 style={{ fontWeight: "light", fontSize: "1.8rem" }}>{title}</h4>
+				<h4 className="fw-light" style={{ fontSize: "1.8rem" }}>
+					{title}
+				</h4>
 
 				{links.map(({ title, href }, idx) => (
 					<a key={`link-${idx}`} href={href} style={{ color: "lightgray" }}>

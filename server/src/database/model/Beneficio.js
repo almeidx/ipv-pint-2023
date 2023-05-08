@@ -54,6 +54,12 @@ const Beneficio = sequelize.define(
 			field: "ICONE_BENEFICIO",
 			allowNull: false,
 		},
+		createdAt: {
+			type: DataTypes.DATE,
+			field: "DATA_CRIACAO_BENEFICIO",
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+		},
 	},
 	{ timestamps: false },
 );

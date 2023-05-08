@@ -27,8 +27,8 @@ export function Vagas() {
 		<>
 			<NavBar page="vagas" />
 
-			<main className="min-h-without-navbar pb-5 bg-main">
-				<Container className="pt-5 col-11">
+			<main className="min-h-without-navbar bg-main pb-5">
+				<Container className="col-11 pt-5">
 					<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
 
 					<FormCheck
@@ -36,13 +36,12 @@ export function Vagas() {
 						label="Mostrar vagas cheias"
 						checked={vagasCheias}
 						onChange={() => setVagasCheias((state) => !state)}
-						style={{ width: "fit-content" }}
-						className="ps-5 pe-3 py-2 rounded-pill mt-4 bg-white"
+						className="rounded-pill mt-4 w-fit bg-white py-2 pe-3 ps-5"
 						id="vagasCheias"
 					/>
 				</Container>
 
-				<Container className="col-12 pt-4 row mx-auto gap-5 d-flex">
+				<Container className="col-12 row d-flex mx-auto gap-5 pt-4">
 					{isLoading ? <Spinner /> : filteredVagas.map(({ id, ...vaga }) => <Vaga key={id} {...vaga} />)}
 				</Container>
 			</main>
@@ -73,7 +72,7 @@ function Vaga({ icon, title, description, amountSlots }) {
 					style={{ width: "110px", top: "-3.4rem", left: "7.5rem" }}
 				/>
 
-				<Card.Title className="title my-3" style={{ fontSize: "2rem", paddingTop: "2rem" }}>
+				<Card.Title className="title my-3 pt-5" style={{ fontSize: "2rem" }}>
 					{title}
 				</Card.Title>
 

@@ -25,12 +25,12 @@ export function Beneficios() {
 		<>
 			<NavBar page="beneficios" />
 
-			<main className="min-h-without-navbar pb-5 bg-main">
-				<Container className="pt-5 col-11">
+			<main className="min-h-without-navbar bg-main pb-5">
+				<Container className="col-11 pt-5">
 					<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
 				</Container>
 
-				<Container className="pt-3 col-11 row mx-auto gap-5">
+				<Container className="col-11 row mx-auto gap-5 pt-3">
 					{isLoading ? (
 						<Spinner />
 					) : filteredBeneficios.length ? (

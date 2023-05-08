@@ -57,14 +57,14 @@ function Notification({ additionalDate, createdAt, content, type, onDelete, id }
 		<ListGroup.Item className="d-flex justify-content-between align-items-center">
 			<Icon size={24} />
 
-			<div className="ps-3 me-auto">
+			<div className="me-auto ps-3">
 				<div className="fw-bold">{getTitle(type)}</div>
 				{composedDescription}
 			</div>
 
-			<div className="d-flex gap-2 justify-content-between align-items-center">
+			<div className="d-flex justify-content-between align-items-center gap-2">
 				<span style={{ fontSize: "0.8rem" }}>{getRelativeTimeString(new Date(createdAt))}</span>
-				<Button className="bg-transparent border-0 px-0" onClick={() => onDelete(id)}>
+				<Button className="border-0 bg-transparent px-0" onClick={() => onDelete(id)}>
 					<RiCloseFill size={24} color="black" />
 				</Button>
 			</div>

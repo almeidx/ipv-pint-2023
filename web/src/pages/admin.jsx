@@ -42,14 +42,14 @@ export function Admin() {
 
 			<main className="min-h-without-navbar d-flex bg-main">
 				<div
-					className="d-flex flex-column flex-shrink-0 p-3 text-white min-h-without-navbar"
+					className="d-flex flex-column min-h-without-navbar flex-shrink-0 p-3 text-white"
 					style={{ width: "18rem", backgroundColor: "#546beb" }}
 				>
 					<Nav className="nav-pills flex-column mb-auto">
 						{sections.map(({ name, link }, idx) => (
 							<button
 								key={name}
-								className="mb-3 bg-transparent fw-bold text-white text-decoration-none pb-3 border-top-0 border-start-0 border-end-0 text-start"
+								className="fw-bold text-decoration-none border-top-0 border-start-0 border-end-0 mb-3 bg-transparent pb-3 text-start text-white"
 								style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
 								type="button"
 								onClick={() => {
