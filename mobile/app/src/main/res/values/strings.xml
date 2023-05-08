@@ -60,4 +60,10 @@
     <string name="pequise_por_candidaturas">pequise por candidaturas</string>
     <string name="pesquise_por_mensagens">Pesquise por mensagens</string>
     <string name="pesquise_por_reuni_es">pesquise por reuniões</string>
+    <string name="Benefícios">Benefícios</string>
+    <string name="Vagas">Vagas</string>
+    <string name="negocios">Negócios</string>
+    <string name="Ideias">Ideias</string>
+    <string name="contacto">Contactos</string>
+    <string name="Reunioes">Calendário</string>
 </resources>

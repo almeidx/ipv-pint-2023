@@ -5,16 +5,17 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/opcoes"
 	android:orientation="vertical"
-	android:layout_width="match_parent"
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:background="@drawable/bottom_sheet_dialog"
-	android:padding="16dp"
+	android:gravity="center"
 >
 
     <LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
+
 	>
 
         <LinearLayout
@@ -24,14 +25,14 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
+			android:padding="20dp"
 			android:id="@+id/beneficio"
 		>
 
             <ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
 				android:src="@drawable/notifications"
 				app:tint="@color/white"
 			/>
@@ -39,8 +40,8 @@
             <TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/Benefícios"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 			/>
 
@@ -53,14 +54,14 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
-			android:id="@+id/outro"
+			android:padding="20dp"
+			android:id="@+id/vagas"
 		>
 
             <ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
 				android:src="@drawable/notifications"
 				app:tint="@color/white"
 			/>
@@ -68,8 +69,8 @@
             <TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/Vagas"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 			/>
 
@@ -82,13 +83,14 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
+			android:padding="20dp"
+			android:id="@+id/negocio"
 		>
 
             <ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
 				android:src="@drawable/notifications"
 				app:tint="@color/white"
 			/>
@@ -96,8 +98,8 @@
             <TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/negocios"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 			/>
 
@@ -106,7 +108,7 @@
     </LinearLayout>
 
     <TextView
-		android:layout_width="match_parent"
+		android:layout_width="250dp"
 		android:layout_height="2dp"
 		android:layout_marginStart="20dp"
 		android:layout_marginEnd="20dp"
@@ -114,9 +116,10 @@
 	/>
 
     <LinearLayout
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
+		android:gravity="center"
 
 	>
 
@@ -127,22 +130,23 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
+			android:padding="20dp"
+			android:id="@+id/contacto"
 		>
 
             <ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:src="@drawable/notifications"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
+				android:src="@drawable/baseline_local_phone_24"
 				app:tint="@color/white"
 			/>
 
             <TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/contacto"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 			/>
 
@@ -155,22 +159,23 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
+			android:padding="20dp"
+			android:id="@+id/ideia"
 		>
 
             <ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:src="@drawable/notifications"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
+				android:src="@drawable/ideias"
 				app:tint="@color/white"
 			/>
 
             <TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/Ideias"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 			/>
 
@@ -183,22 +188,23 @@
 			android:focusable="true"
 			android:gravity="center"
 			android:orientation="vertical"
-			android:padding="30dp"
+			android:padding="20dp"
+			android:id="@+id/calendario"
 			>
 
 			<ImageView
 				android:contentDescription="@string/email"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:src="@drawable/notifications"
+				android:layout_width="52dp"
+				android:layout_height="52dp"
+				android:src="@drawable/calendar"
 				app:tint="@color/white"
 				/>
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/email"
-				android:textSize="20sp"
+				android:text="@string/Reunioes"
+				android:textSize="13sp"
 				android:textColor="@color/white"
 				/>
 
