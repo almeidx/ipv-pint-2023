@@ -17,14 +17,14 @@ export function Negocios() {
 		<>
 			<NavBar page="negocios" />
 
-			<main className="min-h-without-navbar pb-5 bg-main">
-				<Container className="col-11 pt-4 row mx-auto gap-5">
+			<main className="min-h-without-navbar bg-main pb-5">
+				<Container className="col-11 row mx-auto gap-5 pt-4">
 					<Card className="negocio-card negocio-add" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
-						<Card.Body className="d-flex" style={{ flexDirection: "column" }}>
-							<Card.Title className="title my-3 mx-auto" style={{ fontSize: "2rem" }}>
+						<Card.Body className="d-flex flex-column">
+							<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
 								Adicionar Negócio
 							</Card.Title>
-							<RxPlusCircled className="m-auto negocio-card-icon" size="7rem" />
+							<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
 						</Card.Body>
 					</Card>
 
@@ -79,7 +79,8 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 						{contactos.map(({ idContacto, contacto }) => (
 							<li key={idContacto}>
 								<a
-									style={{ color: "black", listStyle: "none" }}
+									className="text-black"
+									style={{ listStyle: "none" }}
 									href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
 								>
 									{contacto.value}

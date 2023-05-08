@@ -73,7 +73,7 @@ export function SignUp() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<h1 className="text-white mb-5 title">Sign up</h1>
+			<h1 className="title mb-5 text-white">Sign up</h1>
 
 			<InputGroup className="col-12 mb-3">
 				<InputGroup.Text id="nome-icon">
@@ -122,15 +122,15 @@ export function SignUp() {
 				/>
 			</InputGroup>
 
-			<Button variant="light" type="submit" className="col-8 p-2 mx-auto mb-2 rounded-5 mt-4">
+			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mb-2 mt-4 p-2">
 				Criar conta
 			</Button>
 
-			<Form.Group className="mt-3 mb-2 d-flex justify-content-center" controlId="formBasicCheckbox">
+			<Form.Group className="d-flex justify-content-center mb-2 mt-3" controlId="formBasicCheckbox">
 				<Button
 					variant="light"
 					type="submit"
-					className="col-5 p-2 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2 p-2"
 				>
 					<Google /> Google
 				</Button>
@@ -138,7 +138,7 @@ export function SignUp() {
 				<Button
 					variant="light"
 					type="submit"
-					className="col-5 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2"
 				>
 					<Facebook /> Facebook
 				</Button>

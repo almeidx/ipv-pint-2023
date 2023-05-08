@@ -35,3 +35,24 @@
 .bg-main {
 	background-color: #c5cae9;
 }
+
+/* Utilidades que faltam no bootstrap */
+.object-cover {
+	object-fit: cover;
+}
+
+.w-fit {
+	width: fit-content;
+}
+
+.place-items-center {
+	place-items: center;
+}
+
+.inset-0 {
+	inset: 0;
+}
+
+.-z-10 {
+	z-index: -10;
+}

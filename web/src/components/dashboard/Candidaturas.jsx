@@ -46,7 +46,7 @@ export default function Candidaturas() {
 								</p>
 							</div>
 
-							<div className="d-flex gap-2 justify-content-center align-items-center">
+							<div className="d-flex justify-content-center align-items-center gap-2">
 								<BiNotepad size={40} />
 								<BsCalendarDate size={32} />
 							</div>

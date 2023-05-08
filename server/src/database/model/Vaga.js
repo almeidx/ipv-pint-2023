@@ -54,6 +54,12 @@ const Vaga = sequelize.define(
 			field: "ESTADO_VAGA",
 			allowNull: false,
 		},
+		createdAt: {
+			type: DataTypes.DATE,
+			field: "DATA_CRIACAO_VAGA",
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+		},
 	},
 	{ timestamps: false },
 );

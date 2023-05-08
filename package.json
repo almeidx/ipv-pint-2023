@@ -6,8 +6,20 @@
 		"server": "pnpm --filter server",
 		"web": "pnpm --filter web"
 	},
+	"prettier": {
+		"plugins": [
+			"prettier-plugin-tailwindcss",
+			"@prettier/plugin-xml"
+		],
+		"printWidth": 120,
+		"trailingComma": "all",
+		"useTabs": true
+	},
 	"devDependencies": {
 		"@prettier/plugin-xml": "^2.2.0",
 		"prettier": "^2.8.8"
+	},
+	"engines": {
+		"node": "18"
 	}
 }

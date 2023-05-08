@@ -15,11 +15,11 @@ export function Calendar() {
 		<>
 			<NavBar />
 
-			<main className="min-h-without-navbar pb-5 bg-main">
-				<Container className="py-5 d-flex justify-content-between">
+			<main className="min-h-without-navbar bg-main pb-5">
+				<Container className="d-flex justify-content-between py-5">
 					<ReactCalendar value={value} onChange={onChange} />
 
-					<div className="w-50 bg-white rounded-3 px-3 py-2">
+					<div className="w-50 rounded-3 bg-white px-3 py-2">
 						<p className="mb-2">Eventos do dia {formatDate(value, false)}</p>
 
 						<ListGroup title="This is a title">

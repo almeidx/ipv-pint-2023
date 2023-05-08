@@ -55,7 +55,7 @@ export default function Beneficios() {
 								</div>
 							</div>
 
-							<div className="d-flex gap-2 justify-content-center align-items-center">
+							<div className="d-flex justify-content-center align-items-center gap-2">
 								<RiPencilLine size={32} />
 								<RiCloseFill size={32} color="red" />
 							</div>

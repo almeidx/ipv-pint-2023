@@ -41,22 +41,19 @@ export function Profile() {
 		<>
 			<NavBar />
 
-			<main
-				className="min-h-without-navbar py-5 d-flex justify-content-center align-items-center position-relative"
-				style={{ backgroundImage: "url(/static/perfil-bg.jpg)", backgroundSize: "cover" }}
-			>
+			<main className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative py-5">
+				<img
+					src="/static/perfil-bg.jpg"
+					className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
+					fetchpriority="high"
+				/>
+
 				{user ? (
 					<>
 						{showSaveButton ? (
 							<div
-								className="d-flex gap-2 justify-content-between align-items-center bg-white text-black px-3 py-2 rounded-3"
-								style={{
-									position: "absolute",
-									bottom: "1rem",
-									left: "50%",
-									width: "24rem",
-									transform: "translate(-50%, 0)",
-								}}
+								className="d-flex justify-content-between align-items-center rounded-3 position-absolute start-50 translate-middle gap-2 bg-white px-3 py-2 text-black"
+								style={{ bottom: "1rem", width: "24rem" }}
 							>
 								<p className="mb-0">Guardar alterações?</p>
 
@@ -111,7 +108,7 @@ export function Profile() {
 								<Button variant="light">Alterar palavra-passe</Button>
 							</Container>
 
-							<Container className="text-white mt-4 pb-4">
+							<Container className="mt-4 pb-4 text-white">
 								<h3>Gerência de conta</h3>
 
 								<p>Desativar a sua conta significa que pode recuperá-la a qualquer momento após realizar esta ação.</p>
@@ -124,7 +121,7 @@ export function Profile() {
 											setUser(null);
 										}}
 									>
-										<MdOutlineLogout size={18} className="me-2 mb-1" />
+										<MdOutlineLogout size={18} className="mb-1 me-2" />
 										Terminar sessão
 									</Button>
 
@@ -134,7 +131,7 @@ export function Profile() {
 											// setUser(null);
 										}}
 									>
-										<BsTrash size={18} className="me-2 mb-1" />
+										<BsTrash size={18} className="mb-1 me-2" />
 										Desativar conta
 									</Button>
 								</div>
@@ -142,7 +139,7 @@ export function Profile() {
 						</Container>
 					</>
 				) : (
-					<Container className="py-5 d-flex justify-content-center align-items-center">
+					<Container className="d-flex justify-content-center align-items-center py-5">
 						<div className="text-center">
 							<p>Faça login para acessar o seu perfil</p>
 

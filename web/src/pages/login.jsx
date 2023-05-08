@@ -49,7 +49,7 @@ export function Login() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<h1 className="text-white mb-5 title">Login</h1>
+			<h1 className="title mb-5 text-white">Login</h1>
 
 			<InputGroup className="col-12 mb-3">
 				<InputGroup.Text id="email-icon">
@@ -72,7 +72,7 @@ export function Login() {
 			</InputGroup>
 
 			<Form.Group controlId="formBasicCheckbox" className="pb-3">
-				<Link className="text-white fst-italic text-decoration-none" to="/mudar-password">
+				<Link className="fst-italic text-decoration-none text-white" to="/mudar-password">
 					Esqueceu-se da password?
 				</Link>
 			</Form.Group>
@@ -81,15 +81,15 @@ export function Login() {
 				<Form.Check type="checkbox" label="Lembrar Password" />
 			</Form.Group>
 
-			<Button variant="light" type="submit" className="col-8 p-2 mx-auto mb-5 rounded-5">
+			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mb-5 p-2">
 				Login
 			</Button>
 
-			<Form.Group className="mt-3 mb-2 d-flex justify-content-center" controlId="formBasicCheckbox">
+			<Form.Group className="d-flex justify-content-center mb-2 mt-3" controlId="formBasicCheckbox">
 				<Button
 					variant="light"
 					type="submit"
-					className="col-5 p-2 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2 p-2"
 					onClick={() => {
 						window.open(API_URL + "/auth/google", "_self");
 					}}
@@ -100,7 +100,7 @@ export function Login() {
 				<Button
 					variant="light"
 					type="submit"
-					className="col-5 rounded-3 mx-auto d-flex justify-content-center align-items-center gap-2"
+					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2"
 					onClick={() => {
 						window.open(API_URL + "/auth/facebook", "_self");
 					}}
