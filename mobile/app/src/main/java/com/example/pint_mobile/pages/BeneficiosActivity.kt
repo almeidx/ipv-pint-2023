@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
 import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
 import com.example.pint_mobile.utils.setupActivityListeners
@@ -58,7 +60,7 @@ class BeneficiosActivity : AppCompatActivity() {
         return true
     }
 
-    class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int) : BaseAdapter() {
+    class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val beneficio = beneficios[position]
@@ -68,6 +70,17 @@ class BeneficiosActivity : AppCompatActivity() {
 
             tituloBeneficio.text = beneficio.titulo
             descricaoBeneficio.text = beneficio.descricao
+
+            if (attachListener) {
+                view.setOnClickListener {
+                    val intent = Intent(view.context, BeneficiosEditActivity::class.java)
+
+                    intent.putExtra("titulo", beneficio.titulo)
+                    intent.putExtra("descricao", beneficio.descricao)
+
+                    view.context.startActivity(intent)
+                }
+            }
 
             return view
         }
