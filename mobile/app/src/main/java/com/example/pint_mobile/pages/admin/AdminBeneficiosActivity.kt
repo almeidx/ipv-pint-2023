@@ -48,9 +48,7 @@ class AdminBeneficiosActivity : AppCompatActivity() {
                         beneficiosList.add(beneficio)
                     }
                 }
-
                 beneficiosAdapter.notifyDataSetChanged()
-
                 true
             } else {
                 false

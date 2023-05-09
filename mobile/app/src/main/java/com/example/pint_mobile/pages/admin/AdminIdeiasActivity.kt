@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,6 +12,8 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.IdeiasActivity
+import com.example.pint_mobile.pages.InfoVagaActivity
 import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.listaIdeias
@@ -70,7 +73,6 @@ class AdminIdeiasActivity : AppCompatActivity() {
             criadorIdeia.text = ideia.dataCriacao
             dataIdeia.text = ideia.criador
 
-
             return view
         }
         override fun getItem(position: Int): Ideia {
@@ -89,5 +91,9 @@ class AdminIdeiasActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+    fun CriarIdeia(view: View) {
+        val intent = Intent(this, IdeiasActivity::class.java)
+        startActivity(intent)
     }
 }

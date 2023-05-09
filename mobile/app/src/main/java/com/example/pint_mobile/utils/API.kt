@@ -63,7 +63,9 @@ fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasAc
                 rawVaga.getString("title"),
                 rawVaga.getString("description"),
                 rawVaga.getBoolean("public"),
-                rawVaga.getInt("amountSlots")
+                rawVaga.getInt("amountSlots"),
+                rawVaga.getInt("id"),
+                rawVaga.getInt("status")
             )
 
             list.add(vaga)

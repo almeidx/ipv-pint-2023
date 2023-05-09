@@ -1,12 +1,16 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.ListView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.admin.edit.CriarBeneficioActivity
+import com.example.pint_mobile.pages.admin.edit.CriarVagaActivity
 import com.example.pint_mobile.utils.Vaga
 import com.example.pint_mobile.utils.listaVagas
 import com.example.pint_mobile.utils.setupActivityListeners
@@ -23,7 +27,7 @@ class AdminVagasActivity : AppCompatActivity() {
         setupActivityListeners(window, supportActionBar, this, "Administração de Vagas", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaVagas)
-        vagasAdapter = VagasActivity.VagaAdapter(vagasList, R.layout.item_vaga)
+        vagasAdapter = VagasActivity.VagaAdapter(vagasList, R.layout.item_vaga, true)
 
         lista.adapter = vagasAdapter
 
@@ -55,5 +59,10 @@ class AdminVagasActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    fun CriarVaga(view: View) {
+        val intent = Intent(this, CriarVagaActivity::class.java)
+        startActivity(intent)
     }
 }
