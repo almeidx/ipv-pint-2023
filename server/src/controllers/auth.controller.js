@@ -6,7 +6,7 @@ const passport = require("passport");
  * @type {Record<string, (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void}
  */
 module.exports = {
-	email(req, res) {
+	email(req, res, next) {
 		passport.authenticate("local", (err, user, info) => {
 			if (err) {
 				return next(err);
