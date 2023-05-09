@@ -43,9 +43,4 @@ class IdeiasActivity : AppCompatActivity() {
         return true
     }
 
-    fun criarIdeia(_view: View) {
-        val ideia = findViewById<EditText>(R.id.ideiaInput)
-
-        // criar ideia
-    }
 }

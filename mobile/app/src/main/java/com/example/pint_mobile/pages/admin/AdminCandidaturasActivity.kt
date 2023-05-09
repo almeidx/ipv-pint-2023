@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.VagasActivity
 import com.example.pint_mobile.utils.Candidatura
 import com.example.pint_mobile.utils.Utilizador
@@ -66,11 +68,9 @@ class AdminCandidaturasActivity : AppCompatActivity() {
             val infoCandidatura = view.findViewById<TextView>(R.id.informacoes_candidatura)
             val dataCandidatura = view.findViewById<TextView>(R.id.data_candidatura)
 
-
             nomeCandidatura.text = candidatura.nome
             infoCandidatura.text = candidatura.titulo +  " - " + candidatura.descricao
             dataCandidatura.text = candidatura.data
-
 
             return view
         }
@@ -91,4 +91,6 @@ class AdminCandidaturasActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+
 }

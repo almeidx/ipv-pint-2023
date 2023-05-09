@@ -15,7 +15,7 @@
 		android:textColor="@color/black"
 		android:textAppearance="?android:textAppearanceLarge"
 		android:textStyle="bold"
-		android:drawableEnd="@drawable/more"
+		android:drawableEnd="@drawable/arrow_right"
 	/>
     <View
 		android:layout_height="1dp"
@@ -42,8 +42,5 @@
 		android:textColor="@color/black"
 		android:textAlignment="textEnd"
 	/>
-
-
-
 
 </LinearLayout>

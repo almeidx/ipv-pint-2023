@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
+import com.example.pint_mobile.pages.admin.edit.VagasEditActivity
 import com.example.pint_mobile.utils.Vaga
 import com.example.pint_mobile.utils.listaVagas
 import com.example.pint_mobile.utils.setupActivityListeners
@@ -59,7 +61,7 @@ class VagasActivity : AppCompatActivity() {
         return true
     }
 
-    class VagaAdapter(private val vagas: ArrayList<Vaga>, private val item: Int) : BaseAdapter() {
+    class VagaAdapter(private val vagas: ArrayList<Vaga>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val vaga = vagas[position]
@@ -77,8 +79,24 @@ class VagasActivity : AppCompatActivity() {
                 intent.putExtra("descricao", vaga.descricao)
                 intent.putExtra("publico", if(vaga.publico) "Aberta" else "Colaboradores")
                 intent.putExtra("slots", vaga.slots.toString())
+                intent.putExtra("status", vaga.status)
 
                 view.context.startActivity(intent)
+            }
+
+            if (attachListener) {
+                view.setOnClickListener {
+                    val intent = Intent(view.context, VagasEditActivity::class.java)
+
+                    intent.putExtra("titulo", vaga.titulo)
+                    intent.putExtra("descricao", vaga.descricao)
+                    intent.putExtra("publico", if(vaga.publico) "Aberta" else "Colaboradores")
+                    intent.putExtra("slots", vaga.slots.toString())
+                    intent.putExtra("id", vaga.id.toString())
+                    intent.putExtra("status", vaga.status)
+
+                    view.context.startActivity(intent)
+                }
             }
 
             return view
