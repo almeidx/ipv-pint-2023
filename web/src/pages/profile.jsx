@@ -1,4 +1,4 @@
-import { startTransition, useContext, useState } from "react";
+import { startTransition, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import FormControl from "react-bootstrap/FormControl";
@@ -8,11 +8,11 @@ import { MdOutlineLogout, MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
-import { UserContext } from "../contexts/UserContext.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
 export function Profile() {
-	const { user, setUser } = useContext(UserContext);
+	const { user, setUser } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [showSaveButton, setShowSaveButton] = useState(false);

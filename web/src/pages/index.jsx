@@ -1,7 +1,9 @@
+import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement, Title, Tooltip } from "chart.js";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import { Line } from "react-chartjs-2";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiLightbulbFill, RiTrophyFill } from "react-icons/ri";
@@ -12,8 +14,7 @@ import { NavBar } from "../components/NavBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { roundRect } from "../utils/roundRect.js";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
@@ -27,54 +28,49 @@ const negociosChartOptions = {
 		title: {
 			display: true,
 			text: "Número de negócios por mês",
-			color: "white",
+			color: "black",
 			font: {
 				size: 20,
 			},
+		},
+		customCanvasBackgroundColor: {
+			color: "white",
 		},
 	},
 	scales: {
 		x: {
 			axis: "x",
 			ticks: {
-				color: "white",
+				color: "black",
 			},
 		},
 		y: {
 			axis: "y",
 			ticks: {
-				color: "white",
+				color: "black",
 			},
 		},
 	},
 };
 
+const plugins = [
+	{
+		id: "customCanvasBackgroundColor",
+		beforeDraw: (chart, args, options) => {
+			const { ctx } = chart;
+			ctx.save();
+
+			ctx.globalCompositeOperation = "destination-over";
+			ctx.fillStyle = options.color;
+
+			roundRect(ctx, 0, 0, chart.width, chart.height, 10);
+
+			ctx.restore();
+		},
+	},
+];
+
 export function Home() {
-	const { data } = useSWR(API_URL + "/reporting/negocios/chart", fetcher);
-
-	const labels = useMemo(
-		() =>
-			data?.labels.map(
-				/** @param {Date} date */ (date) =>
-					new Date(date).toLocaleDateString("pt-PT", { month: "long", year: "numeric" }),
-			) ?? [],
-		[data],
-	);
-
-	const chartData = useMemo(
-		/** @return {import("chart.js").ChartData} */ () => ({
-			labels,
-			datasets: [
-				{
-					label: "Nº de Negócios",
-					data: data?.data ?? [],
-					borderColor: "#2184c7",
-				},
-			],
-		}),
-		[data, labels],
-	);
-
 	return (
 		<>
 			<NavBar page="/" />
@@ -99,18 +95,18 @@ export function Home() {
 				</Container>
 
 				<div
-					className="d-flex justify-content-center align-items-center flex-wrap gap-5 px-4 py-5"
+					className="d-flex justify-content-center align-items-center flex-wrap gap-5 px-4 pb-5"
 					style={{ marginInline: "5rem" }}
 				>
 					<div className="col">
-						<Line options={negociosChartOptions} data={chartData} />
+						<NegociosChart />
 					</div>
 					<div className="col">
-						<Line options={negociosChartOptions} data={chartData} />
+						<NegociosChart />
 					</div>
 				</div>
 
-				<Container className="col-12 row mx-auto gap-3">
+				<Container className="col-12 row mx-auto gap-3 pb-5">
 					<h2 className="text-white">Funcionalidades principais do website:</h2>
 
 					<PageCard
@@ -143,6 +139,35 @@ export function Home() {
 			<Footer />
 		</>
 	);
+}
+
+function NegociosChart() {
+	const { data } = useSWR(API_URL + "/reporting/negocios/chart", fetcher);
+
+	const negociosChartLabels = useMemo(
+		() =>
+			data?.labels.map(
+				/** @param {Date} date */ (date) =>
+					new Date(date).toLocaleDateString("pt-PT", { month: "long", year: "numeric" }),
+			) ?? [],
+		[data],
+	);
+
+	const negociosChartData = useMemo(
+		/** @return {import("chart.js").ChartData} */ () => ({
+			labels: negociosChartLabels,
+			datasets: [
+				{
+					label: "Nº de Negócios",
+					data: data?.data ?? [],
+					borderColor: "#2184c7",
+				},
+			],
+		}),
+		[data, negociosChartLabels],
+	);
+
+	return <Line options={negociosChartOptions} data={negociosChartData} plugins={plugins} />;
 }
 
 const INTERVALS = [

@@ -1,10 +1,13 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useSearchParams } from "react-router-dom";
+import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import Mensagens from "../components/dashboard/Mensagens.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
+import { isAdmin } from "../utils/permissions.js";
 
 const Candidaturas = lazy(() => import("../components/dashboard/Candidaturas.jsx"));
 const Ideias = lazy(() => import("../components/dashboard/Ideias.jsx"));
@@ -26,6 +29,7 @@ const sections = [
 ];
 
 export function Admin() {
+	const { user } = useUser();
 	const [searchParams] = useSearchParams();
 	const [section, setSection] = useState(sections[0].link);
 
@@ -35,6 +39,10 @@ export function Admin() {
 			setSection(paramSection);
 		}
 	}, []);
+
+	if (!isAdmin(user)) {
+		return <ErrorBase title="Não tem sessão iniciada ou não tem permissões de administrador" />;
+	}
 
 	return (
 		<>

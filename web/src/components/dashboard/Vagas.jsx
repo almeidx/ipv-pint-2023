@@ -11,7 +11,7 @@ import { Spinner } from "../Spinner.jsx";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/vagas", fetcher);
+	const { isLoading, data } = useSWR(API_URL + "/vagas?admin", fetcher);
 
 	const filtered = useMemo(
 		() =>

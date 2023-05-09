@@ -1,4 +1,4 @@
-import { Suspense, lazy, useContext } from "react";
+import { Suspense, lazy } from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Nav from "react-bootstrap/Nav";
@@ -10,7 +10,7 @@ import { BiBell, BiChevronDown } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import softinsaSvg from "../assets/softinsa.svg";
-import { UserContext } from "../contexts/UserContext.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { Spinner } from "./Spinner.jsx";
 
@@ -21,7 +21,7 @@ const Notifications = lazy(() => import("./Notifications.jsx"));
  * @param {string} [props.page]
  */
 export function NavBar({ page }) {
-	const { user } = useContext(UserContext);
+	const { user } = useUser();
 
 	function handleDeleteAll() {
 		// setNotifications([]);

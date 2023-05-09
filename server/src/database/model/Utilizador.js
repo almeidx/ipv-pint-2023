@@ -67,6 +67,7 @@ const Utilizador = sequelize.define(
 			type: DataTypes.BOOLEAN,
 			field: "HAS_CONFIRMED",
 			allowNull: false,
+			defaultValue: false,
 		},
 		socialUserId: {
 			type: DataTypes.STRING,
@@ -100,11 +101,13 @@ const Utilizador = sequelize.define(
 		lastLoginDate: {
 			type: DataTypes.DATE,
 			field: "ULTIMA_DATA_LOGIN",
+			defaultValue: DataTypes.NOW,
 		},
 		activeAccount: {
 			type: DataTypes.BOOLEAN,
 			field: "ACTIVE_ACCOUNT",
 			allowNull: false,
+			defaultValue: true,
 		},
 		createdAt: {
 			type: DataTypes.DATE,

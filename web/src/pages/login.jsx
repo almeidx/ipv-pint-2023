@@ -1,20 +1,19 @@
 import "../styles/Login.css";
 
-import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
+import { LoginContainer } from "../components/LoginContainer.jsx";
 import { Facebook } from "../components/icons/Facebook.jsx";
 import { Google } from "../components/icons/Google.jsx";
-import { LoginContainer } from "../components/LoginContainer.jsx";
-import { UserContext } from "../contexts/UserContext.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
 export function Login() {
-	const { setUser } = useContext(UserContext);
+	const { setUser } = useUser();
 	const navigate = useNavigate();
 
 	/** @param {SubmitEvent} event */

@@ -32,8 +32,10 @@ module.exports = {
 	},
 
 	async read(req, res) {
-		const negocios = await Negocio.findAll({
-			attributes: ["id", "description", "title", "status", "createdAt"],
+		const { admin } = req.query;
+
+		const opts = {
+			attributes: ["id", "description", "title", "status"],
 			include: [
 				{
 					model: Cliente,
@@ -49,16 +51,6 @@ module.exports = {
 					model: CentroTrabalho,
 					as: "centroTrabalho",
 					attributes: ["name", "location", "postalCode", "address"],
-				},
-				{
-					model: Utilizador,
-					as: "criador",
-					attributes: ["name", "email"],
-				},
-				{
-					model: Utilizador,
-					as: "funcionarioResponsavel",
-					attributes: ["name", "email"],
 				},
 				{
 					model: ContactoNegocio,
@@ -78,9 +70,25 @@ module.exports = {
 					order: [["estado", "ASC"]],
 				},
 			],
-		});
+		};
 
-		res.json(negocios);
+		if (admin !== undefined) {
+			opts.attributes.push("createdAt");
+			opts.include.push(
+				{
+					model: Utilizador,
+					as: "criador",
+					attributes: ["name", "email"],
+				},
+				{
+					model: Utilizador,
+					as: "funcionarioResponsavel",
+					attributes: ["name", "email"],
+				},
+			);
+		}
+
+		res.json(await Negocio.findAll(opts));
 	},
 
 	update() {},

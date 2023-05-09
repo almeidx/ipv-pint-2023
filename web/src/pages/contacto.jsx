@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import CloseButton from "react-bootstrap/CloseButton";
 import Container from "react-bootstrap/Container";
@@ -9,7 +9,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
 import { Footer } from "../components/Footer.jsx";
 import { NavBar } from "../components/NavBar.jsx";
-import { UserContext } from "../contexts/UserContext.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
 const contactMethods = [
@@ -54,7 +54,7 @@ const contactMethods = [
 ];
 
 export function Contacto() {
-	const { user } = useContext(UserContext);
+	const { user } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [message, setMessage] = useState("");

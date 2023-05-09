@@ -27,8 +27,17 @@ module.exports = {
 	},
 
 	async read(req, res) {
+		const { admin } = req.query;
+
+		const attributes = ["id", "amountSlots", "public", "icon", "title", "description", "status"];
+
+		if (admin !== undefined) {
+			attributes.push("createdAt");
+		}
+
 		res.json(
 			await Vaga.findAll({
+				attributes,
 				order: [["id", "ASC"]],
 			}),
 		);

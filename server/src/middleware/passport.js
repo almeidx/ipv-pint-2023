@@ -44,6 +44,8 @@ module.exports = function (passport) {
 				if (passwordMatches) {
 					const { hashedPassword, ...userWithoutPassword } = userObj;
 
+					await Utilizador.update({ lastLoginDate: new Date() }, { where: { id: userWithoutPassword.id } });
+
 					return done(null, userWithoutPassword);
 				} else {
 					return done(null, false);

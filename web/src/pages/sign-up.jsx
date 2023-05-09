@@ -1,6 +1,5 @@
 import "../styles/Login.css";
 
-import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -11,11 +10,11 @@ import { Link } from "react-router-dom";
 import { LoginContainer } from "../components/LoginContainer.jsx";
 import { Facebook } from "../components/icons/Facebook.jsx";
 import { Google } from "../components/icons/Google.jsx";
-import { UserContext } from "../contexts/UserContext.jsx";
+import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
 export function SignUp() {
-	const { setUser } = useContext(UserContext);
+	const { setUser } = useUser();
 
 	/** @param {SubmitEvent} event */
 	async function handleSubmit(event) {

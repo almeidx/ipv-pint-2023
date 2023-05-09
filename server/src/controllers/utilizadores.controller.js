@@ -51,6 +51,7 @@ module.exports = {
 						attributes: ["name", "id"],
 					},
 				],
+				order: [["id", "ASC"]],
 			}),
 		);
 	},

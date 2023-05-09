@@ -1,8 +1,31 @@
-import { createContext, useEffect, useState } from "react";
-import { API_URL } from "../utils/constants.js";
 import Cookie from "js-cookie";
+import { createContext, useContext, useEffect, useState } from "react";
+import { API_URL } from "../utils/constants.js";
 
-export const UserContext = createContext(null);
+/**
+ * @typedef {Object} User
+ * @property {number} id
+ * @property {string} name
+ * @property {string} email
+ * @property {string} registrationType
+ * @property {Object} tipoUtilizador
+ * @property {number} tipoUtilizador.id
+ * @property {string} tipoUtilizador.name
+ */
+
+export const UserContext = createContext({
+	user: {
+		id: -1,
+		name: "",
+		email: "",
+		registrationType: "",
+		tipoUtilizador: {
+			id: -1,
+			name: "",
+		},
+	},
+	setUser: (_user) => {},
+});
 
 export function UserProvider({ children }) {
 	const [user, setUser] = useState(null);
@@ -37,4 +60,8 @@ export function UserProvider({ children }) {
 			{children}
 		</UserContext.Provider>
 	);
+}
+
+export function useUser() {
+	return useContext(UserContext);
 }

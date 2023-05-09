@@ -41,11 +41,19 @@ export function Negocios() {
  * @param {Object} props
  * @param {string} props.title
  * @param {string} props.description
- * @param {string} props.area
- * @param {string} props.contactos
+ * @param {Object} props.areaNegocio
+ * @param {string} props.areaNegocio.name
+ * @param {Object[]} props.contactos
+ * @param {number} props.contactos.idContacto
+ * @param {Object} props.contactos.contacto
+ * @param {0|1} props.contactos.contacto.type
+ * @param {string} props.contactos.contacto.value
+ * @param {Object} props.centroTrabalho
+ * @param {string} props.centroTrabalho.name
+ * @param {Object} props.cliente
+ * @param {string} props.cliente.name
  */
-
-function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, cliente, funcionarioResponsavel }) {
+function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, cliente }) {
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
@@ -70,11 +78,8 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 				</Card.Text>
 
 				<Card.Text style={{ fontSize: "1.1rem" }}>
-					<span className="fw-bold"> Funcionário Responsável - </span> {funcionarioResponsavel.name}
-				</Card.Text>
+					<span className="fw-bold">Contacto:</span>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
-					<span className="fw-bold"> Contacto: </span>
 					<ul>
 						{contactos.map(({ idContacto, contacto }) => (
 							<li key={idContacto}>

@@ -12,14 +12,15 @@ import { Spinner } from "../Spinner.jsx";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/beneficios", fetcher);
+	const { isLoading, data } = useSWR(API_URL + "/beneficios?admin", fetcher);
 
 	const filtered = useMemo(
 		() =>
 			(data ?? []).filter(
-				({ content, shortContent }) =>
+				({ content, shortContent, utilizador }) =>
 					content.toLowerCase().includes(search.toLowerCase()) ||
-					shortContent.toLowerCase().includes(search.toLowerCase()),
+					shortContent.toLowerCase().includes(search.toLowerCase()) ||
+					utilizador.name.toLowerCase().includes(search.toLowerCase()),
 			),
 		[data, search],
 	);
@@ -37,7 +38,7 @@ export default function Beneficios() {
 				{isLoading ? (
 					<Spinner />
 				) : (
-					filtered.map(({ id, dataValidade, content, shortContent, iconeBeneficio }) => (
+					filtered.map(({ id, dataValidade, content, shortContent, iconeBeneficio, utilizador }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div className="d-flex gap-2">
 								<img src={iconeBeneficio} height="65" width="65" className="me-2" />
@@ -50,7 +51,7 @@ export default function Beneficios() {
 									<p className="mb-0">{content}</p>
 
 									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-										{formatDate(new Date(dataValidade))}
+										Valido até: {formatDate(new Date(dataValidade))} - Criado por: {utilizador.name} ({utilizador.id})
 									</p>
 								</div>
 							</div>

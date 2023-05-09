@@ -1,6 +1,6 @@
 import "../styles/Ideias.css";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -52,13 +52,9 @@ export function Ideias() {
 		enviarBtnRef.current.disabled = false;
 	}
 
-	/**
-	 * @param {React.FormEvent<HTMLFormElement>} event
-	 */
+	/** @param {React.FormEvent<HTMLFormElement>} event */
 	function handleSubmit(event) {
 		event.preventDefault();
-
-		console.log(event);
 
 		enviarBtnRef.current.disabled = true;
 		setShowAlert(true);
@@ -81,7 +77,7 @@ export function Ideias() {
 							key={`cat-card-${category.category}`}
 							{...category}
 							selected={selectedCategory === category.category}
-							onClick={() => setSelectedCategory(handleCategoryChange(category, selectedCategory))}
+							onClick={() => setSelectedCategory(handleCategoryChange(category.category, selectedCategory))}
 						/>
 					))}
 				</Container>
@@ -95,6 +91,8 @@ export function Ideias() {
 							Submeta a sua ideia
 						</h1>
 					</div>
+
+					<p className="mb-2 text-white">Selecione a opção que melhor categoriza a sua ideia:</p>
 
 					<ButtonGroup className="mb-2">
 						{categories.map(({ category, title }) => (
@@ -110,7 +108,7 @@ export function Ideias() {
 					</ButtonGroup>
 
 					<Form onSubmit={handleSubmit}>
-						<Form.Control as="textarea" placeholder="Descreva a sua ideia" rows={8} />
+						<Form.Control as="textarea" placeholder="Descreva a sua ideia" rows={8} required />
 
 						<div className="d-flex justify-content-center align-items-center">
 							<Button
@@ -191,6 +189,10 @@ function CategoriaCard({ icon: Icon, title, description, category, selected, onC
 	);
 }
 
-function handleCategoryChange({ category }, currentCategory) {
+/**
+ * @param {number} category
+ * @param {?number|undefined} currentCategory
+ */
+function handleCategoryChange(category, currentCategory) {
 	return category === currentCategory ? null : category;
 }
