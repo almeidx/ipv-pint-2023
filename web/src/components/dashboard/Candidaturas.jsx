@@ -35,7 +35,7 @@ export default function Candidaturas() {
 					<Spinner />
 				) : (
 					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center">
+						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`candidatura-${id}`}>
 							<div>
 								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
 									{id} - {utilizador.name}

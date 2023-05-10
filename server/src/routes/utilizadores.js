@@ -1,6 +1,9 @@
 const { Router } = require("express");
-const { create, read, update } = require("../controllers/utilizadores.controller.js");
+const { read, update, disableAccount } = require("../controllers/utilizadores.controller.js");
 
-const utilizadoresRouter = Router().post("/:id", create).get("/", read).patch("/:id", update);
+const utilizadoresRouter = Router() //
+	.get("/", read)
+	.patch("/:id", update)
+	.patch("/disable/:id", disableAccount);
 
 module.exports = utilizadoresRouter;

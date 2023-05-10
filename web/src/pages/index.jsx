@@ -83,15 +83,15 @@ export function Home() {
 				/>
 
 				<Container className="col-12 row mx-auto gap-5 px-4 pt-5">
-					<ReportingCard title="Utilizadores registados" endpoint="/utilizadores" />
-					<ReportingCard title="Candidaturas submetidas" endpoint="/candidaturas" />
-					<ReportingCard title="Negócios criados" endpoint="/negocios" />
+					<ReportingCard title="Utilizadores registados" page="/utilizadores" />
+					<ReportingCard title="Candidaturas submetidas" page="/candidaturas" />
+					<ReportingCard title="Negócios criados" page="/negocios" />
 				</Container>
 
 				<Container className="col-12 row mx-auto gap-5 px-4 py-5">
-					<ReportingCard title="Ideias submetidas" endpoint="/ideias" />
-					<ReportingCard title="Total vagas" endpoint="/vagas" />
-					<ReportingCard title="Número de beneficios" endpoint="/beneficios" />
+					<ReportingCard title="Ideias submetidas" page="/ideias" />
+					<ReportingCard title="Total vagas" page="/vagas" />
+					<ReportingCard title="Número de beneficios" page="/beneficios" />
 				</Container>
 
 				<div
@@ -180,12 +180,12 @@ const INTERVALS = [
 /**
  * @param {Object} props
  * @param {string} props.title
- * @param {string} props.endpoint
+ * @param {string} props.page
  */
-function ReportingCard({ title, endpoint }) {
+function ReportingCard({ title, page }) {
 	const [intervalIndex, setIntervalIndex] = useState(INTERVALS.length - 1);
 	const intervalData = useMemo(() => INTERVALS[intervalIndex], [intervalIndex]);
-	const { data, isLoading } = useSWR(API_URL + "/reporting" + endpoint + "?interval=" + intervalData.value, fetcher);
+	const { data, isLoading } = useSWR(API_URL + "/reporting" + page + "?interval=" + intervalData.value, fetcher);
 
 	function handleIntervalChange() {
 		setIntervalIndex((idx) => (idx === INTERVALS.length - 1 ? 0 : idx + 1));

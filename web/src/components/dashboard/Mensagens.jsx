@@ -46,7 +46,7 @@ export default function Mensagens() {
 					<Spinner />
 				) : filtered.length ? (
 					filtered.map(({ id, createdAt, criador, content, registered }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center">
+						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`mensagem-${id}`}>
 							<div>
 								<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 									{id} - {criador.name}

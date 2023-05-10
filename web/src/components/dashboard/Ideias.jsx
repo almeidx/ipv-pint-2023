@@ -2,7 +2,7 @@ import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { IoMdAdd } from "react-icons/io";
-import { RiCheckFill, RiCloseFill } from "react-icons/ri";
+import { RiCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
@@ -10,10 +10,40 @@ import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
 import { Spinner } from "../Spinner.jsx";
+import FormCheck from "react-bootstrap/FormCheck";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/ideias", fetcher);
+	const { isLoading, data, mutate } = useSWR(API_URL + "/ideias", fetcher);
+
+	/**
+	 * @param {number} id
+	 * @param {boolean} checked
+	 */
+	async function handleValidateChange(id, checked) {
+		try {
+			const response = await fetch(`${API_URL}/ideias/${id}`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					ideiaValidada: checked,
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", {
+					cause: response,
+				});
+			}
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	return (
 		<Container className="py-4">
@@ -30,8 +60,8 @@ export default function Ideias() {
 				{isLoading ? (
 					<Spinner />
 				) : (
-					data.map(({ id, dataCriacao, categoria, utilizador, content }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center">
+					data.map(({ id, dataCriacao, categoria, utilizador, content, ideiaValidada }) => (
+						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`ideia-${id}`}>
 							<div>
 								<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 									{id} - {content}
@@ -43,7 +73,13 @@ export default function Ideias() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<RiCheckFill size={32} color="green" />
+								<FormCheck
+									type="checkbox"
+									label="Validada"
+									value={ideiaValidada}
+									onChange={(e) => handleValidateChange(id, e.target.checked)}
+								/>
+
 								<RiCloseFill size={32} color="red" />
 							</div>
 						</ListGroup.Item>

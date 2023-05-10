@@ -13,9 +13,7 @@ module.exports = {
 			}
 
 			if (!user) {
-				res.status(401).json({
-					message: "Invalid credentials",
-				});
+				res.status(401).json({ message: "Credenciais inválidas" });
 				return;
 			}
 
@@ -31,16 +29,11 @@ module.exports = {
 
 	user(req, res) {
 		if (!req.user) {
-			res.status(401).json({
-				message: "Not logged in",
-			});
+			res.status(401).json({ message: "Não tem sessão iniciada" });
 			return;
 		}
 
-		res.json({
-			cookie: req.cookies["connect.sid"],
-			user: req.user,
-		});
+		res.json({ cookie: req.cookies["connect.sid"], user: req.user });
 	},
 
 	logout(req, res) {
@@ -51,9 +44,7 @@ module.exports = {
 		req.logout((err) => {
 			if (err) {
 				console.error(err);
-				res.status(500).json({
-					message: "Failed to log out",
-				});
+				res.status(500).json({ message: "Não foi possível iniciar a sessão" });
 				return;
 			}
 
@@ -65,9 +56,7 @@ module.exports = {
 		const { name, email, password } = req.body;
 
 		if (!name || !email || !password) {
-			res.status(400).json({
-				message: "Invalid request",
-			});
+			res.status(400).json({ message: "Invalid request" });
 			return;
 		}
 
@@ -97,9 +86,7 @@ module.exports = {
 					return next(err);
 				}
 
-				return res.json({
-					user: req.user,
-				});
+				return res.json({ user: req.user });
 			});
 		})(req, res, next);
 	},

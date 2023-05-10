@@ -17,5 +17,5 @@ module.exports = {
 
 	update() {},
 
-	delete_() {},
+	destroy() {},
 };

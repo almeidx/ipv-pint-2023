@@ -103,17 +103,25 @@ const Utilizador = sequelize.define(
 			field: "ULTIMA_DATA_LOGIN",
 			defaultValue: DataTypes.NOW,
 		},
-		activeAccount: {
-			type: DataTypes.BOOLEAN,
-			field: "ACTIVE_ACCOUNT",
-			allowNull: false,
-			defaultValue: true,
-		},
 		createdAt: {
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO",
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
+		},
+		disabled: {
+			type: DataTypes.BOOLEAN,
+			field: "ACTIVE_ACCOUNT",
+			allowNull: false,
+			defaultValue: true,
+		},
+		disabledBy: {
+			type: DataTypes.INTEGER,
+			field: "DISABLED_BY",
+		},
+		disabledAt: {
+			type: DataTypes.DATE,
+			field: "DISABLED_AT",
 		},
 	},
 	{ timestamps: false },

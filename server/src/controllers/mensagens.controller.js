@@ -6,9 +6,7 @@ module.exports = {
 		const { name, email, content } = req.body;
 
 		if (!content) {
-			res.status(400).json({
-				message: "Missing content",
-			});
+			res.status(400).json({ message: "Missing content" });
 			return;
 		}
 
@@ -21,9 +19,7 @@ module.exports = {
 			options.idCriador = req.user.id;
 		} else {
 			if (!name || !email) {
-				res.status(400).json({
-					message: "Must be logged in or provide name and email",
-				});
+				res.status(400).json({ message: "Tem que ter sessão iniciada ou passar `name` e `email`" });
 				return;
 			}
 
@@ -31,18 +27,9 @@ module.exports = {
 			options.email = email;
 		}
 
-		try {
-			const mensagem = await Mensagem.create(options);
+		const mensagem = await Mensagem.create(options);
 
-			return res.json(mensagem);
-		} catch (error) {
-			console.error(error);
-
-			res.status(500).json({
-				message: "Internal server error",
-				error,
-			});
-		}
+		res.json(mensagem);
 	},
 
 	async read(req, res) {
@@ -66,5 +53,5 @@ module.exports = {
 		);
 	},
 
-	delete_() {},
+	destroy() {},
 };

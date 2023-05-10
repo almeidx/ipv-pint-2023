@@ -5,21 +5,12 @@ module.exports = {
 	async create(req, res) {
 		const { value, type } = req.body;
 
-		try {
-			const contacto = await Contacto.create({
-				value,
-				type,
-			});
+		const contacto = await Contacto.create({
+			value,
+			type,
+		});
 
-			res.json(contacto);
-		} catch (error) {
-			console.error(error);
-
-			res.status(500).json({
-				message: "Internal server error",
-				error,
-			});
-		}
+		res.json(contacto);
 	},
 
 	async read(req, res) {
@@ -40,5 +31,5 @@ module.exports = {
 
 	update() {},
 
-	delete_() {},
+	destroy() {},
 };

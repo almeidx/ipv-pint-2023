@@ -77,23 +77,23 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 					<span className="fw-bold"> Centro de Trabalho - </span> {centroTrabalho.name}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
-					<span className="fw-bold">Contacto:</span>
+				<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
+					Contacto:
+				</span>
 
-					<ul>
-						{contactos.map(({ idContacto, contacto }) => (
-							<li key={idContacto}>
-								<a
-									className="text-black"
-									style={{ listStyle: "none" }}
-									href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
-								>
-									{contacto.value}
-								</a>
-							</li>
-						))}
-					</ul>
-				</Card.Text>
+				<ul>
+					{contactos.map(({ idContacto, contacto }) => (
+						<li key={idContacto} style={{ fontSize: "1.1rem" }}>
+							<a
+								className="text-black"
+								style={{ listStyle: "none" }}
+								href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
+							>
+								{contacto.value}
+							</a>
+						</li>
+					))}
+				</ul>
 			</Card.Body>
 		</Card>
 	);

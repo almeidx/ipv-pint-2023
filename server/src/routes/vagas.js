@@ -1,8 +1,10 @@
 const { Router } = require("express");
-const VagasController = require("../controllers/vagas.controller.js");
+const { create, read, update, destroy } = require("../controllers/vagas.controller.js");
 
-const vagasRouter = Router();
-
-vagasRouter.get("/", VagasController.read);
+const vagasRouter = Router() //
+	.get("/", read)
+	.post("/", create)
+	.patch("/:id", update)
+	.delete("/:id", destroy);
 
 module.exports = vagasRouter;

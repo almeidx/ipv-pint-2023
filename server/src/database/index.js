@@ -52,8 +52,8 @@ module.exports = {
 
 /**
  * @typedef {Object} Controller
- * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} create
- * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} read
- * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} update
- * @property {(req: import("express").Request, res: import("express").Response) => Promise<void>} delete_
+ * @property {((req: import("express").Request, res: import("express").Response) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response) => Promise<void> | void]} create
+ * @property {((req: import("express").Request, res: import("express").Response) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response) => Promise<void> | void]} read
+ * @property {((req: import("express").Request, res: import("express").Response) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response) => Promise<void> | void]} update
+ * @property {((req: import("express").Request, res: import("express").Response) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response) => Promise<void> | void]} destroy
  */

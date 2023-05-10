@@ -1,8 +1,10 @@
 const { Router } = require("express");
-const BeneficiosController = require("../controllers/beneficios.controller.js");
+const { create, read, update, destroy } = require("../controllers/beneficios.controller.js");
 
-const beneficiosRouter = Router();
-
-beneficiosRouter.get("/", BeneficiosController.read);
+const beneficiosRouter = Router() //
+	.get("/", read)
+	.post("/", create)
+	.patch("/:id", update)
+	.delete("/:id", destroy);
 
 module.exports = beneficiosRouter;

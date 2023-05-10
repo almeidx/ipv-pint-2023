@@ -5,33 +5,24 @@ module.exports = {
 	async create(req, res) {
 		const { idNegocio, idCandidatura, startTime, duration, title, description, subject } = req.body;
 
-		try {
-			const reuniao = await Reuniao.create({
-				idNegocio,
-				idCandidatura,
-				startTime,
-				duration,
-				title,
-				description,
-				subject,
-			});
+		const reuniao = await Reuniao.create({
+			idNegocio,
+			idCandidatura,
+			startTime,
+			duration,
+			title,
+			description,
+			subject,
+		});
 
-			return res.json(reuniao);
-		} catch (error) {
-			console.error(error);
-
-			res.status(500).json({
-				message: "Internal server error",
-				error,
-			});
-		}
+		res.json(reuniao);
 	},
 
-	async read(req, res) {
+	async read(_req, res) {
 		res.json(await Reuniao.findAll());
 	},
 
 	update() {},
 
-	delete_() {},
+	destroy() {},
 };

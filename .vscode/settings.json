@@ -3,6 +3,7 @@
 		"beneficios",
 		"chartjs",
 		"conteudo",
+		"Conteudos",
 		"Criacao",
 		"descricao",
 		"duracao",
@@ -17,7 +18,8 @@
 		"reunioes",
 		"SENDGRID",
 		"signup",
-		"utilizadore"
+		"utilizadore",
+		"Validador"
 	],
 	"editor.tabSize": 2,
 	"editor.insertSpaces": false

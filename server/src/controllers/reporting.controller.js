@@ -56,7 +56,7 @@ module.exports = {
 	 * @param {import("express").Request} req
 	 * @param {import("express").Response} res
 	 */
-	async negociosChart(req, res) {
+	async negociosChart(_req, res) {
 		// Data de 12 meses atrás
 		const date = new Date();
 		date.setMonth(date.getMonth() - 12);
@@ -90,10 +90,7 @@ module.exports = {
 			}
 		}
 
-		res.json({
-			data,
-			labels,
-		});
+		res.json({ data, labels });
 	},
 };
 

@@ -1,98 +1,86 @@
+const { body } = require("express-validator");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
+const { requirePermission, requireLogin } = require("../middleware/authentication.js");
+const { validate } = require("../middleware/validation.js");
+const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
-	async create(req, res) {
-		const { idTipoUser, name, email, password, cv } = req.body;
+	read: [
+		requirePermission(TipoUtilizadorEnum.Administrador),
 
-		try {
-			const utilizador = await Utilizador.create({
-				idTipoUser,
-				name,
-				email,
-				password,
-				cv: cv ?? null,
-			});
+		async (req, res) => {
+			const { id } = req.params;
 
-			res.json(utilizador);
-		} catch (err) {
-			console.error(err);
+			if (id) {
+				const utilizador = await Utilizador.findByPk(id);
+				if (!utilizador) {
+					res.status(404).json({ message: "Utilizador não encontrado" });
+					return;
+				}
 
-			res.status(500).json({
-				message: "Internal server error",
-			});
-		}
-	},
-
-	async read(req, res) {
-		const { id } = req.params;
-
-		if (id) {
-			const utilizador = await Utilizador.findByPk(id);
-
-			if (!utilizador) {
-				res.status(404).json({
-					message: "Utilizador not found",
-				});
+				res.json(utilizador);
+				return;
 			}
 
-			res.json(utilizador);
+			res.json(
+				await Utilizador.findAll({
+					attributes: ["id", "name", "email", "lastLoginDate"],
+					include: [
+						{
+							model: TipoUtilizador,
+							as: "tipoUtilizador",
+							attributes: ["name", "id"],
+						},
+					],
+					order: [["id", "ASC"]],
+				}),
+			);
+		},
+	],
 
-			return;
-		}
+	update: [
+		requirePermission(TipoUtilizadorEnum.Administrador),
+		validate(body("idTipoUser", "`idTipoUser` tem que estar entre [1, 5]").isInt({ min: 1, max: 5 })),
 
-		res.json(
-			await Utilizador.findAll({
-				attributes: ["id", "name", "email", "lastLoginDate"],
-				include: [
-					{
-						model: TipoUtilizador,
-						as: "tipoUtilizador",
-						attributes: ["name", "id"],
-					},
-				],
-				order: [["id", "ASC"]],
-			}),
-		);
-	},
+		async (req, res) => {
+			const { idTipoUser } = req.body;
+			const { id } = req.params;
 
-	async update(req, res) {
-		if (!req.user) {
-			res.status(401).json({
-				message: "Not logged in",
-			});
-			return;
-		}
+			const utilizador = await Utilizador.findByPk(id);
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
 
-		if (req.user.tipoUtilizador.id !== 5) {
-			res.status(403).json({
-				message: "Not authorized",
-			});
-			return;
-		}
+			await utilizador.update({ idTipoUser: Number.parseInt(idTipoUser, 10) });
+		},
+	],
 
-		const { idTipoUser } = req.body;
-		const { id } = req.params;
+	disableAccount: [
+		requireLogin(),
+		validate(body("active", "`active` tem que ser do tipo boolean").isBoolean()),
 
-		const parsed = Number.parseInt(idTipoUser, 10);
+		async (req, res) => {
+			const { disabled } = req.body;
+			const { id } = req.params;
 
-		if (Number.isNaN(parsed) || idTipoUser < 0 || idTipoUser > 5) {
-			return res.status(400).json({
-				message: "Invalid idTipoUser",
-			});
-		}
+			const utilizador = await Utilizador.findByPk(id);
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
 
-		await Utilizador.update(
-			{
-				idTipoUser,
-			},
-			{
-				where: {
-					id,
-				},
-			},
-		);
-	},
+			const opts = {
+				disabled,
+				disabledAt: new Date(),
+			};
 
-	delete_() {},
+			if (req.user.tipoUtilizador.id === TipoUtilizadorEnum.Administrador) {
+				opts.disabledBy = req.user.id;
+			}
+
+			await utilizador.update(opts);
+		},
+	],
 };

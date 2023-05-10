@@ -1,8 +1,7 @@
 const { Router } = require("express");
-const CandidaturasController = require("../controllers/candidaturas.controller.js");
+const { read } = require("../controllers/candidaturas.controller.js");
 
-const candidaturasRouter = Router();
-
-candidaturasRouter.get("/", CandidaturasController.read);
+const candidaturasRouter = Router() //
+	.get("/", read);
 
 module.exports = candidaturasRouter;

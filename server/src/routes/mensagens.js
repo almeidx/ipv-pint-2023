@@ -1,10 +1,9 @@
 const { Router } = require("express");
-const { create, read, delete_ } = require("../controllers/mensagens.controller.js");
+const { create, read, destroy } = require("../controllers/mensagens.controller.js");
 
-const mensagensRouter = Router();
-
-mensagensRouter.get("/", read);
-mensagensRouter.post("/", create);
-mensagensRouter.delete("/:id", delete_);
+const mensagensRouter = Router() //
+	.get("/", read)
+	.post("/", create)
+	.delete("/:id", destroy);
 
 module.exports = mensagensRouter;

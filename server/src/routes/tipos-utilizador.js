@@ -1,8 +1,7 @@
 const { Router } = require("express");
-const TiposUtilizadorController = require("../controllers/tipos-utilizador.controller.js");
+const { read } = require("../controllers/tipos-utilizador.controller.js");
 
-const tiposUtilizadorRouter = Router();
-
-tiposUtilizadorRouter.get("/", TiposUtilizadorController.read);
+const tiposUtilizadorRouter = Router() //
+	.get("/", read);
 
 module.exports = tiposUtilizadorRouter;

@@ -14,21 +14,16 @@ module.exports = {
 	create(req, res) {
 		const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status } = req.body;
 
-		try {
-			const negocio = Negocio.create({
-				idAreaNegocio,
-				idCliente,
-				idCentroTrabalho,
-				description,
-				title,
-				status,
-			});
+		const negocio = Negocio.create({
+			idAreaNegocio,
+			idCliente,
+			idCentroTrabalho,
+			description,
+			title,
+			status,
+		});
 
-			res.json(negocio);
-		} catch (error) {
-			console.error(error);
-			res.status(500).json({ error: "Internal server error" });
-		}
+		res.json(negocio);
 	},
 
 	async read(req, res) {
@@ -94,5 +89,5 @@ module.exports = {
 
 	update() {},
 
-	delete_() {},
+	destroy() {},
 };

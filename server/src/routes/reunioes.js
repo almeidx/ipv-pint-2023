@@ -1,8 +1,7 @@
 const { Router } = require("express");
-const reunioesController = require("../controllers/reunioes.controller.js");
+const { read } = require("../controllers/reunioes.controller.js");
 
-const reunioesRouter = Router();
-
-reunioesRouter.get("/", reunioesController.read);
+const reunioesRouter = Router() //
+	.get("/", read);
 
 module.exports = reunioesRouter;
