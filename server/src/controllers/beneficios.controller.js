@@ -30,7 +30,10 @@ module.exports = {
 
 		const opts = {
 			attributes: ["id", "content", "shortContent", "iconeBeneficio"],
-			order: [["dataValidade", "ASC"]],
+			order: [
+				["dataValidade", "ASC"],
+				["id", "ASC"],
+			],
 		};
 
 		if (admin !== undefined) {

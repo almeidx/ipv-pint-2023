@@ -56,7 +56,43 @@ module.exports = {
 		);
 	},
 
-	update() {},
+	async update(req, res) {
+		if (!req.user) {
+			res.status(401).json({
+				message: "Not logged in",
+			});
+			return;
+		}
+
+		if (req.user.tipoUtilizador.id !== 5) {
+			res.status(403).json({
+				message: "Not authorized",
+			});
+			return;
+		}
+
+		const { idTipoUser } = req.body;
+		const { id } = req.params;
+
+		const parsed = Number.parseInt(idTipoUser, 10);
+
+		if (Number.isNaN(parsed) || idTipoUser < 0 || idTipoUser > 5) {
+			return res.status(400).json({
+				message: "Invalid idTipoUser",
+			});
+		}
+
+		await Utilizador.update(
+			{
+				idTipoUser,
+			},
+			{
+				where: {
+					id,
+				},
+			},
+		);
+	},
 
 	delete_() {},
 };

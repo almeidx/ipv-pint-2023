@@ -11,13 +11,21 @@ const authRouter = Router()
 	.get("/auth/logout", logout)
 
 	.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email"] }))
-	.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
-		res.redirect(process.env.WEB_URL);
-	})
+	.get(
+		"/auth/facebook/callback",
+		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/login" }),
+		(req, res) => {
+			res.redirect(process.env.WEB_URL);
+		},
+	)
 
 	.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }))
-	.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
-		res.redirect(process.env.WEB_URL);
-	});
+	.get(
+		"/auth/google/callback",
+		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/login" }),
+		(req, res) => {
+			res.redirect(process.env.WEB_URL);
+		},
+	);
 
 module.exports = authRouter;

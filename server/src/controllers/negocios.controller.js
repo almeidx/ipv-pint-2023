@@ -70,6 +70,7 @@ module.exports = {
 					order: [["estado", "ASC"]],
 				},
 			],
+			order: [["id", "ASC"]],
 		};
 
 		if (admin !== undefined) {

@@ -7,17 +7,11 @@ module.exports = {
 	create(req, res) {},
 
 	async read(req, res) {
-		const data = (
-			await Candidatura.findAll({
-				include: [Utilizador, Vaga],
-			})
-		).map((candidatura) => candidatura.toJSON());
-
 		res.json(
-			data.map(({ utilizadore, ...candidatura }) => ({
-				...candidatura,
-				utilizador: utilizadore,
-			})),
+			await Candidatura.findAll({
+				include: [{ model: Utilizador, as: "utilizador" }, Vaga],
+				order: [["id", "ASC"]],
+			}),
 		);
 	},
 

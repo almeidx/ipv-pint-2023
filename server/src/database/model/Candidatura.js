@@ -59,7 +59,7 @@ const Candidatura = sequelize.define(
 	{ timestamps: false },
 );
 
-Candidatura.belongsTo(Utilizador, { foreignKey: "idUser" });
+Candidatura.belongsTo(Utilizador, { foreignKey: "idUser", as: "utilizador" });
 Candidatura.belongsTo(Vaga, { foreignKey: "idVaga" });
 
 module.exports = Candidatura;
