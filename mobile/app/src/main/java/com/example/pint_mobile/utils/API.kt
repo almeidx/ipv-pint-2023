@@ -141,6 +141,24 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
     queue.add(request)
 }
 
+fun Tipo_Utilizador(ctx: Context, callback: (ArrayList<Tipo_Utilizador>) -> Unit) {
+    val queue = Volley.newRequestQueue(ctx)
+    val tipoUtilizadores = ArrayList<Tipo_Utilizador>()
+    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/tipoUtilizadores", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawTipo = response.getJSONObject(i)
+            val id = rawTipo.getJSONObject("tipoUtilizador").getInt("id")
+            val nome = rawTipo.getJSONObject("tipoUtilizador").getString("nome")
+            tipoUtilizadores.add(Tipo_Utilizador( nome))
+        }
+        callback(tipoUtilizadores)
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
 fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: AdminIdeiasActivity.IdeiaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 

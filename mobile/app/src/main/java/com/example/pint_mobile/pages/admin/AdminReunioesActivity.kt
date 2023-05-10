@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
 import com.example.pint_mobile.utils.Mensagem
 import com.example.pint_mobile.utils.Reuniao
 import com.example.pint_mobile.utils.listaMensagens
@@ -88,5 +90,10 @@ class AdminReunioesActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    fun CriarReuniao (view: View) {
+        val intent = Intent(this, CriarReuniaoActivity::class.java)
+        startActivity(intent)
     }
 }

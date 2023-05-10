@@ -5,6 +5,7 @@ class Utilizador(val id: Int, val name: String, val email: String, val lastLogin
     val dataUltimoLogin = lastLoginDate
     val tipoUtilizador = tipoUserNome
 
+
     fun compareToString(text: String): Boolean {
         return nome.contains(text, true)
                 || email.contains(text, true)

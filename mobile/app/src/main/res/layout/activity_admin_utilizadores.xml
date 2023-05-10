@@ -26,8 +26,8 @@
 			android:id="@+id/textInputLayout"
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_height="64dp"
-			android:layout_width="260dp"
-			android:hint="@string/pesquise_por_beneficios"
+			android:layout_width="match_parent"
+			android:hint="@string/pesquisar_utilizador"
 			app:boxBackgroundColor="@color/white"
 			app:boxStrokeColor="@color/black"
 			app:layout_constraintEnd_toEndOf="parent"
@@ -42,14 +42,6 @@
 				android:drawablePadding="2dp"
 			/>
 		</com.google.android.material.textfield.TextInputLayout>
-
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/add"
-			android:layout_gravity="center"
-			android:layout_marginLeft="15dp"
-		/>
 
 	</LinearLayout>
 
