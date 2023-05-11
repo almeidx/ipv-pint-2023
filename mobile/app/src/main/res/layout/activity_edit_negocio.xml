@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.admin.edit.EditarUtilizadorActivity"
+    tools:context=".pages.admin.edit.EditNegocioActivity"
     android:background="@color/bg"
     >
 
@@ -25,14 +25,14 @@
         >
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/NomeUtilizador"
+            android:id="@+id/tituloNegocio"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:hint="nome utilizador"
+            android:hint="Titulo do negocio"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/NomeUtilizadorEdit"
+                android:id="@+id/tituloNegocioEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -49,14 +49,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/EmailUtilizador"
+            android:id="@+id/statusNegocio"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:hint="email utilizador"
+            android:hint="Status do negocio"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/statusNegocioEdit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descricaoNegocio"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:hint="Descrição do negocio"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,29 +88,58 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/EmailUtilizadorEdit"
+                android:id="@+id/descricaoNegocioEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/cargos"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/clienteNegocio"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
-            android:background="@drawable/spinner_background"
-            android:padding="8dp"
+            android:hint="cliente do negocio"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            >
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/clienteNegocioEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/criadorNegocio"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:hint="criador do negocio"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/criadorNegocioEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

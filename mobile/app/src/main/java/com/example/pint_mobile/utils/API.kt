@@ -56,7 +56,7 @@ fun listaBeneficios(list: ArrayList<Beneficio>, allList: ArrayList<Beneficio>, a
 fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasActivity.VagaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/vagas", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/vagas", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawVaga = response.getJSONObject(i)
             val vaga = Vaga(
@@ -67,12 +67,9 @@ fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasAc
                 rawVaga.getInt("id"),
                 rawVaga.getInt("status")
             )
-
             list.add(vaga)
         }
-
         allList.addAll(list)
-
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
@@ -82,10 +79,10 @@ fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasAc
     queue.add(request)
 }
 
-fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter: NegociosActivity.NegocioAdapter, ctx: Context) {
+fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter: NegociosActivity.NegocioAdapter, ctx: Context, admin: Boolean = false) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/negocios", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/negocios${if (admin)"?admin" else ""}", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawNegocio = response.getJSONObject(i)
             val negocio = Negocio(
@@ -100,7 +97,8 @@ fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter
                 rawNegocio.getJSONObject("centroTrabalho").getString("name"),
                 rawNegocio.getJSONObject("centroTrabalho").getString("location"),
                 rawNegocio.getJSONObject("centroTrabalho").getString("postalCode"),
-                rawNegocio.getJSONObject("centroTrabalho").getString("address")
+                rawNegocio.getJSONObject("centroTrabalho").getString("address"),
+                rawNegocio.getInt("status"),
             )
             list.add(negocio)
         }
@@ -119,16 +117,19 @@ fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter
 fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador>, adapter: AdminUtilizadoresActivity.UtilizadorAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/utilizadores", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/utilizadores", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawUser = response.getJSONObject(i)
+            val tipoUser = rawUser.getJSONObject("tipoUtilizador")
             val user = Utilizador(
                 rawUser.getInt("id"),
                 rawUser.getString("name"),
                 rawUser.getString("email"),
                 rawUser.getString("lastLoginDate"),
-                rawUser.getJSONObject("tipoUtilizador").getInt("id"),
-                rawUser.getJSONObject("tipoUtilizador").getString("name")
+                TipoUtilizador(
+                    tipoUser.getInt("id"),
+                    tipoUser.getString("name")
+                )
             )
             list.add(user)
         }
@@ -141,15 +142,15 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
     queue.add(request)
 }
 
-fun Tipo_Utilizador(ctx: Context, callback: (ArrayList<Tipo_Utilizador>) -> Unit) {
+fun listaTipoUtilizador(ctx: Context, callback: (ArrayList<TipoUtilizador>) -> Unit) {
     val queue = Volley.newRequestQueue(ctx)
-    val tipoUtilizadores = ArrayList<Tipo_Utilizador>()
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/tipoUtilizadores", null, { response -> try {
+    val tipoUtilizadores = ArrayList<TipoUtilizador>()
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/tipos-utilizador", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawTipo = response.getJSONObject(i)
-            val id = rawTipo.getJSONObject("tipoUtilizador").getInt("id")
-            val nome = rawTipo.getJSONObject("tipoUtilizador").getString("nome")
-            tipoUtilizadores.add(Tipo_Utilizador( nome))
+            val id = rawTipo.getInt("id")
+            val nome = rawTipo.getString("name")
+            tipoUtilizadores.add(TipoUtilizador(id, nome))
         }
         callback(tipoUtilizadores)
     } catch (e: JSONException) {
@@ -162,7 +163,7 @@ fun Tipo_Utilizador(ctx: Context, callback: (ArrayList<Tipo_Utilizador>) -> Unit
 fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: AdminIdeiasActivity.IdeiaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/ideias", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/ideias", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawIdeia = response.getJSONObject(i)
             val ideia = Ideia(
@@ -187,7 +188,7 @@ fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: Admi
 fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatura>, adapter: AdminCandidaturasActivity.CandidaturaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/candidaturas", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx,Request.Method.GET, "$API_URL/candidaturas", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawCandidatura = response.getJSONObject(i)
             val candidatura = Candidatura(
@@ -212,7 +213,7 @@ fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatu
 fun listaMensagens(list: ArrayList<Mensagem>, allList: ArrayList<Mensagem>, adapter: AdminMensagensActivity.MensagemAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/mensagens", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/mensagens", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawMensagem = response.getJSONObject(i)
             val mensagem = Mensagem(
@@ -249,9 +250,7 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
             )
             list.add(reuniao)
         }
-
         allList.addAll(list)
-
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
@@ -264,7 +263,7 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
 fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivity.NotificacaoAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = object : JsonArrayRequest(Request.Method.GET, "$API_URL/notificacoes", null,
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/notificacoes", null,
         { response ->
             for (i in 0 until response.length()) {
                 val rawNotificacao = response.getJSONObject(i)
@@ -279,18 +278,7 @@ fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivit
             }
 
             adapter.notifyDataSetChanged()
-        }, { error -> error.printStackTrace() }) {
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = HashMap<String, String>()
-
-            val cookieHeader = getCookie(ctx)
-            if (cookieHeader != null) {
-                headers["Cookie"] = cookieHeader
-            }
-
-            return headers
-        }
-    }
+        }, { error -> error.printStackTrace() })
 
     queue.add(request)
 }

@@ -69,14 +69,14 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
 
             nomeUtilizador.text = utilizador.nome
             emailUtilizador.text = utilizador.email
-            tipoUtilizador.text = utilizador.tipoUtilizador
+            tipoUtilizador.text = utilizador.tipoUser.nome
 
             view.setOnClickListener {
                 val intent = Intent(view.context, EditarUtilizadorActivity::class.java)
 
                 intent.putExtra("nome", utilizador.nome)
                 intent.putExtra("email", utilizador.email)
-                intent.putExtra("cargo", utilizador.tipoUtilizador)
+                intent.putExtra("cargoId", utilizador.tipoUser.id)
 
 
                 view.context.startActivity(intent)

@@ -23,11 +23,11 @@ class AdminNegociosActivity : AppCompatActivity() {
         setupActivityListeners(window, supportActionBar, this, "Administração de Negócios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
-        negociosAdapter = NegociosActivity.NegocioAdapter(negociosList, R.layout.item_negocio_admin)
+        negociosAdapter = NegociosActivity.NegocioAdapter(negociosList, R.layout.item_negocio_admin, true)
 
         lista.adapter = negociosAdapter
 
-        listaNegocios(negociosList, allNegociosList, negociosAdapter, this)
+        listaNegocios(negociosList, allNegociosList, negociosAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
