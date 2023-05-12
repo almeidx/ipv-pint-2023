@@ -115,7 +115,7 @@
 		app:layout_constraintTop_toBottomOf="@+id/enviar"
 	/>
 
-    <TextView
+	<TextView
 		android:id="@+id/numerotel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -128,10 +128,9 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/local"
-	/>
+		app:layout_constraintTop_toBottomOf="@+id/local" />
 
-    <TextView
+	<TextView
 		android:id="@+id/mail"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -146,8 +145,7 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/numerotel"
-	/>
+		app:layout_constraintTop_toBottomOf="@+id/numerotel" />
 
     <include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

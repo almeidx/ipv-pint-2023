@@ -3,8 +3,11 @@ package com.example.pint_mobile.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.deleteCurrentUser
@@ -37,4 +40,6 @@ class PerfilActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+    //funcoes para o boneco do perfil
+
 }

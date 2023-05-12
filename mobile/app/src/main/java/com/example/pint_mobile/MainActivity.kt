@@ -3,6 +3,8 @@ package com.example.pint_mobile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -86,5 +88,20 @@ class MainActivity : AppCompatActivity() {
     fun gotoAdmin(_view: View){
         val intent = Intent(this, AdminActivity::class.java)
         startActivity(intent)
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.profile, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    //esta tambem faz parte
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profile2 -> {
+                val intent = Intent(this, PerfilActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
