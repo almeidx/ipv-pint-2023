@@ -30,7 +30,7 @@ class AdminCandidaturasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_candidaturas)
 
-        setupActivityListeners(window, supportActionBar, this, "Administração de Candidaturas", findViewById(R.id.bottombar))
+        setupActivityListeners(window, supportActionBar, this, "Administração Candidaturas", findViewById(R.id.bottombar))
         val lista = findViewById<ListView>(R.id.listaCandidaturas)
         candidaturasAdapter = CandidaturaAdapter(candidaturasList, R.layout.item_candidatura_admin)
 

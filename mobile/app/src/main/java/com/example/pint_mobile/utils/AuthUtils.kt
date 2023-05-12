@@ -15,8 +15,11 @@ fun getCurrentUser(ctx: Context): Utilizador? {
         json.getString("name"),
         json.getString("email"),
         "", // json.getString("lastLoginDate"),
-        tipoUtilizador.getInt("id"),
-        tipoUtilizador.getString("name")
+        TipoUtilizador(
+            tipoUtilizador.getInt("id"),
+            tipoUtilizador.getString("name")
+        )
+
     )
 }
 

@@ -14,6 +14,8 @@ import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.InfoVagaActivity
+import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
+import com.example.pint_mobile.pages.admin.edit.ValidarIdeiaActivity
 import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.listaIdeias
@@ -30,7 +32,7 @@ class AdminIdeiasActivity : AppCompatActivity() {
         setupActivityListeners(window, supportActionBar, this, "Administração de Ideias", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaIdeias)
-        ideiasAdapter = IdeiaAdapter(ideiasList, R.layout.item_ideia)
+        ideiasAdapter = IdeiaAdapter(ideiasList, R.layout.item_ideia_admin)
 
         lista.adapter = ideiasAdapter
 
@@ -72,6 +74,17 @@ class AdminIdeiasActivity : AppCompatActivity() {
             categoriaIdeia.text = ideia.categoria
             criadorIdeia.text = ideia.dataCriacao
             dataIdeia.text = ideia.criador
+
+            view.setOnClickListener {
+                val intent = Intent(view.context, ValidarIdeiaActivity::class.java)
+
+                intent.putExtra("titulo", ideia.descricao)
+                intent.putExtra("descricao", ideia.categoria)
+                intent.putExtra("data", ideia.dataCriacao)
+                intent.putExtra("criador", ideia.criador)
+
+                view.context.startActivity(intent)
+            }
 
             return view
         }

@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,6 +12,8 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
+import com.example.pint_mobile.pages.admin.edit.MensagemValidarActivity
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.listaUtilizadores
@@ -66,7 +69,18 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
 
             nomeUtilizador.text = utilizador.nome
             emailUtilizador.text = utilizador.email
-            tipoUtilizador.text = utilizador.tipoUtilizador
+            tipoUtilizador.text = utilizador.tipoUser.nome
+
+            view.setOnClickListener {
+                val intent = Intent(view.context, EditarUtilizadorActivity::class.java)
+
+                intent.putExtra("nome", utilizador.nome)
+                intent.putExtra("email", utilizador.email)
+                intent.putExtra("cargoId", utilizador.tipoUser.id)
+
+
+                view.context.startActivity(intent)
+            }
 
 
             return view
