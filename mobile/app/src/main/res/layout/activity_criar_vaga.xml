@@ -26,7 +26,7 @@
 
         <com.google.android.material.button.MaterialButtonToggleGroup
 			android:id="@+id/toggleButton"
-			android:layout_marginTop="40dp"
+			android:layout_marginTop="25dp"
 			android:layout_marginStart="25dp"
 			android:layout_marginEnd="25dp"
 			app:singleSelection="true"
@@ -54,7 +54,7 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="40dp"
+			android:layout_marginTop="25dp"
 			android:layout_marginStart="25dp"
 			android:layout_marginEnd="25dp"
 			android:hint="Titulo da Vaga"
@@ -78,7 +78,7 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="40dp"
+			android:layout_marginTop="25dp"
 			android:layout_marginStart="25dp"
 			android:layout_marginEnd="25dp"
 			android:hint="Descrição da Vaga"
@@ -95,6 +95,29 @@
 			/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/slotsVaga"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="25dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Slots da Vaga"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/slotsVagaCriar"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				/>
+
+		</com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
 			android:layout_width="match_parent"
