@@ -3,9 +3,12 @@ package com.example.pint_mobile.utils
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.Window
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
@@ -13,6 +16,7 @@ import com.example.pint_mobile.pages.ContactoActivity
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
+import com.example.pint_mobile.pages.PerfilActivity
 import com.example.pint_mobile.pages.VagasActivity
 import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,9 +33,11 @@ fun setupActivityListeners(
         window.statusBarColor = ctx.getColor(R.color.tudo)
         supportActionBar?.title = title
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.navigationBarColor = ctx.getColor(R.color.tudo)
     } else {
         // As páginas baseadas no login são as únicas sem titulo
         window.statusBarColor = ctx.getColor(R.color.loginStatusBarColor)
+        window.navigationBarColor = ctx.getColor(R.color.loginNavigationBarColor)
     }
 
     nav?.setOnItemSelectedListener { item ->

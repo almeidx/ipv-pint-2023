@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.signup
@@ -16,6 +17,8 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         setupActivityListeners(window, supportActionBar, this)
+
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.loginNavigationBarColor)
     }
 
     fun criarConta(_view: View) {

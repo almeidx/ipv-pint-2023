@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.login
 import com.example.pint_mobile.utils.setupActivityListeners
@@ -15,6 +16,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         setupActivityListeners(window, supportActionBar, this)
+
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.loginNavigationBarColor)
     }
 
     fun loginBtn(_view: View) {
