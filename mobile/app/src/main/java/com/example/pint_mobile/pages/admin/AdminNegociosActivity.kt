@@ -49,6 +49,12 @@ class AdminNegociosActivity : AppCompatActivity() {
         }
     }
 
+    fun CriarNegocio(view: android.view.View) {
+        val intent = android.content.Intent(this, com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity::class.java).apply {
+        }
+        startActivity(intent)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

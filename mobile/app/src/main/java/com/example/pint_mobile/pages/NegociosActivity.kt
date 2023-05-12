@@ -66,7 +66,12 @@ class NegociosActivity : AppCompatActivity() {
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
-            tituloNegocio.text = negocio.titulo + negocio.status
+            tituloNegocio.text = negocio.titulo + ": " + if(negocio.status == 1) "Em espera"
+                                                else if(negocio.status == 2) "A validar"
+                                                else if(negocio.status == 3) "Em desenvolvimento"
+                                                else if(negocio.status == 4) "Em conclusão"
+                                                else if(negocio.status == 5) "Concluído"
+                                                else "Cancelado"
             descricaoNegocio.text = negocio.descricao
             clienteNegocio.text = negocio.cliente
 
@@ -74,10 +79,13 @@ class NegociosActivity : AppCompatActivity() {
                 view.setOnClickListener {
                     val intent = Intent(view.context, EditNegocioActivity::class.java)
 
-                    intent.putExtra("titulo", negocio.titulo)
-                    intent.putExtra("descricao", negocio.descricao)
-                    intent.putExtra("cliente", negocio.cliente)
-                    intent.putExtra("criador", negocio.criador)
+                    intent.putExtra("Cliente", negocio.cliente)
+                    intent.putExtra("FuncionarioName", negocio.FuncionarioName)
+                    intent.putExtra("FuncionarioEmail", negocio.FuncionarioEmail)
+                    intent.putExtra("centroTrabalhoName", negocio.centroTrabalhoName)
+                    intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
+                    intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
+                    intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
                     intent.putExtra("status", negocio.status)
 
                     view.context.startActivity(intent)
