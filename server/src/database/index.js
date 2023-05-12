@@ -27,6 +27,19 @@ Negocio.hasMany(EstadoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "
 Mensagem.hasOne(Utilizador, { sourceKey: "idCriador", foreignKey: "id", as: "criador", constraints: false });
 Utilizador.hasMany(Mensagem, { sourceKey: "id", foreignKey: "idCriador", as: "mensagens" });
 
+Reuniao.belongsToMany(Utilizador, {
+	through: "reunioes_utilizadores",
+	foreignKey: "idReuniao",
+	otherKey: "idUtilizador",
+	timestamps: false,
+});
+Utilizador.belongsToMany(Reuniao, {
+	through: "reunioes_utilizadores",
+	foreignKey: "idUtilizador",
+	otherKey: "idReuniao",
+	timestamps: false,
+});
+
 module.exports = {
 	sequelize,
 	AreaNegocio,

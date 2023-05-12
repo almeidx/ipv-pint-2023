@@ -1,29 +1,32 @@
 const { Cliente } = require("../database/index.js");
+const { requireLogin } = require("../middleware/authentication.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
-	async create(req, res) {
-		const { id, name } = req.body;
+	create: [
+		requireLogin(),
+		async (req, res) => {
+			const { name } = req.body;
 
-		try {
 			const cliente = await Cliente.create({
-				id,
+				idUser: req.user.id,
 				name,
 			});
 
 			res.json(cliente);
-		} catch (error) {
-			console.error(error);
+		},
+	],
 
-			res.status(500).json({ message: "Internal server error" });
-		}
-	},
-
-	async read(req, res) {
-		res.json(await Cliente.findAll());
-	},
-
-	update() {},
-
-	destroy() {},
+	read: [
+		requireLogin(),
+		async (req, res) => {
+			res.json(
+				await Cliente.findAll({
+					where: {
+						idUser: req.user.id,
+					},
+				}),
+			);
+		},
+	],
 };

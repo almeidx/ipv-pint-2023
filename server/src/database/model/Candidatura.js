@@ -50,10 +50,15 @@ const Candidatura = sequelize.define(
 			type: DataTypes.DATE,
 			field: "DATA_SUBMISSAO",
 			allowNull: false,
+			defaultValue: DataTypes.NOW,
 		},
 		refEmail: {
 			type: DataTypes.STRING,
 			field: "EMAIL_REFERENCIA",
+		},
+		conclusionAt: {
+			type: DataTypes.DATE,
+			field: "DATA_CONCLUSAO",
 		},
 	},
 	{ timestamps: false },

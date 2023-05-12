@@ -1,4 +1,4 @@
-import { Spinner as BootstrapSpinner } from "react-bootstrap";
+import BootstrapSpinner from "react-bootstrap/Spinner";
 
 export function Spinner(props) {
 	return (

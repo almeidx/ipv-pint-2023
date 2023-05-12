@@ -61,7 +61,6 @@ const Negocio = sequelize.define(
 		idFuncionarioResponsavel: {
 			type: DataTypes.INTEGER,
 			field: "UTI_ID_USER",
-			allowNull: false,
 			// references: {
 			// 	model: "utilizadores",
 			// 	key: "id",
@@ -79,7 +78,6 @@ const Negocio = sequelize.define(
 		idCentroTrabalho: {
 			type: DataTypes.INTEGER,
 			field: "ID_CENTRO_TRABALHO",
-			allowNull: false,
 			// references: {
 			// 	model: "centros_de_trabalho",
 			// 	key: "id",
@@ -104,6 +102,7 @@ const Negocio = sequelize.define(
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO",
 			allowNull: false,
+			defaultValue: DataTypes.NOW,
 		},
 	},
 	{ timestamps: false },

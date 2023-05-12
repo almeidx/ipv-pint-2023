@@ -1,29 +1,28 @@
 import { useMemo, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import CloseButton from "react-bootstrap/CloseButton";
 import Container from "react-bootstrap/Container";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
-import Toast from "react-bootstrap/Toast";
 import { BiNoEntry } from "react-icons/bi";
-import { RiCheckFill, RiCloseFill, RiPencilLine } from "react-icons/ri";
+import { RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
+import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../SearchBar.jsx";
 import { Spinner } from "../Spinner.jsx";
+import { Toast } from "../Toast.jsx";
 
-export default function Reuniões() {
+export default function Utilizadores() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [userId, setUserId] = useState(null);
-	const [showToast, setShowToast] = useState(false);
-	const [toastMessageType, setToastMessageType] = useState("");
 	const { isLoading, data, mutate } = useSWR(API_URL + "/utilizadores", fetcher);
 	const { data: tiposUtilizador } = useSWR(API_URL + "/tipos-utilizador", fetcher);
+	const { showToast, toggleToast, toastMessage, setToastMessage } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -34,10 +33,6 @@ export default function Reuniões() {
 		[data, search],
 	);
 
-	function disableToast() {
-		setShowToast(false);
-	}
-
 	/**
 	 * @param {number} role
 	 * @param {number} userId
@@ -47,31 +42,27 @@ export default function Reuniões() {
 		setUserId(null);
 
 		try {
-			await fetch(API_URL + "/utilizadores/" + userId, {
+			await fetcher(API_URL + "/utilizadores/" + userId, {
 				credentials: "include",
 				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					idTipoUser: role,
-				}),
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ idTipoUser: role }),
 			});
 
-			setToastMessageType("success");
-			setShowToast(true);
+			setToastMessage("Utilizador editado com sucesso");
+			toggleToast(true);
 
 			mutate();
 		} catch (error) {
 			console.error(error);
 
-			setToastMessageType("error");
-			setShowToast(true);
+			setToastMessage("Ocorreu um erro ao editar o utilizador");
+			toggleToast(false);
 		}
 	}
 
 	return (
-		<Container className="position-relative py-4">
+		<Container className="py-4">
 			<h2 className="mb-3">Utilizadores</h2>
 
 			<SearchBar placeholder="Pesquise por utilizadores..." onSearch={(value) => setSearch(value)} />
@@ -85,28 +76,7 @@ export default function Reuniões() {
 				tiposUtilizadores={tiposUtilizador ?? []}
 			/>
 
-			<Toast
-				show={showToast}
-				onClose={disableToast}
-				className="position-absolute"
-				style={{ bottom: "1rem", right: "1rem", zIndex: "9999" }}
-			>
-				<Toast.Body className="d-flex align-items-center justify-content-between gap-2">
-					<p className="mb-0">
-						{toastMessageType === "success" ? (
-							<>
-								<RiCheckFill size={24} color="green" /> Utilizador editado com sucesso
-							</>
-						) : (
-							<>
-								<RiCloseFill size={24} color="red" /> Falha ao editar utilizador
-							</>
-						)}
-					</p>
-
-					<CloseButton onClick={disableToast} />
-				</Toast.Body>
-			</Toast>
+			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
 
 			<ListGroup>
 				{isLoading ? (

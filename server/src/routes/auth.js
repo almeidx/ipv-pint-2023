@@ -1,31 +1,28 @@
 const { Router } = require("express");
-const passport = require("passport");
-const { register, logout, user, email } = require("../controllers/auth.controller.js");
+const {
+	auth,
+	register,
+	logout,
+	user,
+	email,
+	google,
+	googleCallback,
+	facebook,
+	facebookCallback,
+} = require("../controllers/auth.controller.js");
 
 const authRouter = Router()
-	.get("/auth", passport.authenticate("local"))
+	.get("/auth", auth)
 	.post("/auth/email", email)
 	.get("/auth/user", user)
 
 	.post("/auth/register", register)
 	.get("/auth/logout", logout)
 
-	.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email"] }))
-	.get(
-		"/auth/facebook/callback",
-		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/login" }),
-		(req, res) => {
-			res.redirect(process.env.WEB_URL);
-		},
-	)
+	.get("/auth/facebook", facebook)
+	.get("/auth/facebook/callback", facebookCallback)
 
-	.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }))
-	.get(
-		"/auth/google/callback",
-		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/login" }),
-		(req, res) => {
-			res.redirect(process.env.WEB_URL);
-		},
-	);
+	.get("/auth/google", google)
+	.get("/auth/google/callback", googleCallback);
 
 module.exports = authRouter;

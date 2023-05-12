@@ -1,7 +1,8 @@
 const { Router } = require("express");
-const { read } = require("../controllers/reunioes.controller.js");
+const { create, read } = require("../controllers/reunioes.controller.js");
 
 const reunioesRouter = Router() //
-	.get("/", read);
+	.get("/", read)
+	.post("/", create);
 
 module.exports = reunioesRouter;

@@ -12,7 +12,6 @@ const authRouter = require("./routes/auth.js");
 const beneficiosRouter = require("./routes/beneficios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
 const clientesRouter = require("./routes/clientes.js");
-const contactosRouter = require("./routes/contactos.js");
 const ideiasRouter = require("./routes/ideias.js");
 const mensagensRouter = require("./routes/mensagens.js");
 const negociosRouter = require("./routes/negocios.js");
@@ -31,7 +30,7 @@ const app = express();
 
 app.use(
 	cors({
-		origin: process.env.NODE_ENV === "production" ? process.env.WEB_URL : /.+/,
+		origin: process.env.NODE_ENV === "development" ? (_, cb) => cb(null, true) : process.env.WEB_URL,
 		credentials: true,
 		methods: ["HEAD", "GET", "POST", "PATCH", "OPTIONS", "DELETE"],
 		optionsSuccessStatus: 200,
@@ -65,7 +64,6 @@ app
 	.use("/beneficios", beneficiosRouter)
 	.use("/candidaturas", candidaturasRouter)
 	.use("/clientes", clientesRouter)
-	.use("/clientes/:idCliente/contactos", contactosRouter)
 	.use("/ideias", ideiasRouter)
 	.use("/mensagens", mensagensRouter)
 	.use("/negocios", negociosRouter)

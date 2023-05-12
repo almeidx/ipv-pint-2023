@@ -12,9 +12,9 @@ module.exports = {
 			const { conteudo, categoria } = req.body;
 
 			const ideia = await Ideia.create({
+				idCriador: req.user.id,
 				conteudo,
 				categoria,
-				dataCriacao: new Date(),
 			});
 
 			res.json(ideia);
@@ -51,11 +51,6 @@ module.exports = {
 			const { ideiaValidada } = req.body;
 			const { id } = req.params;
 
-			if (typeof ideiaValidada !== "boolean") {
-				res.status(400).json({ message: "Missing ideiaValidada" });
-				return;
-			}
-
 			const ideia = await Ideia.findByPk(id);
 			if (!ideia) {
 				res.status(404).json({ message: "Ideia não encontrada" });
@@ -73,7 +68,18 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
-		//
-		async (req, res) => {},
+		async (req, res) => {
+			const { id } = req.params;
+
+			const ideia = await Ideia.findByPk(id);
+			if (!ideia) {
+				res.status(404).json({ message: "Ideia não encontrada" });
+				return;
+			}
+
+			await ideia.destroy();
+
+			res.status(204).json({ message: "Ideia eliminada" });
+		},
 	],
 };

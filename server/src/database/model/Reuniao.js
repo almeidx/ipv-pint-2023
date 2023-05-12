@@ -80,11 +80,4 @@ const Reuniao = sequelize.define(
 Reuniao.hasOne(Negocio, { sourceKey: "idNegocio", foreignKey: "id" });
 Reuniao.hasOne(Candidatura, { sourceKey: "idCandidatura", foreignKey: "id" });
 
-Reuniao.belongsToMany(Utilizador, {
-	through: "reunioes_utilizadores",
-	foreignKey: "idReuniao",
-	otherKey: "idUtilizador",
-	timestamps: false,
-});
-
 module.exports = Reuniao;

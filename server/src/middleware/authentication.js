@@ -24,7 +24,7 @@ function requireLogin() {
 }
 
 /**
- * @param {number} permission
+ * @param {number|number[]} permission
  * @return {import("express").RequestHandler}
  */
 function requirePermission(permission) {
@@ -51,10 +51,16 @@ function checkLoginStandalone(req, res) {
 /**
  * @param {import("express").Request} req
  * @param {import("express").Response} res
- * @param {number} permission
+ * @param {number|number[]} permission
  */
 function checkPermissionStandalone(req, res, permission) {
-	if (req.user.tipoUtilizador.id !== permission && req.user.tipoUtilizador.id !== TipoUtilizadorEnum.Administrador) {
+	if (!checkLoginStandalone(req, res)) return false;
+
+	const hasPermission = Array.isArray(permission)
+		? !permission.includes(req.user.tipoUtilizador.id)
+		: req.user.tipoUtilizador.id !== permission;
+
+	if (hasPermission && req.user.tipoUtilizador.id !== TipoUtilizadorEnum.Administrador) {
 		res.status(403).json({ message: "Não tem permissão para acessar esta funcionalidade" });
 		return false;
 	}
