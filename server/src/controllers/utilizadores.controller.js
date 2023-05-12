@@ -41,7 +41,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
-		validate(body("idTipoUser", "`idTipoUser` tem que estar entre [1, 5]").isInt({ min: 1, max: 5 })),
+		validate(body("idTipoUser", "`idTipoUser` tem que estar entre [1, 6]").isInt({ min: 1, max: 6 })),
 
 		async (req, res) => {
 			const { idTipoUser } = req.body;
@@ -53,7 +53,7 @@ module.exports = {
 				return;
 			}
 
-			await utilizador.update({ idTipoUser: Number.parseInt(idTipoUser, 10) });
+			res.json(await utilizador.update({ idTipoUser: Number.parseInt(idTipoUser, 10) }));
 		},
 	],
 

@@ -1,14 +1,14 @@
 package com.example.pint_mobile.utils
 
 class Negocio(shortContent: String, content: String, cliente: String,  email: String, criador: String, areaNegocio: String, FuncName:String, FuncEmail: String, centroTrabalhoName: String, centroTrabalhoLocation: String, centroTrabalhoPostalCode: String, centroTrabalhoAdress: String, status: Int ) {
-    val titulo = shortContent + ": "
+    val titulo = shortContent
     val descricao = content
-    val areaNegocio = "Área de Negócio: " +  areaNegocio
+    val areaNegocio = areaNegocio
     val criador = criador
     val criadorEmail = email
-    val cliente = "Cliente: " + cliente
-    val FuncionarioName = "- " + FuncName
-    val FuncionarioEmail ="- " + FuncEmail
+    val cliente = cliente
+    val FuncionarioName = FuncName
+    val FuncionarioEmail =FuncEmail
     val centroTrabalhoName = centroTrabalhoName
     val centroTrabalhoLocation = centroTrabalhoLocation
     val centroTrabalhoPostalCode = centroTrabalhoPostalCode

@@ -57,11 +57,13 @@ const Notificacao = sequelize.define(
 			type: DataTypes.BOOLEAN,
 			field: "VISTA",
 			allowNull: false,
+			defaultValue: false,
 		},
 		createdAt: {
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO_NOTIFICACAO",
 			allowNull: false,
+			defaultValue: DataTypes.NOW,
 		},
 		type: {
 			type: DataTypes.INTEGER,

@@ -10,37 +10,49 @@ class EditNegocioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_negocio)
 
-        setupActivityListeners(window, supportActionBar, this, "Editar Negócio", findViewById(R.id.bottombar))
+        setupActivityListeners(window, supportActionBar, this, "Editar Negócio")
 
-        val titulo = intent.getStringExtra("titulo")
-        val descricao = intent.getStringExtra("descricao")
-        val cliente = intent.getStringExtra("cliente")
-        val criador = intent.getStringExtra("criador")
-        val status = intent.getStringExtra("status")
+        val FuncionarioName = intent.getStringExtra("FuncionarioName")
+        val FuncionarioEmail = intent.getStringExtra("FuncionarioEmail")
+        val centroTrabalhoName = intent.getStringExtra("centroTrabalhoName")
+        val centroTrabalhoLocation = intent.getStringExtra("centroTrabalhoLocation")
+        val centroTrabalhoPostalCode = intent.getStringExtra("centroTrabalhoPostalCode")
+        val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
+        val cliente = intent.getStringExtra("Cliente")
+        val status = intent.getIntExtra("status", 0)
 
-        val tituloEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.tituloNegocioEdit)
-        tituloEdit.setText(titulo)
-        tituloEdit.isFocusable = false
-        tituloEdit.isFocusableInTouchMode = false
 
-        val descricaoEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.descricaoNegocioEdit)
-        descricaoEdit.setText(descricao)
-        descricaoEdit.isFocusable = false
-        descricaoEdit.isFocusableInTouchMode = false
 
         val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
         clienteEdit.setText(cliente)
         clienteEdit.isFocusable = false
         clienteEdit.isFocusableInTouchMode = false
 
-        val criadorEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.criadorNegocioEdit)
-        criadorEdit.setText(criador)
-        criadorEdit.isFocusable = false
-        criadorEdit.isFocusableInTouchMode = false
-
         val statusEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.statusNegocioEdit)
-        statusEdit.setText(status)
+        statusEdit.setText(if(status == 1) "Em espera"
+                            else if(status == 2) "A validar"
+                            else if(status == 3) "Em desenvolvimento"
+                            else if(status == 4) "Em conclusão"
+                            else if(status == 5) "Concluído"
+                            else "Cancelado")
 
+        val centroTrabalhoNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoNomeNegocioEdit)
+        centroTrabalhoNameEdit.setText(centroTrabalhoName)
+
+        val centroTrabalhoLocationEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoLocationNegocioEdit)
+        centroTrabalhoLocationEdit.setText(centroTrabalhoLocation)
+
+        val centroTrabalhoPostalCodeEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhopostalCodeNegocioEdit)
+        centroTrabalhoPostalCodeEdit.setText(centroTrabalhoPostalCode)
+
+        val centroTrabalhoAdressEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoAdressNegocioEdit)
+        centroTrabalhoAdressEdit.setText(centroTrabalhoAdress)
+
+        val FuncionarioNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioDoNegocioEdit)
+        FuncionarioNameEdit.setText(FuncionarioName)
+
+        val FuncionarioEmailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioEmailNegocioEdit)
+        FuncionarioEmailEdit.setText(FuncionarioEmail)
 
     }
 

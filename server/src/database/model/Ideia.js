@@ -60,11 +60,13 @@ const Ideia = sequelize.define(
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO_IDEIA",
 			allowNull: false,
+			defaultValue: DataTypes.NOW,
 		},
 		ideiaValidada: {
 			type: DataTypes.BOOLEAN,
 			field: "IDEIA_VALIDADA",
 			allowNull: false,
+			defaultValue: false,
 		},
 	},
 	{ timestamps: false },

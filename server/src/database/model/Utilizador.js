@@ -37,6 +37,7 @@ const Utilizador = sequelize.define(
 			type: DataTypes.INTEGER,
 			field: "ID_TIPO_USER",
 			allowNull: false,
+			defaultValue: 1,
 			// references: {
 			// 	model: "tipos_de_utilizador",
 			// 	key: "id",
@@ -56,11 +57,6 @@ const Utilizador = sequelize.define(
 		hashedPassword: {
 			type: DataTypes.STRING,
 			field: "PASSWORD",
-			allowNull: false,
-		},
-		salt: {
-			type: DataTypes.STRING,
-			field: "SALT",
 			allowNull: false,
 		},
 		hasConfirmed: {
@@ -113,7 +109,7 @@ const Utilizador = sequelize.define(
 			type: DataTypes.BOOLEAN,
 			field: "ACTIVE_ACCOUNT",
 			allowNull: false,
-			defaultValue: true,
+			defaultValue: false,
 		},
 		disabledBy: {
 			type: DataTypes.INTEGER,

@@ -85,13 +85,7 @@ module.exports = function (passport) {
 							email: profile._json.email,
 							socialUserId: profile.id,
 							registrationType: "facebook",
-
-							activeAccount: true,
-							hasConfirmed: true,
-							idTipoUser: 1,
-
 							hashedPassword: "",
-							salt: "",
 						},
 						{
 							attributes: ["id", "name", "email", "registrationType"],
@@ -141,13 +135,7 @@ module.exports = function (passport) {
 							email: profile._json.email,
 							socialUserId: profile.id,
 							registrationType: "google",
-
-							activeAccount: true,
-							hasConfirmed: true,
-							idTipoUser: 1,
-
 							hashedPassword: "",
-							salt: "",
 						},
 						{
 							attributes: ["id", "name", "email", "registrationType"],

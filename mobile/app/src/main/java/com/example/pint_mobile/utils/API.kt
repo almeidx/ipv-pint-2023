@@ -238,7 +238,7 @@ fun listaMensagens(list: ArrayList<Mensagem>, allList: ArrayList<Mensagem>, adap
 fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter: AdminReunioesActivity.ReuniaoAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET, "$API_URL/reunioes", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/reunioes", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawReuniao = response.getJSONObject(i)
             val reuniao = Reuniao(

@@ -201,7 +201,7 @@
 // 	}
 
 // 	// TODO: Make this better
-// 	if (!user.idTipoUtilizador !== 5) {
+// 	if (!user.idTipoUtilizador !== 6) {
 // 		res.status(403).json({
 // 			message: "Access denied",
 // 		});

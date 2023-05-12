@@ -11,10 +11,13 @@ import { Facebook } from "../components/icons/Facebook.jsx";
 import { Google } from "../components/icons/Google.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { Toast } from "../components/Toast.jsx";
 
 export function Login() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
+	const { setToastMessage, showToast, toastMessage, toggleToast } = useToast();
 
 	/** @param {SubmitEvent} event */
 	async function handleSubmit(event) {
@@ -27,15 +30,18 @@ export function Login() {
 			credentials: "include",
 			method: "POST",
 			headers: {
-				"Access-Control-Allow-Credentials": "true",
-				"Access-Control-Allow-Origin": API_URL,
+				"Allow-Control-Allow-Origin": API_URL,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ email, password }),
 		});
 
 		if (!response.ok) {
-			alert("failed login");
+			if (response.status === 401) {
+				setToastMessage("Email ou password incorretos");
+				toggleToast(true);
+			}
+
 			return;
 		}
 
@@ -49,6 +55,8 @@ export function Login() {
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
 			<h1 className="title mb-5 text-white">Login</h1>
+
+			<Toast toastMessage={toastMessage} showToast={showToast} hide={() => toggleToast(false)} />
 
 			<InputGroup className="col-12 mb-3">
 				<InputGroup.Text id="email-icon">
