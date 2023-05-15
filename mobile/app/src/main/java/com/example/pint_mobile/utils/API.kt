@@ -209,7 +209,6 @@ fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatu
     queue.add(request)
 }
 
-
 fun listaMensagens(list: ArrayList<Mensagem>, allList: ArrayList<Mensagem>, adapter: AdminMensagensActivity.MensagemAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 

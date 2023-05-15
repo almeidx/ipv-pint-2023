@@ -1,23 +1,18 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.ToggleButton
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputEditText
 
-class VagasEditActivity : AppCompatActivity() {
+class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vaga") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vagas_edit)
-
-        setupActivityListeners(window, supportActionBar, this, "Editar Vaga", findViewById(R.id.bottombar))
 
         val titulo = intent.getStringExtra("titulo")
         val descricao = intent.getStringExtra("descricao")
@@ -25,7 +20,6 @@ class VagasEditActivity : AppCompatActivity() {
         val publico = intent.getStringExtra("publico")
         val numeroVagas = intent.getStringExtra("slots")
         val status = intent.getIntExtra("status", -1)
-
 
         val tituloShow = findViewById<TextView>(R.id.titulo)
         tituloShow.text = titulo
@@ -43,11 +37,7 @@ class VagasEditActivity : AppCompatActivity() {
         numeroVagasTextView.setText(numeroVagas)
 
         val publicoTextView = findViewById<CheckBox>(R.id.checkBoxVaga)
-        if (publico == "Aberta") {
-            publicoTextView.isChecked = true
-        } else {
-            publicoTextView.isChecked = false
-        }
+        publicoTextView.isChecked = publico == "Aberta"
 
         val toggleButton = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton)
         val button1 = findViewById<Button>(R.id.aberta)
@@ -55,16 +45,6 @@ class VagasEditActivity : AppCompatActivity() {
 
         Log.d("status", status.toString())
 
-        if (status == 0) {
-            toggleButton.check(button1.id)
-        } else {
-            toggleButton.check(button2.id)
-        }
-
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        toggleButton.check(if (status == 0) button1.id else button2.id)
     }
 }

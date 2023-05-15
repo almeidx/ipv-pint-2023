@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -13,23 +12,18 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
-import com.example.pint_mobile.utils.Mensagem
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Reuniao
-import com.example.pint_mobile.utils.listaMensagens
 import com.example.pint_mobile.utils.listaReunioes
-import com.example.pint_mobile.utils.setupActivityListeners
 
-class AdminReunioesActivity : AppCompatActivity() {
-
+class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Administração de Reuniões") {
     private val reunioesList = ArrayList<Reuniao>()
     private val allReunioesList = ArrayList<Reuniao>()
     private lateinit var reunioesAdapter: ReuniaoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_reunioes)
 
-        setupActivityListeners(window, supportActionBar, this, "Administração de Reuniões", findViewById(R.id.bottombar))
         val lista = findViewById<ListView>(R.id.listaReunioes)
         reunioesAdapter = ReuniaoAdapter(reunioesList, R.layout.item_reuniao_admin)
 
@@ -55,7 +49,6 @@ class AdminReunioesActivity : AppCompatActivity() {
                 false
             }
         }
-
     }
 
     class ReuniaoAdapter(private val reunioes: ArrayList<Reuniao>, private val item: Int) : BaseAdapter() {
@@ -67,13 +60,13 @@ class AdminReunioesActivity : AppCompatActivity() {
             val conteudoReuniao = view.findViewById<TextView>(R.id.conteudo_reuniao)
             val infoReuniao  = view.findViewById<TextView>(R.id.info_reuniao)
 
-
             nomeReuniao.text = reuniao.title
             conteudoReuniao.text = reuniao.description
             infoReuniao.text = reuniao.date + " - " + reuniao.duration + ":minutos"
 
             return view
         }
+
         override fun getItem(position: Int): Reuniao {
             return reunioes[position]
         }
@@ -85,11 +78,6 @@ class AdminReunioesActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return reunioes.size
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     fun CriarReuniao (view: View) {

@@ -1,26 +1,14 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.signup
 
-class SignUpActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-
-        setupActivityListeners(window, supportActionBar, this)
-
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.loginNavigationBarColor)
-    }
-
+class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
     fun criarConta(_view: View) {
         val nome = findViewById<EditText>(R.id.nome).text.toString()
         val apelido = findViewById<EditText>(R.id.apelido).text.toString()

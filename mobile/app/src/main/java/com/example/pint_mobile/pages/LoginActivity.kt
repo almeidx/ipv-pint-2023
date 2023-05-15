@@ -1,25 +1,13 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.login
-import com.example.pint_mobile.utils.setupActivityListeners
 import com.google.android.material.textfield.TextInputEditText
 
-class LoginActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
-        setupActivityListeners(window, supportActionBar, this)
-
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.loginNavigationBarColor)
-    }
-
+class LoginActivity : ActivityBase(R.layout.activity_login) {
     fun loginBtn(_view: View) {
         val emailInput = findViewById<TextInputEditText>(R.id.email)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)

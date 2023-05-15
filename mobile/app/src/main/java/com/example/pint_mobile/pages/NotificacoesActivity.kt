@@ -9,20 +9,18 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Notificacao
 import com.example.pint_mobile.utils.formatDate
 import com.example.pint_mobile.utils.listaNotificacoes
 import com.example.pint_mobile.utils.setupActivityListeners
 
-class NotificacoesActivity : AppCompatActivity() {
+class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notificações") {
     private val notificacoesList = ArrayList<Notificacao>()
     private lateinit var notificacaoAdapter: NotificacaoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notificacoes)
-
-        setupActivityListeners(window, supportActionBar, this, "Notificações", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.lista_notificacoes)
         notificacaoAdapter =
@@ -31,11 +29,6 @@ class NotificacoesActivity : AppCompatActivity() {
         lista.adapter = notificacaoAdapter
 
         listaNotificacoes(notificacoesList, notificacaoAdapter, this)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     class NotificacaoAdapter(private val notificacoes: ArrayList<Notificacao>, private val item: Int) : BaseAdapter() {

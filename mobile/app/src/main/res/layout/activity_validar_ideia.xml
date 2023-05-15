@@ -44,6 +44,8 @@
                 android:id="@+id/tituloIdeiaEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +69,8 @@
                 android:id="@+id/descricaoIdeiaEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +83,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:hint="Descrição da ideia"
+            android:hint="Criador da ideia"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +94,8 @@
                 android:id="@+id/criadorIdeiaEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -102,7 +108,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:hint="Descrição da ideia"
+            android:hint="Data de criação da ideia"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +119,8 @@
                 android:id="@+id/dataIdeiaEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>

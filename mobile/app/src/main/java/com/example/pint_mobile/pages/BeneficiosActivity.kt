@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -10,20 +9,17 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
-import com.example.pint_mobile.utils.setupActivityListeners
 
-class BeneficiosActivity : AppCompatActivity() {
+class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefícios") {
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficioAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_beneficios)
-
-        setupActivityListeners(window, supportActionBar, this, "Benefícios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
         beneficiosAdapter = BeneficioAdapter(beneficiosList, R.layout.item_beneficio)
@@ -53,11 +49,6 @@ class BeneficiosActivity : AppCompatActivity() {
             }
          }
 
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {

@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -12,22 +11,18 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.listaNegocios
-import com.example.pint_mobile.utils.setupActivityListeners
 
-class NegociosActivity : AppCompatActivity() {
+class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
     private val negociosList = ArrayList<Negocio>()
     private val allNegociosList = ArrayList<Negocio>()
     private lateinit var negociosAdapter: NegocioAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_negocios)
-
-        setupActivityListeners(window, supportActionBar, this, "Negócios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
         negociosAdapter = NegocioAdapter(negociosList, R.layout.item_negocio, false)
@@ -56,7 +51,6 @@ class NegociosActivity : AppCompatActivity() {
         }
     }
 
-
     class NegocioAdapter(private val negocios: ArrayList<Negocio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
@@ -66,12 +60,7 @@ class NegociosActivity : AppCompatActivity() {
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
-            tituloNegocio.text = negocio.titulo + ": " + if(negocio.status == 1) "Em espera"
-                                                else if(negocio.status == 2) "A validar"
-                                                else if(negocio.status == 3) "Em desenvolvimento"
-                                                else if(negocio.status == 4) "Em conclusão"
-                                                else if(negocio.status == 5) "Concluído"
-                                                else "Cancelado"
+            tituloNegocio.text = negocio.titulo + ": " + getStatusName(negocio.status)
             descricaoNegocio.text = negocio.descricao
             clienteNegocio.text = negocio.cliente
 
@@ -126,10 +115,16 @@ class NegociosActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return negocios.size
         }
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        private fun getStatusName(status: Int): String {
+            return when (status) {
+                1 -> "Em espera"
+                2 -> "A validar"
+                3 -> "Em desenvolvimento"
+                4 -> "Em conclusão"
+                5 -> "Concluído"
+                else -> "Cancelado"
+            }
+        }
     }
 }

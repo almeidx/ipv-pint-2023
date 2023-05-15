@@ -1,17 +1,13 @@
 package com.example.pint_mobile.pages
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 
-class InfoNegocioActivity : AppCompatActivity() {
+class InfoNegocioActivity : ActivityBase(R.layout.activity_info_negocio, "Informação de Negócio") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_info_negocio)
-
-        setupActivityListeners(window, supportActionBar, this, "Informação de Negócio",  findViewById(R.id.bottombar))
 
         // Receber as informações do negócio enviado pela activity anterior
         val titulo = intent.getStringExtra("titulo")
@@ -63,10 +59,5 @@ class InfoNegocioActivity : AppCompatActivity() {
 
         val centroTrabalhoAdressTextView = findViewById<TextView>(R.id.centroTrabalhoaddress)
         centroTrabalhoAdressTextView.text = centroTrabalhoAdress
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

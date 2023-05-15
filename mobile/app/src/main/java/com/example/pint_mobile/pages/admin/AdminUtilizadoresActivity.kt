@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -13,21 +12,17 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
-import com.example.pint_mobile.pages.admin.edit.MensagemValidarActivity
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Utilizador
-import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.listaUtilizadores
 
-class AdminUtilizadoresActivity : AppCompatActivity() {
+class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizadores, "Administração de Utilizadores") {
     private val utilizadoresList = ArrayList<Utilizador>()
     private val allUtilizadoresList = ArrayList<Utilizador>()
     private lateinit var utilizadoresAdapter: UtilizadorAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_utilizadores)
-
-        setupActivityListeners(window, supportActionBar, this, "Administração de Utilizadores", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaUtilizador)
         utilizadoresAdapter = UtilizadorAdapter(utilizadoresList, R.layout.item_utilizadores)
@@ -56,7 +51,6 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
         }
     }
 
-
     class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
@@ -65,7 +59,6 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
             val nomeUtilizador  = view.findViewById<TextView>(R.id.nome_utilizador)
             val emailUtilizador = view.findViewById<TextView>(R.id.email_utilizador)
             val tipoUtilizador = view.findViewById<TextView>(R.id.tipoUtilizador)
-
 
             nomeUtilizador.text = utilizador.nome
             emailUtilizador.text = utilizador.email
@@ -85,6 +78,7 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
 
             return view
         }
+
         override fun getItem(position: Int): Utilizador {
             return utilizadores[position]
         }
@@ -96,10 +90,5 @@ class AdminUtilizadoresActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return utilizadores.size
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

@@ -1,16 +1,12 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 
-class EditNegocioActivity : AppCompatActivity() {
+class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar Negócio") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_negocio)
-
-        setupActivityListeners(window, supportActionBar, this, "Editar Negócio")
 
         val FuncionarioName = intent.getStringExtra("FuncionarioName")
         val FuncionarioEmail = intent.getStringExtra("FuncionarioEmail")
@@ -21,20 +17,22 @@ class EditNegocioActivity : AppCompatActivity() {
         val cliente = intent.getStringExtra("Cliente")
         val status = intent.getIntExtra("status", 0)
 
-
-
         val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
         clienteEdit.setText(cliente)
         clienteEdit.isFocusable = false
         clienteEdit.isFocusableInTouchMode = false
 
         val statusEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.statusNegocioEdit)
-        statusEdit.setText(if(status == 1) "Em espera"
-                            else if(status == 2) "A validar"
-                            else if(status == 3) "Em desenvolvimento"
-                            else if(status == 4) "Em conclusão"
-                            else if(status == 5) "Concluído"
-                            else "Cancelado")
+        statusEdit.setText(
+            when (status) {
+                1 -> "Em espera"
+                2 -> "A validar"
+                3 -> "Em desenvolvimento"
+                4 -> "Em conclusão"
+                5 -> "Concluído"
+                else -> "Cancelado"
+            }
+        )
 
         val centroTrabalhoNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoNomeNegocioEdit)
         centroTrabalhoNameEdit.setText(centroTrabalhoName)
@@ -53,11 +51,5 @@ class EditNegocioActivity : AppCompatActivity() {
 
         val FuncionarioEmailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioEmailNegocioEdit)
         FuncionarioEmailEdit.setText(FuncionarioEmail)
-
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

@@ -1,22 +1,11 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
-import com.google.android.material.textfield.TextInputEditText
+import com.example.pint_mobile.utils.ActivityBase
 
-class CriarBeneficioActivity : AppCompatActivity() {
+class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "Criar Benefício") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_criar_beneficio)
-
-        setupActivityListeners(window, supportActionBar, this, "Criar Benefício", findViewById(R.id.bottombar))
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

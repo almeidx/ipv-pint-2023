@@ -1,17 +1,13 @@
 package com.example.pint_mobile.pages
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.utils.ActivityBase
 
-class InfoVagaActivity : AppCompatActivity() {
+class InfoVagaActivity : ActivityBase(R.layout.activity_info_vaga, "Informação de Vaga") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_info_vaga)
-
-        supportActionBar?.title = "Vaga item"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val titulo = intent.getStringExtra("titulo")
         val descricao = intent.getStringExtra("descricao")
@@ -29,10 +25,5 @@ class InfoVagaActivity : AppCompatActivity() {
 
         val slotsTextView = findViewById<TextView>(R.id.slots)
         slotsTextView.text = slots
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

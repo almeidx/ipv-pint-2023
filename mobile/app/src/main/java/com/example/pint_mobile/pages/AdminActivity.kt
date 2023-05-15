@@ -1,25 +1,11 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.*
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 
-class AdminActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin)
-
-        setupActivityListeners(window, supportActionBar, this, "Painel de Administração", findViewById(R.id.bottombar))
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
+class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
     fun gotoAdminReporting(_view: android.view.View) {
         val intent = Intent(this, AdminReportingActivity::class.java)
         startActivity(intent)

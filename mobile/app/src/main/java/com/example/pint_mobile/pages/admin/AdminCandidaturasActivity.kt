@@ -1,7 +1,5 @@
 package com.example.pint_mobile.pages.admin
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -12,25 +10,18 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.IdeiasActivity
-import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Candidatura
-import com.example.pint_mobile.utils.Utilizador
-import com.example.pint_mobile.utils.Vaga
 import com.example.pint_mobile.utils.listaCandidaturas
-import com.example.pint_mobile.utils.listaVagas
-import com.example.pint_mobile.utils.setupActivityListeners
 
-class AdminCandidaturasActivity : AppCompatActivity() {
-
+class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidaturas, "Administração de Candidaturas") {
     private val candidaturasList = ArrayList<Candidatura>()
     private val allCandidaturasList = ArrayList<Candidatura>()
     private lateinit var candidaturasAdapter: CandidaturaAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_candidaturas)
 
-        setupActivityListeners(window, supportActionBar, this, "Administração Candidaturas", findViewById(R.id.bottombar))
         val lista = findViewById<ListView>(R.id.listaCandidaturas)
         candidaturasAdapter = CandidaturaAdapter(candidaturasList, R.layout.item_candidatura_admin)
 
@@ -50,6 +41,7 @@ class AdminCandidaturasActivity : AppCompatActivity() {
                         candidaturasList.add(candidatura)
                     }
                 }
+
                 candidaturasAdapter.notifyDataSetChanged()
                 true
             } else {
@@ -74,6 +66,7 @@ class AdminCandidaturasActivity : AppCompatActivity() {
 
             return view
         }
+
         override fun getItem(position: Int): Candidatura {
             return candidaturas[position]
         }
@@ -86,11 +79,4 @@ class AdminCandidaturasActivity : AppCompatActivity() {
             return candidaturas.size
         }
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
-
 }

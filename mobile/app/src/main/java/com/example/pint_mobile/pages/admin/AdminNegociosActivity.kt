@@ -1,26 +1,24 @@
 package com.example.pint_mobile.pages.admin
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.EditText
 import android.widget.ListView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.NegociosActivity
+import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
+import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Negocio
-import com.example.pint_mobile.utils.setupActivityListeners
 import com.example.pint_mobile.utils.listaNegocios
 
-class AdminNegociosActivity : AppCompatActivity() {
+class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Administração de Negócios") {
     private val negociosList = ArrayList<Negocio>()
     private val allNegociosList = ArrayList<Negocio>()
     private lateinit var negociosAdapter: NegociosActivity.NegocioAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_negocios)
-
-        setupActivityListeners(window, supportActionBar, this, "Administração de Negócios", findViewById(R.id.bottombar))
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
         negociosAdapter = NegociosActivity.NegocioAdapter(negociosList, R.layout.item_negocio_admin, true)
@@ -50,13 +48,7 @@ class AdminNegociosActivity : AppCompatActivity() {
     }
 
     fun CriarNegocio(view: android.view.View) {
-        val intent = android.content.Intent(this, com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity::class.java).apply {
-        }
+        val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }

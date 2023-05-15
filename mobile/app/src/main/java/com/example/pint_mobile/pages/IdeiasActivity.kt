@@ -1,23 +1,18 @@
 package com.example.pint_mobile.pages
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 
-class IdeiasActivity : AppCompatActivity() {
+class IdeiasActivity : ActivityBase(R.layout.activity_ideias, "Ideias") {
     lateinit var categoria: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ideias)
-
-        setupActivityListeners(window, supportActionBar, this, "Ideias", findViewById(R.id.bottombar))
 
         val items = arrayOf(getString(R.string.geral), getString(R.string.estabelecimento), getString(
                     R.string.investimento), getString(R.string.negocio))
@@ -33,14 +28,7 @@ class IdeiasActivity : AppCompatActivity() {
                 categoria = selectedItem
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
 }

@@ -1,20 +1,11 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.pint_mobile.R
-import com.example.pint_mobile.utils.setupActivityListeners
+import com.example.pint_mobile.utils.ActivityBase
 
-class AgendarReuniaoActivity : AppCompatActivity() {
+class AgendarReuniaoActivity : ActivityBase(R.layout.activity_agendar_reuniao, "Agendar Reunião") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_agendar_reuniao)
-
-        setupActivityListeners(window, supportActionBar, this, "Agendar Reunião", findViewById(R.id.bottombar))
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }
