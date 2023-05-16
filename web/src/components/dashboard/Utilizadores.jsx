@@ -20,9 +20,9 @@ export default function Utilizadores() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [userId, setUserId] = useState(null);
-	const { isLoading, data, mutate } = useSWR(API_URL + "/utilizadores", fetcher);
-	const { data: tiposUtilizador } = useSWR(API_URL + "/tipos-utilizador", fetcher);
-	const { showToast, toggleToast, toastMessage, setToastMessage } = useToast();
+	const { isLoading, data, mutate } = useSWR(`${API_URL}/utilizadores`, fetcher);
+	const { data: tiposUtilizador } = useSWR(`${API_URL}/tipos-utilizador`, fetcher);
+	const { showToast, toggleToast, toastMessage, showToastWithMessage } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -42,22 +42,20 @@ export default function Utilizadores() {
 		setUserId(null);
 
 		try {
-			await fetcher(API_URL + "/utilizadores/" + userId, {
+			await fetcher(`${API_URL}/utilizadores/` + userId, {
 				credentials: "include",
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ idTipoUser: role }),
 			});
 
-			setToastMessage("Utilizador editado com sucesso");
-			toggleToast(true);
+			showToastWithMessage("Utilizador editado com sucesso");
 
 			mutate();
 		} catch (error) {
 			console.error(error);
 
-			setToastMessage("Ocorreu um erro ao editar o utilizador");
-			toggleToast(false);
+			showToastWithMessage("Ocorreu um erro ao editar o utilizador");
 		}
 	}
 
@@ -104,18 +102,18 @@ export default function Utilizadores() {
 								) : null}
 							</div>
 
-							<div className="d-flex justify-content-center align-items-center gap-2">
+							<div className="d-flex justify-content-center align-items-center gap-3">
 								<Button
 									onClick={() => {
 										setUserId(id);
 										setShowEditModal(true);
 									}}
-									className="border-0 bg-transparent"
+									className="border-0 bg-transparent p-0"
 								>
 									<RiPencilLine size={32} color="black" />
 								</Button>
 
-								<Button onClick={() => {}} className="border-0 bg-transparent">
+								<Button onClick={() => {}} className="border-0 bg-transparent p-0">
 									<BiNoEntry size={32} color="red" />
 								</Button>
 							</div>

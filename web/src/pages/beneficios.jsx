@@ -2,8 +2,7 @@ import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import useSWR from "swr";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { Page } from "../components/Page.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
@@ -11,7 +10,7 @@ import { fetcher } from "../utils/fetcher.js";
 
 export function Beneficios() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/beneficios", fetcher);
+	const { isLoading, data } = useSWR(`${API_URL}/beneficios`, fetcher);
 
 	const filteredBeneficios = search
 		? (data ?? []).filter(
@@ -22,27 +21,21 @@ export function Beneficios() {
 		: data ?? [];
 
 	return (
-		<>
-			<NavBar page="beneficios" />
+		<Page page="/beneficios">
+			<Container className="col-11 pt-5">
+				<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
+			</Container>
 
-			<main className="min-h-without-navbar bg-main pb-5">
-				<Container className="col-11 pt-5">
-					<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
-				</Container>
-
-				<Container className="col-11 row mx-auto gap-5 pt-3">
-					{isLoading ? (
-						<Spinner />
-					) : filteredBeneficios.length ? (
-						filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
-					) : (
-						<p>Não encontrado</p>
-					)}
-				</Container>
-			</main>
-
-			<Footer />
-		</>
+			<Container className="col-11 row mx-auto gap-5 pt-3">
+				{isLoading ? (
+					<Spinner />
+				) : filteredBeneficios.length ? (
+					filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
+				) : (
+					<p>Não encontrado</p>
+				)}
+			</Container>
+		</Page>
 	);
 }
 

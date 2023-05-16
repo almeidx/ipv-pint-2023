@@ -7,6 +7,8 @@ export const ToastContext = createContext({
 	showToast: false,
 	/** @param {boolean} _state */
 	toggleToast: (_state) => {},
+	/** @param {string} _message */
+	showToastWithMessage: (_message) => {},
 });
 
 /** @param {import("react").PropsWithChildren} props */
@@ -36,9 +38,15 @@ export function ToastProvider({ children }) {
 		}
 	}
 
+	/** @param {string} message */
+	function showToastWithMessage(message) {
+		setToastMessage(message);
+		toggleToast(true);
+	}
+
 	const value = useMemo(
-		() => ({ toastMessage, setToastMessage, showToast, toggleToast }),
-		[toastMessage, setToastMessage, showToast, toggleToast],
+		() => ({ toastMessage, setToastMessage, showToast, toggleToast, showToastWithMessage }),
+		[toastMessage, setToastMessage, showToast, toggleToast, showToastWithMessage],
 	);
 
 	return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;

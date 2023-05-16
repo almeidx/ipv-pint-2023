@@ -40,7 +40,7 @@ const Beneficio = sequelize.define(
 			field: "DATA_VALIDADE",
 		},
 		content: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1_000),
 			field: "CONTEUDO_BENEFICIO",
 			allowNull: false,
 		},

@@ -47,7 +47,7 @@ const Ideia = sequelize.define(
 			// },
 		},
 		content: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1_000),
 			field: "CONTEUDO_IDEIA",
 			allowNull: false,
 		},

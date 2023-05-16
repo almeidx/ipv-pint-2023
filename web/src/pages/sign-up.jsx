@@ -1,5 +1,3 @@
-import "../styles/Login.css";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -7,9 +5,7 @@ import { BsPerson } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { LoginContainer } from "../components/LoginContainer.jsx";
-import { Facebook } from "../components/icons/Facebook.jsx";
-import { Google } from "../components/icons/Google.jsx";
+import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
@@ -41,7 +37,7 @@ export function SignUp() {
 			return;
 		}
 		try {
-			const response = await fetch(API_URL + "/auth/register", {
+			const response = await fetch(`${API_URL}/auth/register`, {
 				credentials: "include",
 				method: "POST",
 				headers: {
@@ -121,27 +117,11 @@ export function SignUp() {
 				/>
 			</InputGroup>
 
-			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mb-2 mt-4 p-2">
+			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mt-4 p-2">
 				Criar conta
 			</Button>
 
-			<Form.Group className="d-flex justify-content-center mb-2 mt-3" controlId="formBasicCheckbox">
-				<Button
-					variant="light"
-					type="submit"
-					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2 p-2"
-				>
-					<Google /> Google
-				</Button>
-
-				<Button
-					variant="light"
-					type="submit"
-					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2"
-				>
-					<Facebook /> Facebook
-				</Button>
-			</Form.Group>
+			<SocialButtons />
 
 			<Form.Group controlId="formBasicCheckbox" className="mx-auto">
 				<Form.Text className="text-white">

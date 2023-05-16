@@ -1,23 +1,19 @@
-import "../styles/Login.css";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { LoginContainer } from "../components/LoginContainer.jsx";
-import { Facebook } from "../components/icons/Facebook.jsx";
-import { Google } from "../components/icons/Google.jsx";
+import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
+import { Toast } from "../components/Toast.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
-import { useToast } from "../contexts/ToastContext.jsx";
-import { Toast } from "../components/Toast.jsx";
 
 export function Login() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
-	const { setToastMessage, showToast, toastMessage, toggleToast } = useToast();
+	const { showToast, toastMessage, toggleToast, showToastWithMessage } = useToast();
 
 	/** @param {SubmitEvent} event */
 	async function handleSubmit(event) {
@@ -26,7 +22,7 @@ export function Login() {
 		const email = event.target.elements.email.value;
 		const password = event.target.elements.password.value;
 
-		const response = await fetch(API_URL + "/auth/email", {
+		const response = await fetch(`${API_URL}/auth/email`, {
 			credentials: "include",
 			method: "POST",
 			headers: {
@@ -38,9 +34,10 @@ export function Login() {
 
 		if (!response.ok) {
 			if (response.status === 401) {
-				setToastMessage("Email ou password incorretos");
-				toggleToast(true);
+				showToastWithMessage("Email ou password incorretos");
 			}
+
+			console.error(response);
 
 			return;
 		}
@@ -88,33 +85,11 @@ export function Login() {
 				<Form.Check type="checkbox" label="Lembrar Password" />
 			</Form.Group>
 
-			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto mb-5 p-2">
+			<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto p-2">
 				Login
 			</Button>
 
-			<Form.Group className="d-flex justify-content-center mb-2 mt-3" controlId="formBasicCheckbox">
-				<Button
-					variant="light"
-					type="submit"
-					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2 p-2"
-					onClick={() => {
-						window.open(API_URL + "/auth/google", "_self");
-					}}
-				>
-					<Google /> Google
-				</Button>
-
-				<Button
-					variant="light"
-					type="submit"
-					className="col-5 rounded-3 d-flex justify-content-center align-items-center mx-auto gap-2"
-					onClick={() => {
-						window.open(API_URL + "/auth/facebook", "_self");
-					}}
-				>
-					<Facebook /> Facebook
-				</Button>
-			</Form.Group>
+			<SocialButtons />
 
 			<Form.Group controlId="formBasicCheckbox" className="mx-auto">
 				<Form.Text className="text-white">

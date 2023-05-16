@@ -4,36 +4,36 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { ErrorBase } from "../components/ErrorBase.jsx";
+import { Page } from "../components/Page.jsx";
 import { Spinner } from "../components/Spinner.jsx";
+import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 
 export function Negocios() {
-	const { isLoading, data } = useSWR(API_URL + "/negocios", fetcher);
+	const { isLoading, data } = useSWR(`${API_URL}/negocios`, fetcher);
+	const isLoggedIn = useIsLoggedIn();
+
+	if (!isLoggedIn) {
+		return <ErrorBase title="Por favor, inicie a sessão para ver os seus negócios" showLogin page="/negocios" />;
+	}
 
 	return (
-		<>
-			<NavBar page="negocios" />
+		<Page page="/negocios">
+			<Container className="col-11 row mx-auto gap-5 pt-4">
+				<Card className="negocio-card negocio-add" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
+					<Card.Body className="d-flex flex-column">
+						<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
+							Adicionar Negócio
+						</Card.Title>
+						<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
+					</Card.Body>
+				</Card>
 
-			<main className="min-h-without-navbar bg-main pb-5">
-				<Container className="col-11 row mx-auto gap-5 pt-4">
-					<Card className="negocio-card negocio-add" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
-						<Card.Body className="d-flex flex-column">
-							<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
-								Adicionar Negócio
-							</Card.Title>
-							<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
-						</Card.Body>
-					</Card>
-
-					{isLoading ? <Spinner /> : data.map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
-				</Container>
-			</main>
-
-			<Footer />
-		</>
+				{isLoading ? <Spinner /> : (data ?? []).map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
+			</Container>
+		</Page>
 	);
 }
 

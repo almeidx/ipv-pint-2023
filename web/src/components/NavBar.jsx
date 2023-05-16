@@ -6,6 +6,7 @@ import BootstrapNavbar from "react-bootstrap/Navbar";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import Tooltip from "react-bootstrap/Tooltip";
 import { BiBell, BiChevronDown } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -15,6 +16,15 @@ import { API_URL } from "../utils/constants.js";
 import { Spinner } from "./Spinner.jsx";
 
 const Notifications = lazy(() => import("./Notifications.jsx"));
+
+const navLinks = [
+	{ name: "Início", path: "/" },
+	{ name: "Benefícios", path: "/beneficios" },
+	{ name: "Vagas", path: "/vagas" },
+	{ name: "Negócios", path: "/negocios", requireLogin: true },
+	{ name: "Ideias", path: "/ideias", requireLogin: true },
+	{ name: "Contacto", path: "/contacto" },
+];
 
 /**
  * @param {Object} props
@@ -36,24 +46,23 @@ export function NavBar({ page }) {
 			</Link>
 
 			<Nav className="me-auto">
-				<Link to="/" className={getSelectedClass(page, "/")}>
-					Início
-				</Link>
-				<Link to="/beneficios" className={getSelectedClass(page, "beneficios")}>
-					Benefícios
-				</Link>
-				<Link to="/vagas" className={getSelectedClass(page, "vagas")}>
-					Vagas
-				</Link>
-				<Link to="/negocios" className={getSelectedClass(page, "negocios")}>
-					Negócios
-				</Link>
-				<Link to="/ideias" className={getSelectedClass(page, "ideias")}>
-					Ideias
-				</Link>
-				<Link to="/contacto" className={getSelectedClass(page, "contacto")}>
-					Contacto
-				</Link>
+				{navLinks.map(({ name, path, requireLogin }) =>
+					requireLogin && user === null ? (
+						<OverlayTrigger
+							key={`${path}-trigger`}
+							placement="bottom"
+							overlay={<Tooltip id={`${page}-tooltip`}>Inicie a sessão para ver esta página</Tooltip>}
+						>
+							<Link key={path} to="/login" className={getSelectedClass(page, path)}>
+								{name}
+							</Link>
+						</OverlayTrigger>
+					) : (
+						<Link key={path} to={path} className={getSelectedClass(page, path)}>
+							{name}
+						</Link>
+					),
+				)}
 			</Nav>
 
 			<style>
@@ -76,7 +85,7 @@ export function NavBar({ page }) {
 							<Popover.Header as="h3">
 								<div className="d-flex justify-content-between align-items-center me-auto">
 									Notificações
-									<Button className="border-0 bg-transparent text-black" onClick={handleDeleteAll} disabled={true}>
+									<Button className="border-0 bg-transparent p-0 text-black" onClick={handleDeleteAll} disabled={true}>
 										Apagar todas
 									</Button>
 								</div>
@@ -90,7 +99,7 @@ export function NavBar({ page }) {
 						</Popover>
 					}
 				>
-					<Button className="border-0 bg-transparent">
+					<Button className="border-0 bg-transparent" disabled={user === null}>
 						<BiBell color="white" size={24} />
 					</Button>
 				</OverlayTrigger>
@@ -132,7 +141,7 @@ export function NavBar({ page }) {
 								</li>
 
 								<li>
-									<Dropdown.Item onClick={() => window.open(API_URL + "/auth/logout", "_self")}>
+									<Dropdown.Item onClick={() => window.open(`${API_URL}/auth/logout`, "_self")}>
 										Terminar sessão
 									</Dropdown.Item>
 								</li>

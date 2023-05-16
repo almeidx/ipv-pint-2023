@@ -27,11 +27,12 @@ export const UserContext = createContext({
 	setUser: (_user) => {},
 });
 
+/** @param {import("react").PropsWithChildren} */
 export function UserProvider({ children }) {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		fetch(API_URL + "/auth/user", {
+		fetch(`${API_URL}/auth/user`, {
 			credentials: "include",
 		}).then((res) => {
 			if (!res.ok) {
@@ -64,4 +65,10 @@ export function UserProvider({ children }) {
 
 export function useUser() {
 	return useContext(UserContext);
+}
+
+export function useIsLoggedIn() {
+	const { user } = useUser();
+
+	return user !== null;
 }

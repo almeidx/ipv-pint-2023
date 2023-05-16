@@ -11,9 +11,13 @@ import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
 import { Spinner } from "./Spinner.jsx";
 
 export default function Notifications() {
-	const { data, isLoading, error } = useSWR(API_URL + "/notificacoes", fetcher);
+	const { data, isLoading, error } = useSWR(`${API_URL}/notificacoes`, fetcher);
 
 	if (error) {
+		if (error.status === 401) {
+			return <p>Por favor, inicie a sessão para ver as suas notificações</p>;
+		}
+
 		console.log(error.info);
 
 		return <p>Ocorreu um erro ao tentar carregar as suas notificações</p>;
@@ -64,7 +68,7 @@ function Notification({ additionalDate, createdAt, content, type, onDelete, id }
 
 			<div className="d-flex justify-content-between align-items-center gap-2">
 				<span style={{ fontSize: "0.8rem" }}>{getRelativeTimeString(new Date(createdAt))}</span>
-				<Button className="border-0 bg-transparent px-0" onClick={() => onDelete(id)}>
+				<Button className="border-0 bg-transparent p-0" onClick={() => onDelete(id)}>
 					<RiCloseFill size={24} color="black" />
 				</Button>
 			</div>

@@ -12,7 +12,7 @@ import { Spinner } from "../Spinner.jsx";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/candidaturas", fetcher);
+	const { isLoading, data } = useSWR(`${API_URL}/candidaturas`, fetcher);
 
 	const filtered = useMemo(
 		() =>

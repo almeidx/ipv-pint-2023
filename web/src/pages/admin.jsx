@@ -2,8 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useSearchParams } from "react-router-dom";
 import { ErrorBase } from "../components/ErrorBase.jsx";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { Page } from "../components/Page.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import Mensagens from "../components/dashboard/Mensagens.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
@@ -45,61 +44,55 @@ export function Admin() {
 	}
 
 	return (
-		<>
-			<NavBar />
+		<Page className="min-h-without-navbar d-flex bg-main">
+			<div
+				className="d-flex flex-column min-h-without-navbar flex-shrink-0 p-3 text-white"
+				style={{ width: "18rem", backgroundColor: "#546beb" }}
+			>
+				<Nav className="nav-pills flex-column mb-auto">
+					{sections.map(({ name, link }, idx) => (
+						<button
+							key={name}
+							className="fw-bold text-decoration-none border-top-0 border-start-0 border-end-0 mb-3 bg-transparent pb-3 text-start text-white"
+							style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
+							type="button"
+							onClick={() => {
+								history.pushState(null, null, `/admin?p=${link}`);
+								setSection(link);
+							}}
+						>
+							{name}
+						</button>
+					))}
+				</Nav>
+			</div>
 
-			<main className="min-h-without-navbar d-flex bg-main">
-				<div
-					className="d-flex flex-column min-h-without-navbar flex-shrink-0 p-3 text-white"
-					style={{ width: "18rem", backgroundColor: "#546beb" }}
-				>
-					<Nav className="nav-pills flex-column mb-auto">
-						{sections.map(({ name, link }, idx) => (
-							<button
-								key={name}
-								className="fw-bold text-decoration-none border-top-0 border-start-0 border-end-0 mb-3 bg-transparent pb-3 text-start text-white"
-								style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
-								type="button"
-								onClick={() => {
-									history.pushState(null, null, `/admin?p=${link}`);
-									setSection(link);
-								}}
-							>
-								{name}
-							</button>
-						))}
-					</Nav>
-				</div>
-
-				<Suspense
-					fallback={
-						<div className="min-h-screen-no-footer flex items-center justify-center p-5">
-							<Spinner />
-						</div>
-					}
-				>
-					{section === "candidaturas" ? (
-						<Candidaturas />
-					) : section === "ideias" ? (
-						<Ideias />
-					) : section === "negocios" ? (
-						<Negocios />
-					) : section === "vagas" ? (
-						<Vagas />
-					) : section === "beneficios" ? (
-						<Beneficios />
-					) : section === "reunioes" ? (
-						<Reunioes />
-					) : section === "utilizadores" ? (
-						<Utilizadores />
-					) : section === "mensagens" ? (
-						<Mensagens />
-					) : null}
-				</Suspense>
-			</main>
-
-			<Footer />
-		</>
+			<Suspense
+				fallback={
+					<div className="min-h-screen-no-footer flex items-center justify-center p-5">
+						<Spinner />
+					</div>
+				}
+			>
+				{section === "candidaturas" ? (
+					<Candidaturas />
+				) : section === "ideias" ? (
+					<Ideias />
+				) : section === "negocios" ? (
+					<Negocios />
+				) : section === "vagas" ? (
+					<Vagas />
+				) : section === "beneficios" ? (
+					<Beneficios />
+				) : section === "reunioes" ? (
+					<Reunioes />
+				) : section === "utilizadores" ? (
+					<Utilizadores />
+				) : section === "mensagens" ? (
+					<Mensagens />
+				) : null}
+			</Suspense>
+		</Page>
 	);
 }
 

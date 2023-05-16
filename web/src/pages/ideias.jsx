@@ -1,7 +1,6 @@
 import "../styles/Ideias.css";
 
-import { useEffect, useRef, useState } from "react";
-import Alert from "react-bootstrap/Alert";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Card from "react-bootstrap/Card";
@@ -10,9 +9,13 @@ import Form from "react-bootstrap/Form";
 import { BiBuildingHouse } from "react-icons/bi";
 import { BsFillBagCheckFill, BsGraphUpArrow } from "react-icons/bs";
 import { FaRegLightbulb } from "react-icons/fa";
-import { RiCheckboxCircleFill, RiCloseFill } from "react-icons/ri";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { ErrorBase } from "../components/ErrorBase.jsx";
+import { Page } from "../components/Page.jsx";
+import { Toast } from "../components/Toast.jsx";
+import { useDisableableButton } from "../contexts/DisableableButtonContext.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { useIsLoggedIn } from "../contexts/UserContext.jsx";
+import { API_URL } from "../utils/constants.js";
 
 const categories = [
 	{
@@ -43,113 +46,104 @@ const categories = [
 
 export function Ideias() {
 	const [selectedCategory, setSelectedCategory] = useState(null);
-	const [showAlert, setShowAlert] = useState(false);
-	const enviarBtnRef = useRef(null);
-	const enableBtnTimeoutRef = useRef(null);
+	const [content, setContent] = useState("");
+	const { buttonRef, disableButton } = useDisableableButton();
+	const { showToast, showToastWithMessage, toastMessage } = useToast();
+	const isLoggedIn = useIsLoggedIn();
 
-	function enableSendBtn() {
-		setShowAlert(false);
-		enviarBtnRef.current.disabled = false;
+	if (!isLoggedIn) {
+		return <ErrorBase title="Por favor, inicie a sessão para enviar ideias" showLogin page="/ideias" />;
 	}
 
 	/** @param {React.FormEvent<HTMLFormElement>} event */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
-		enviarBtnRef.current.disabled = true;
-		setShowAlert(true);
+		disableButton();
+		try {
+			await fetch(`${API_URL}/ideias`, {
+				credentials: "include",
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					content,
+					categoria: categories.find(({ category }) => category === selectedCategory).title,
+				}),
+			});
 
-		if (enableBtnTimeoutRef.current) {
-			clearTimeout(enableBtnTimeoutRef.current);
+			showToastWithMessage("Ideia submetida com sucesso");
+
+			setSelectedCategory(null);
+			setContent("");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao submeter a ideia");
 		}
-
-		enableBtnTimeoutRef.current = setTimeout(enableSendBtn, 5_000);
 	}
 
 	return (
-		<>
-			<NavBar page="ideias" />
+		<Page page="/ideias">
+			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
 
-			<main className="min-h-without-navbar bg-main pb-5">
-				<Container className="col-11 row mx-auto gap-5 pt-4">
-					{categories.map((category) => (
-						<CategoriaCard
-							key={`cat-card-${category.category}`}
-							{...category}
-							selected={selectedCategory === category.category}
-							onClick={() => setSelectedCategory(handleCategoryChange(category.category, selectedCategory))}
-						/>
+			<Container className="col-11 row mx-auto gap-5 pt-4">
+				{categories.map((category) => (
+					<CategoriaCard
+						key={`cat-card-${category.category}`}
+						{...category}
+						selected={selectedCategory === category.category}
+						onClick={() => setSelectedCategory(handleCategoryChange(category.category, selectedCategory))}
+					/>
+				))}
+			</Container>
+
+			<Container
+				className="rounded-5 col-8"
+				style={{ backgroundColor: "#357fd6", marginTop: "-5rem", padding: "5rem 5rem 2rem" }}
+			>
+				<div className="d-flex justify-content-center align-items-center mb-4 py-3">
+					<h1 className="mx-auto text-white" style={{ fontSize: "4rem" }}>
+						Submeta a sua ideia
+					</h1>
+				</div>
+
+				<p className="mb-2 text-white">Selecione a opção que melhor categoriza a sua ideia:</p>
+
+				<ButtonGroup className="mb-2">
+					{categories.map(({ category, title }) => (
+						<Button
+							key={`cat-btn-${category}`}
+							className="ideias-cat-btn mb-4 border-white"
+							style={{ backgroundColor: selectedCategory === category ? "#ffffff50" : "transparent" }}
+							onClick={() => setSelectedCategory(handleCategoryChange(category, selectedCategory))}
+						>
+							{title}
+						</Button>
 					))}
-				</Container>
+				</ButtonGroup>
 
-				<Container
-					className="rounded-5 col-8"
-					style={{ backgroundColor: "#357fd6", marginTop: "-5rem", padding: "5rem 5rem 2rem" }}
-				>
-					<div className="d-flex justify-content-center align-items-center mb-4 py-3">
-						<h1 className="mx-auto text-white" style={{ fontSize: "4rem" }}>
-							Submeta a sua ideia
-						</h1>
+				<Form onSubmit={handleSubmit}>
+					<Form.Control
+						as="textarea"
+						placeholder="Descreva a sua ideia"
+						rows={8}
+						required
+						value={content}
+						onChange={(event) => setContent(event.target.value)}
+					/>
+
+					<div className="d-flex justify-content-center align-items-center">
+						<Button
+							type="submit"
+							className="rounded-pill ideias-cat-btn mt-4 border-white bg-transparent px-5"
+							ref={buttonRef}
+						>
+							Enviar
+						</Button>
 					</div>
-
-					<p className="mb-2 text-white">Selecione a opção que melhor categoriza a sua ideia:</p>
-
-					<ButtonGroup className="mb-2">
-						{categories.map(({ category, title }) => (
-							<Button
-								key={`cat-btn-${category}`}
-								className="ideias-cat-btn mb-4 border-white"
-								style={{ backgroundColor: selectedCategory === category ? "#ffffff50" : "transparent" }}
-								onClick={() => setSelectedCategory(handleCategoryChange(category, selectedCategory))}
-							>
-								{title}
-							</Button>
-						))}
-					</ButtonGroup>
-
-					<Form onSubmit={handleSubmit}>
-						<Form.Control as="textarea" placeholder="Descreva a sua ideia" rows={8} required />
-
-						<div className="d-flex justify-content-center align-items-center">
-							<Button
-								type="submit"
-								className="rounded-pill ideias-cat-btn mt-4 border-white bg-transparent px-5"
-								ref={enviarBtnRef}
-							>
-								Enviar
-							</Button>
-						</div>
-					</Form>
-				</Container>
-
-				<Alert
-					show={showAlert}
-					className="d-flex justify-content-between align-items-center position-fixed w-fit gap-5 py-0"
-					style={{ bottom: "1rem", right: "1rem" }}
-					variant="success"
-				>
-					<p className="pt-3">
-						<RiCheckboxCircleFill size={20} style={{ marginTop: "-0.2rem" }} /> Ideia submetida com sucesso
-					</p>
-
-					<button
-						className="border-0 bg-transparent"
-						onClick={() => {
-							setShowAlert(false);
-
-							if (enableBtnTimeoutRef.current) {
-								clearTimeout(enableBtnTimeoutRef.current);
-								enableSendBtn();
-							}
-						}}
-					>
-						<RiCloseFill size={24} />
-					</button>
-				</Alert>
-			</main>
-
-			<Footer />
-		</>
+				</Form>
+			</Container>
+		</Page>
 	);
 }
 

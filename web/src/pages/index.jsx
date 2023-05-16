@@ -9,8 +9,7 @@ import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiLightbulbFill, RiTrophyFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { Page } from "../components/Page.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
@@ -72,77 +71,71 @@ const plugins = [
 
 export function Home() {
 	return (
-		<>
-			<NavBar page="/" />
+		<Page className="min-h-without-navbar position-relative" page="/">
+			<img
+				src="/static/home-bg.jpeg"
+				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
+				fetchpriority="high"
+			/>
 
-			<main className="min-h-without-navbar position-relative">
-				<img
-					src="/static/home-bg.jpeg"
-					className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
-					fetchpriority="high"
-				/>
+			<Container className="col-12 row mx-auto gap-5 px-4 pt-5">
+				<ReportingCard title="Utilizadores registados" page="/utilizadores" />
+				<ReportingCard title="Candidaturas submetidas" page="/candidaturas" />
+				<ReportingCard title="Negócios criados" page="/negocios" />
+			</Container>
 
-				<Container className="col-12 row mx-auto gap-5 px-4 pt-5">
-					<ReportingCard title="Utilizadores registados" page="/utilizadores" />
-					<ReportingCard title="Candidaturas submetidas" page="/candidaturas" />
-					<ReportingCard title="Negócios criados" page="/negocios" />
-				</Container>
+			<Container className="col-12 row mx-auto gap-5 px-4 py-5">
+				<ReportingCard title="Ideias submetidas" page="/ideias" />
+				<ReportingCard title="Total vagas" page="/vagas" />
+				<ReportingCard title="Número de beneficios" page="/beneficios" />
+			</Container>
 
-				<Container className="col-12 row mx-auto gap-5 px-4 py-5">
-					<ReportingCard title="Ideias submetidas" page="/ideias" />
-					<ReportingCard title="Total vagas" page="/vagas" />
-					<ReportingCard title="Número de beneficios" page="/beneficios" />
-				</Container>
-
-				<div
-					className="d-flex justify-content-center align-items-center flex-wrap gap-5 px-4 pb-5"
-					style={{ marginInline: "5rem" }}
-				>
-					<div className="col">
-						<NegociosChart />
-					</div>
-					<div className="col">
-						<NegociosChart />
-					</div>
+			<div
+				className="d-flex justify-content-center align-items-center flex-wrap gap-5 px-4 pb-5"
+				style={{ marginInline: "5rem" }}
+			>
+				<div className="col">
+					<NegociosChart />
 				</div>
+				<div className="col">
+					<NegociosChart />
+				</div>
+			</div>
 
-				<Container className="col-12 row mx-auto gap-3 pb-5">
-					<h2 className="text-white">Funcionalidades principais do website:</h2>
+			<Container className="col-12 row mx-auto gap-3 pb-5">
+				<h2 className="text-white">Funcionalidades principais do website:</h2>
 
-					<PageCard
-						title="Negócios"
-						description="Negócios, Parcerias e os Investimentos que existem na empresa e de potenciais novas oportunidades"
-						icon={FaHandHoldingUsd}
-						href="/negocios"
-					/>
-					<PageCard
-						title="Vagas"
-						description="Vagas/Ofertas de trabalho em existem na empresa"
-						icon={BsFillFileEarmarkPersonFill}
-						href="/vagas"
-					/>
-					<PageCard
-						title="Benefícios"
-						description="Conheça todos os Benefícios que cada colaborador Softinsa pode usufruir"
-						icon={RiTrophyFill}
-						href="/beneficios"
-					/>
-					<PageCard
-						title="Ideias"
-						description="Faça recomendações de melhorias para a empresa e as suas equipas"
-						icon={RiLightbulbFill}
-						href="/ideias"
-					/>
-				</Container>
-			</main>
-
-			<Footer />
-		</>
+				<PageCard
+					title="Negócios"
+					description="Negócios, Parcerias e os Investimentos que existem na empresa e de potenciais novas oportunidades"
+					icon={FaHandHoldingUsd}
+					href="/negocios"
+				/>
+				<PageCard
+					title="Vagas"
+					description="Vagas/Ofertas de trabalho em existem na empresa"
+					icon={BsFillFileEarmarkPersonFill}
+					href="/vagas"
+				/>
+				<PageCard
+					title="Benefícios"
+					description="Conheça todos os Benefícios que cada colaborador Softinsa pode usufruir"
+					icon={RiTrophyFill}
+					href="/beneficios"
+				/>
+				<PageCard
+					title="Ideias"
+					description="Faça recomendações de melhorias para a empresa e as suas equipas"
+					icon={RiLightbulbFill}
+					href="/ideias"
+				/>
+			</Container>
+		</Page>
 	);
 }
 
 function NegociosChart() {
-	const { data } = useSWR(API_URL + "/reporting/negocios/chart", fetcher);
+	const { data } = useSWR(`${API_URL}/reporting/negocios/chart`, fetcher);
 
 	const negociosChartLabels = useMemo(
 		() =>
@@ -185,7 +178,7 @@ const INTERVALS = [
 function ReportingCard({ title, page }) {
 	const [intervalIndex, setIntervalIndex] = useState(INTERVALS.length - 1);
 	const intervalData = useMemo(() => INTERVALS[intervalIndex], [intervalIndex]);
-	const { data, isLoading } = useSWR(API_URL + "/reporting" + page + "?interval=" + intervalData.value, fetcher);
+	const { data, isLoading } = useSWR(`${API_URL}/reporting${page}?interval=${intervalData.value}`, fetcher);
 
 	function handleIntervalChange() {
 		setIntervalIndex((idx) => (idx === INTERVALS.length - 1 ? 0 : idx + 1));

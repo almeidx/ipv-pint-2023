@@ -4,6 +4,7 @@ import "./styles/global.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { DisableableButtonProvider } from "./contexts/DisableableButtonContext.jsx";
 import { ToastProvider } from "./contexts/ToastContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { Error404 } from "./pages/404.jsx";
@@ -25,27 +26,29 @@ createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<UserProvider>
 			<ToastProvider>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/beneficios" element={<Beneficios />} />
-						<Route path="/contacto" element={<Contacto />} />
-						<Route path="/ideias" element={<Ideias />} />
-						<Route path="/negocios" element={<Negocios />} />
-						<Route path="/vagas" element={<Vagas />} />
+				<DisableableButtonProvider>
+					<BrowserRouter>
+						<Routes>
+							<Route path="/" element={<Home />} />
+							<Route path="/beneficios" element={<Beneficios />} />
+							<Route path="/contacto" element={<Contacto />} />
+							<Route path="/ideias" element={<Ideias />} />
+							<Route path="/negocios" element={<Negocios />} />
+							<Route path="/vagas" element={<Vagas />} />
 
-						<Route path="/login" element={<Login />} />
-						<Route path="/signup" element={<SignUp />} />
-						<Route path="/mudar-password" element={<MudarPassword />} />
-						<Route path="/verificar-conta" element={<VerificarConta />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/calendar" element={<Calendar />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/signup" element={<SignUp />} />
+							<Route path="/mudar-password" element={<MudarPassword />} />
+							<Route path="/verificar-conta" element={<VerificarConta />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route path="/calendar" element={<Calendar />} />
 
-						<Route path="/admin" element={<Admin />} />
+							<Route path="/admin" element={<Admin />} />
 
-						<Route path="*" element={<Error404 />} />
-					</Routes>
-				</BrowserRouter>
+							<Route path="*" element={<Error404 />} />
+						</Routes>
+					</BrowserRouter>
+				</DisableableButtonProvider>
 			</ToastProvider>
 		</UserProvider>
 	</StrictMode>,

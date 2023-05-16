@@ -8,12 +8,19 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 module.exports = {
 	create: [
 		requireLogin(),
+		validate(
+			body("content", "`content` tem que ser do tipo string").isString().isLength({ min: 1, max: 1_000 }),
+			body("categoria", "`categoria` tem que ser do tipo string")
+				.isString()
+				.isIn(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
+		),
+
 		async (req, res) => {
-			const { conteudo, categoria } = req.body;
+			const { content, categoria } = req.body;
 
 			const ideia = await Ideia.create({
 				idCriador: req.user.id,
-				conteudo,
+				content,
 				categoria,
 			});
 
@@ -31,13 +38,16 @@ module.exports = {
 							model: Utilizador,
 							as: "utilizador",
 							source: "idCriador",
+							attributes: ["id", "name"],
 						},
 						{
 							model: Utilizador,
 							as: "validador",
 							source: "idValidador",
+							attributes: ["id", "name"],
 						},
 					],
+					order: [["id", "ASC"]],
 				}),
 			);
 		},

@@ -7,6 +7,7 @@
 		"Conteudos",
 		"Criacao",
 		"descricao",
+		"Disableable",
 		"duracao",
 		"Finalizacao",
 		"funcionario",
@@ -24,5 +25,6 @@
 		"Validador"
 	],
 	"editor.tabSize": 2,
-	"editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"liveshare.autoShareServers": true
 }

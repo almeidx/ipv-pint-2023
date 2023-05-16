@@ -20,7 +20,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const Negocio = require("./Negocio.js");
 const Candidatura = require("./Candidatura.js");
-const Utilizador = require("./Utilizador.js");
 
 const Reuniao = sequelize.define(
 	"reunioes",

@@ -56,3 +56,13 @@
 .-z-10 {
 	z-index: -10;
 }
+
+/* Checkbox don't have pointer cursor by default for some reason */
+.form-check:has(> .form-check-input:not(:disabled)) {
+	cursor: pointer;
+}
+
+.form-check-label,
+.form-check-input {
+	cursor: inherit !important;
+}

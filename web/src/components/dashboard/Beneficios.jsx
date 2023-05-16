@@ -12,7 +12,7 @@ import { Spinner } from "../Spinner.jsx";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(API_URL + "/beneficios?admin", fetcher);
+	const { isLoading, data } = useSWR(`${API_URL}/beneficios?admin`, fetcher);
 
 	const filtered = useMemo(
 		() =>

@@ -28,7 +28,7 @@ module.exports = sequelize.define(
 			field: "EMAIL_CRIADOR_MENSAGEM",
 		},
 		content: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1000),
 			field: "CONTEUDO_MENSAGEM",
 			allowNull: false,
 		},

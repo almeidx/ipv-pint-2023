@@ -4,17 +4,16 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import FormCheck from "react-bootstrap/FormCheck";
 import useSWR from "swr";
-import { Footer } from "../components/Footer.jsx";
-import { NavBar } from "../components/NavBar.jsx";
+import { Page } from "../components/Page.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
+import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { Spinner } from "../components/Spinner.jsx";
 
 export function Vagas() {
 	const [search, setSearch] = useState("");
 	const [vagasCheias, setVagasCheias] = useState(false);
-	const { data, isLoading } = useSWR(API_URL + "/vagas", fetcher);
+	const { data, isLoading } = useSWR(`${API_URL}/vagas`, fetcher);
 
 	const filteredVagas = search
 		? (data ?? []).filter(
@@ -24,30 +23,24 @@ export function Vagas() {
 		: data ?? [];
 
 	return (
-		<>
-			<NavBar page="vagas" />
+		<Page page="/vagas">
+			<Container className="col-11 pt-5">
+				<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
 
-			<main className="min-h-without-navbar bg-main pb-5">
-				<Container className="col-11 pt-5">
-					<SearchBar placeholder="Pesquise por vagas..." onSearch={(value) => setSearch(value)} />
+				<FormCheck
+					type="checkbox"
+					label="Mostrar vagas cheias"
+					checked={vagasCheias}
+					onChange={() => setVagasCheias((state) => !state)}
+					className="rounded-pill mt-4 w-fit bg-white py-2 pe-3 ps-5"
+					id="vagasCheias"
+				/>
+			</Container>
 
-					<FormCheck
-						type="checkbox"
-						label="Mostrar vagas cheias"
-						checked={vagasCheias}
-						onChange={() => setVagasCheias((state) => !state)}
-						className="rounded-pill mt-4 w-fit bg-white py-2 pe-3 ps-5"
-						id="vagasCheias"
-					/>
-				</Container>
-
-				<Container className="col-12 row d-flex mx-auto gap-5 pt-4">
-					{isLoading ? <Spinner /> : filteredVagas.map(({ id, ...vaga }) => <Vaga key={id} {...vaga} />)}
-				</Container>
-			</main>
-
-			<Footer />
-		</>
+			<Container className="col-12 row d-flex mx-auto gap-5 pt-4">
+				{isLoading ? <Spinner /> : filteredVagas.map(({ id, ...vaga }) => <Vaga key={id} {...vaga} />)}
+			</Container>
+		</Page>
 	);
 }
 

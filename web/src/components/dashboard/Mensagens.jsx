@@ -14,7 +14,7 @@ import { Spinner } from "../Spinner.jsx";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
-	const { data, isLoading } = useSWR(API_URL + "/mensagens", fetcher);
+	const { data, isLoading } = useSWR(`${API_URL}/mensagens`, fetcher);
 
 	const filtered = search
 		? (data ?? []).filter(
@@ -55,13 +55,13 @@ export default function Mensagens() {
 								<p className="mb-0">{content}</p>
 
 								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-									{registered ? "Utilizador registado" : `Sem registo - ${criador.email}`} -{" "}
+									{registered ? `Utilizador registado - ${criador.name}` : `Sem registo - ${criador.email}`} -{" "}
 									{formatDate(new Date(createdAt))}
 								</p>
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent">
+								<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
 									<BiTrash size={32} color="red" />
 								</Button>
 							</div>

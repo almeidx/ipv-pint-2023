@@ -10,9 +10,7 @@ import { FaSearch } from "react-icons/fa";
  * @param {boolean} [props.disabled]
  */
 export function SearchBar({ onSearch, placeholder, disabled }) {
-	/**
-	 * @param {React.FormEvent<HTMLFormElement>} event
-	 */
+	/** @param {React.FormEvent<HTMLFormElement>} event */
 	function onSubmit(event) {
 		event.preventDefault();
 		const input = event.currentTarget.querySelector("input");
