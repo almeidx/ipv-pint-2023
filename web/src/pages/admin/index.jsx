@@ -1,20 +1,20 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useSearchParams } from "react-router-dom";
-import { ErrorBase } from "../components/ErrorBase.jsx";
-import { Page } from "../components/Page.jsx";
-import { Spinner } from "../components/Spinner.jsx";
-import Mensagens from "../components/dashboard/Mensagens.jsx";
-import { useUser } from "../contexts/UserContext.jsx";
-import { isAdmin } from "../utils/permissions.js";
+import { ErrorBase } from "../../components/ErrorBase.jsx";
+import { Page } from "../../components/Page.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
+import { useUser } from "../../contexts/UserContext.jsx";
+import { isAdmin } from "../../utils/permissions.js";
 
-const Candidaturas = lazy(() => import("../components/dashboard/Candidaturas.jsx"));
-const Ideias = lazy(() => import("../components/dashboard/Ideias.jsx"));
-const Negocios = lazy(() => import("../components/dashboard/Negocios.jsx"));
-const Vagas = lazy(() => import("../components/dashboard/Vagas.jsx"));
-const Beneficios = lazy(() => import("../components/dashboard/Beneficios.jsx"));
-const Reunioes = lazy(() => import("../components/dashboard/Reunioes.jsx"));
-const Utilizadores = lazy(() => import("../components/dashboard/Utilizadores.jsx"));
+const Beneficios = lazy(() => import("./beneficios.jsx"));
+const Candidaturas = lazy(() => import("./candidaturas.jsx"));
+const Ideias = lazy(() => import("./ideias.jsx"));
+const Mensagens = lazy(() => import("./mensagens.jsx"));
+const Negocios = lazy(() => import("./negocios.jsx"));
+const Reunioes = lazy(() => import("./reunioes.jsx"));
+const Utilizadores = lazy(() => import("./utilizadores.jsx"));
+const Vagas = lazy(() => import("./vagas.jsx"));
 
 const sections = [
 	{ name: "Benefícios", link: "beneficios" },

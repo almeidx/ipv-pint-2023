@@ -7,8 +7,8 @@ import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { SearchBar } from "../SearchBar.jsx";
-import { Spinner } from "../Spinner.jsx";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");

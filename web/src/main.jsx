@@ -7,8 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DisableableButtonProvider } from "./contexts/DisableableButtonContext.jsx";
 import { ToastProvider } from "./contexts/ToastContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
-import { Error404 } from "./pages/404.jsx";
-import { Admin } from "./pages/admin.jsx";
+import { NotFound } from "./pages/404.jsx";
+import { Admin } from "./pages/admin/index.jsx";
 import { Beneficios } from "./pages/beneficios.jsx";
 import { Calendar } from "./pages/calendar.jsx";
 import { Contacto } from "./pages/contacto.jsx";
@@ -45,7 +45,7 @@ createRoot(document.getElementById("root")).render(
 
 							<Route path="/admin" element={<Admin />} />
 
-							<Route path="*" element={<Error404 />} />
+							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</BrowserRouter>
 				</DisableableButtonProvider>

@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import CloseButton from "react-bootstrap/CloseButton";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import Toast from "react-bootstrap/Toast";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
-import { TbSend } from "react-icons/tb";
 import { Page } from "../components/Page.jsx";
+import { Toast } from "../components/Toast.jsx";
+import { useDisableableButton } from "../contexts/DisableableButtonContext.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
@@ -57,8 +57,8 @@ export function Contacto() {
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [message, setMessage] = useState("");
-	const [showCreatedToast, setShowCreatedToast] = useState(false);
-	const timeoutRef = useRef(null);
+	const { buttonRef, disableButton } = useDisableableButton();
+	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
 
 	useEffect(() => {
 		if (user) {
@@ -67,12 +67,8 @@ export function Contacto() {
 		}
 	}, [user]);
 
-	function disableToast() {
-		setShowCreatedToast(false);
-	}
-
 	/** @param {import("react").FormEvent<HTMLFormElement>} */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
 		const data = {
@@ -81,28 +77,34 @@ export function Contacto() {
 			content: message,
 		};
 
-		fetch(`${API_URL}/mensagens`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-			credentials: "include",
-		}).then(async (res) => {
-			if (!res.ok) {
-				alert("Ocorreu um erro ao enviar a mensagem.");
-				return;
+		try {
+			const response = await fetch(`${API_URL}/mensagens`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+				credentials: "include",
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
 			}
 
-			setShowCreatedToast(true);
+			disableButton();
+			showToastWithMessage("Mensagem enviada com sucesso");
+
 			setMessage("");
 
-			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+			if (!user) {
+				setName("");
+				setEmail("");
+			}
+		} catch (error) {
+			console.error(error);
 
-			timeoutRef.current = setTimeout(() => {
-				setShowCreatedToast(false);
-			}, 10_000);
-		});
+			showToastWithMessage("Ocorreu um erro ao enviar a mensagem");
+		}
 	}
 
 	return (
@@ -110,6 +112,8 @@ export function Contacto() {
 			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center"
 			page="/contacto"
 		>
+			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+
 			<img
 				src="/static/contacto-bg.png"
 				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
@@ -161,26 +165,11 @@ export function Contacto() {
 						onChange={(e) => setMessage(e.target.value)}
 					/>
 
-					<Button variant="primary" type="submit" className="px-5">
+					<Button variant="primary" type="submit" className="px-5" ref={buttonRef}>
 						Enviar
 					</Button>
 				</Form>
 			</Container>
-
-			<Toast
-				show={showCreatedToast}
-				onClose={disableToast}
-				className="position-absolute"
-				style={{ bottom: "1rem", right: "1rem" }}
-			>
-				<Toast.Body className="d-flex align-items-center justify-content-between gap-2">
-					<p className="mb-0">
-						<TbSend size={24} /> Mensagem enviada com sucesso
-					</p>
-
-					<CloseButton onClick={disableToast} />
-				</Toast.Body>
-			</Toast>
 		</Page>
 	);
 }
@@ -189,9 +178,7 @@ export function Contacto() {
  * @param {Object} props
  * @param {string} props.title
  * @param {React.ComponentType} props.icon
- * @param {Object[]} props.links
- * @param {string} props.links[].title
- * @param {string} props.links[].href
+ * @param {{ title: string; href: string }[]} props.links
  */
 function ContactMethod({ title, icon: Icon, links }) {
 	return (

@@ -12,9 +12,9 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { SearchBar } from "../SearchBar.jsx";
-import { Spinner } from "../Spinner.jsx";
-import { Toast } from "../Toast.jsx";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
 
 export default function Utilizadores() {
 	const [search, setSearch] = useState("");

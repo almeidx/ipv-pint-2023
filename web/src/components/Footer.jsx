@@ -1,6 +1,6 @@
 import { RiFacebookCircleFill, RiInstagramLine, RiLinkedinBoxLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import softinsaLogoSmall from "../assets/softinsa-logo-small.svg";
+import { SoftinsaLogoSmall } from "./icons/SoftinsaLogoSmall.jsx";
 
 export function Footer() {
 	return (
@@ -10,7 +10,7 @@ export function Footer() {
 		>
 			<div className="col-md-4 d-flex align-items-center">
 				<Link to="/" className="mb-md-0 text-muted text-decoration-none lh-1 mb-3 me-2">
-					<img src={softinsaLogoSmall} alt="" />
+					<SoftinsaLogoSmall />
 				</Link>
 
 				<span className="mb-md-0 mb-3 text-white">© {new Date().getFullYear()} Softinsa</span>

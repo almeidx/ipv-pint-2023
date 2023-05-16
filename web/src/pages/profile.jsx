@@ -3,32 +3,40 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import FormControl from "react-bootstrap/FormControl";
 import FormLabel from "react-bootstrap/FormLabel";
+import Modal from "react-bootstrap/Modal";
 import { BsTrash } from "react-icons/bs";
 import { MdOutlineLogout, MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { Page } from "../components/Page.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
-import { Page } from "../components/Page.jsx";
 
 export function Profile() {
 	const { user, setUser } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
+	const [cvContent, setCvContent] = useState(null);
+	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 
-	// todo: disallow editing fields if used social login
+	// TODO: disallow editing fields if used social login
 
 	function handleProfileValueChange(type, value) {
-		if (type === "name") {
-			setName(value);
-			startTransition(() => {
-				setShowSaveButton(value !== user.name);
-			});
-		} else if (type === "email") {
-			setEmail(value);
-			startTransition(() => {
-				setShowSaveButton(value !== user.email);
-			});
+		switch (type) {
+			case "name":
+				setName(value);
+				startTransition(() => setShowSaveButton(value !== user.name));
+				break;
+
+			case "email":
+				setEmail(value);
+				startTransition(() => setShowSaveButton(value !== user.email));
+				break;
+
+			case "cv":
+				setCvContent(value);
+				setShowSaveButton(true);
+				break;
 		}
 	}
 
@@ -42,6 +50,13 @@ export function Profile() {
 				src="/static/perfil-bg.jpg"
 				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
 				fetchpriority="high"
+			/>
+
+			<CurriculumVitaeModal
+				update={!!user?.cv}
+				show={showCvEditModal}
+				onSave={(content) => handleProfileValueChange("cv", content)}
+				onHide={() => setShowCvEditModal(false)}
 			/>
 
 			{user ? (
@@ -94,6 +109,16 @@ export function Profile() {
 								className="w-25"
 								onChange={(e) => handleProfileValueChange("email", e.target.value)}
 							/>
+
+							<div className="d-flex flex-column w-fit">
+								<FormLabel htmlFor="cv" className="h5 mt-3">
+									Curriculum Vitae
+								</FormLabel>
+
+								<Button variant="light" onClick={() => setShowCvEditModal(true)} type="button">
+									{user.cv ? "Alterar" : "Adicionar"}
+								</Button>
+							</div>
 						</Container>
 
 						<hr />
@@ -146,5 +171,46 @@ export function Profile() {
 				</Container>
 			)}
 		</Page>
+	);
+}
+
+/** @param {import("react").PropsWithChildren<{ update: boolean; onHide(): void; show: boolean; onSave(content: string): void }>} props */
+function CurriculumVitaeModal({ update, onSave, onHide, show }) {
+	/** @param {import("react").ChangeEvent<FormControlElement>} event */
+	function handleSubmit(event) {
+		const file = event.target.files[0];
+
+		const reader = new FileReader();
+
+		reader.addEventListener("load", () => {
+			const content = reader.result;
+
+			onSave(content);
+			onHide();
+		});
+
+		reader.readAsText(file);
+	}
+
+	return (
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+			<Modal.Header closeButton>
+				<Modal.Title id="contained-modal-title-vcenter">
+					{(update ? "Atualizar " : "Adicionar ") + "Curriculum Vitae"}
+				</Modal.Title>
+			</Modal.Header>
+
+			<Modal.Body>
+				<FormLabel htmlFor="cv">Ficheiro</FormLabel>
+
+				<FormControl id="cv" type="file" accept=".txt" required onChange={(event) => handleSubmit(event)} />
+			</Modal.Body>
+
+			<Modal.Footer>
+				<Button onClick={onHide} type="button">
+					Cancelar
+				</Button>
+			</Modal.Footer>
+		</Modal>
 	);
 }

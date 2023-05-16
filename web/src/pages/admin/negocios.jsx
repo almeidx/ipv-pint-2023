@@ -5,11 +5,11 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { SearchBar } from "../SearchBar.jsx";
-import { Spinner } from "../Spinner.jsx";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");

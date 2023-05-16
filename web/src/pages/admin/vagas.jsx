@@ -6,8 +6,8 @@ import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
-import { SearchBar } from "../SearchBar.jsx";
-import { Spinner } from "../Spinner.jsx";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");

@@ -10,10 +10,11 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { BiBell, BiChevronDown } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import softinsaSvg from "../assets/softinsa.svg";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
+import { isAdmin } from "../utils/permissions.js";
 import { Spinner } from "./Spinner.jsx";
+import { Softinsa } from "./icons/Softinsa.jsx";
 
 const Notifications = lazy(() => import("./Notifications.jsx"));
 
@@ -41,7 +42,7 @@ export function NavBar({ page }) {
 		<BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>
 			<Link to="/">
 				<NavbarBrand>
-					<img src={softinsaSvg} alt="Softinsa" />
+					<Softinsa />
 				</NavbarBrand>
 			</Link>
 
@@ -134,11 +135,13 @@ export function NavBar({ page }) {
 									</Link>
 								</li>
 
-								<li>
-									<Link className="dropdown-item" to="/admin">
-										Painel de administração
-									</Link>
-								</li>
+								{isAdmin(user) ? (
+									<li>
+										<Link className="dropdown-item" to="/admin">
+											Painel de administração
+										</Link>
+									</li>
+								) : null}
 
 								<li>
 									<Dropdown.Item onClick={() => window.open(`${API_URL}/auth/logout`, "_self")}>
