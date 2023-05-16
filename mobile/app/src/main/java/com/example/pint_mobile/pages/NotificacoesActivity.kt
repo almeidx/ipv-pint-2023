@@ -13,7 +13,7 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Notificacao
 import com.example.pint_mobile.utils.formatDate
 import com.example.pint_mobile.utils.listaNotificacoes
-import com.example.pint_mobile.utils.setupActivityListeners
+
 
 class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notificações") {
     private val notificacoesList = ArrayList<Notificacao>()
