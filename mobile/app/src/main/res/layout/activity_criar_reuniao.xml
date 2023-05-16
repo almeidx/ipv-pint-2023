@@ -1,46 +1,61 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/bg"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="#C5CAE9"
-	tools:context=".pages.admin.edit.CriarReuniaoActivity"
->
-
-    <com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/textInputLayout6"
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+	>
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/layoutX"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/white"
+		tools:context=".pages.admin.edit.CriarReuniaoActivity"
+		>
+	<LinearLayout
+		android:id="@+id/linearLayout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="25dp"
-		android:layout_marginTop="20dp"
-		android:layout_marginEnd="25dp"
-		android:hint="@string/data_reuniao"
-		app:boxBackgroundColor="@color/white"
-		app:boxStrokeColor="@color/black"
-		app:helperText="DD/MM/YYYY"
-		app:helperTextTextColor="@color/black"
+		android:orientation="vertical"
+		android:layout_marginTop="10dp"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-	>
+		app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/data_reuniao"
+		<Button
+			android:id="@+id/btn_timePicker"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:drawableEnd="@drawable/calendar"
-		/>
+			android:layout_height="64dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:text="data da Reuniao" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+		<EditText
+			android:id="@+id/tv_textTime"
+			android:layout_width="match_parent"
+			android:layout_height="64dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:layout_marginTop="10dp"
+			android:background="@color/white"
+			tools:text="@tools:sample/date/ddmmyy"
+			android:textSize="20dp"
+			android:text="Data da Reuniao"
+			android:paddingStart="15dp"
+			android:layout_below="@+id/btn_timePicker"
+			android:layout_centerInParent="true"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+			/>
+	</LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/textInputLayout7"
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="64dp"
 		android:layout_marginStart="25dp"
 		android:layout_marginTop="10dp"
 		android:layout_marginEnd="25dp"
@@ -49,7 +64,7 @@
 		app:boxStrokeColor="@color/black"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
+		app:layout_constraintTop_toBottomOf="@+id/linearLayout"
 	>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -110,26 +125,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-		android:id="@+id/criar"
-		style="@style/Widget.Material3.Button"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="25dp"
-		android:layout_marginTop="20dp"
-		android:layout_marginEnd="25dp"
-		android:layout_marginBottom="65dp"
-		android:backgroundTint="@color/white"
-		android:onClick="criar"
-		android:text="@string/criar"
-		android:textColor="@color/black"
-		android:textSize="16sp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDescReuniao"
-	/>
+		<Button
+			android:id="@+id/criar"
+			style="@style/Widget.Material3.Button"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="25dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="25dp"
+			android:layout_marginBottom="65dp"
+			android:onClick="criar"
+			android:text="@string/criar"
+			android:textColor="@color/white"
+			android:background="@android:color/white"
+			android:textSize="16sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDescReuniao"
+			/>
 
-        <include layout="@layout/bottombar" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

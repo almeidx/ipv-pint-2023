@@ -87,24 +87,24 @@
 		app:layout_constraintTop_toTopOf="parent"
 	/>
 
-    <Button
+	<Button
 		android:id="@+id/terminar_sessao"
 		style="@style/Widget.Material3.Button"
 		android:layout_width="200dp"
 		android:layout_height="52dp"
 		android:layout_marginStart="39dp"
-		android:layout_marginTop="380dp"
+		android:layout_marginTop="180dp"
 		android:layout_marginEnd="39dp"
-		android:layout_marginBottom="67dp"
 		android:backgroundTint="@color/white"
+		android:onClick="terminarSessao"
 		android:text="@string/terminar_sessão"
 		android:textColor="@color/black"
 		android:textSize="16sp"
-		android:onClick="terminarSessao"
 		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.496"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/inativar_conta"
-	/>
+		/>
 
-    <include layout="@layout/bottombar" />
+	<include layout="@layout/bottombar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

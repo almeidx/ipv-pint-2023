@@ -246,6 +246,9 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
                 rawReuniao.getString("subject"),
                 rawReuniao.getString("startTime"),
                 rawReuniao.getString("duration"),
+                rawReuniao.getInt("id"),
+                rawReuniao.getJSONObject("candidatura").getJSONObject("vaga").getString("title"),
+                rawReuniao.getJSONObject("negocio").getString("title"),
             )
             list.add(reuniao)
         }

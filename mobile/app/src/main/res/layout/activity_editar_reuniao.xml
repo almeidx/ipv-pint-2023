@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutX"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".pages.admin.edit.EditarReuniaoActivity"
+        >
+
+        <LinearLayout
+            android:id="@+id/container2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nomeReuniao"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Nome da reuniao"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nomeReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/dataReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Selecionar data"
+                    />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DescricaoReuniao"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Descricao do negocio"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/DescricaoReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/subjectReuniao"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Subject da reuniao"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/subjectReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/negocioReuniao"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Negoocio da reuniao"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/negocioReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/candidaturaReuniao"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Candidatura da reuniao"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/candidaturaReuniaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:gravity="end"
+                >
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_button"
+                    android:backgroundTint="@color/white"
+                    android:text="Remover"
+                    android:textSize="10dp"
+                    android:textColor="@color/white"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/edit_button"
+                    android:backgroundTint="@color/white"
+                    android:text="Validar"
+                    android:textSize="10dp"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

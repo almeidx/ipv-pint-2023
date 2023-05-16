@@ -12,6 +12,8 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
+import com.example.pint_mobile.pages.admin.edit.EditarReuniaoActivity
+import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Reuniao
 import com.example.pint_mobile.utils.listaReunioes
@@ -63,6 +65,21 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
             nomeReuniao.text = reuniao.title
             conteudoReuniao.text = reuniao.description
             infoReuniao.text = reuniao.date + " - " + reuniao.duration + ":minutos"
+
+            view.setOnClickListener {
+                    val intent = Intent(view.context, EditarReuniaoActivity::class.java)
+
+                intent.putExtra("dataReuniao", reuniao.date)
+                intent.putExtra("idReuniao", reuniao.id)
+                intent.putExtra("negocioReuniao", reuniao.negocio)
+                intent.putExtra("descricaoReuniao", reuniao.description)
+                intent.putExtra("nomeReuniao", reuniao.title)
+                intent.putExtra("candidaturaReuniao", reuniao.candidatura)
+                intent.putExtra("subjectReuniao", reuniao.subject)
+
+                view.context.startActivity(intent)
+            }
+
 
             return view
         }
