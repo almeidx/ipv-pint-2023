@@ -26,7 +26,7 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
 
         lista.adapter = beneficiosAdapter
 
-        listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
+        listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->

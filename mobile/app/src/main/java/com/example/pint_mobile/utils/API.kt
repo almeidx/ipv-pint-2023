@@ -2,6 +2,7 @@ package com.example.pint_mobile.utils
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
@@ -14,6 +15,7 @@ import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
 import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.pages.admin.AdminMensagensActivity
@@ -28,16 +30,19 @@ import java.util.Locale
 const val API_URL = "https://pint-api.almeidx.dev"
 const val AUTH_PREFERENCE_NAME = "sharedPrefs"
 
-fun listaBeneficios(list: ArrayList<Beneficio>, allList: ArrayList<Beneficio>, adapter: BeneficiosActivity.BeneficioAdapter, ctx: Context) {
+fun listaBeneficios(list: ArrayList<Beneficio>, allList: ArrayList<Beneficio>, adapter: BeneficiosActivity.BeneficioAdapter, ctx: Context, admin: Boolean = false) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequest(Request.Method.GET,
-        "$API_URL/beneficios", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET,
+        "$API_URL/beneficios${if (admin) "?admin" else ""}", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawBeneficio = response.getJSONObject(i)
             val beneficio = Beneficio(
                 rawBeneficio.getString("shortContent"),
-                rawBeneficio.getString("content")
+                rawBeneficio.getString("content"),
+                rawBeneficio.getInt("id"),
+                rawBeneficio.getString("dataValidade"),
+                rawBeneficio.getString("iconeBeneficio"),
             )
             list.add(beneficio)
         }
@@ -372,3 +377,70 @@ fun getUserInfo(cookie: String, ctx: Context) {
 
     queue.add(request)
 }
+
+// delete beneficio
+fun deleteBeneficio(id: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/beneficios/$id", null, Response.Listener { response ->
+        Toast.makeText(ctx, "Benefício deletado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminBeneficiosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+                Log.i("Erro: ", json.toString())
+                throw ServerError()
+            }
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun criarBeneficio(titulo: String, descricao: String, icon: String, data:String,  ctx: Context, callback: () -> Unit) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("shortContent", titulo)
+    body.put("content", descricao)
+    body.put("iconeBeneficio", icon)
+    body.put("dataValidade", data)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/beneficios", body, Response.Listener { response ->
+        callback()
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+
+
