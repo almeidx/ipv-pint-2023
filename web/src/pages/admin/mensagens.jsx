@@ -68,7 +68,7 @@ export default function Mensagens() {
 						</ListGroup.Item>
 					))
 				) : (
-					<p>{search ? "Pesquisa não retornou nenhuma mensagem" : "Não há nenhuma mensagem guardada"}</p>
+					<p>{search ? "Não foi encontrada nenhuma mensagem" : "Não há nenhuma mensagem registada"}</p>
 				)}
 			</ListGroup>
 		</Container>

@@ -103,7 +103,7 @@ export default function Ideias() {
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : filtered.length ? (
 					filtered.map(({ id, dataCriacao, categoria, utilizador, content, ideiaValidada }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`ideia-${id}`}>
 							<div>
@@ -132,6 +132,8 @@ export default function Ideias() {
 							</div>
 						</ListGroup.Item>
 					))
+				) : (
+					<p>{search ? "Não foi encontrada nenhuma ideia" : "Não há nenhuma ideia registada"}</p>
 				)}
 			</ListGroup>
 		</Container>

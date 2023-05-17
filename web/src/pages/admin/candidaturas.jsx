@@ -33,7 +33,7 @@ export default function Candidaturas() {
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : filtered.length ? (
 					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`candidatura-${id}`}>
 							<div>
@@ -52,6 +52,8 @@ export default function Candidaturas() {
 							</div>
 						</ListGroup.Item>
 					))
+				) : (
+					<p>{search ? "Não foi encontrada nenhuma candidatura" : "Não há nenhuma candidatura registada"}</p>
 				)}
 			</ListGroup>
 		</Container>

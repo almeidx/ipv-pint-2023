@@ -37,7 +37,7 @@ export default function Reuniões() {
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : filtered.length ? (
 					filtered.map(({ id, startTime, duration, title, description, subject }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div>
@@ -58,6 +58,8 @@ export default function Reuniões() {
 							</div>
 						</ListGroup.Item>
 					))
+				) : (
+					<p>{search ? "Não foi encontrada nenhuma reunião" : "Não há nenhuma reunião registada"}</p>
 				)}
 			</ListGroup>
 		</Container>

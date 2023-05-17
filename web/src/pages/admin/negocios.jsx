@@ -40,7 +40,7 @@ export default function Beneficios() {
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : filtered.length ? (
 					filtered.map(
 						({
 							id,
@@ -126,6 +126,8 @@ export default function Beneficios() {
 							</ListGroup.Item>
 						),
 					)
+				) : (
+					<p>{search ? "Não foi encontrado nenhum negócio" : "Não há nenhum negócio registado"}</p>
 				)}
 			</ListGroup>
 		</Container>
@@ -133,26 +135,11 @@ export default function Beneficios() {
 }
 
 const estadosNames = [
-	{
-		color: "#ff000000",
-		name: "Em espera",
-	},
-	{
-		color: "#ff000025",
-		name: "A validar",
-	},
-	{
-		color: "#ff000050",
-		name: "Em desenvolvimento",
-	},
-	{
-		color: "#ff000075",
-		name: "A finalizar",
-	},
-	{
-		color: "#ff0000",
-		name: "Finalizado",
-	},
+	{ color: "#ff000000", name: "Em espera" },
+	{ color: "#ff000025", name: "A validar" },
+	{ color: "#ff000050", name: "Em desenvolvimento" },
+	{ color: "#ff000075", name: "A finalizar" },
+	{ color: "#ff0000", name: "Finalizado" },
 ];
 
 function Progresso({ estados }) {

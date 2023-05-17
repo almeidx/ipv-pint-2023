@@ -79,7 +79,7 @@ export default function Utilizadores() {
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : filtered.length ? (
 					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div>
@@ -119,6 +119,8 @@ export default function Utilizadores() {
 							</div>
 						</ListGroup.Item>
 					))
+				) : (
+					<p>{search ? "Não foi encontrado nenhum utilizador" : "Não há nenhum utilizador registado"}</p>
 				)}
 			</ListGroup>
 		</Container>
