@@ -101,7 +101,7 @@
 				android:layout_height="wrap_content"
 				android:background="@drawable/edit_button"
 				android:backgroundTint="@color/white"
-				android:text="Apagar"
+				android:text="Remover"
 				android:textSize="10dp"
 				android:textColor="@color/white"
 			/>
