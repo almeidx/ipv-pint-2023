@@ -160,10 +160,10 @@
 				android:layout_marginLeft="20dp"
 				android:background="@drawable/edit_button"
 				android:backgroundTint="@color/white"
-				android:text="Guardar"
+				android:text="Editar"
 				android:textSize="10dp"
 				android:textColor="@color/white"
-					android:onClick="criarBeneficio1"
+					android:onClick="editarBeneficio"
 			/>
             </LinearLayout>
 

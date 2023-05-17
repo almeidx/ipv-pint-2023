@@ -5,9 +5,11 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.android.volley.NetworkResponse
+import com.android.volley.ParseError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.ServerError
+import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
@@ -175,7 +177,9 @@ fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: Admi
                 rawIdeia.getString("content"),
                 rawIdeia.getString("categoria"),
                 rawIdeia.getString("dataCriacao"),
-                rawIdeia.getJSONObject("utilizador").getString("name")
+                rawIdeia.getJSONObject("utilizador").getString("name"),
+                rawIdeia.getInt("id"),
+                rawIdeia.getBoolean("ideiaValidada"),
             )
             list.add(ideia)
         }
@@ -417,6 +421,110 @@ fun criarBeneficio(titulo: String, descricao: String, icon: String, data:String,
 
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/beneficios", body, Response.Listener { response ->
         callback()
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+fun editBeneficio(id: Int, titulo: String, descricao: String, icon: String, data:String,  ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("shortContent", titulo)
+    body.put("content", descricao)
+    body.put("iconeBeneficio", icon)
+    body.put("dataValidade", data)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/beneficios/$id", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Benefício editado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminBeneficiosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+fun deleteIdeia(id: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/ideias/$id", null, Response.Listener { response ->
+        Toast.makeText(ctx, "Ideia deletada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminIdeiasActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+                Log.i("Erro: ", json.toString())
+                throw ServerError()
+            }
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
+
+fun editIdeia(id: Int, validacao:Boolean, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("ideiaValidada", validacao)
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/ideias/$id", body, Response.Listener { response ->
+        Log.i("Validação", validacao.toString())
+
+        Toast.makeText(ctx, "Ideia editada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminIdeiasActivity::class.java)
+        ctx.startActivity(intent)
+
     }, Response.ErrorListener { error ->
         error.printStackTrace()
     }) {

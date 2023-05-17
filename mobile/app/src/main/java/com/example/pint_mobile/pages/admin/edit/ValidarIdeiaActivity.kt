@@ -1,18 +1,33 @@
 package com.example.pint_mobile.pages.admin.edit
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.CheckBox
+import android.widget.Toast
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
+import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.deleteIdeia
+import com.example.pint_mobile.utils.editIdeia
 import com.google.android.material.textfield.TextInputEditText
 
 class ValidarIdeiaActivity : ActivityBase(R.layout.activity_validar_ideia, "Validar Ideia") {
+
+    private var id = 0
+    private var validacao = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val titulo = intent.getStringExtra("titulo")
         val descricao = intent.getStringExtra("descricao")
         val data = intent.getStringExtra("data")
-        val nome = intent.getStringExtra("criador")
+        val criador = intent.getStringExtra("criador")
+        id = intent.getIntExtra("id", 0)
+        validacao = intent.getBooleanExtra("validacao", false)
+
 
         val tituloIdeiaEdit = findViewById<TextInputEditText>(R.id.tituloIdeiaEdit)
         tituloIdeiaEdit.setText(titulo)
@@ -23,8 +38,24 @@ class ValidarIdeiaActivity : ActivityBase(R.layout.activity_validar_ideia, "Vali
         val dataIdeiaEdit = findViewById<TextInputEditText>(R.id.dataIdeiaEdit)
         dataIdeiaEdit.setText(data)
 
-
         val nomeIdeiaEdit = findViewById<TextInputEditText>(R.id.criadorIdeiaEdit)
-        nomeIdeiaEdit.setText(nome)
+        nomeIdeiaEdit.setText(criador)
+
+        val validacaoIdeiaEdit = findViewById<CheckBox>(R.id.checkBoxIdeia)
+        validacaoIdeiaEdit.isChecked = validacao
+
+
     }
+
+    fun apagarIdeia(view: View) {
+        deleteIdeia(id, this)
+    }
+
+    fun editarIdeia2(_view: View) {
+
+        val validacao = findViewById<CheckBox>(R.id.checkBoxIdeia).isChecked
+
+        editIdeia( id, validacao, this)
+    }
+
 }

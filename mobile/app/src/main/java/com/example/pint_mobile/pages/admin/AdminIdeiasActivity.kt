@@ -74,6 +74,8 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
                 intent.putExtra("descricao", ideia.categoria)
                 intent.putExtra("data", ideia.dataCriacao)
                 intent.putExtra("criador", ideia.criador)
+                intent.putExtra("id", ideia.id)
+                intent.putExtra("validacao", ideia.validada)
 
                 view.context.startActivity(intent)
             }

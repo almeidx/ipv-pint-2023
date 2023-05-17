@@ -126,7 +126,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
-            android:id="@+id/checkBoxVaga"
+            android:id="@+id/checkBoxIdeia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -154,9 +154,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Apagar Ideia"
+                android:text="Apagar"
                 android:textSize="10dp"
                 android:textColor="@color/white"
+                android:onClick="apagarIdeia"
+                />
+            <Button
+                android:id="@+id/editarIdeiaAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_button"
+                android:backgroundTint="@color/white"
+                android:text="Editar"
+                android:layout_marginLeft="25dp"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                android:onClick="editarIdeia2"
                 />
         </LinearLayout>
 
