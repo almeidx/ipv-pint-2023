@@ -131,9 +131,9 @@ function EditUtilizadorModal({ defaultValue, show, onHide, onSave, userId, tipos
 	// TODO: disable button if defaultValue === ref.current.value (it's not that simple)
 
 	return (
-		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="edit-utilizador-modal" centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title-vcenter">Editar Utilizador</Modal.Title>
+				<Modal.Title id="edit-utilizador-modal">Editar Utilizador</Modal.Title>
 			</Modal.Header>
 
 			<Modal.Body>
