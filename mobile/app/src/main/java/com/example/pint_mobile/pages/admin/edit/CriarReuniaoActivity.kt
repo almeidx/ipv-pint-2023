@@ -41,35 +41,35 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
-        hour = cal.get(Calendar.HOUR)
+        hour = cal.get(Calendar.HOUR_OF_DAY)  // Use HOUR_OF_DAY instead of HOUR
         minute = cal.get(Calendar.MINUTE)
 
-        dataReuniao = "$day/$month/$year $hour:$minute"
+        fun pad(n: Int) = n.toString().padStart(2, '0')
+
+        dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }
-
-
 
     private fun pickDate() {
         val btn_timePicker = findViewById<Button>(R.id.btn_timePicker)
         btn_timePicker.setOnClickListener {
-            getDateTimeCalendar ()
-            DatePickerDialog(  this,this, year, month, day). show()
+            DatePickerDialog(this, this, year, month, day).show()
         }
     }
 
-    override fun onDateSet (view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth
         savedMonth = month
         savedYear = year
-        getDateTimeCalendar ()
-        TimePickerDialog(  this, this, hour, minute, true). show()
+        getDateTimeCalendar()
+        TimePickerDialog(this, this, hour, minute, true).show()
     }
 
-    @SuppressLint( "SetTextI18n")
-    override fun onTimeSet (view: TimePicker?, hourOfDay: Int, minute: Int) {
+    @SuppressLint("SetTextI18n")
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
         val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
-        tv_textTime.setText(dataReuniao)
+        val formattedDateTime = String.format("%04d-%02d-%02dT%02d:%02d:00", savedYear, savedMonth + 1, savedDay, savedHour, savedMinute)
+        tv_textTime.setText(formattedDateTime)
     }
 }

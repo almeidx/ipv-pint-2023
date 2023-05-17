@@ -12,6 +12,7 @@ import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteBeneficio
+import com.example.pint_mobile.utils.editBeneficio
 import com.google.android.material.textfield.TextInputEditText
 
 class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "Editar Benefício") {
@@ -46,5 +47,24 @@ class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "
 
     fun removerBeneficio(_view: View){
         deleteBeneficio(id, this)
+    }
+
+    fun editarBeneficio(_view: View){
+        val tituloTextView = findViewById<TextInputEditText>(R.id.tituloBeneficioEdit)
+        val descricaoTextView = findViewById<TextInputEditText>(R.id.descricaoBeneficioEdit)
+        val dataValidadeTextView = findViewById<TextInputEditText>(R.id.dataValidadeBeneficioEdit)
+        val iconTextView = findViewById<TextInputEditText>(R.id.iconBeneficioEdit)
+
+        val titulo = tituloTextView.text.toString()
+        val descricao = descricaoTextView.text.toString()
+        val dataValidade = dataValidadeTextView.text.toString()
+        val icon = iconTextView.text.toString()
+
+        if (titulo.isEmpty() || descricao.isEmpty() || dataValidade.isEmpty() || icon.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        editBeneficio(id, titulo, descricao, icon, dataValidade, this)
     }
 }
