@@ -101,7 +101,7 @@ module.exports = {
 
 			await vaga.destroy();
 
-			res.status(204).json({ message: "Vaga eliminada" });
+			res.status(200).json({ message: "Vaga eliminada" });
 		},
 	],
 };

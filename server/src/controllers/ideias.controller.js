@@ -89,7 +89,7 @@ module.exports = {
 
 			await ideia.destroy();
 
-			res.status(204).json({ message: "Ideia eliminada" });
+			res.status(200).json({ message: "Ideia eliminada" });
 		},
 	],
 };

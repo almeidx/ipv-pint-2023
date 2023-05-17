@@ -109,7 +109,7 @@ module.exports = {
 
 			await Beneficio.destroy({ where: { id } });
 
-			res.status(204).json({ message: "Beneficio apagado" });
+			res.status(200).json({ message: "Beneficio apagado" });
 		},
 	],
 };
