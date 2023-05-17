@@ -8,13 +8,16 @@ import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
+import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
-	const { data, isLoading } = useSWR(`${API_URL}/mensagens`, fetcher);
+	const { data, isLoading, mutate } = useSWR(`${API_URL}/mensagens`, fetcher);
+	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 
 	const filtered = search
 		? (data ?? []).filter(
@@ -23,10 +26,31 @@ export default function Mensagens() {
 		: data ?? [];
 
 	/** @param {number} id */
-	function handleDelete(id) {}
+	async function handleDelete(id) {
+		try {
+			const response = await fetch(`${API_URL}/mensagens/${id}`, {
+				credentials: "include",
+				method: "DELETE",
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			showToastWithMessage("Mensagem eliminada com sucesso");
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem");
+		}
+	}
 
 	return (
 		<Container className="py-4">
+			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Mensagens</h2>
 

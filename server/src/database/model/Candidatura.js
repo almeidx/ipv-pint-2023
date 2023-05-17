@@ -65,6 +65,6 @@ const Candidatura = sequelize.define(
 );
 
 Candidatura.belongsTo(Utilizador, { foreignKey: "idUser", as: "utilizador" });
-Candidatura.belongsTo(Vaga, { foreignKey: "idVaga" });
+Candidatura.belongsTo(Vaga, { foreignKey: "idVaga", onDelete: "CASCADE" });
 
 module.exports = Candidatura;

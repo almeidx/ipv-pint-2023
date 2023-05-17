@@ -10,10 +10,23 @@ import { Spinner } from "../components/Spinner.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import { SearchBar } from "../components/SearchBar.jsx";
+import { useState } from "react";
 
 export function Negocios() {
+	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(`${API_URL}/negocios`, fetcher);
 	const isLoggedIn = useIsLoggedIn();
+
+	const filtered = search
+		? (data ?? []).filter(
+				({ title, description, areaNegocio, cliente }) =>
+					title.toLowerCase().includes(search.toLowerCase()) ||
+					description.toLowerCase().includes(search.toLowerCase()) ||
+					areaNegocio.name.toLowerCase().includes(search.toLowerCase()) ||
+					cliente.name.toLowerCase().includes(search.toLowerCase()),
+		  )
+		: data ?? [];
 
 	if (!isLoggedIn) {
 		return <ErrorBase title="Por favor, inicie a sessão para ver os seus negócios" showLogin page="/negocios" />;
@@ -21,6 +34,10 @@ export function Negocios() {
 
 	return (
 		<Page page="/negocios">
+			<Container className="col-11 pt-5">
+				<SearchBar placeholder="Pesquise por negócios..." onSearch={(text) => setSearch(text)} />
+			</Container>
+
 			<Container className="col-11 row mx-auto gap-5 pt-4">
 				<Card className="negocio-card negocio-add" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 					<Card.Body className="d-flex flex-column">
@@ -31,7 +48,7 @@ export function Negocios() {
 					</Card.Body>
 				</Card>
 
-				{isLoading ? <Spinner /> : (data ?? []).map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
+				{isLoading ? <Spinner /> : (filtered ?? []).map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
 			</Container>
 		</Page>
 	);

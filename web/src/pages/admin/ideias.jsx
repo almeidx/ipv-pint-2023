@@ -7,13 +7,13 @@ import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { SearchBar } from "../../components/SearchBar.jsx";
-import { Spinner } from "../../components/Spinner.jsx";
-import { Toast } from "../../components/Toast.jsx";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
@@ -93,6 +93,7 @@ export default function Ideias() {
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Ideias</h2>
+
 				<Link to="/ideias">
 					<IoMdAdd size={40} color="black" />
 				</Link>

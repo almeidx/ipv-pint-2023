@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Notificacao } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -36,7 +36,10 @@ module.exports = {
 
 	update: [
 		requireLogin(),
-		validate(body("seen", "`seen` tem que ser do tipo boolean").isBoolean()),
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("seen", "`seen` tem que ser do tipo boolean").isBoolean(),
+		),
 
 		async (req, res) => {
 			const { id } = req.params;

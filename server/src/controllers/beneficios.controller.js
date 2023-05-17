@@ -22,7 +22,7 @@ const fieldValidations = [
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(fieldValidations),
+		validate(...fieldValidations),
 
 		async (req, res) => {
 			const { dataValidade, content, shortContent, iconeBeneficio } = req.body;
@@ -74,7 +74,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate([param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())]),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -104,6 +104,8 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
+
 		async (req, res) => {
 			const { id } = req.params;
 

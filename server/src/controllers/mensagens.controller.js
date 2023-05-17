@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Utilizador, Mensagem } = require("../database/index.js");
 const { requirePermission } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -63,6 +63,7 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -70,11 +71,6 @@ module.exports = {
 			const mensagem = await Mensagem.findByPk(id);
 			if (!mensagem) {
 				res.status(404).json({ message: "Mensagem não encontrada" });
-				return;
-			}
-
-			if (req.user?.id !== mensagem.idCriador) {
-				res.status(403).json({ message: "Não tem permissão para apagar esta mensagem" });
 				return;
 			}
 

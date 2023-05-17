@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 
 /**
- * @param {import("express-validator").ValidationChain[]} checks
+ * @param {...import("express-validator").ValidationChain[]} checks
  * @return {import("express").RequestHandler[]}
  */
 function validate(checks) {

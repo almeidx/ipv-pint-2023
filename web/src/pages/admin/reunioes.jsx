@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
-import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
@@ -29,7 +28,6 @@ export default function Reuniões() {
 		<Container className="py-4">
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Reuniões</h2>
-				<IoMdAdd size={40} />
 			</div>
 
 			<SearchBar placeholder="Pesquise por reuniões..." onSearch={(value) => setSearch(value)} />

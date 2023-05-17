@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Ideia, Utilizador } = require("../database/index.js");
 const { requirePermission, requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -55,7 +55,10 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
-		validate(body("ideiaValidada", "`ideiaValidada` tem que ser do tipo boolean").isBoolean()),
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("ideiaValidada", "`ideiaValidada` tem que ser do tipo boolean").isBoolean(),
+		),
 
 		async (req, res) => {
 			const { ideiaValidada } = req.body;
@@ -78,6 +81,8 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
+
 		async (req, res) => {
 			const { id } = req.params;
 

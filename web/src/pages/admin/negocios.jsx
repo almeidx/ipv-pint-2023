@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { BsCalendarDate } from "react-icons/bs";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
@@ -32,7 +35,10 @@ export default function Beneficios() {
 		<Container className="py-4">
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Negócios</h2>
-				<IoMdAdd size={40} />
+
+				<Link to="/negocios">
+					<IoMdAdd size={40} color="black" />
+				</Link>
 			</div>
 
 			<SearchBar placeholder="Pesquise por negócios..." onSearch={(value) => setSearch(value)} />
@@ -114,8 +120,17 @@ export default function Beneficios() {
 										</div>
 
 										<div className="d-flex col-sm justify-content-end align-items-top gap-2">
-											<RiPencilLine size={32} />
-											<RiCloseFill size={32} color="red" />
+											<Button className="border-0 bg-transparent p-0 pe-2">
+												<BsCalendarDate size={32} color="black" />
+											</Button>
+
+											<Button className="border-0 bg-transparent p-0">
+												<RiPencilLine size={32} color="black" />
+											</Button>
+
+											<Button className="border-0 bg-transparent p-0">
+												<RiCloseFill size={32} color="red" />
+											</Button>
 										</div>
 									</div>
 

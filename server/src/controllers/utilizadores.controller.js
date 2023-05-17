@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
 const { requirePermission, requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -8,6 +8,7 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 module.exports = {
 	read: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt().optional()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -41,7 +42,10 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
-		validate(body("idTipoUser", "`idTipoUser` tem que estar entre [1, 6]").isInt({ min: 1, max: 6 })),
+		validate(
+			param("id", "`id` tem que ser do tipo int").isInt(),
+			body("idTipoUser", "`idTipoUser` tem que estar entre [1, 6]").isInt({ min: 1, max: 6 }),
+		),
 
 		async (req, res) => {
 			const { idTipoUser } = req.body;
@@ -59,7 +63,10 @@ module.exports = {
 
 	disableAccount: [
 		requireLogin(),
-		validate(body("active", "`active` tem que ser do tipo boolean").isBoolean()),
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("active", "`active` tem que ser do tipo boolean").isBoolean(),
+		),
 
 		async (req, res) => {
 			const { disabled } = req.body;

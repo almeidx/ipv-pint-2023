@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const {
 	Negocio,
 	Cliente,
@@ -31,7 +31,7 @@ const fieldValidations = [
 module.exports = {
 	create: [
 		requireLogin(),
-		validate(fieldValidations),
+		validate(...fieldValidations),
 
 		async (req, res) => {
 			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos } = req.body;
@@ -118,6 +118,8 @@ module.exports = {
 						attributes: ["name", "email"],
 					},
 				);
+			} else {
+				opts.where = { idUser: req.user.id };
 			}
 
 			res.json(await Negocio.findAll(opts));
@@ -126,7 +128,7 @@ module.exports = {
 
 	update: [
 		requireLogin(),
-		validate(fieldValidations.map((v) => v.optional())),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
 
 		async (req, res) => {
 			const { id } = req.params;

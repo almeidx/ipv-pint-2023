@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Vaga } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -23,7 +23,7 @@ const fieldValidations = [
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(fieldValidations),
+		validate(...fieldValidations),
 
 		async (req, res) => {
 			const { amountSlots, public, icon, title, description, status } = req.body;
@@ -57,7 +57,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(fieldValidations.map((v) => v.optional())),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -89,6 +89,7 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

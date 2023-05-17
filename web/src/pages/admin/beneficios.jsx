@@ -67,7 +67,7 @@ export default function Beneficios() {
 		}
 	}
 
-	async function handleSave(data) {
+	async function handleEdit(data) {
 		try {
 			const response = await fetch(`${API_URL}/beneficios/${beneficioData.id}`, {
 				credentials: "include",
@@ -122,8 +122,8 @@ export default function Beneficios() {
 				<Button
 					className="border-0 bg-transparent p-0"
 					onClick={() => {
-						setIsCreateModal(true);
 						setBeneficioData(null);
+						setIsCreateModal(true);
 						setShowEditModal(true);
 					}}
 				>
@@ -135,7 +135,7 @@ export default function Beneficios() {
 				show={showEditModal}
 				onHide={() => setShowEditModal(false)}
 				data={beneficioData}
-				onSave={(data) => (isCreateModal ? handleCreate(data) : handleSave(data))}
+				onSave={(data) => (isCreateModal ? handleCreate(data) : handleEdit(data))}
 				isCreate={isCreateModal}
 			/>
 
@@ -168,6 +168,7 @@ export default function Beneficios() {
 									className="border-0 bg-transparent p-0"
 									onClick={() => {
 										setBeneficioData({ id, dataValidade, content, shortContent, iconeBeneficio });
+										setIsCreateModal(false);
 										setShowEditModal(true);
 									}}
 								>
@@ -199,8 +200,13 @@ export default function Beneficios() {
 function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = false }) {
 	const [beneficioData, setBeneficioData] = useState({});
 
+	function onHideWrapper() {
+		onHide();
+		setBeneficioData({});
+	}
+
 	return (
-		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="manage-beneficio-modal" centered>
+		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-beneficio-modal" centered>
 			<Modal.Header closeButton>
 				<Modal.Title id="manage-beneficio-modal">{isCreate ? "Criar Benefício" : "Editar Benefício"}</Modal.Title>
 			</Modal.Header>
@@ -216,6 +222,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						value={beneficioData.shortContent ?? data?.shortContent}
 						onChange={(e) => setBeneficioData((state) => ({ ...state, shortContent: e.target.value }))}
 						required={isCreate}
+						max={100}
 					/>
 				</FormGroup>
 
@@ -229,6 +236,8 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						onChange={(e) => setBeneficioData((state) => ({ ...state, content: e.target.value }))}
 						value={beneficioData.content ?? data?.content}
 						required={isCreate}
+						as="textarea"
+						maxLength={1_000}
 					/>
 				</FormGroup>
 
@@ -243,6 +252,8 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						value={resolveDateValue(beneficioData.dataValidade ?? data?.dataValidade)}
 						type="datetime-local"
 						required={isCreate}
+						style={{ maxWidth: "15rem" }}
+						min={new Date().toISOString()}
 					/>
 				</FormGroup>
 
@@ -256,6 +267,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						onChange={(e) => setBeneficioData((state) => ({ ...state, iconeBeneficio: e.target.value }))}
 						value={beneficioData.iconeBeneficio ?? data?.iconeBeneficio}
 						required={isCreate}
+						maxLength={100}
 					/>
 				</FormGroup>
 			</Modal.Body>
@@ -265,13 +277,14 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 					onClick={() => {
 						onSave(beneficioData);
 						onHide();
+						setBeneficioData({});
 					}}
 					variant="success"
 				>
 					Guardar
 				</Button>
 
-				<Button onClick={onHide}>Cancelar</Button>
+				<Button onClick={onHideWrapper}>Cancelar</Button>
 			</Modal.Footer>
 		</Modal>
 	);

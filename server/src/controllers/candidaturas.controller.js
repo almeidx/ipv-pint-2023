@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Candidatura } = require("../database/index.js");
 const Utilizador = require("../database/model/Utilizador.js");
 const Vaga = require("../database/model/Vaga.js");
@@ -42,6 +42,7 @@ module.exports = {
 
 	concluir: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
+		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;
