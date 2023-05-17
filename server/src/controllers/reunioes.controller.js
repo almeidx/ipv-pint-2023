@@ -11,7 +11,7 @@ module.exports = {
 		validate(
 			body("idNegocio", "`idNegocio` tem que ser do tipo inteiro").isInt().optional(),
 			body("idCandidatura", "`idCandidatura` tem que ser do tipo inteiro").isInt().optional(),
-			body("startTime", "`startTime` tem que ser do tipo data").isDate(),
+			body("startTime", "`startTime` tem que ser do tipo data").isISO8601(),
 			body("duration", "`duration` tem que ser do tipo inteiro").isInt(),
 			body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 				.isString()

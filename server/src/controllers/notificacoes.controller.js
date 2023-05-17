@@ -51,6 +51,4 @@ module.exports = {
 			res.json(await notificacao.update({ seen }));
 		},
 	],
-
-	destroy() {},
 };

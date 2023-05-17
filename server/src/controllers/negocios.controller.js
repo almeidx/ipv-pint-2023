@@ -37,6 +37,7 @@ module.exports = {
 			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos } = req.body;
 
 			const negocio = await Negocio.create({
+				idUser: req.user.id,
 				idAreaNegocio,
 				idCliente,
 				idCentroTrabalho,

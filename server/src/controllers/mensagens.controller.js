@@ -61,5 +61,26 @@ module.exports = {
 		},
 	],
 
-	destroy: [async () => {}],
+	destroy: [
+		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+
+		async (req, res) => {
+			const { id } = req.params;
+
+			const mensagem = await Mensagem.findByPk(id);
+			if (!mensagem) {
+				res.status(404).json({ message: "Mensagem não encontrada" });
+				return;
+			}
+
+			if (req.user?.id !== mensagem.idCriador) {
+				res.status(403).json({ message: "Não tem permissão para apagar esta mensagem" });
+				return;
+			}
+
+			await mensagem.destroy();
+
+			res.json({ message: "Mensagem apagada com sucesso" });
+		},
+	],
 };

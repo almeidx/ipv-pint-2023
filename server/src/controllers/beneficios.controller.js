@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { Beneficio, Utilizador } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -15,7 +15,7 @@ const fieldValidations = [
 	body("iconeBeneficio", "`iconeBeneficio` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 		.isString()
 		.isLength({ min: 1, max: 100 }),
-	body("dataValidade", "`dataValidade` tem que ser do tipo data").isDate(),
+	body("dataValidade", "`dataValidade` tem que ser do tipo data").isISO8601(),
 ];
 
 /** @type {import("../database/index.js").Controller} */
@@ -28,6 +28,7 @@ module.exports = {
 			const { dataValidade, content, shortContent, iconeBeneficio } = req.body;
 
 			const beneficio = await Beneficio.create({
+				idCriador: req.user.id,
 				dataValidade,
 				content,
 				shortContent,
@@ -73,7 +74,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(fieldValidations.map((v) => v.optional())),
+		validate([param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())]),
 
 		async (req, res) => {
 			const { id } = req.params;
