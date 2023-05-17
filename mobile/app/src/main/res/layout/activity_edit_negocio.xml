@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Remover"
+                android:text="Apagar"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 />
@@ -243,7 +243,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Validar"
+                android:text="Guardar"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 />

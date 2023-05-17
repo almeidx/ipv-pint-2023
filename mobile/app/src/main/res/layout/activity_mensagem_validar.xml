@@ -142,18 +142,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Remover"
-                android:textSize="10dp"
-                android:textColor="@color/white"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/edit_button"
-                android:backgroundTint="@color/white"
-                android:text="Validar"
+                android:text="Apagar"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 />

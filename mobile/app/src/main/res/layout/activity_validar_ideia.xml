@@ -125,7 +125,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <CheckBox
+            android:id="@+id/checkBoxVaga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:text="Validar Ideia"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/NumeroVagas"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,18 +154,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Remover"
-                android:textSize="10dp"
-                android:textColor="@color/white"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/edit_button"
-                android:backgroundTint="@color/white"
-                android:text="Validar"
+                android:text="Apagar Ideia"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 />
