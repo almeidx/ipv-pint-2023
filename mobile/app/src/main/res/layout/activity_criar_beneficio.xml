@@ -71,6 +71,61 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/iconBeneficio"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="40dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Icon do Beneficio"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/iconBeneficioEdit"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				/>
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<Button
+			android:id="@+id/btn_timePicker2"
+			android:layout_width="match_parent"
+			android:layout_marginTop="25dp"
+			android:layout_height="64dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:text="data da Reuniao" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/dataValidadeBeneficio"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="25dp"
+			android:layout_marginStart="25dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Data do Beneficio"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/dataValidadeBeneficioEdit"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				/>
+
+		</com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -97,9 +152,10 @@
 				android:layout_marginLeft="20dp"
 				android:background="@drawable/edit_button"
 				android:backgroundTint="@color/white"
-				android:text="Guardar"
+				android:text="Criar"
 				android:textSize="10dp"
 				android:textColor="@color/white"
+				android:onClick="criarBeneficio10"
 			/>
         </LinearLayout>
 

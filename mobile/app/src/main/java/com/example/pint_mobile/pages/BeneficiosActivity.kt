@@ -68,6 +68,9 @@ class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefíci
 
                     intent.putExtra("titulo", beneficio.titulo)
                     intent.putExtra("descricao", beneficio.descricao)
+                    intent.putExtra("id", beneficio.id)
+                    intent.putExtra("dataValidade", beneficio.dataValidade)
+                    intent.putExtra("icon", beneficio.icon)
 
                     view.context.startActivity(intent)
                 }
