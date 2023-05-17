@@ -11,10 +11,11 @@ import com.example.pint_mobile.utils.getCookieValue
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.getUserInfo
 
-class MainActivity : ActivityBase(R.layout.activity_main) {
+class MainActivity : ActivityBase(R.layout.activity_main, "Softinsa") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         val cookie = getCookieValue(this)
         if (cookie != null) {

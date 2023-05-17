@@ -31,7 +31,7 @@
 				android:contentDescription="@string/email"
 				android:layout_width="52dp"
 				android:layout_height="52dp"
-				android:src="@drawable/notifications"
+				android:src="@drawable/trophy"
 				app:tint="@color/white"
 			/>
 
@@ -59,8 +59,8 @@
             <ImageView
 				android:contentDescription="@string/email"
 				android:layout_width="52dp"
-				android:layout_height="52dp"
-				android:src="@drawable/notifications"
+				android:layout_height="50dp"
+				android:src="@drawable/vagas"
 				app:tint="@color/white"
 			/>
 
@@ -88,8 +88,8 @@
             <ImageView
 				android:contentDescription="@string/email"
 				android:layout_width="52dp"
-				android:layout_height="52dp"
-				android:src="@drawable/notifications"
+				android:layout_height="50dp"
+				android:src="@drawable/negocio"
 				app:tint="@color/white"
 			/>
 
