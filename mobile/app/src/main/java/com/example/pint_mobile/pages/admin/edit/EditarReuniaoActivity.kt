@@ -69,7 +69,7 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
-        hour = cal.get(Calendar.HOUR_OF_DAY)  // Use HOUR_OF_DAY instead of HOUR
+        hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
         fun pad(n: Int) = n.toString().padStart(2, '0')
