@@ -6,31 +6,41 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".MainActivity"
->
+	>
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_constraintBottom_toTopOf="@+id/bottombar"
+		>
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="159dp"
+				android:layout_marginEnd="167dp"
+				android:onClick="gotoLogin"
+				android:text="Login"
+				android:backgroundTint="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="159dp"
-		android:layout_marginEnd="167dp"
-		android:onClick="gotoLogin"
-		android:text="Login"
-		android:backgroundTint="@color/black"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-	/>
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="248dp"
+				android:layout_marginEnd="140dp"
+				android:backgroundTint="@color/black"
+				android:onClick="gotoAdmin"
+				android:text="Pagina Admin"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
 
-	<Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="248dp"
-		android:layout_marginEnd="140dp"
-		android:backgroundTint="@color/black"
-		android:onClick="gotoAdmin"
-		android:text="Pagina Admin"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-
-	<include layout="@layout/bottombar"/>
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</ScrollView>
+	<include
+		layout="@layout/bottombar"
+		app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
