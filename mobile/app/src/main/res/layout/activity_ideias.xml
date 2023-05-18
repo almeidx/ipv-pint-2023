@@ -53,7 +53,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-		android:id="@+id/login"
+		android:id="@+id/criarIdeia"
 		style="@style/Widget.Material3.Button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
 		android:layout_marginEnd="38dp"
 		android:layout_marginBottom="67dp"
 		android:backgroundTint="@color/white"
-		android:onClick="criarIdeia"
+		android:onClick="criarIdeias5"
 		android:text="@string/submeter"
 		android:textColor="@color/black"
 		android:textSize="16sp"

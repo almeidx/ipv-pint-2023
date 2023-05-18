@@ -73,6 +73,7 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
                 intent.putExtra("descricao", mensagem.conteudo)
                 intent.putExtra("data", mensagem.data)
                 intent.putExtra("registo", mensagem.registado)
+                intent.putExtra("id", mensagem.id)
 
                 view.context.startActivity(intent)
             }

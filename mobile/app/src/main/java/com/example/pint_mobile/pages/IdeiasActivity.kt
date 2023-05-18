@@ -7,6 +7,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.createIdea
+import com.google.android.material.textfield.TextInputEditText
 
 class IdeiasActivity : ActivityBase(R.layout.activity_ideias, "Ideias") {
     lateinit var categoria: String
@@ -30,5 +32,12 @@ class IdeiasActivity : ActivityBase(R.layout.activity_ideias, "Ideias") {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+    }
+
+    fun criarIdeias5(_view: View) {
+        val tituloTextView = findViewById<TextInputEditText>(R.id.ideia)
+        val titulo = tituloTextView.text.toString()
+
+        createIdea(titulo, categoria, this)
     }
 }
