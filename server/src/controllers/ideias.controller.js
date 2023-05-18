@@ -75,7 +75,12 @@ module.exports = {
 				idValidador: ideiaValidada ? req.user.id : null,
 			});
 
-			res.send();
+			res.json(
+				await ideia.update({
+					ideiaValidada,
+					idValidador: ideiaValidada ? req.user.id : null,
+				}),
+			);
 		},
 	],
 
