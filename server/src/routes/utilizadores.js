@@ -4,6 +4,6 @@ const { read, update, disableAccount } = require("../controllers/utilizadores.co
 const utilizadoresRouter = Router() //
 	.get("/", read)
 	.patch("/:id", update)
-	.patch("/disable/:id", disableAccount);
+	.patch("/:id/disable", disableAccount);
 
 module.exports = utilizadoresRouter;

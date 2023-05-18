@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import ListGroup from "react-bootstrap/ListGroup";
+import FormGroup from "react-bootstrap/FormGroup";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormSelect from "react-bootstrap/FormSelect";
-import FormGroup from "react-bootstrap/FormGroup";
+import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { BsCalendarDate } from "react-icons/bs";
@@ -14,12 +14,20 @@ import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
-import { API_URL } from "../../utils/constants.js";
-import { fetcher } from "../../utils/fetcher.js";
-import { formatDate } from "../../utils/formatDate.js";
 import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { useUser } from "../../contexts/UserContext.jsx";
+import { API_URL } from "../../utils/constants.js";
+import { fetcher } from "../../utils/fetcher.js";
+import { formatDate } from "../../utils/formatDate.js";
+
+const estadosNames = [
+	{ color: "rgba(255, 0, 0, 0)", name: "Em espera" },
+	{ color: "rgba(255, 0, 0, 0.25)", name: "A validar" },
+	{ color: "rgba(255, 0, 0, 0.5)", name: "Em desenvolvimento" },
+	{ color: "rgba(255, 0, 0, 0.75)", name: "A finalizar" },
+	{ color: "rgba(255, 0, 0, 1)", name: "Finalizado" },
+];
 
 export default function Negocios() {
 	const { user } = useUser();
@@ -240,6 +248,22 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 		setNegocioData({});
 	}
 
+	const estadoAtual = negocioData.estados?.[negocioData.estados.length - 1] ?? data?.estados?.[data.estados.length - 1];
+	const estado = estadosNames[estadoAtual?.estado ?? 0];
+
+	function handleAdvanceEstado() {
+		setNegocioData((state) => ({
+			...state,
+			estados: [
+				...(state.estados ?? []),
+				{
+					estado: estadoAtual.estado + 1,
+					dataFinalizacao: new Date().toISOString(),
+				},
+			],
+		}));
+	}
+
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
 			<Modal.Header closeButton>
@@ -287,6 +311,20 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 						</Button>
 					)}
 				</FormGroup>
+
+				<FormGroup className="d-flex flex-column">
+					<FormLabel htmlFor="estado-edit">
+						Estado atual: <span className="fw-bold">{estado.name}</span>
+					</FormLabel>
+
+					<Button
+						className="w-fit"
+						disabled={estadoAtual ? estadoAtual.estado === estadosNames.length - 1 : false}
+						onClick={handleAdvanceEstado}
+					>
+						Avançar estado
+					</Button>
+				</FormGroup>
 			</Modal.Body>
 
 			<Modal.Footer>
@@ -307,19 +345,11 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 	);
 }
 
-const estadosNames = [
-	{ color: "#ff000000", name: "Em espera" },
-	{ color: "#ff000025", name: "A validar" },
-	{ color: "#ff000050", name: "Em desenvolvimento" },
-	{ color: "#ff000075", name: "A finalizar" },
-	{ color: "#ff0000", name: "Finalizado" },
-];
-
 function Progresso({ estados }) {
 	const obj = new Map(estados.map((estado) => [estado.estado, estado.dataFinalizacao]));
 
 	function hasState(estado) {
-		if (!obj.size && estado === 1) return true;
+		if (!obj.size && estado === 0) return true;
 		if (obj.has(estado)) return true;
 
 		return false;

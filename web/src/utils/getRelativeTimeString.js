@@ -1,6 +1,4 @@
-/**
- * @param {Date} date
- */
+/** @param {Date} date */
 export function getRelativeTimeString(date) {
 	const deltaSeconds = Math.round((date.getTime() - Date.now()) / 1_000);
 
