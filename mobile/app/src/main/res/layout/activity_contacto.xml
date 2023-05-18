@@ -26,7 +26,7 @@
 	>
 
         <com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/nome"
+			android:id="@+id/nomeContactoEnviar"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 		/>
@@ -50,7 +50,7 @@
 	>
 
         <com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/email"
+			android:id="@+id/emailContactoEnviar"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 		/>
@@ -74,7 +74,7 @@
 	>
 
         <com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/mensagem"
+			android:id="@+id/assuntoContactoEnviar"
 			android:layout_width="match_parent"
 			android:layout_height="140dp"
 		/>

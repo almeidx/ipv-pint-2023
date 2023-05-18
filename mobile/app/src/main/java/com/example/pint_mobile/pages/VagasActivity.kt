@@ -72,7 +72,7 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
                     intent.putExtra("descricao", vaga.descricao)
                     intent.putExtra("publico", publicText)
                     intent.putExtra("slots", vaga.slots.toString())
-                    intent.putExtra("id", vaga.id.toString())
+                    intent.putExtra("id", vaga.id)
                     intent.putExtra("status", vaga.status)
 
                     view.context.startActivity(intent)

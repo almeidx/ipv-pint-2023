@@ -1,10 +1,14 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.os.Bundle
+import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.apagarMensagem
 
 class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar, "Validar Mensagem") {
+
+    private var id = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -12,6 +16,7 @@ class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar,
         val descricao = intent.getStringExtra("descricao")
         val data = intent.getStringExtra("data")
         val registo = intent.getBooleanExtra("registo", false)
+        id = intent.getIntExtra("id", 0)
 
         val setRegisto = if(registo) "Utilizador Registado" else "Utilizador Não Registado"
 
@@ -27,4 +32,10 @@ class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar,
         val registoMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.utilizadorRegistadoEdit)
         registoMensagemEdit.setText(setRegisto)
     }
+
+    fun apagarMessage(view: View) {
+        apagarMensagem(id, this)
+    }
+
+
 }
