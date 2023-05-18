@@ -80,9 +80,7 @@ export function Contacto() {
 		try {
 			const response = await fetch(`${API_URL}/mensagens`, {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data),
 				credentials: "include",
 			});

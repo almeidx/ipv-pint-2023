@@ -1,17 +1,19 @@
 import "../styles/negocios.css";
 
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import { RiPencilLine } from "react-icons/ri";
 import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Page } from "../components/Page.jsx";
+import { SearchBar } from "../components/SearchBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { SearchBar } from "../components/SearchBar.jsx";
-import { useState } from "react";
 
 export function Negocios() {
 	const [search, setSearch] = useState("");
@@ -74,8 +76,12 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
-				<Card.Title className="title my-3" style={{ fontSize: "2rem" }}>
+				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
 					{title}
+
+					<Button className="border-0 bg-transparent p-0">
+						<RiPencilLine size={32} color="black" />
+					</Button>
 				</Card.Title>
 
 				<hr />

@@ -46,7 +46,7 @@ module.exports = {
 
 		async (_req, res) => {
 			const mensagens = await Mensagem.findAll({
-				include: [{ model: Utilizador, as: "criador", attributes: ["id", "name"] }],
+				include: [{ model: Utilizador, as: "criador", attributes: ["id", "name", "email"] }],
 			});
 
 			res.json(
@@ -54,7 +54,7 @@ module.exports = {
 					.map((m) => m.toJSON())
 					.map(({ criador, name, email, ...mensagem }) => ({
 						...mensagem,
-						criador: criador ?? { id: -1, name },
+						criador: criador ?? { id: -1, name, email },
 						registered: !!criador,
 					})),
 			);

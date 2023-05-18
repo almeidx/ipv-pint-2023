@@ -79,7 +79,7 @@ module.exports = {
 					{
 						model: CentroTrabalho,
 						as: "centroTrabalho",
-						attributes: ["name", "location", "postalCode", "address"],
+						attributes: ["id", "name", "location", "postalCode", "address"],
 					},
 					{
 						model: ContactoNegocio,

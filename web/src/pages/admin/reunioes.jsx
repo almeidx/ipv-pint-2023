@@ -11,7 +11,7 @@ import { formatDate } from "../../utils/formatDate.js";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(`${API_URL}/reunioes`, fetcher);
+	const { isLoading, data } = useSWR(`${API_URL}/reunioes?admin`, fetcher);
 
 	const filtered = useMemo(
 		() =>

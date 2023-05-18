@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 const { Reuniao, Utilizador, Candidatura, Negocio, Vaga } = require("../database/index.js");
-const { requirePermission, requireLogin } = require("../middleware/authentication.js");
+const { requirePermission, requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
@@ -47,7 +47,37 @@ module.exports = {
 
 	read: [
 		requireLogin(),
+
 		async (req, res) => {
+			const { admin } = req.query;
+
+			if (admin !== undefined) {
+				if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
+
+				res.json(
+					await Reuniao.findAll({
+						include: [
+							{
+								model: Candidatura,
+								attributes: ["id"],
+								include: [
+									{
+										model: Vaga,
+										attributes: ["id", "title"],
+									},
+								],
+							},
+							{
+								model: Negocio,
+								attributes: ["id", "title"],
+							},
+						],
+					}),
+				);
+
+				return;
+			}
+
 			const { reunioes } = (
 				await Utilizador.findByPk(req.user.id, {
 					attributes: [],

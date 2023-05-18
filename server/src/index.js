@@ -11,6 +11,7 @@ const { sequelize } = require("./database/index.js");
 const authRouter = require("./routes/auth.js");
 const beneficiosRouter = require("./routes/beneficios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
+const centrosDeTrabalhoRouter = require("./routes/centros-de-trabalho.js");
 const clientesRouter = require("./routes/clientes.js");
 const ideiasRouter = require("./routes/ideias.js");
 const mensagensRouter = require("./routes/mensagens.js");
@@ -63,6 +64,7 @@ app
 	.use(authRouter)
 	.use("/beneficios", beneficiosRouter)
 	.use("/candidaturas", candidaturasRouter)
+	.use("/centros-de-trabalho", centrosDeTrabalhoRouter)
 	.use("/clientes", clientesRouter)
 	.use("/ideias", ideiasRouter)
 	.use("/mensagens", mensagensRouter)
