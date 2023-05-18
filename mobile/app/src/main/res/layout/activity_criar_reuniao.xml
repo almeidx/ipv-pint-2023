@@ -51,32 +51,51 @@
 			/>
 	</LinearLayout>
 
-	<com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/textInputLayout7"
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-		android:layout_width="match_parent"
-		android:layout_height="64dp"
-		android:layout_marginStart="25dp"
-		android:layout_marginTop="10dp"
-		android:layout_marginEnd="25dp"
-		android:hint="@string/selecione_utilizadores"
-		app:boxBackgroundColor="@color/white"
-		app:boxStrokeColor="@color/black"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-	>
+		<Button
+			android:id="@+id/selectUsers"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginStart="25dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="25dp"
+			android:layout_marginBottom="65dp"
+			android:background="@android:color/white"
+			android:onClick="selectUsers"
+			android:text="@string/selecionar_utilizadores"
+			android:textColor="@color/white"
+			android:textSize="16sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="1.0"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+			app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/selecione_utilizadores"
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/usersReuniao"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:drawableEnd="@drawable/cancel"
-		/>
+			android:layout_marginStart="25dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Users da Reuniao"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/selectUsers"
+			>
 
-    </com.google.android.material.textfield.TextInputLayout>
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/usersReuniaoEditText"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				/>
 
-    <com.google.android.material.textfield.TextInputLayout
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/textInputLayout8"
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 		android:layout_width="match_parent"
@@ -89,7 +108,7 @@
 		app:boxStrokeColor="@color/black"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+		app:layout_constraintTop_toBottomOf="@+id/usersReuniao"
 	>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -99,6 +118,54 @@
 		/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/duracaoReuniao"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="25dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Duração da Reuniao"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/duracaoReuniaoEditText"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				/>
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/subjectReuniao"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="25dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="25dp"
+			android:hint="Assunto da Reuniao"
+			app:boxBackgroundColor="@color/white"
+			app:boxStrokeColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/duracaoReuniao"
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/subjectReuniaoEditText"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				/>
+
+		</com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/textInputLayoutDescReuniao"
@@ -113,7 +180,7 @@
 		app:boxStrokeColor="@color/black"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+		app:layout_constraintTop_toBottomOf="@+id/subjectReuniao"
 	>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -134,7 +201,7 @@
 			android:layout_marginTop="20dp"
 			android:layout_marginEnd="25dp"
 			android:layout_marginBottom="65dp"
-			android:onClick="criar"
+			android:onClick="criarReuniao"
 			android:text="@string/criar"
 			android:textColor="@color/white"
 			android:background="@android:color/white"

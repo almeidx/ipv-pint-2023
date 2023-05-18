@@ -31,7 +31,7 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
 
         lista.adapter = reunioesAdapter
 
-        listaReunioes(reunioesList, allReunioesList, reunioesAdapter, this)
+        listaReunioes(reunioesList, allReunioesList, reunioesAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->

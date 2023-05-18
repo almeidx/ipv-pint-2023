@@ -25,6 +25,7 @@ import com.example.pint_mobile.pages.admin.AdminMensagensActivity
 import com.example.pint_mobile.pages.admin.AdminReunioesActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -246,12 +247,16 @@ fun listaMensagens(list: ArrayList<Mensagem>, allList: ArrayList<Mensagem>, adap
     queue.add(request)
 }
 
-fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter: AdminReunioesActivity.ReuniaoAdapter, ctx: Context) {
+fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter: AdminReunioesActivity.ReuniaoAdapter, ctx: Context, admin:Boolean = false) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/reunioes", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/reunioes?${if (admin) "admin" else ""}", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawReuniao = response.getJSONObject(i)
+            val candidatura = rawReuniao.optJSONObject("candidatura")
+            val negocio = rawReuniao.optJSONObject("negocio")
+
+
             val reuniao = Reuniao(
                 rawReuniao.getString("title"),
                 rawReuniao.getString("description"),
@@ -259,8 +264,8 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
                 rawReuniao.getString("startTime"),
                 rawReuniao.getString("duration"),
                 rawReuniao.getInt("id"),
-                rawReuniao.getJSONObject("candidatura").getJSONObject("vaga").getString("title"),
-                rawReuniao.getJSONObject("negocio").getString("title"),
+                candidatura?.getJSONObject("vaga")?.getString("title"),
+                negocio?.getString("title"),
             )
             list.add(reuniao)
         }
@@ -728,6 +733,57 @@ fun createVaga(titulo:String, descricao:String, numeroVagas:Int, publico:Boolean
         Toast.makeText(ctx, "Vaga criada com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminVagasActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, userIds:ArrayList<Int>, subject:String, idNegocio: Int?, idCandidatura: Int?, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("title", titulo)
+    body.put("description", descricao)
+    body.put("startTime", data)
+    body.put("duration", duracao)
+    body.put("subject", subject)
+    body.put("utilizadores", JSONArray(userIds))
+    if(idNegocio != null)
+    {
+        body.put("idNegocio", idNegocio)
+    }
+
+    if (idCandidatura != null) {
+        body.put("candidatura", idCandidatura)
+    }
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/reunioes", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Reunião criada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminReunioesActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

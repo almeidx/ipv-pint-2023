@@ -2,15 +2,18 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
 import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Utilizador
@@ -51,7 +54,7 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
         }
     }
 
-    class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int) : BaseAdapter() {
+    class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int, private val fromReuniao: Boolean = false, private val users: ArrayList<String> = ArrayList(), private val userIds: ArrayList<Int> = ArrayList()) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val utilizador = utilizadores[position]
@@ -64,15 +67,29 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
             emailUtilizador.text = utilizador.email
             tipoUtilizador.text = utilizador.tipoUser.nome
 
-            view.setOnClickListener {
-                val intent = Intent(view.context, EditarUtilizadorActivity::class.java)
+            if(fromReuniao) {
+                view.setOnClickListener {
+                    val intent = Intent(view.context, CriarReuniaoActivity::class.java)
 
-                intent.putExtra("nome", utilizador.nome)
-                intent.putExtra("email", utilizador.email)
-                intent.putExtra("cargoId", utilizador.tipoUser.id)
+                    users.add(utilizador.nome)
+                    userIds.add(utilizador.id)
+
+                    intent.putExtra("users", users)
+                    intent.putExtra("userIds", userIds)
+                    view.context.startActivity(intent)
+                }
+            }else {
+
+                view.setOnClickListener {
+                    val intent = Intent(view.context, EditarUtilizadorActivity::class.java)
+
+                    intent.putExtra("nome", utilizador.nome)
+                    intent.putExtra("email", utilizador.email)
+                    intent.putExtra("cargoId", utilizador.tipoUser.id)
 
 
-                view.context.startActivity(intent)
+                    view.context.startActivity(intent)
+                }
             }
 
 
