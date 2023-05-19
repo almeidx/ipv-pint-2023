@@ -35,8 +35,11 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
     private lateinit var userNames: ArrayList<String>
     private lateinit var userIds: ArrayList<Int>
+    private lateinit var negocioId: ArrayList<Int>
 
     private var dataReuniao: String? = null
+    private var getidNegocio = 0
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +47,19 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         val id = intent.getStringExtra("idReuniao")
         dataReuniao = intent.getStringExtra("dataReuniao")
 
-
+        getidNegocio = intent.getIntExtra("idNegocio", -1)
         userNames = intent.getStringArrayListExtra("users") ?: ArrayList()
         userIds = intent.getIntegerArrayListExtra("userIds") ?: ArrayList()
+        negocioId = intent.getIntegerArrayListExtra("negocioId") ?: ArrayList()
 
+
+
+
+        if(getidNegocio != -1){
+            negocioId.add(getidNegocio)
+        }
+
+        Log.i("negocioId", negocioId.toString())
 
         // LOG the arrays
          Log.i("users", userNames.toString())
@@ -57,7 +69,6 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
             val usersText = userNames.joinToString(", ")
             setUser.text =  usersText
-
 
         pickDate()
     }
@@ -104,6 +115,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
         intent.putExtra("users", userNames)
         intent.putExtra("userIds", userIds)
+        intent.putExtra("negocioId", negocioId)
 
         startActivity(intent)
     }
@@ -116,7 +128,8 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         val descricao = findViewById<EditText>(R.id.descricao_reuniao).text.toString()
         val subjetc = findViewById<EditText>(R.id.subjectReuniaoEditText).text.toString()
 
-        createReunion( titulo, descricao, data,duracao,  userIds, subjetc, null, null, this)
+
+        createReunion( titulo, descricao, data, duracao,  userIds, negocioId, subjetc, null,  this)
 
     }
 }

@@ -68,6 +68,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                 view.setOnClickListener {
                     val intent = Intent(view.context, EditNegocioActivity::class.java)
 
+                    intent.putExtra("id", negocio.id)
                     intent.putExtra("Cliente", negocio.cliente)
                     intent.putExtra("FuncionarioName", negocio.FuncionarioName)
                     intent.putExtra("FuncionarioEmail", negocio.FuncionarioEmail)
@@ -76,6 +77,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
                     intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
                     intent.putExtra("status", negocio.status)
+
 
                     view.context.startActivity(intent)
                 }

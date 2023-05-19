@@ -11,7 +11,7 @@
 		android:id="@+id/layoutX"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/white"
+		android:background="@color/bg"
 		tools:context=".pages.admin.edit.CriarReuniaoActivity"
 		>
 	<LinearLayout
@@ -151,7 +151,7 @@
 			android:layout_marginStart="25dp"
 			android:layout_marginTop="20dp"
 			android:layout_marginEnd="25dp"
-			android:hint="Assunto da Reuniao"
+			android:hint="Tipo de Reuniao"
 			app:boxBackgroundColor="@color/white"
 			app:boxStrokeColor="@color/black"
 			app:layout_constraintEnd_toEndOf="parent"
