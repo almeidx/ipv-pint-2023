@@ -66,3 +66,7 @@
 .form-check-input {
 	cursor: inherit !important;
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}

@@ -16,6 +16,8 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -41,8 +43,6 @@ export default function Beneficios() {
 			const clone = { ...data };
 
 			if ("dataValidade" in clone && clone.dataValidade) {
-				console.log(clone.dataValidade);
-
 				clone.dataValidade = new Date(clone.dataValidade + ":00").toISOString();
 			}
 
@@ -164,20 +164,24 @@ export default function Beneficios() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<Button
-									className="border-0 bg-transparent p-0"
-									onClick={() => {
-										setBeneficioData({ id, dataValidade, content, shortContent, iconeBeneficio });
-										setIsCreateModal(false);
-										setShowEditModal(true);
-									}}
-								>
-									<RiPencilLine size={32} color="black" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Beneficío</Tooltip>}>
+									<Button
+										className="border-0 bg-transparent p-0"
+										onClick={() => {
+											setBeneficioData({ id, dataValidade, content, shortContent, iconeBeneficio });
+											setIsCreateModal(false);
+											setShowEditModal(true);
+										}}
+									>
+										<RiPencilLine size={32} color="black" />
+									</Button>
+								</OverlayTrigger>
 
-								<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
-									<RiCloseFill size={32} color="red" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Benefício</Tooltip>}>
+									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
+										<RiCloseFill size={32} color="red" />
+									</Button>
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))
@@ -252,7 +256,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						value={resolveDateValue(beneficioData.dataValidade ?? data?.dataValidade)}
 						type="datetime-local"
 						required={isCreate}
-						style={{ maxWidth: "15rem" }}
+						style={{ maxWidth: "18rem" }}
 						min={new Date().toISOString()}
 					/>
 				</FormGroup>

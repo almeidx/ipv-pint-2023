@@ -63,7 +63,7 @@ const Reuniao = sequelize.define(
 			allowNull: false,
 		},
 		description: {
-			type: DataTypes.TEXT,
+			type: DataTypes.TEXT(1_000),
 			field: "DESCRICAO_REUNIAO",
 			allowNull: false,
 		},

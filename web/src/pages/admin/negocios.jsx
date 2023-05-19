@@ -20,6 +20,8 @@ import { useUser } from "../../contexts/UserContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const estadosNames = [
 	{ color: "rgba(255, 0, 0, 0)", name: "Em espera" },
@@ -196,23 +198,27 @@ export default function Negocios() {
 										</div>
 
 										<div className="d-flex col-sm justify-content-end align-items-start gap-2 pt-2">
-											<Button className="border-0 bg-transparent p-0 pe-2" onClick={() => {}}>
-												<BsCalendarDate size={32} color="black" />
-											</Button>
-
-											<Button
-												className="border-0 bg-transparent p-0"
-												onClick={() => {
-													setNegocioData({ id, centroTrabalho, funcionarioResponsavel, estados });
-													setShowEditModal(true);
-												}}
-											>
-												<RiPencilLine size={32} color="black" />
-											</Button>
-
-											<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
-												<RiCloseFill size={32} color="red" />
-											</Button>
+											<OverlayTrigger placement="top" overlay={<Tooltip>Marcar Reunião</Tooltip>}>
+												<Button className="border-0 bg-transparent p-0 pe-2" onClick={() => {}}>
+													<BsCalendarDate size={32} color="black" />
+												</Button>
+											</OverlayTrigger>
+											<OverlayTrigger placement="top" overlay={<Tooltip>Editar Negócio</Tooltip>}>
+												<Button
+													className="border-0 bg-transparent p-0"
+													onClick={() => {
+														setNegocioData({ id, centroTrabalho, funcionarioResponsavel, estados });
+														setShowEditModal(true);
+													}}
+												>
+													<RiPencilLine size={32} color="black" />
+												</Button>
+											</OverlayTrigger>
+											<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Negócio</Tooltip>}>
+												<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
+													<RiCloseFill size={32} color="red" />
+												</Button>
+											</OverlayTrigger>
 										</div>
 									</div>
 

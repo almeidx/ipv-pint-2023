@@ -14,6 +14,8 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
@@ -119,17 +121,18 @@ export default function Ideias() {
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
 								<FormCheck
-									className="cursor-pointer-hover"
+									className="cursor-pointer"
 									type="checkbox"
 									id={`ideia-${id}-validada`}
 									label="Validada"
 									checked={ideiaValidada}
 									onChange={(e) => handleValidateChange(id, e.target.checked)}
 								/>
-
-								<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
-									<RiCloseFill size={32} color="red" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Ideia</Tooltip>}>
+									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
+										<RiCloseFill size={32} color="red" />
+									</Button>
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))

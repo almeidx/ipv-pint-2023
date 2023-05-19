@@ -15,6 +15,8 @@ import { formatDate } from "../../utils/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Utilizadores() {
 	const [search, setSearch] = useState("");
@@ -103,19 +105,22 @@ export default function Utilizadores() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-3">
-								<Button
-									onClick={() => {
-										setUserId(id);
-										setShowEditModal(true);
-									}}
-									className="border-0 bg-transparent p-0"
-								>
-									<RiPencilLine size={32} color="black" />
-								</Button>
-
-								<Button onClick={() => {}} className="border-0 bg-transparent p-0">
-									<BiNoEntry size={32} color="red" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Utilizador</Tooltip>}>
+									<Button
+										onClick={() => {
+											setUserId(id);
+											setShowEditModal(true);
+										}}
+										className="border-0 bg-transparent p-0"
+									>
+										<RiPencilLine size={32} color="black" />
+									</Button>
+								</OverlayTrigger>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Utilizador</Tooltip>}>
+									<Button onClick={() => {}} className="border-0 bg-transparent p-0">
+										<BiNoEntry size={32} color="red" />
+									</Button>
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))

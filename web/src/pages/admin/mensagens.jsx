@@ -13,6 +13,8 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
@@ -85,9 +87,11 @@ export default function Mensagens() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
-									<BiTrash size={32} color="red" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Mensagem</Tooltip>}>
+									<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
+										<BiTrash size={32} color="red" />
+									</Button>
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))

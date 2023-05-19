@@ -8,6 +8,8 @@ import { Spinner } from "../../components/Spinner.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
@@ -51,8 +53,12 @@ export default function Reuniões() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<RiPencilLine size={32} />
-								<RiCloseFill size={32} color="red" />
+								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Reunião</Tooltip>}>
+									<RiPencilLine size={32} />
+								</OverlayTrigger>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Reunião</Tooltip>}>
+									<RiCloseFill size={32} color="red" />
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))

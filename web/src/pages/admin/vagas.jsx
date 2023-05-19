@@ -17,6 +17,8 @@ import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");
@@ -155,20 +157,23 @@ export default function Vagas() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<Button
-									className="border-0 bg-transparent p-0"
-									onClick={() => {
-										setVagaData({ id, title, description, status, icon, public: public_, amountSlots });
-										setIsCreateModal(false);
-										setShowEditModal(true);
-									}}
-								>
-									<RiPencilLine size={32} color="black" />
-								</Button>
-
-								<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
-									<RiCloseFill size={40} color="red" />
-								</Button>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Vaga</Tooltip>}>
+									<Button
+										className="border-0 bg-transparent p-0"
+										onClick={() => {
+											setVagaData({ id, title, description, status, icon, public: public_, amountSlots });
+											setIsCreateModal(false);
+											setShowEditModal(true);
+										}}
+									>
+										<RiPencilLine size={32} color="black" />
+									</Button>
+								</OverlayTrigger>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Vaga</Tooltip>}>
+									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
+										<RiCloseFill size={40} color="red" />
+									</Button>
+								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>
 					))
