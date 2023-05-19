@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Remover"
+                android:text="Cancelar"
                 android:textSize="10dp"
                 android:textColor="@color/white"
                 />
@@ -177,8 +177,9 @@
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/edit_button"
                 android:backgroundTint="@color/white"
-                android:text="Validar"
+                android:text="Criar"
                 android:textSize="10dp"
+                android:onClick="criarNegocio"
                 android:textColor="@color/white"
                 />
         </LinearLayout>

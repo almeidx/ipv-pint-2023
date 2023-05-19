@@ -31,6 +31,19 @@
         app:layout_constraintVertical_bias="0.0"
         >
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/white"
+            android:text="Criar Reuniao"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:onClick="goToCriarReuniao"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/clienteNegocio"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

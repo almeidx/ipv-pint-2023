@@ -22,6 +22,7 @@ import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
 import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.pages.admin.AdminMensagensActivity
+import com.example.pint_mobile.pages.admin.AdminNegociosActivity
 import com.example.pint_mobile.pages.admin.AdminReunioesActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
@@ -95,19 +96,23 @@ fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/negocios${if (admin)"?admin" else ""}", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawNegocio = response.getJSONObject(i)
+            var funcionarioResponsavel = rawNegocio.optJSONObject("funcionarioResponsavel")
+            var centroTrabalho = rawNegocio.optJSONObject("centroTrabalho")
+
             val negocio = Negocio(
+                rawNegocio.getInt("id"),
                 rawNegocio.getString("title"),
                 rawNegocio.getString("description"),
                 rawNegocio.getJSONObject("cliente").getString("name"),
                 rawNegocio.getJSONObject("criador").getString("email"),
                 rawNegocio.getJSONObject("criador").getString("name"),
                 rawNegocio.getJSONObject("areaNegocio").getString("name"),
-                rawNegocio.getJSONObject("funcionarioResponsavel").getString("name"),
-                rawNegocio.getJSONObject("funcionarioResponsavel").getString("email"),
-                rawNegocio.getJSONObject("centroTrabalho").getString("name"),
-                rawNegocio.getJSONObject("centroTrabalho").getString("location"),
-                rawNegocio.getJSONObject("centroTrabalho").getString("postalCode"),
-                rawNegocio.getJSONObject("centroTrabalho").getString("address"),
+                funcionarioResponsavel?.getString("email") ?: "Sem funcionário responsável",
+                funcionarioResponsavel?.getString("name") ?: "Sem funcionário responsável",
+                centroTrabalho?.getString("name") ?: "Sem centro de trabalho",
+                centroTrabalho?.getString("location") ?: "Sem centro de trabalho",
+                centroTrabalho?.getString("postalCode") ?: "Sem centro de trabalho",
+                centroTrabalho?.getString("address") ?: "Sem centro de trabalho",
                 rawNegocio.getInt("status"),
             )
             list.add(negocio)
@@ -759,7 +764,7 @@ fun createVaga(titulo:String, descricao:String, numeroVagas:Int, publico:Boolean
     queue.add(request)
 }
 
-fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, userIds:ArrayList<Int>, subject:String, idNegocio: Int?, idCandidatura: Int?, ctx: Context) {
+fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, userIds:ArrayList<Int>, negocioId:ArrayList<Int>?, subject:String, idCandidatura: Int?, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -769,13 +774,14 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
     body.put("duration", duracao)
     body.put("subject", subject)
     body.put("utilizadores", JSONArray(userIds))
-    if(idNegocio != null)
+
+    if(negocioId != null)
     {
-        body.put("idNegocio", idNegocio)
+        body.put("idNegocio", JSONArray(negocioId))
     }
 
     if (idCandidatura != null) {
-        body.put("candidatura", idCandidatura)
+        body.put("idCandidatura", idCandidatura)
     }
 
     Log.i("body", body.toString())
@@ -784,6 +790,48 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
         Toast.makeText(ctx, "Reunião criada com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminReunioesActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+fun criarNegocio(titulo:String, area:String, data:String, descricao:Int, cliente:String, contactos:String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("title", titulo)
+    body.put("description", descricao)
+    body.put("startTime", data)
+    body.getJSONObject("cliente").put("name", cliente)
+    body.getJSONObject("contactos").put("contacto", contactos)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/negocios", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Negócio criado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminNegociosActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

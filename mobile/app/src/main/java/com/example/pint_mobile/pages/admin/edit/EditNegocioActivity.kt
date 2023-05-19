@@ -1,10 +1,14 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 
 class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar Negócio") {
+
+    private var idNegocio = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -16,6 +20,9 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
         val cliente = intent.getStringExtra("Cliente")
         val status = intent.getIntExtra("status", 0)
+
+        idNegocio = intent.getIntExtra("id", 0)
+
 
         val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
         clienteEdit.setText(cliente)
@@ -34,6 +41,8 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             }
         )
 
+        Log.i("idNegocio", idNegocio.toString())
+
         val centroTrabalhoNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoNomeNegocioEdit)
         centroTrabalhoNameEdit.setText(centroTrabalhoName)
 
@@ -51,5 +60,11 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
         val FuncionarioEmailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioEmailNegocioEdit)
         FuncionarioEmailEdit.setText(FuncionarioEmail)
+    }
+
+    fun goToCriarReuniao(view: View) {
+        val intent = android.content.Intent(this, com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity::class.java)
+        intent.putExtra("idNegocio", idNegocio)
+        startActivity(intent)
     }
 }

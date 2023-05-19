@@ -3,6 +3,7 @@ package com.example.pint_mobile.pages.admin.edit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -27,16 +28,14 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_user)
 
-
-
-
         val lista = findViewById<ListView>(R.id.listaUtilizador2)
         utilizadoresAdapter = AdminUtilizadoresActivity.UtilizadorAdapter(
             utilizadoresList,
             R.layout.item_utilizadores,
             true,
             intent.getStringArrayListExtra("users")!!,
-            intent.getIntegerArrayListExtra("userIds")!!
+            intent.getIntegerArrayListExtra("userIds")!!,
+            intent.getIntegerArrayListExtra("negocioId")!!,
         )
 
 
