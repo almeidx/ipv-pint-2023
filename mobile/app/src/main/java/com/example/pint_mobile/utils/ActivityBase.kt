@@ -13,6 +13,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.ContactoActivity
 import com.example.pint_mobile.pages.IdeiasActivity
+import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.PerfilActivity
@@ -109,8 +110,15 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.profile2 -> {
-                val intent = Intent(this, PerfilActivity::class.java)
-                startActivity(intent)
+                val user = getCurrentUser(this)
+                if(user != null){
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
+                }
+                else{
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
