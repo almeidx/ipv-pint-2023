@@ -102,12 +102,23 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Adicionar cliente"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:onClick="AdicionarClienteNegocio"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/clienteNegocio"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:hint="Cliente do negocio"
@@ -125,31 +136,41 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Adicionar Contacto"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:onClick="AdicionarContactoNegocio"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contactosDoNegocio"
+            android:id="@+id/contactCliente"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"
-            android:hint="Contactos do cliente"
+            android:hint="Contacto do cliente"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clienteNegocio"
+            app:layout_constraintTop_toTopOf="parent"
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contactosDoNegocioCriar"
+                android:id="@+id/contactoClienteMostrar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="top"
+                android:layout_height="wrap_content"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -179,7 +200,7 @@
                 android:backgroundTint="@color/white"
                 android:text="Criar"
                 android:textSize="10dp"
-                android:onClick="criarNegocio"
+                android:onClick="criarNovoNegocio"
                 android:textColor="@color/white"
                 />
         </LinearLayout>

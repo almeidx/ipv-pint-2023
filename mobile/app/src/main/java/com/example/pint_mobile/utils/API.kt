@@ -26,6 +26,8 @@ import com.example.pint_mobile.pages.admin.AdminNegociosActivity
 import com.example.pint_mobile.pages.admin.AdminReunioesActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
+import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
+import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -168,6 +170,52 @@ fun listaTipoUtilizador(ctx: Context, callback: (ArrayList<TipoUtilizador>) -> U
             tipoUtilizadores.add(TipoUtilizador(id, nome))
         }
         callback(tipoUtilizadores)
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listaClientes(list: ArrayList<Cliente>, allList: ArrayList<Cliente>, adapter: AdicionarClienteNegocioActivity.ClienteAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/clientes", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawcliente = response.getJSONObject(i)
+            val cliente = Cliente(
+                rawcliente.getInt("id"),
+                rawcliente.getString("name"),
+            )
+            list.add(cliente)
+        }
+
+        allList.addAll(list)
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listaContactosCliente(list: ArrayList<Contacto>, allList: ArrayList<Contacto>, adapter: SelectContactoClienteNegocioActivity.ContactosAdapter, ctx: Context, id: Int) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/clientes/$id/contactos", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawContacto = response.getJSONObject(i)
+            val contacto = Contacto(
+                rawContacto.getInt("idCliente"),
+                rawContacto.getString("value"),
+            )
+            list.add(contacto)
+        }
+
+        allList.addAll(list)
+
+        adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
     }
@@ -816,15 +864,15 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
     queue.add(request)
 }
 
-fun criarNegocio(titulo:String, area:String, data:String, descricao:Int, cliente:String, contactos:String, ctx: Context) {
+fun createNegocio(titulo:String, area:String, descricao:String, cliente:String, contactos:String, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
     body.put("title", titulo)
     body.put("description", descricao)
-    body.put("startTime", data)
     body.getJSONObject("cliente").put("name", cliente)
     body.getJSONObject("contactos").put("contacto", contactos)
+    body.getJSONObject("area").put("name", area)
 
     Log.i("body", body.toString())
 
@@ -832,6 +880,46 @@ fun criarNegocio(titulo:String, area:String, data:String, descricao:Int, cliente
         Toast.makeText(ctx, "Negócio criado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminNegociosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+
+    }
+    queue.add(request)
+}
+
+fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clienteIds: ArrayList<Int> = ArrayList() ,ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("name", nome)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/clientes", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Cliente criado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdicionarClienteNegocioActivity::class.java)
+        intent.putExtra("clienteNome", clienteNome)
+        intent.putExtra("clienteIds", clienteIds)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

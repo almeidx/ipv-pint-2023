@@ -53,8 +53,6 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         negocioId = intent.getIntegerArrayListExtra("negocioId") ?: ArrayList()
 
 
-
-
         if(getidNegocio != -1){
             negocioId.add(getidNegocio)
         }
