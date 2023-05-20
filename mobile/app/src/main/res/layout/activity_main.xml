@@ -6,21 +6,18 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".MainActivity"
-
-	>
+>
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_constraintBottom_toTopOf="@+id/bottombar"
-		>
+	>
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+		>
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</ScrollView>
-	<include
-		layout="@layout/bottombar"
-		app:layout_constraintBottom_toBottomOf="parent"/>
+	<include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
