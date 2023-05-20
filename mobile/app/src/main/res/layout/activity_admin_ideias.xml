@@ -19,18 +19,19 @@
 		app:layout_constraintEnd_toStartOf="@+id/include3"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-	>
+		>
+
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/textInputLayout"
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_height="64dp"
-			android:layout_width="270dp"
+			android:layout_width="match_parent"
 			android:hint="@string/pesquise_por_ideias"
 			app:boxBackgroundColor="@color/white"
 			app:boxStrokeColor="@color/black"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-		>
+			>
 
 			<com.google.android.material.textfield.TextInputEditText
 				android:id="@+id/pesquisa"
@@ -38,7 +39,7 @@
 				android:layout_height="wrap_content"
 				android:drawableStart="@drawable/search"
 				android:drawablePadding="2dp"
-			/>
+				/>
 		</com.google.android.material.textfield.TextInputLayout>
 	</LinearLayout>
 

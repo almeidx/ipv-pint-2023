@@ -45,9 +45,9 @@
     <ListView
         android:id="@+id/listaUtilizador2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="110dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="67dp"
         android:divider="@android:color/transparent"
@@ -57,5 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearPesquisa"
         app:layout_constraintVertical_bias="0.0"
         />
+
+    <include layout="@layout/bottombar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

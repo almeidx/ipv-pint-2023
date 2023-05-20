@@ -44,15 +44,4 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    fun gotoLogin(_view: View) {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun gotoAdmin(_view: View){
-        val intent = Intent(this, AdminActivity::class.java)
-        startActivity(intent)
-    }
-
 }
