@@ -17,6 +17,21 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
         val nome = findViewById<TextView>(R.id.nomeUser)
         val email = findViewById<TextView>(R.id.emailUser)
         val user = getCurrentUser(this)
+        val pag_admin = findViewById<TextView>(R.id.admin)
+        val password = findViewById<TextView>(R.id.password)
+
+        if(user?.tipoUser?.nome == "Administrador"){
+            pag_admin.visibility = View.VISIBLE
+            pag_admin.setOnClickListener{
+                val intent = Intent(this, AdminActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        password.setOnClickListener{
+            val intent = Intent(this, MudarPasswordActivity::class.java)
+            startActivity(intent)
+        }
 
         nome.text = user?.name ?: ""
         email.text = user?.email ?: ""
