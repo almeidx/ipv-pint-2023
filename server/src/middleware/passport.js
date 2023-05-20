@@ -23,7 +23,7 @@ module.exports = function (passport) {
 			async function (username, password, done) {
 				const user = await Utilizador.findOne({
 					where: { email: username },
-					attributes: ["id", "name", "email", "registrationType", "hashedPassword"],
+					attributes: ["id", "name", "email", "cv", "registrationType", "hashedPassword"],
 					include: [
 						{
 							model: TipoUtilizador,
@@ -68,7 +68,7 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "facebook",
 					},
-					attributes: ["id", "name", "email", "registrationType"],
+					attributes: ["id", "name", "cv", "email", "registrationType"],
 					include: [
 						{
 							model: TipoUtilizador,
@@ -88,7 +88,7 @@ module.exports = function (passport) {
 							hashedPassword: "",
 						},
 						{
-							attributes: ["id", "name", "email", "registrationType"],
+							attributes: ["id", "name", "cv", "email", "registrationType"],
 							include: [
 								{
 									model: TipoUtilizador,
@@ -118,7 +118,7 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "google",
 					},
-					attributes: ["id", "name", "email", "registrationType"],
+					attributes: ["id", "name", "cv", "email", "registrationType"],
 					include: [
 						{
 							model: TipoUtilizador,
@@ -138,7 +138,7 @@ module.exports = function (passport) {
 							hashedPassword: "",
 						},
 						{
-							attributes: ["id", "name", "email", "registrationType"],
+							attributes: ["id", "name", "cv", "email", "registrationType"],
 							include: [
 								{
 									model: TipoUtilizador,

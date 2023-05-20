@@ -18,9 +18,9 @@ export function SignUp() {
 
 		console.log(event);
 
-		const name = event.target.elements.nome.value;
-		const surname = event.target.elements.apelido.value;
-		const email = event.target.elements.email.value;
+		const name = event.target.elements.nome.value.trim();
+		const surname = event.target.elements.apelido.value.trim();
+		const email = event.target.elements.email.value.trim();
 		const password = event.target.elements.password.value;
 		const confirmPassword = event.target.elements["confirmar-password"].value;
 

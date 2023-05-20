@@ -8,22 +8,8 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 module.exports = {
 	read: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt().optional()),
 
-		async (req, res) => {
-			const { id } = req.params;
-
-			if (id) {
-				const utilizador = await Utilizador.findByPk(id);
-				if (!utilizador) {
-					res.status(404).json({ message: "Utilizador não encontrado" });
-					return;
-				}
-
-				res.json(utilizador);
-				return;
-			}
-
+		async (_req, res) => {
 			res.json(
 				await Utilizador.findAll({
 					attributes: ["id", "name", "email", "lastLoginDate"],
@@ -81,6 +67,7 @@ module.exports = {
 			const opts = {
 				disabled,
 				disabledAt: new Date(),
+				disabledBy: undefined,
 			};
 
 			if (req.user.tipoUtilizador.id === TipoUtilizadorEnum.Administrador) {

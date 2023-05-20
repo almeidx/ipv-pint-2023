@@ -1,4 +1,4 @@
-import { startTransition, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import FormControl from "react-bootstrap/FormControl";
@@ -8,6 +8,8 @@ import { BsTrash } from "react-icons/bs";
 import { MdOutlineLogout, MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Page } from "../components/Page.jsx";
+import { Toast } from "../components/Toast.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 
@@ -15,32 +17,80 @@ export function Profile() {
 	const { user, setUser } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
-	const [cvContent, setCvContent] = useState(null);
 	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
+	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 
 	const disabledEditing = user?.registrationType !== "email";
 
-	function handleProfileValueChange(type, value) {
+	useEffect(() => {
+		setName(user?.name ?? "");
+		setEmail(user?.email ?? "");
+		setShowSaveButton(false);
+	}, [user]);
+
+	async function handleProfileValueChange(type, value) {
 		switch (type) {
 			case "name":
 				setName(value);
 				startTransition(() => setShowSaveButton(value !== user.name));
 				break;
 
-			case "email":
-				setEmail(value);
-				startTransition(() => setShowSaveButton(value !== user.email));
-				break;
+			case "email": {
+				// TODO: Allow editing email
 
-			case "cv":
-				setCvContent(value);
-				setShowSaveButton(true);
 				break;
+			}
+
+			case "cv": {
+				try {
+					const response = await fetch(`${API_URL}/utilizadores/@me`, {
+						credentials: "include",
+						method: "PATCH",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ cv: value }),
+					});
+
+					if (!response.ok) {
+						throw new Error("Something went wrong", { cause: response });
+					}
+
+					showToastWithMessage("CV atualizado com sucesso");
+
+					setUser({ ...user, cv: value });
+				} catch (error) {
+					console.error(error);
+
+					showToastWithMessage("Ocorreu um erro ao atualizar o seu CV");
+				}
+
+				break;
+			}
 		}
 	}
 
-	function handleSave() {}
+	async function handleSave() {
+		try {
+			const response = await fetch(`${API_URL}/utilizadores/@me`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ name }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			showToastWithMessage("Nome atualizado com sucesso");
+
+			setUser({ ...user, name });
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao atualizar o seu nome");
+		}
+	}
 
 	const firstName = user?.name.split(" ")[0];
 
@@ -52,10 +102,12 @@ export function Profile() {
 				fetchpriority="high"
 			/>
 
+			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+
 			<CurriculumVitaeModal
 				update={!!user?.cv}
 				show={showCvEditModal}
-				onSave={(content) => handleProfileValueChange("cv", content)}
+				onSave={(filename) => handleProfileValueChange("cv", filename)}
 				onHide={() => setShowCvEditModal(false)}
 			/>
 
@@ -117,9 +169,22 @@ export function Profile() {
 									Curriculum Vitae
 								</FormLabel>
 
-								<Button variant="light" onClick={() => setShowCvEditModal(true)} type="button">
-									{user.cv ? "Alterar" : "Adicionar"}
-								</Button>
+								<div className="d-flex gap-2">
+									<Button variant="light" onClick={() => setShowCvEditModal(true)} type="button">
+										{user.cv ? "Alterar" : "Adicionar"}
+									</Button>
+
+									{user.cv ? (
+										<a
+											className="btn btn-light"
+											href={`${API_URL}/uploads/${user.cv}`}
+											target="_blank"
+											rel="noreferrer"
+										>
+											Ver atual
+										</a>
+									) : null}
+								</div>
 							</div>
 						</Container>
 
@@ -179,19 +244,27 @@ export function Profile() {
 /** @param {import("react").PropsWithChildren<{ update: boolean; onHide(): void; show: boolean; onSave(content: string): void }>} props */
 function CurriculumVitaeModal({ update, onSave, onHide, show }) {
 	/** @param {import("react").ChangeEvent<FormControlElement>} event */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		const file = event.target.files[0];
+		if (!file) return;
 
-		const reader = new FileReader();
+		const formData = new FormData();
+		formData.append("file", file);
 
-		reader.addEventListener("load", () => {
-			const content = reader.result;
-
-			onSave(content);
-			onHide();
+		const response = await fetch(`${API_URL}/upload`, {
+			method: "POST",
+			body: formData,
 		});
 
-		reader.readAsText(file);
+		if (!response.ok) {
+			console.error(response);
+			return;
+		}
+
+		const { fileName } = await response.json();
+
+		onSave(fileName);
+		onHide();
 	}
 
 	return (
@@ -205,7 +278,7 @@ function CurriculumVitaeModal({ update, onSave, onHide, show }) {
 			<Modal.Body>
 				<FormLabel htmlFor="cv">Ficheiro</FormLabel>
 
-				<FormControl id="cv" type="file" accept=".txt" required onChange={(event) => handleSubmit(event)} />
+				<FormControl id="cv" type="file" accept="application/pdf" required onChange={(event) => handleSubmit(event)} />
 			</Modal.Body>
 
 			<Modal.Footer>

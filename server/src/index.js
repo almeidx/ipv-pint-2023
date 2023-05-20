@@ -21,6 +21,7 @@ const reportingRouter = require("./routes/reporting.js");
 const reunioesRouter = require("./routes/reunioes.js");
 const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
 const utilizadoresRouter = require("./routes/utilizadores.js");
+const uploadsRouter = require("./routes/uploads.js");
 const vagasRouter = require("./routes/vagas.js");
 
 require("./middleware/passport.js")(passport);
@@ -74,7 +75,9 @@ app
 	.use("/reunioes", reunioesRouter)
 	.use("/tipos-utilizador", tiposUtilizadorRouter)
 	.use("/utilizadores", utilizadoresRouter)
+	.use("/upload", uploadsRouter)
 	.use("/vagas", vagasRouter)
+	.use("/uploads", express.static("uploads"))
 	.get("/_health", (_req, res) => res.send("OK"));
 
 (async () => {

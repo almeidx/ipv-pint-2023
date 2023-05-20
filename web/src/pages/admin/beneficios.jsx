@@ -6,6 +6,8 @@ import FormGroup from "react-bootstrap/FormGroup";
 import FormLabel from "react-bootstrap/FormLabel";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
@@ -16,8 +18,7 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { resolveIcon } from "../../utils/resolve-icon.js";
 
 export default function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -137,6 +138,7 @@ export default function Beneficios() {
 				data={beneficioData}
 				onSave={(data) => (isCreateModal ? handleCreate(data) : handleEdit(data))}
 				isCreate={isCreateModal}
+				showToastWithMessage={showToastWithMessage}
 			/>
 
 			<SearchBar placeholder="Pesquise por benefícios..." onSearch={(value) => setSearch(value)} />
@@ -148,7 +150,7 @@ export default function Beneficios() {
 					filtered.map(({ id, dataValidade, content, shortContent, iconeBeneficio, utilizador }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div className="d-flex gap-2">
-								<img src={iconeBeneficio} height="65" width="65" className="me-2" />
+								<img src={resolveIcon(iconeBeneficio)} height="65" width="65" className="rounded-circle me-2" />
 
 								<div>
 									<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
@@ -164,7 +166,7 @@ export default function Beneficios() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Beneficío</Tooltip>}>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Beneficio</Tooltip>}>
 									<Button
 										className="border-0 bg-transparent p-0"
 										onClick={() => {
@@ -200,11 +202,55 @@ export default function Beneficios() {
  * @param {Object} props.data
  * @param {(data: Object) => void} props.onSave
  * @param {boolean} [props.isCreate]
+ * @param {(message: string) => void} props.showToastWithMessage
  */
-function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = false }) {
+function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = false, showToastWithMessage }) {
 	const [beneficioData, setBeneficioData] = useState({});
+	const [previewUrl, setPreviewUrl] = useState(null);
+	const [file, setFile] = useState(null);
 
 	function onHideWrapper() {
+		onHide();
+		setBeneficioData({});
+	}
+
+	// TODO: Create preview doesn't work?
+
+	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
+	function handleIconChange(event) {
+		const file = event.target.files[0];
+		if (!file) return;
+
+		setPreviewUrl(URL.createObjectURL(file));
+		setFile(file);
+	}
+
+	async function handleSave() {
+		if (file) {
+			try {
+				const formData = new FormData();
+				formData.append("file", file);
+
+				const uploadResponse = await fetch(`${API_URL}/upload`, {
+					method: "POST",
+					body: formData,
+				});
+
+				if (!uploadResponse.ok) {
+					throw new Error("Something went wrong", { cause: uploadResponse });
+				}
+
+				const { fileName } = await uploadResponse.json();
+
+				beneficioData.iconeBeneficio = fileName;
+			} catch (error) {
+				console.error(error);
+
+				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro");
+			}
+		}
+
+		onSave(beneficioData);
 		onHide();
 		setBeneficioData({});
 	}
@@ -265,26 +311,30 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 					<FormLabel className="text-black" htmlFor="icone-beneficio-edit">
 						Ícone
 					</FormLabel>
-					<FormControl
-						id="icone-beneficio-edit"
-						placeholder="Ícone do benefício"
-						onChange={(e) => setBeneficioData((state) => ({ ...state, iconeBeneficio: e.target.value }))}
-						value={beneficioData.iconeBeneficio ?? data?.iconeBeneficio}
-						required={isCreate}
-						maxLength={100}
-					/>
+
+					<div className="d-flex align-items-center gap-3">
+						<FormControl
+							id="icone-beneficio-edit"
+							onChange={handleIconChange}
+							required={isCreate}
+							type="file"
+							style={{ maxWidth: "18rem" }}
+							accept="image/*"
+						/>
+
+						{beneficioData.iconeBeneficio ?? data?.iconeBeneficio ? (
+							<img
+								className="ratio-1x1"
+								src={previewUrl ?? resolveIcon(beneficioData.iconeBeneficio ?? data?.iconeBeneficio)}
+								height={42}
+							/>
+						) : null}
+					</div>
 				</FormGroup>
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button
-					onClick={() => {
-						onSave(beneficioData);
-						onHide();
-						setBeneficioData({});
-					}}
-					variant="success"
-				>
+				<Button onClick={handleSave} variant="success">
 					Guardar
 				</Button>
 

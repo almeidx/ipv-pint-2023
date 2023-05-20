@@ -19,7 +19,7 @@ export function Login() {
 	async function handleSubmit(event) {
 		event.preventDefault();
 
-		const email = event.target.elements.email.value;
+		const email = event.target.elements.email.value.trim();
 		const password = event.target.elements.password.value;
 
 		const response = await fetch(`${API_URL}/auth/email`, {

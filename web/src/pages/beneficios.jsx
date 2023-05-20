@@ -7,6 +7,7 @@ import { SearchBar } from "../components/SearchBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import { resolveIcon } from "../utils/resolve-icon.js";
 
 export function Beneficios() {
 	const [search, setSearch] = useState("");
@@ -50,7 +51,7 @@ function Beneficio({ iconeBeneficio, shortContent, content }) {
 		<Card style={{ width: "18rem", height: "20rem", borderRadius: "1rem" }}>
 			<Card.Body className="d-flex justify-content-center align-items-center flex-column">
 				<Card.Img
-					src={iconeBeneficio}
+					src={resolveIcon(iconeBeneficio)}
 					height="110px"
 					width="110px"
 					className="rounded-circle"
