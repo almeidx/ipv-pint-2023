@@ -49,7 +49,7 @@ const Notificacao = sequelize.define(
 			// },
 		},
 		content: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			field: "CONTEUDO_NOTIFICACAO",
 			allowNull: false,
 		},

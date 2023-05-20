@@ -19,7 +19,7 @@ export function Profile() {
 	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 
-	// TODO: disallow editing fields if used social login
+	const disabledEditing = user?.registrationType !== "email";
 
 	function handleProfileValueChange(type, value) {
 		switch (type) {
@@ -97,6 +97,7 @@ export function Profile() {
 								value={name}
 								className="w-25"
 								onChange={(e) => handleProfileValueChange("name", e.target.value)}
+								disabled={disabledEditing}
 							/>
 
 							<FormLabel htmlFor="email" className="h5 mt-3">
@@ -108,6 +109,7 @@ export function Profile() {
 								value={email}
 								className="w-25"
 								onChange={(e) => handleProfileValueChange("email", e.target.value)}
+								disabled={disabledEditing}
 							/>
 
 							<div className="d-flex flex-column w-fit">

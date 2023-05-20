@@ -33,14 +33,12 @@ const NecessidadeNegocio = sequelize.define(
 			// },
 		},
 		name: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			field: "NOME_NECESSIDADE",
 			allowNull: false,
 		},
 	},
 	{ timestamps: false },
 );
-
-NecessidadeNegocio.belongsTo(Negocio, { foreignKey: "idNegocio" });
 
 module.exports = NecessidadeNegocio;

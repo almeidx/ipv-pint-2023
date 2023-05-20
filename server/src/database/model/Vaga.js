@@ -45,7 +45,7 @@ const Vaga = sequelize.define(
 			allowNull: false,
 		},
 		description: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1_000),
 			field: "DESCRICAO_VAGA",
 			allowNull: false,
 		},

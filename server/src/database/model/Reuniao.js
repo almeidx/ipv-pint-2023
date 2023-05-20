@@ -58,17 +58,17 @@ const Reuniao = sequelize.define(
 			allowNull: false,
 		},
 		title: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			field: "TITULO_REUNIAO",
 			allowNull: false,
 		},
 		description: {
-			type: DataTypes.TEXT(1_000),
+			type: DataTypes.STRING(1_000),
 			field: "DESCRICAO_REUNIAO",
 			allowNull: false,
 		},
 		subject: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			field: "ASSUNTO_REUNIAO",
 			allowNull: false,
 		},

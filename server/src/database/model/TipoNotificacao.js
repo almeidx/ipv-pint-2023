@@ -19,7 +19,7 @@ module.exports = sequelize.define(
 			allowNull: false,
 		},
 		name: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			field: "NOME_TIPO_NOTIFICACAO",
 			allowNull: false,
 		},

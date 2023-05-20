@@ -8,6 +8,7 @@ const {
 	ContactoNegocio,
 	Contacto,
 	EstadoNegocio,
+	sequelize,
 } = require("../database/index.js");
 const { requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -128,11 +129,19 @@ module.exports = {
 
 	update: [
 		requireLogin(),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("idCentroTrabalho", "`idCentroTrabalho` tem que ser do tipo inteiro").isInt().optional(),
+			body("idFuncionarioResponsavel", "`idFuncionarioResponsavel` tem que ser do tipo inteiro").isInt().optional(),
+			body("estados", "`estados` tem que ser do tipo array").isArray().isLength({ min: 1, max: 5 }).optional(),
+			body("estados.*.estado", "`estados.*.estado` tem que ser do tipo inteiro").isInt(),
+			body("estados.*.dataFinalizacao", "`estados.*.dataFinalizacao` tem que ser do tipo data").isISO8601(),
+			...fieldValidations.map((v) => v.optional()),
+		),
 
 		async (req, res) => {
 			const { id } = req.params;
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos, estados } = req.body;
 
 			// TODO: Check if user is allowed to update this negocio
 
@@ -152,23 +161,47 @@ module.exports = {
 			if (title && title !== negocio.title) update.title = title;
 			if (status !== undefined && status !== negocio.status) update.status = status;
 
-			let updatedNegocio;
-			if (Object.keys(update).length > 0) updatedNegocio = await negocio.update(update);
-			else updatedNegocio = negocio;
+			await sequelize.transaction(async (transaction) => {
+				let updatedNegocio;
+				if (Object.keys(update).length > 0) updatedNegocio = await negocio.update(update, { transaction });
+				else updatedNegocio = negocio;
 
-			if (contactos) {
-				await ContactoNegocio.destroy({ where: { idNegocio: negocio.id } });
-				await ContactoNegocio.bulkCreate(
-					contactos.map((idContacto) => ({
-						idNegocio: negocio.id,
-						idContacto,
-					})),
-				);
+				if (contactos) {
+					await ContactoNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
+					await ContactoNegocio.bulkCreate(
+						contactos.map((idContacto) => ({
+							idNegocio: negocio.id,
+							idContacto,
+						})),
+						{ transaction },
+					);
 
-				updatedNegocio.contactos = contactos;
-			}
+					updatedNegocio.contactos = contactos;
+				}
 
-			res.json(updatedNegocio);
+				if (estados) {
+					const estadoNumbers = estados.map(({ estado }) => estado);
+					const maxEstado = Math.max(...estadoNumbers);
+					if (maxEstado !== estadoNumbers.length - 1) {
+						res.status(400).json({ message: "Estados têm que ser inseridos por ordem" });
+						throw new Error("Estados têm que ser inseridos por ordem");
+					}
+
+					await EstadoNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
+					await EstadoNegocio.bulkCreate(
+						estados.map(({ estado, dataFinalizacao }) => ({
+							idNegocio: negocio.id,
+							estado,
+							dataFinalizacao,
+						})),
+						{ transaction },
+					);
+
+					updatedNegocio.estados = estados;
+				}
+
+				res.json(updatedNegocio);
+			});
 		},
 	],
 };

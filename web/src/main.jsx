@@ -21,6 +21,7 @@ import { Profile } from "./pages/profile.jsx";
 import { SignUp } from "./pages/sign-up.jsx";
 import { Vagas } from "./pages/vagas.jsx";
 import { VerificarConta } from "./pages/verificar-conta.jsx";
+import { NotasEntrevista } from "./pages/admin/notas-entrevista.jsx";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
@@ -44,6 +45,7 @@ createRoot(document.getElementById("root")).render(
 							<Route path="/calendar" element={<Calendar />} />
 
 							<Route path="/admin" element={<Admin />} />
+							<Route path="/admin/notas/:id" element={<NotasEntrevista />} />
 
 							<Route path="*" element={<NotFound />} />
 						</Routes>

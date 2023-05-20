@@ -6,12 +6,15 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Tooltip from "react-bootstrap/Tooltip";
 import { BsCalendarDate } from "react-icons/bs";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -20,11 +23,9 @@ import { useUser } from "../../contexts/UserContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 const estadosNames = [
-	{ color: "rgba(255, 0, 0, 0)", name: "Em espera" },
+	{ color: "rgba(255, 0, 0, 0.1)", name: "Em espera" },
 	{ color: "rgba(255, 0, 0, 0.25)", name: "A validar" },
 	{ color: "rgba(255, 0, 0, 0.5)", name: "Em desenvolvimento" },
 	{ color: "rgba(255, 0, 0, 0.75)", name: "A finalizar" },
@@ -36,8 +37,11 @@ export default function Negocios() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [negocioData, setNegocioData] = useState(null);
+	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
+	const [idNegocio, setIdNegocio] = useState(null);
 	const { isLoading, data, mutate } = useSWR(`${API_URL}/negocios?admin`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 
 	const filtered = useMemo(
 		() =>
@@ -55,13 +59,19 @@ export default function Negocios() {
 	// TODO: Edit & Delete
 
 	async function handleEdit(data) {
+		console.log(data);
+
 		try {
-			await fetch(`${API_URL}/negocios/${negocioData.id}`, {
+			const response = await fetch(`${API_URL}/negocios/${negocioData.id}`, {
 				credentials: "include",
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data),
 			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
 
 			showToastWithMessage("Negócio editado com sucesso");
 
@@ -94,6 +104,31 @@ export default function Negocios() {
 		}
 	}
 
+	async function handleCreateReuniao(data) {
+		try {
+			const body = { ...data, idNegocio };
+
+			const response = await fetch(`${API_URL}/reunioes`, {
+				credentials: "include",
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(body),
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			showToastWithMessage("Reunião criada com sucesso");
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao criar a reunião");
+		}
+	}
+
 	return (
 		<Container className="py-4">
 			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
@@ -105,6 +140,14 @@ export default function Negocios() {
 					<IoMdAdd size={40} color="black" />
 				</Link>
 			</div>
+
+			<CreateReuniaoModal
+				show={showCreateReuniaoModal}
+				onHide={() => setShowCreateReuniaoModal(false)}
+				onSave={handleCreateReuniao}
+				utilizadores={utilizadores}
+				title="Criar Reunião para Negócio"
+			/>
 
 			<EditNegocioModal
 				show={showEditModal}
@@ -199,10 +242,17 @@ export default function Negocios() {
 
 										<div className="d-flex col-sm justify-content-end align-items-start gap-2 pt-2">
 											<OverlayTrigger placement="top" overlay={<Tooltip>Marcar Reunião</Tooltip>}>
-												<Button className="border-0 bg-transparent p-0 pe-2" onClick={() => {}}>
+												<Button
+													className="border-0 bg-transparent p-0 pe-2"
+													onClick={() => {
+														setIdNegocio(id);
+														setShowCreateReuniaoModal(true);
+													}}
+												>
 													<BsCalendarDate size={32} color="black" />
 												</Button>
 											</OverlayTrigger>
+
 											<OverlayTrigger placement="top" overlay={<Tooltip>Editar Negócio</Tooltip>}>
 												<Button
 													className="border-0 bg-transparent p-0"
@@ -214,6 +264,7 @@ export default function Negocios() {
 													<RiPencilLine size={32} color="black" />
 												</Button>
 											</OverlayTrigger>
+
 											<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Negócio</Tooltip>}>
 												<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
 													<RiCloseFill size={32} color="red" />
@@ -261,7 +312,13 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 		setNegocioData((state) => ({
 			...state,
 			estados: [
-				...(state.estados ?? []),
+				...(state.estados ??
+					data.estados ?? [
+						{
+							estado: 0,
+							dataFinalizacao: new Date().toISOString(),
+						},
+					]),
 				{
 					estado: estadoAtual.estado + 1,
 					dataFinalizacao: new Date().toISOString(),

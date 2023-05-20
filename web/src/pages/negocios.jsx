@@ -14,6 +14,8 @@ import { Spinner } from "../components/Spinner.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export function Negocios() {
 	const [search, setSearch] = useState("");
@@ -78,10 +80,11 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 			<Card.Body>
 				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
 					{title}
-
-					<Button className="border-0 bg-transparent p-0">
-						<RiPencilLine size={32} color="black" />
-					</Button>
+					<OverlayTrigger placement="top" overlay={<Tooltip>Edite o seu Negócio</Tooltip>}>
+						<Button className="border-0 bg-transparent p-0">
+							<RiPencilLine size={32} color="black" />
+						</Button>
+					</OverlayTrigger>
 				</Card.Title>
 
 				<hr />

@@ -1,4 +1,4 @@
-const { param } = require("express-validator");
+const { param, body } = require("express-validator");
 const { Contacto } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -7,7 +7,11 @@ const { validate } = require("../middleware/validation.js");
 module.exports = {
 	create: [
 		requireLogin(),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("value", "`value` tem que ser do tipo string").isString(),
+			body("type", "`type` tem que ser do tipo int").isInt().isIn([0, 1]),
+		),
 
 		async (req, res) => {
 			const { value, type } = req.body;
@@ -35,6 +39,7 @@ module.exports = {
 					where: {
 						idCliente: id,
 					},
+					order: [["type", "ASC"]],
 				}),
 			);
 		},

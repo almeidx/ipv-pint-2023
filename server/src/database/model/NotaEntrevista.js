@@ -34,7 +34,7 @@ const NotaEntrevista = sequelize.define(
 			// },
 		},
 		content: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING(1_000),
 			field: "CONTEUDO_NOTA",
 			allowNull: false,
 		},
@@ -42,11 +42,10 @@ const NotaEntrevista = sequelize.define(
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO_NOTA",
 			allowNull: false,
+			defaultValue: DataTypes.NOW,
 		},
 	},
 	{ timestamps: false },
 );
-
-NotaEntrevista.belongsTo(Reuniao, { foreignKey: "idReuniao" });
 
 module.exports = NotaEntrevista;

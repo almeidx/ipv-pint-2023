@@ -24,6 +24,9 @@ const Vaga = require("./model/Vaga.js");
 Negocio.hasMany(ContactoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "contactos" });
 Negocio.hasMany(EstadoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "estados" });
 
+NecessidadeNegocio.belongsTo(Negocio, { foreignKey: "idNegocio", as: "necessidades" });
+Negocio.hasMany(NecessidadeNegocio, { foreignKey: "idNegocio", as: "negocio" });
+
 Mensagem.hasOne(Utilizador, { sourceKey: "idCriador", foreignKey: "id", as: "criador", constraints: false });
 Utilizador.hasMany(Mensagem, { sourceKey: "id", foreignKey: "idCriador", as: "mensagens" });
 
@@ -39,6 +42,9 @@ Utilizador.belongsToMany(Reuniao, {
 	otherKey: "idReuniao",
 	timestamps: false,
 });
+
+NotaEntrevista.belongsTo(Reuniao, { foreignKey: "idReuniao" });
+Reuniao.hasMany(NotaEntrevista, { foreignKey: "idReuniao" });
 
 module.exports = {
 	sequelize,

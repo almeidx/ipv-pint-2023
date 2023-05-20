@@ -70,3 +70,16 @@
 .cursor-pointer {
 	cursor: pointer;
 }
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #202327;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #56595e;
+	border-radius: 10px;
+}

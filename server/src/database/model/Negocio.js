@@ -84,7 +84,7 @@ const Negocio = sequelize.define(
 			// },
 		},
 		description: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1_000),
 			field: "DESCRICAO_OPORTUNIDADE",
 			allowNull: false,
 		},
