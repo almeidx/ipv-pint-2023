@@ -80,6 +80,7 @@
 			android:layout_marginTop="25dp"
 			android:orientation="horizontal"
 			android:gravity="end"
+			android:layout_marginBottom="67dp"
 		>
         <Button
 				android:layout_width="wrap_content"
@@ -91,6 +92,7 @@
 				android:textSize="10dp"
 				android:textColor="@color/white"
 				android:onClick="CriarContactoCliente"
+
 			/>
     </LinearLayout>
     </LinearLayout>
