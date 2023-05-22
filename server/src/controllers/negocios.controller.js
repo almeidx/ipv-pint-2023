@@ -23,7 +23,6 @@ const fieldValidations = [
 	body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 		.isString()
 		.isLength({ min: 1, max: 100 }),
-	body("status", "`status` tem que ser do tipo int e estar entre 1 e 3").isInt({ min: 1, max: 3 }),
 	body("contactos", "`contactos` tem que ser do tipo array").isArray(),
 	body("contactos.*", "`contactos.*` tem que ser do tipo inteiro").isInt(),
 ];
@@ -35,7 +34,7 @@ module.exports = {
 		validate(...fieldValidations),
 
 		async (req, res) => {
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos } = req.body;
 
 			const negocio = await Negocio.create({
 				idUser: req.user.id,
@@ -44,7 +43,6 @@ module.exports = {
 				idCentroTrabalho,
 				description,
 				title,
-				status,
 			});
 
 			await ContactoNegocio.bulkCreate(
@@ -65,7 +63,7 @@ module.exports = {
 			const { admin } = req.query;
 
 			const opts = {
-				attributes: ["id", "description", "title", "status"],
+				attributes: ["id", "description", "title"],
 				include: [
 					{
 						model: Cliente,
@@ -141,7 +139,7 @@ module.exports = {
 
 		async (req, res) => {
 			const { id } = req.params;
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, status, contactos, estados } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, estados } = req.body;
 
 			// TODO: Check if user is allowed to update this negocio
 
@@ -159,7 +157,6 @@ module.exports = {
 				update.idCentroTrabalho = idCentroTrabalho;
 			if (description && description !== negocio.description) update.description = description;
 			if (title && title !== negocio.title) update.title = title;
-			if (status !== undefined && status !== negocio.status) update.status = status;
 
 			await sequelize.transaction(async (transaction) => {
 				let updatedNegocio;

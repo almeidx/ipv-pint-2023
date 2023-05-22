@@ -16,7 +16,7 @@ const fieldValidations = [
 	body("description", "`description` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 		.isString()
 		.isLength({ min: 1, max: 100 }),
-	body("status", "`status` tem que ser do tipo int e estar entre 1 e 3").isInt({ min: 1, max: 3 }),
+	body("status", "`status` tem que ser do tipo int e estar entre 1 e 3").isInt().isIn([0, 1]),
 ];
 
 /** @type {import("../database/index.js").Controller} */

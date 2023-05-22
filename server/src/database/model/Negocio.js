@@ -93,11 +93,6 @@ const Negocio = sequelize.define(
 			field: "TITULO_OPORTUNIDADE",
 			allowNull: false,
 		},
-		status: {
-			type: DataTypes.INTEGER,
-			field: "ESTADO_ATUAL",
-			allowNull: false,
-		},
 		createdAt: {
 			type: DataTypes.DATE,
 			field: "DATA_CRIACAO",
