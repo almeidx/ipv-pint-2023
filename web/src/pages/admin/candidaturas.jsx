@@ -6,6 +6,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BiNotepad } from "react-icons/bi";
 import { BsCalendarDate } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
@@ -15,15 +16,16 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { Link } from "react-router-dom";
 
 export default function Candidaturas() {
 	const [search, setSearch] = useState("");
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
 	const [idCandidatura, setIdCandidatura] = useState(null);
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/candidaturas`, fetcher);
+	const { isLoading, data, mutate } = useSWR(`${API_URL}/candidaturas?admin`, fetcher);
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+
+	// TODO: Botão para concluir vaga
 
 	const filtered = useMemo(
 		() =>

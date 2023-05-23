@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import FormCheck from "react-bootstrap/FormCheck";
 import FormControl from "react-bootstrap/FormControl";
 import FormGroup from "react-bootstrap/FormGroup";
@@ -8,6 +9,8 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { IoMdAdd } from "react-icons/io";
 import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
@@ -17,8 +20,7 @@ import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import { resolveIcon } from "../../utils/resolve-icon.js";
 
 export default function Vagas() {
 	const [search, setSearch] = useState("");
@@ -141,7 +143,7 @@ export default function Vagas() {
 					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`vaga-${id}`}>
 							<div className="d-flex gap-2">
-								<img src={icon} height="64" width="64" className="me-1" />
+								<img src={resolveIcon(icon)} height="64" width="64" className="me-1" />
 
 								<div>
 									<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
@@ -192,13 +194,55 @@ export default function Vagas() {
  * @param {Object} props.data
  * @param {(data: any) => void} props.onSave
  * @param {boolean} [props.isCreate]
+ * @param {(message: string) => void} props.showToastWithMessage
  */
-function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate }) {
+function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToastWithMessage }) {
 	const [vagaData, setVagaData] = useState({});
+	const [previewUrl, setPreviewUrl] = useState(null);
+	const [file, setFile] = useState(null);
+
+	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
+	function handleIconChange(event) {
+		const file = event.target.files[0];
+		if (!file) return;
+
+		setPreviewUrl(URL.createObjectURL(file));
+		setFile(file);
+	}
 
 	function onHideWrapper() {
 		onHide();
 		setVagaData({});
+		setPreviewUrl(null);
+	}
+
+	async function handleSave() {
+		if (file) {
+			try {
+				const formData = new FormData();
+				formData.append("file", file);
+
+				const uploadResponse = await fetch(`${API_URL}/upload`, {
+					method: "POST",
+					body: formData,
+				});
+
+				if (!uploadResponse.ok) {
+					throw new Error("Something went wrong", { cause: uploadResponse });
+				}
+
+				const { fileName } = await uploadResponse.json();
+
+				vagaData.icon = fileName;
+			} catch (error) {
+				console.error(error);
+
+				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro");
+			}
+		}
+
+		onSave(vagaData);
+		onHideWrapper();
 	}
 
 	return (
@@ -208,113 +252,119 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate }) {
 			</Modal.Header>
 
 			<Modal.Body>
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="title-edit">
-						Titulo
-					</FormLabel>
-					<FormControl
-						id="title-edit"
-						placeholder="Título da vaga"
-						value={vagaData.title ?? data?.title}
-						onChange={(e) => setVagaData((state) => ({ ...state, title: e.target.value }))}
-						required={isCreate}
-						maxLength={100}
-					/>
-				</FormGroup>
+				<Form>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="title-edit">
+							Titulo
+						</FormLabel>
+						<FormControl
+							id="title-edit"
+							placeholder="Título da vaga"
+							value={vagaData.title ?? data?.title}
+							onChange={(e) => setVagaData((state) => ({ ...state, title: e.target.value }))}
+							required={isCreate}
+							maxLength={100}
+						/>
+					</FormGroup>
 
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="description-edit">
-						Descrição
-					</FormLabel>
-					<FormControl
-						id="description-edit"
-						placeholder="Descrição da vaga"
-						onChange={(e) => setVagaData((state) => ({ ...state, description: e.target.value }))}
-						value={vagaData.description ?? data?.description}
-						required={isCreate}
-						as="textarea"
-						maxLength={1_000}
-					/>
-				</FormGroup>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="description-edit">
+							Descrição
+						</FormLabel>
+						<FormControl
+							id="description-edit"
+							placeholder="Descrição da vaga"
+							onChange={(e) => setVagaData((state) => ({ ...state, description: e.target.value }))}
+							value={vagaData.description ?? data?.description}
+							required={isCreate}
+							as="textarea"
+							maxLength={1_000}
+						/>
+					</FormGroup>
 
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="icone-vaga-edit">
-						Ícone
-					</FormLabel>
-					<FormControl
-						id="icone-vaga-edit"
-						placeholder="Ícone da vaga"
-						onChange={(e) => setVagaData((state) => ({ ...state, icon: e.target.value }))}
-						value={vagaData.icon ?? data?.icon}
-						required={isCreate}
-						maxLength={100}
-					/>
-				</FormGroup>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="amount-slots-edit">
+							Quantidade de vagas
+						</FormLabel>
+						<FormControl
+							id="amount-slots-edit"
+							placeholder="Quantidade de vagas"
+							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
+							value={vagaData.amountSlots ?? data?.amountSlots}
+							required={isCreate}
+							type="number"
+							style={{ maxWidth: "18rem" }}
+						/>
+					</FormGroup>
 
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="amount-slots-edit">
-						Quantidade de vagas
-					</FormLabel>
-					<FormControl
-						id="amount-slots-edit"
-						placeholder="Quantidade de vagas"
-						onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
-						value={vagaData.amountSlots ?? data?.amountSlots}
-						required={isCreate}
-						type="number"
-						style={{ maxWidth: "18rem" }}
-					/>
-				</FormGroup>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="public-edit">
+							Pública
+						</FormLabel>
+						<FormCheck
+							id="public-edit"
+							placeholder="Pública"
+							onChange={(e) =>
+								setVagaData((state) => ({
+									...state,
+									public: state.public !== undefined ? !state.public : e.target.value,
+								}))
+							}
+							checked={vagaData.public ?? data?.public}
+							required={isCreate}
+							type="switch"
+						/>
+					</FormGroup>
 
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="public-edit">
-						Pública
-					</FormLabel>
-					<FormCheck
-						id="public-edit"
-						placeholder="Pública"
-						onChange={(e) =>
-							setVagaData((state) => ({
-								...state,
-								public: state.public !== undefined ? !state.public : e.target.value,
-							}))
-						}
-						checked={vagaData.public ?? data?.public}
-						required={isCreate}
-						type="switch"
-					/>
-				</FormGroup>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="status-edit">
+							Estado
+						</FormLabel>
+						<FormSelect
+							id="status-edit"
+							placeholder="Estado da vaga"
+							onChange={(e) => setVagaData((state) => ({ ...state, status: e.target.value }))}
+							value={vagaData.status ?? data?.status ?? -1}
+							required={isCreate}
+							style={{ maxWidth: "18rem" }}
+						>
+							<option value="-1" disabled>
+								Escolha o estado da vaga
+							</option>
+							<option value="0">Aberta</option>
+							<option value="1">Fechada</option>
+						</FormSelect>
+					</FormGroup>
 
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="status-edit">
-						Estado
-					</FormLabel>
-					<FormSelect
-						id="status-edit"
-						placeholder="Estado da vaga"
-						onChange={(e) => setVagaData((state) => ({ ...state, status: e.target.value }))}
-						value={vagaData.status ?? data?.status ?? -1}
-						required={isCreate}
-						style={{ maxWidth: "18rem" }}
-					>
-						<option value="-1" disabled>
-							Escolha o estado da vaga
-						</option>
-						<option value="0">Aberta</option>
-						<option value="1">Fechada</option>
-					</FormSelect>
-				</FormGroup>
+					<FormGroup className="mb-3">
+						<FormLabel className="text-black" htmlFor="icone-vaga-edit">
+							Ícone
+						</FormLabel>
+
+						<div className="d-flex align-items-center gap-3">
+							<FormControl
+								id="icone-vaga-edit"
+								onChange={handleIconChange}
+								required={isCreate}
+								type="file"
+								style={{ maxWidth: "18rem" }}
+								accept="image/*"
+							/>
+
+							{previewUrl ?? vagaData.icon ?? data?.icon ? (
+								<img
+									className="ratio-1x1 object-cover"
+									src={previewUrl ?? resolveIcon(vagaData.icon ?? data?.icon)}
+									height={42}
+								/>
+							) : null}
+						</div>
+					</FormGroup>
+				</Form>
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button
-					onClick={() => {
-						onSave(vagaData);
-						onHide();
-						setVagaData({});
-					}}
-					variant="success"
-				>
+				<Button onClick={handleSave} variant="success">
 					Guardar
 				</Button>
 

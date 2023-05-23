@@ -2,7 +2,7 @@ const { body, param } = require("express-validator");
 const { Candidatura } = require("../database/index.js");
 const Utilizador = require("../database/model/Utilizador.js");
 const Vaga = require("../database/model/Vaga.js");
-const { requireLogin, requirePermission } = require("../middleware/authentication.js");
+const { requireLogin, requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
@@ -29,12 +29,31 @@ module.exports = {
 	],
 
 	read: [
-		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		async (_req, res) => {
+		requireLogin(),
+
+		async (req, res) => {
+			const { admin } = req.query;
+
+			if (admin !== undefined) {
+				if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
+
+				res.json(
+					await Candidatura.findAll({
+						include: [{ model: Utilizador, as: "utilizador" }, Vaga],
+						order: [["id", "ASC"]],
+					}),
+				);
+
+				return;
+			}
+
 			res.json(
 				await Candidatura.findAll({
-					include: [{ model: Utilizador, as: "utilizador" }, Vaga],
-					order: [["id", "ASC"]],
+					where: {
+						idUser: req.user.id,
+					},
+					include: [Vaga],
+					order: [["submissionDate", "ASC"]],
 				}),
 			);
 		},

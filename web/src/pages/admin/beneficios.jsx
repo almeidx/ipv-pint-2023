@@ -212,9 +212,8 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 	function onHideWrapper() {
 		onHide();
 		setBeneficioData({});
+		setPreviewUrl(null);
 	}
-
-	// TODO: Create preview doesn't work?
 
 	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
 	function handleIconChange(event) {
@@ -251,8 +250,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 		}
 
 		onSave(beneficioData);
-		onHide();
-		setBeneficioData({});
+		onHideWrapper();
 	}
 
 	return (
@@ -322,9 +320,9 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 							accept="image/*"
 						/>
 
-						{beneficioData.iconeBeneficio ?? data?.iconeBeneficio ? (
+						{previewUrl ?? beneficioData.iconeBeneficio ?? data?.iconeBeneficio ? (
 							<img
-								className="ratio-1x1"
+								className="ratio-1x1 object-cover"
 								src={previewUrl ?? resolveIcon(beneficioData.iconeBeneficio ?? data?.iconeBeneficio)}
 								height={42}
 							/>

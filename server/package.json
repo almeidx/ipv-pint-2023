@@ -6,7 +6,8 @@
 		"start": "env-cmd node .",
 		"start-dev": "env-cmd node .",
 		"format": "prettier --write .",
-		"fmt": "pnpm format"
+		"fmt": "pnpm format",
+		"watch": "env-cmd node --watch src src/index.js"
 	},
 	"dependencies": {
 		"@sendgrid/mail": "^7.7.0",
