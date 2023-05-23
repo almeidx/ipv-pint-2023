@@ -76,6 +76,9 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
                     intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
                     intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
+                    intent.putExtra("titulo", negocio.titulo)
+                    intent.putExtra("estado", negocio.estado)
+                    intent.putExtra("data", negocio.dataFinalizacao)
 
                     view.context.startActivity(intent)
                 }
