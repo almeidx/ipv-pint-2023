@@ -3,12 +3,24 @@ package com.example.pint_mobile.pages.admin.edit
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.editNegocio
+import java.util.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar Negócio") {
 
     private var idNegocio = 0
+    lateinit var estado: String
+    private lateinit var getEstado: ArrayList<Int>
+    private lateinit var getData: ArrayList<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,27 +31,75 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         val centroTrabalhoPostalCode = intent.getStringExtra("centroTrabalhoPostalCode")
         val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
         val cliente = intent.getStringExtra("Cliente")
-        val status = intent.getIntExtra("status", 0)
+        getEstado = intent.getIntegerArrayListExtra("estado")!!
+        getData = intent.getStringArrayListExtra("data")!!
+
+        getEstado.sort()
+        val outputDateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val currentDate = Date()
+
+        Log.i("estado", getEstado.toString())
+        Log.i("data", getData.toString())
+
+        val items = arrayOf(
+            "Em espera",
+            "Em análise",
+            "Em desenvolvimento",
+            "Em finalização",
+            "Concluído"
+        )
 
         idNegocio = intent.getIntExtra("id", 0)
 
+        val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
+        estado.setText(items[getEstado[0]])
+
+        val setNextState = findViewById<Button>(R.id.setNextStatex)
+        setNextState.setOnClickListener {
+            if (getEstado.isEmpty()) {
+                getEstado.add(1)
+
+                val formattedDateTime = outputDateTimeFormat.format(currentDate)
+                getData.add(formattedDateTime)
+
+                estado.setText(items[getEstado[getEstado.size - 1]])
+
+                Log.i("estado", getEstado.toString())
+                Log.i("data", getData.toString())
+            } else if (getEstado[getEstado.size - 1] < 2) {
+                getEstado.add(2)
+
+                val formattedDateTime = outputDateTimeFormat.format(currentDate)
+                getData.add(formattedDateTime)
+
+                estado.setText(items[getEstado[getEstado.size - 1]])
+
+                Log.i("estado", getEstado.toString())
+                Log.i("data", getData.toString())
+            } else if (getEstado[getEstado.size - 1] < 3) {
+                getEstado.add(3)
+
+                val formattedDateTime = outputDateTimeFormat.format(currentDate)
+                getData.add(formattedDateTime)
+
+                estado.setText(items[getEstado[getEstado.size - 1]])
+                Log.i("estado", getEstado.toString())
+                Log.i("data", getData.toString())
+            } else if (getEstado[getEstado.size - 1] < 4) {
+                getEstado.add(4)
+
+                val formattedDateTime = outputDateTimeFormat.format(currentDate)
+                getData.add(formattedDateTime)
+
+                estado.setText(items[getEstado[getEstado.size - 1]])
+                Log.i("estado", getEstado.toString())
+            }
+        }
 
         val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
         clienteEdit.setText(cliente)
         clienteEdit.isFocusable = false
         clienteEdit.isFocusableInTouchMode = false
-
-        val statusEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.statusNegocioEdit)
-        statusEdit.setText(
-            when (status) {
-                1 -> "Em espera"
-                2 -> "A validar"
-                3 -> "Em desenvolvimento"
-                4 -> "Em conclusão"
-                5 -> "Concluído"
-                else -> "Cancelado"
-            }
-        )
 
         Log.i("idNegocio", idNegocio.toString())
 
@@ -60,6 +120,9 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
         val FuncionarioEmailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioEmailNegocioEdit)
         FuncionarioEmailEdit.setText(FuncionarioEmail)
+
+
+
     }
 
     fun goToCriarReuniao(view: View) {
@@ -67,4 +130,11 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         intent.putExtra("idNegocio", idNegocio)
         startActivity(intent)
     }
+
+    fun editarNegocio(view: View) {
+
+        editNegocio( idNegocio, getEstado, this)
+
+    }
+
 }

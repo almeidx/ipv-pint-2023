@@ -73,29 +73,41 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/statusNegocio"
+                <Button
+					android:id="@+id/setNextStatex"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="25dp"
+					android:layout_marginTop="25dp"
+					android:layout_marginEnd="25dp"
+					android:background="@color/white"
+					android:text="Avançar estado do negocio"
+					android:textColor="@color/white"
+				/>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/estadoDoNegocio"
 					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="25dp"
 					android:layout_marginTop="25dp"
 					android:layout_marginEnd="25dp"
-					android:hint="Status do negocio"
-					android:orientation="horizontal"
+					android:hint="Estado do negocio"
 					app:boxBackgroundColor="@color/white"
 					app:boxStrokeColor="@color/black"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-				>
+					>
 
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/statusNegocioEdit"
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/estadoDoNegocioEdit"
 						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-					/>
+						android:layout_height="wrap_content"
+						/>
 
-                </com.google.android.material.textfield.TextInputLayout>
+				</com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/funcionarioDoNegocio"
@@ -246,17 +258,6 @@
 					android:orientation="horizontal"
 					android:layout_marginBottom="67dp"
 				>
-
-                    <Button
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:background="@drawable/edit_button"
-						android:backgroundTint="@color/white"
-						android:text="Apagar"
-						android:textColor="@color/white"
-						android:textSize="10dp"
-					/>
-
                     <Button
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -267,6 +268,7 @@
 						android:text="Guardar"
 						android:textColor="@color/white"
 						android:textSize="10dp"
+						android:onClick="editarNegocio"
 					/>
                 </LinearLayout>
 

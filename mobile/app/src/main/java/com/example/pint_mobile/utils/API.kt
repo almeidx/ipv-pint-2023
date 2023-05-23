@@ -94,40 +94,73 @@ fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasAc
     queue.add(request)
 }
 
-fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter: NegociosActivity.NegocioAdapter, ctx: Context, admin: Boolean = false) {
+fun listaNegocios(
+    list: ArrayList<Negocio>,
+    allList: ArrayList<Negocio>,
+    adapter: NegociosActivity.NegocioAdapter,
+    ctx: Context,
+    admin: Boolean = false
+) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/negocios${if (admin)"?admin" else ""}", null, { response -> try {
-        for (i in 0 until response.length()) {
-            val rawNegocio = response.getJSONObject(i)
-            var funcionarioResponsavel = rawNegocio.optJSONObject("funcionarioResponsavel")
-            var centroTrabalho = rawNegocio.optJSONObject("centroTrabalho")
+    val request = JsonArrayRequestWithCookie(
+        ctx,
+        Request.Method.GET,
+        "$API_URL/negocios${if (admin) "?admin" else ""}",
+        null,
+        { response ->
+            try {
+                for (i in 0 until response.length()) {
+                    val rawNegocio = response.getJSONObject(i)
+                    var funcionarioResponsavel = rawNegocio.optJSONObject("funcionarioResponsavel")
+                    var centroTrabalho = rawNegocio.optJSONObject("centroTrabalho")
 
-            val negocio = Negocio(
-                rawNegocio.getInt("id"),
-                rawNegocio.getString("title"),
-                rawNegocio.getString("description"),
-                rawNegocio.getJSONObject("cliente").getString("name"),
-                rawNegocio.getJSONObject("criador").getString("email"),
-                rawNegocio.getJSONObject("criador").getString("name"),
-                rawNegocio.getJSONObject("areaNegocio").getString("name"),
-                funcionarioResponsavel?.getString("email") ?: "Sem funcionário responsável",
-                funcionarioResponsavel?.getString("name") ?: "Sem funcionário responsável",
-                centroTrabalho?.getString("name") ?: "Sem centro de trabalho",
-                centroTrabalho?.getString("location") ?: "Sem centro de trabalho",
-                centroTrabalho?.getString("postalCode") ?: "Sem centro de trabalho",
-                centroTrabalho?.getString("address") ?: "Sem centro de trabalho",
-            )
-            list.add(negocio)
-        }
-        allList.addAll(list)
-        adapter.notifyDataSetChanged()
-    } catch (e: JSONException) {
-        e.printStackTrace()
-    }
-    }, { error -> error.printStackTrace() })
+                    val estadosArray = rawNegocio.getJSONArray("estados")
+                    val estadoList = ArrayList<Int>()
+                    val dataList = ArrayList<String>()
+
+                    for (j in 0 until estadosArray.length()) {
+                        val estadoObj = estadosArray.getJSONObject(j)
+                        val estado = estadoObj.getInt("estado")
+                        estadoList.add(estado)
+                    }
+
+                    for (j in 0 until estadosArray.length()) {
+                        val estadoObj = estadosArray.getJSONObject(j)
+                        val data = estadoObj.getString("dataFinalizacao")
+                        dataList.add(data)
+                    }
+
+                    val negocio = Negocio(
+                        rawNegocio.getInt("id"),
+                        rawNegocio.getString("title"),
+                        rawNegocio.getString("description"),
+                        rawNegocio.getJSONObject("cliente").getString("name"),
+                        rawNegocio.getJSONObject("criador").getString("email"),
+                        rawNegocio.getJSONObject("criador").getString("name"),
+                        rawNegocio.getJSONObject("areaNegocio").getString("name"),
+                        funcionarioResponsavel?.getString("email") ?: "Sem funcionário responsável",
+                        funcionarioResponsavel?.getString("name") ?: "Sem funcionário responsável",
+                        centroTrabalho?.getString("name") ?: "Sem centro de trabalho",
+                        centroTrabalho?.getString("location") ?: "Sem centro de trabalho",
+                        centroTrabalho?.getString("postalCode") ?: "Sem centro de trabalho",
+                        centroTrabalho?.getString("address") ?: "Sem centro de trabalho",
+                        estadoList,
+                        dataList
+                    )
+                    list.add(negocio)
+                }
+                allList.addAll(list)
+                adapter.notifyDataSetChanged()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        },
+        { error -> error.printStackTrace() }
+    )
     queue.add(request)
 }
+
 
 fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador>, adapter: AdminUtilizadoresActivity.UtilizadorAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
@@ -969,3 +1002,39 @@ fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clie
     queue.add(request)
 }
 
+fun editNegocio( idNegocio: Int,  estado: ArrayList<Int>, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("estados", JSONArray(estado))
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/negocios/$idNegocio", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Negócio editado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminNegociosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
