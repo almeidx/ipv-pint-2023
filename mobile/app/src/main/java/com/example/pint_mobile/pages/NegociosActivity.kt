@@ -60,7 +60,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
-            tituloNegocio.text = negocio.titulo + ": " + getStatusName(negocio.status)
+            tituloNegocio.text = negocio.titulo
             descricaoNegocio.text = negocio.descricao
             clienteNegocio.text = negocio.cliente
 
@@ -76,8 +76,6 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
                     intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
                     intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
-                    intent.putExtra("status", negocio.status)
-
 
                     view.context.startActivity(intent)
                 }

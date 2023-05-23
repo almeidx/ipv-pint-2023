@@ -26,6 +26,8 @@ class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vag
         val numeroVagas = intent.getStringExtra("slots")
         val status = intent.getIntExtra("status", -1)
 
+        Log.i("publico", publico.toString())
+
         val tituloShow = findViewById<TextView>(R.id.titulo)
         tituloShow.text = titulo
 
@@ -42,15 +44,17 @@ class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vag
         numeroVagasTextView.setText(numeroVagas)
 
         val publicoTextView = findViewById<CheckBox>(R.id.checkBoxVaga)
-        publicoTextView.isChecked = publico == "Aberta"
+        publicoTextView.isChecked = publico == "Colaboradores"
 
-        val toggleButton = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton)
+        val toggleButton = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton2)
         val button1 = findViewById<Button>(R.id.aberta)
         val button2 = findViewById<Button>(R.id.fechada)
 
-        Log.d("status", status.toString())
-
-        toggleButton.check(if (status == 0) button1.id else button2.id)
+        if (status == 0) {
+            toggleButton.check(button1.id)
+        } else if (status == 1) {
+            toggleButton.check(button2.id)
+        }
     }
 
     fun apagarVaga(view: View) {
@@ -61,14 +65,11 @@ class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vag
         val titulo = findViewById<TextInputEditText>(R.id.tituloVagaEdit).text.toString()
         val descricao = findViewById<TextInputEditText>(R.id.descricaoVagaEdit).text.toString()
         val numeroVagas = findViewById<TextInputEditText>(R.id.numeroVagasEdit).text.toString().toInt()
-        val publico = findViewById<CheckBox>(R.id.checkBoxVaga).isChecked
-        val status = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton).checkedButtonId == R.id.aberta
+        val publico = findViewById<CheckBox>(R.id.checkBoxVaga).isChecked.not()
+        val toggleButton = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton2)
 
-
-        val statusInt = if (status) 0 else 1
+        val statusInt = if (toggleButton.checkedButtonId == R.id.aberta) 0 else 1
 
         editVaga(id, titulo, descricao, numeroVagas, publico, statusInt, this)
     }
-
-
 }

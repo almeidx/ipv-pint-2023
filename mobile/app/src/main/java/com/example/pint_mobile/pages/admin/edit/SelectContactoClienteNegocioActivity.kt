@@ -27,14 +27,17 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        clienteIds = intent.getIntegerArrayListExtra("clienteIds")!!
+
         val lista = findViewById<ListView>(R.id.listaContactosCliente22)
         contactosAdapter = ContactosAdapter(
             contactosList,
             R.layout.item_contacto_cliente,
+            intent.getStringArrayListExtra("clienteNome")!!,
+            clienteIds,
+            intent.getIntegerArrayListExtra("contactoIds")!!,
+            intent.getStringArrayListExtra("contactoNome")!!,
         )
-
-        clienteIds = intent.getIntegerArrayListExtra("clienteIds") ?: ArrayList()
-        Log.i("clienteIds", clienteIds.toString())
 
         val idCliente = clienteIds[0]
 
@@ -62,7 +65,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         }
     }
 
-    class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int) : BaseAdapter() {
+    class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val contactoIds: ArrayList<Int> = ArrayList(),  private val contactoNames: ArrayList<String> = ArrayList()) : BaseAdapter(){
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val contacto = contactos[position]
@@ -73,8 +76,27 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             idClienteContacto.text = contacto.idCliente.toString()
             valueContacto.text = contacto.value
 
+            Log.i("clienteIds", clienteIds.toString())
+            Log.i("clienteNome", clienteNome.toString())
+            Log.i("contactoIds", contactoIds.toString())
+            Log.i("contactoNames", contactoNames.toString())
+
             view.setOnClickListener {
                 val intent = Intent(view.context, CriarNegocioActivity::class.java)
+
+                contactoIds.add(contacto.idContacto)
+                contactoNames.add(contacto.value)
+
+                intent.putExtra("clienteNome", clienteNome)
+                intent.putExtra("clienteIds", clienteIds)
+                intent.putExtra("contactoIds", contactoIds)
+                intent.putExtra("contactoNames", contactoNames)
+
+                Log.i("clienteIds", clienteIds.toString())
+                Log.i("clienteNome", clienteNome.toString())
+                Log.i("contactoIds", contactoIds.toString())
+                Log.i("contactoNames", contactoNames.toString())
+
 
                 view.context.startActivity(intent)
             }

@@ -3,6 +3,7 @@ package com.example.pint_mobile.utils
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
@@ -27,6 +28,7 @@ import com.example.pint_mobile.pages.admin.AdminReunioesActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
+import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
 import org.json.JSONArray
 import org.json.JSONException
@@ -115,19 +117,15 @@ fun listaNegocios(list: ArrayList<Negocio>, allList: ArrayList<Negocio>, adapter
                 centroTrabalho?.getString("location") ?: "Sem centro de trabalho",
                 centroTrabalho?.getString("postalCode") ?: "Sem centro de trabalho",
                 centroTrabalho?.getString("address") ?: "Sem centro de trabalho",
-                rawNegocio.getInt("status"),
             )
             list.add(negocio)
         }
-
         allList.addAll(list)
-
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
     }
     }, { error -> error.printStackTrace() })
-
     queue.add(request)
 }
 
@@ -209,11 +207,33 @@ fun listaContactosCliente(list: ArrayList<Contacto>, allList: ArrayList<Contacto
             val contacto = Contacto(
                 rawContacto.getInt("idCliente"),
                 rawContacto.getString("value"),
+                rawContacto.getInt("id"),
             )
             list.add(contacto)
         }
 
         allList.addAll(list)
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivity.AreaNegocioAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/areas-de-negocio", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawArea = response.getJSONObject(i)
+            val area = AreaNegocio(
+                rawArea.getInt("id"),
+                rawArea.getString("name"),
+            )
+            list.add(area)
+        }
 
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
@@ -742,6 +762,8 @@ fun editVaga(id: Int, titulo:String, descricao:String, numeroVagas:Int, publico:
     body.put("amountSlots", numeroVagas)
     body.put("public", publico)
     body.put("status", statusInt)
+
+    Log.i("body", body.toString())
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/vagas/$id", body, Response.Listener { response ->
         Toast.makeText(ctx, "Vaga editada com sucesso!", Toast.LENGTH_LONG).show()
 
@@ -864,15 +886,17 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
     queue.add(request)
 }
 
-fun createNegocio(titulo:String, area:String, descricao:String, cliente:String, contactos:String, ctx: Context) {
+fun createNegocio(titulo:String, area:Int, descricao:String, cliente: Int, contactos: ArrayList<Int>, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
     body.put("title", titulo)
     body.put("description", descricao)
-    body.getJSONObject("cliente").put("name", cliente)
-    body.getJSONObject("contactos").put("contacto", contactos)
-    body.getJSONObject("area").put("name", area)
+    body.put("idCliente", cliente)
+    body.put("idAreaNegocio", area)
+    body.put("contactos", JSONArray(contactos))
+
+    Log.i("body", body.toString())
 
     Log.i("body", body.toString())
 
@@ -941,7 +965,7 @@ fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clie
 
             return super.parseNetworkResponse(response)
         }
-
     }
     queue.add(request)
 }
+

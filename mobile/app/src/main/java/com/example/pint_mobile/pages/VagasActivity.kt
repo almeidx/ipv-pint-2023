@@ -59,7 +59,7 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
             val tituloVaga  = view.findViewById<TextView>(R.id.titulo_vaga)
             val informacoesVaga = view.findViewById<TextView>(R.id.informacoes_vaga)
 
-            val publicText = if(vaga.publico) "Aberta" else "Colaboradores"
+            val publicText = if(!vaga.publico) "Colaboradores" else ""
 
             tituloVaga.text = vaga.titulo
             informacoesVaga.text = "$publicText | Vagas: ${vaga.slots}"
@@ -90,7 +90,6 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
                     view.context.startActivity(intent)
                 }
             }
-
             return view
         }
 

@@ -7,20 +7,21 @@
 	android:padding="10dp"
 	android:orientation="vertical"
 >
+	<TextView
+		android:id="@+id/valueContacto"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:textAppearanceMedium"
+		/>
 
     <TextView
 		android:id="@+id/idCliente"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:textColor="@color/black"
-		android:textAppearance="?android:textAppearanceMedium"
-	/>
-
-    <TextView
-		android:id="@+id/valueContacto"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
 		android:textAppearance="?android:textAppearanceSmall"
 	/>
+
+
 
 </LinearLayout>
