@@ -2,10 +2,19 @@ package com.example.pint_mobile.pages
 
 import android.content.Intent
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.login
 import com.google.android.material.textfield.TextInputEditText
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class LoginActivity : ActivityBase(R.layout.activity_login) {
     fun loginBtn(_view: View) {
@@ -23,7 +32,10 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     }
 
     fun loginFacebook(_view: View) {
+        val btnface = findViewById<Button>(R.id.loginFacebook)
+        btnface.setOnClickListener {
 
+        }
     }
 
     fun esqueceuPassword(_view: View) {
