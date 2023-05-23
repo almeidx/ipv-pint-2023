@@ -74,4 +74,7 @@
     <string name="pesquise_por_reunioes">Pesquise por Reuniões</string>
     <string name="selecionar_utilizadores">Selecionar Utilizadores</string>
     <string name="painel_admin">Painel de Admin</string>
+    <string name="facebook_app_id">1234</string>
+    <string name="facebook_client_token">56789</string>
+
 </resources>
