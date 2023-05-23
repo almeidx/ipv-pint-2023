@@ -8,6 +8,7 @@ const passport = require("passport");
 const session = require("express-session");
 const sgMail = require("@sendgrid/mail");
 const { sequelize } = require("./database/index.js");
+const areasDeNegocioRouter = require("./routes/areas-de-negocio.js");
 const authRouter = require("./routes/auth.js");
 const beneficiosRouter = require("./routes/beneficios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
@@ -63,6 +64,7 @@ app
 	.use(passport.session())
 	.use(morgan("dev"))
 	.use(authRouter)
+	.use("/areas-de-negocio", areasDeNegocioRouter)
 	.use("/beneficios", beneficiosRouter)
 	.use("/candidaturas", candidaturasRouter)
 	.use("/centros-de-trabalho", centrosDeTrabalhoRouter)
