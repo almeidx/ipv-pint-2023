@@ -10,7 +10,9 @@ function validate(checks) {
 		(req, res, next) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-				return res.status(400).json({ errors: errors.array() });
+				const array = errors.array();
+				console.log("errors:", array);
+				return res.status(400).json({ errors: array });
 			}
 
 			next();
