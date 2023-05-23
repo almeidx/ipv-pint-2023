@@ -77,9 +77,6 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }
 
-
-
-
     private fun pickDate() {
         val btn_timePicker = findViewById<Button>(R.id.dataReuniaoEdit)
         btn_timePicker.setOnClickListener {

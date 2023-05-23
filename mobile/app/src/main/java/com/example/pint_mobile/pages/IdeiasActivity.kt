@@ -17,7 +17,7 @@ class IdeiasActivity : ActivityBase(R.layout.activity_ideias, "Ideias") {
         super.onCreate(savedInstanceState)
 
         val items = arrayOf(getString(R.string.geral), getString(R.string.estabelecimento), getString(
-                    R.string.investimento), getString(R.string.negocio))
+            R.string.investimento), getString(R.string.negocio))
         val spinner = findViewById<Spinner>(R.id.categorias)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)

@@ -22,7 +22,7 @@ class AdminVagasActivity : ActivityBase(R.layout.activity_admin_vagas, "Administ
         super.onCreate(savedInstanceState)
 
         val lista = findViewById<ListView>(R.id.listaVagas)
-        vagasAdapter = VagasActivity.VagaAdapter(vagasList, R.layout.item_vaga, true)
+        vagasAdapter = VagasActivity.VagaAdapter(vagasList, R.layout.item_vaga_admin, true)
 
         lista.adapter = vagasAdapter
 

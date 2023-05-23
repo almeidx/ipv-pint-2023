@@ -27,13 +27,12 @@
 			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_height="64dp"
 			android:layout_width="270dp"
-			android:hint="Pesquise por clientes"
+			android:hint="Pesquise por contactos"
 			app:boxBackgroundColor="@color/white"
 			app:boxStrokeColor="@color/black"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
 		>
-
             <com.google.android.material.textfield.TextInputEditText
 				android:id="@+id/pesquisa"
 				android:layout_width="match_parent"

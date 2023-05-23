@@ -24,23 +24,11 @@
 		android:layout_marginTop="8dp"
 		android:layout_marginBottom="8dp"
 	/>
-
     <TextView
 		android:id="@+id/informacoes_vaga"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:textAppearanceSmall"
-	/>
-
-    <TextView
-		android:id="@+id/editar_vaga"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Editar"
-		android:layout_gravity="end"
-		android:background="@drawable/rounded"
-		android:textColor="@color/black"
-		android:textAlignment="textEnd"
 	/>
 
 </LinearLayout>
