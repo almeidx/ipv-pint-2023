@@ -4,6 +4,10 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { RiPencilLine } from "react-icons/ri";
 import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
@@ -14,12 +18,11 @@ import { Spinner } from "../components/Spinner.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 export function Negocios() {
 	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(`${API_URL}/negocios`, fetcher);
+	const [showCreateModal, setShowCreateModal] = useState(false);
 	const isLoggedIn = useIsLoggedIn();
 
 	const filtered = search
@@ -36,8 +39,12 @@ export function Negocios() {
 		return <ErrorBase title="Por favor, inicie a sessão para ver os seus negócios" showLogin page="/negocios" />;
 	}
 
+	async function handleCreate(data) {}
+
 	return (
 		<Page page="/negocios">
+			<CreateNegocioModal show={showCreateModal} onHide={() => setShowCreateModal(false)} onSave={handleCreate} />
+
 			<Container className="col-11 pt-5">
 				<SearchBar placeholder="Pesquise por negócios..." onSearch={(text) => setSearch(text)} />
 			</Container>
@@ -122,5 +129,49 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 				</ul>
 			</Card.Body>
 		</Card>
+	);
+}
+
+function CreateNegocioModal({ show, onHide, onSave }) {
+	const [negocioData, setNegocioData] = useState({});
+
+	function onHideWrapper() {
+		onHide();
+		setNegocioData({});
+	}
+
+	return (
+		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
+			<Modal.Header closeButton>
+				<Modal.Title id="manage-negocio-modal">Editar Negócio</Modal.Title>
+			</Modal.Header>
+
+			<Modal.Body>
+				<Form className="mb-3">
+					<Form.Label htmlFor="negocio-titulo-edit">Titulo</Form.Label>
+
+					<Form.Control
+						id="negocio-titulo-edit"
+						value={negocioData.title}
+						onChange={(e) => setNegocioData((state) => ({ ...state, title: e.target.value }))}
+					/>
+				</Form>
+			</Modal.Body>
+
+			<Modal.Footer>
+				<Button
+					onClick={() => {
+						onSave(negocioData);
+						onHide();
+						setNegocioData({});
+					}}
+					variant="success"
+				>
+					Criar
+				</Button>
+
+				<Button onClick={onHideWrapper}>Cancelar</Button>
+			</Modal.Footer>
+		</Modal>
 	);
 }

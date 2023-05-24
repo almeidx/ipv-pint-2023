@@ -2,11 +2,6 @@ import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import FormCheck from "react-bootstrap/FormCheck";
-import FormControl from "react-bootstrap/FormControl";
-import FormGroup from "react-bootstrap/FormGroup";
-import FormLabel from "react-bootstrap/FormLabel";
-import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -253,11 +248,11 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 
 			<Modal.Body>
 				<Form>
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="title-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="title-edit">
 							Titulo
-						</FormLabel>
-						<FormControl
+						</Form.Label>
+						<Form.Control
 							id="title-edit"
 							placeholder="Título da vaga"
 							value={vagaData.title ?? data?.title}
@@ -265,13 +260,13 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							required={isCreate}
 							maxLength={100}
 						/>
-					</FormGroup>
+					</Form.Group>
 
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="description-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="description-edit">
 							Descrição
-						</FormLabel>
-						<FormControl
+						</Form.Label>
+						<Form.Control
 							id="description-edit"
 							placeholder="Descrição da vaga"
 							onChange={(e) => setVagaData((state) => ({ ...state, description: e.target.value }))}
@@ -280,13 +275,13 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							as="textarea"
 							maxLength={1_000}
 						/>
-					</FormGroup>
+					</Form.Group>
 
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="amount-slots-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="amount-slots-edit">
 							Quantidade de vagas
-						</FormLabel>
-						<FormControl
+						</Form.Label>
+						<Form.Control
 							id="amount-slots-edit"
 							placeholder="Quantidade de vagas"
 							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
@@ -295,13 +290,13 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							type="number"
 							style={{ maxWidth: "18rem" }}
 						/>
-					</FormGroup>
+					</Form.Group>
 
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="public-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="public-edit">
 							Pública
-						</FormLabel>
-						<FormCheck
+						</Form.Label>
+						<Form.Check
 							id="public-edit"
 							placeholder="Pública"
 							onChange={(e) =>
@@ -314,13 +309,13 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							required={isCreate}
 							type="switch"
 						/>
-					</FormGroup>
+					</Form.Group>
 
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="status-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="status-edit">
 							Estado
-						</FormLabel>
-						<FormSelect
+						</Form.Label>
+						<Form.Select
 							id="status-edit"
 							placeholder="Estado da vaga"
 							onChange={(e) => setVagaData((state) => ({ ...state, status: e.target.value }))}
@@ -333,16 +328,16 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							</option>
 							<option value="0">Aberta</option>
 							<option value="1">Fechada</option>
-						</FormSelect>
-					</FormGroup>
+						</Form.Select>
+					</Form.Group>
 
-					<FormGroup className="mb-3">
-						<FormLabel className="text-black" htmlFor="icone-vaga-edit">
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="icone-vaga-edit">
 							Ícone
-						</FormLabel>
+						</Form.Label>
 
 						<div className="d-flex align-items-center gap-3">
-							<FormControl
+							<Form.Control
 								id="icone-vaga-edit"
 								onChange={handleIconChange}
 								required={isCreate}
@@ -359,7 +354,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 								/>
 							) : null}
 						</div>
-					</FormGroup>
+					</Form.Group>
 				</Form>
 			</Modal.Body>
 

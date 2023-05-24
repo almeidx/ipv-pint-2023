@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormCheck from "react-bootstrap/FormCheck";
-import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
+import FormLabel from "react-bootstrap/FormLabel";
 
 /**
  * @param {Object} props
