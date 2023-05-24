@@ -13,6 +13,7 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Notificacao
 import com.example.pint_mobile.utils.formatDate
 import com.example.pint_mobile.utils.listaNotificacoes
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notificações") {
@@ -29,6 +30,12 @@ class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notif
         lista.adapter = notificacaoAdapter
 
         listaNotificacoes(notificacoesList, notificacaoAdapter, this)
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.inicio).isEnabled = true
+        nav.menu.findItem(R.id.notificacoes).isEnabled = false
+        nav.menu.findItem(R.id.notificacoes).isChecked = true
     }
 
     class NotificacaoAdapter(private val notificacoes: ArrayList<Notificacao>, private val item: Int) : BaseAdapter() {

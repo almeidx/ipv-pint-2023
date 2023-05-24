@@ -12,6 +12,7 @@ import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefícios") {
     private val beneficiosList = ArrayList<Beneficio>()
@@ -49,6 +50,9 @@ class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefíci
             }
          }
 
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
