@@ -8,6 +8,7 @@ import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.listaTipoUtilizador
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizador, "Editar Utilizador") {
     lateinit var cargo: String
@@ -45,5 +46,9 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 }

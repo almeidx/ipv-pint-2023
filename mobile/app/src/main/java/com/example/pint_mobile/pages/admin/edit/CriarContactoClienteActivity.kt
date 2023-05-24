@@ -11,6 +11,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createClient
 import com.example.pint_mobile.utils.createContactoClient
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CriarContactoClienteActivity : ActivityBase(R.layout.activity_criar_negocio, "Criar Contacto") {
 
@@ -32,6 +33,7 @@ class CriarContactoClienteActivity : ActivityBase(R.layout.activity_criar_negoci
         Log.i("clienteIds", clienteIds.toString())
         Log.i("contactoIds", contactoIds.toString())
         Log.i("contactoNames", contactoNames.toString())
+
 
     }
 

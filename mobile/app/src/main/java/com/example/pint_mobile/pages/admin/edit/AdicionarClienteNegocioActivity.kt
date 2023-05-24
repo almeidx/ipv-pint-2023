@@ -19,6 +19,7 @@ import com.example.pint_mobile.utils.Cliente
 import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.listaClientes
 import com.example.pint_mobile.utils.listaIdeias
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar_cliente_negocio, "Adicionar Cliente") {
     private val clientesList = ArrayList<Cliente>()
@@ -58,6 +59,10 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
                 false
             }
         }
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class ClienteAdapter(private val clientes: ArrayList<Cliente>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList()) : BaseAdapter() {

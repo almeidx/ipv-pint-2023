@@ -11,6 +11,7 @@ import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.listaNegocios
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Administração de Negócios") {
     private val negociosList = ArrayList<Negocio>()
@@ -45,6 +46,9 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun CriarNegocio(view: android.view.View) {

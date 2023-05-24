@@ -12,6 +12,7 @@ import com.example.pint_mobile.pages.admin.edit.CriarVagaActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Vaga
 import com.example.pint_mobile.utils.listaVagas
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminVagasActivity : ActivityBase(R.layout.activity_admin_vagas, "Administração de Vagas") {
     private val vagasList = ArrayList<Vaga>()
@@ -48,7 +49,9 @@ class AdminVagasActivity : ActivityBase(R.layout.activity_admin_vagas, "Administ
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun CriarVaga(view: View) {

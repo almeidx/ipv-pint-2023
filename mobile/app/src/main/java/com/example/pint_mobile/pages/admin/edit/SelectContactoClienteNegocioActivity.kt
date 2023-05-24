@@ -16,6 +16,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Contacto
 import com.example.pint_mobile.utils.listaContactosCliente
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_select_contacto_cliente_negocio, "Selecionar Contacto") {
 
@@ -74,6 +75,9 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val contactoIds: ArrayList<Int> = ArrayList(),  private val contactoNames: ArrayList<String> = ArrayList()) : BaseAdapter(){

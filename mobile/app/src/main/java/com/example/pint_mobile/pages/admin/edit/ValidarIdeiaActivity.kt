@@ -11,6 +11,7 @@ import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteIdeia
 import com.example.pint_mobile.utils.editIdeia
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
 class ValidarIdeiaActivity : ActivityBase(R.layout.activity_validar_ideia, "Validar Ideia") {
@@ -44,7 +45,9 @@ class ValidarIdeiaActivity : ActivityBase(R.layout.activity_validar_ideia, "Vali
         val validacaoIdeiaEdit = findViewById<CheckBox>(R.id.checkBoxIdeia)
         validacaoIdeiaEdit.isChecked = validacao
 
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun apagarIdeia(view: View) {

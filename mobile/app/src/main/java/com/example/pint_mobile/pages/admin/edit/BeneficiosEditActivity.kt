@@ -13,6 +13,7 @@ import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteBeneficio
 import com.example.pint_mobile.utils.editBeneficio
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
 class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "Editar Benefício") {
@@ -42,6 +43,10 @@ class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "
 
         val iconTextView = findViewById<TextInputEditText>(R.id.iconBeneficioEdit)
         iconTextView.setText(icon)
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
 
     }
 

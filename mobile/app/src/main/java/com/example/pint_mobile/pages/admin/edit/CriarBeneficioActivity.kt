@@ -16,6 +16,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.criarBeneficio
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
 class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "Criar Benefício"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
@@ -37,6 +38,10 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         super.onCreate(savedInstanceState)
 
         pickDate()
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     private fun getDateTimeCalendar() {

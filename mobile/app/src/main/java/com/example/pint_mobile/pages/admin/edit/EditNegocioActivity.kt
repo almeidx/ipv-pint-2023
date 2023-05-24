@@ -10,6 +10,7 @@ import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.editNegocio
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Date
@@ -97,7 +98,9 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         FuncionarioEmailEdit.setText(FuncionarioEmail)
 
 
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun goToCriarReuniao(view: View) {

@@ -17,6 +17,7 @@ import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Reuniao
 import com.example.pint_mobile.utils.listaReunioes
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Administração de Reuniões") {
     private val reunioesList = ArrayList<Reuniao>()
@@ -51,6 +52,9 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class ReuniaoAdapter(private val reunioes: ArrayList<Reuniao>, private val item: Int) : BaseAdapter() {

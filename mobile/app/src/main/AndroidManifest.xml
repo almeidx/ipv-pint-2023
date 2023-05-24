@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
 
 
     <application
@@ -32,6 +31,9 @@
             android:exported="false"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".pages.admin.edit.CriarClienteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pages.admin.edit.SelectContactoClienteNegocioActivity"
             android:exported="false"

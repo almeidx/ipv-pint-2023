@@ -13,6 +13,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Candidatura
 import com.example.pint_mobile.utils.listaCandidaturas
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidaturas, "Administração de Candidaturas") {
     private val candidaturasList = ArrayList<Candidatura>()
@@ -48,7 +49,9 @@ class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidatu
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class CandidaturaAdapter(private val candidaturas: ArrayList<Candidatura>, private val item: Int) : BaseAdapter() {

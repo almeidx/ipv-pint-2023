@@ -3,12 +3,15 @@ package com.example.pint_mobile.pages
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteCurrentUser
 import com.example.pint_mobile.utils.getCurrentUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -16,6 +16,7 @@ import com.example.pint_mobile.pages.admin.edit.ValidarIdeiaActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.listaIdeias
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Administração de Ideias") {
     private val ideiasList = ArrayList<Ideia>()
@@ -50,6 +51,9 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class IdeiaAdapter(private val ideias: ArrayList<Ideia>, private val item: Int) : BaseAdapter() {
