@@ -121,15 +121,15 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         }
     }
 
-    fun AdicionarClienteNegocio(view: android.view.View) {
-        val intent = android.content.Intent(this, AdicionarClienteNegocioActivity::class.java)
+    fun AdicionarClienteNegocio(view: View) {
+        val intent = Intent(this, AdicionarClienteNegocioActivity::class.java)
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("clienteIds", clienteIds)
         startActivity(intent)
     }
 
-    fun AdicionarContactoNegocio(view: android.view.View) {
-        val intent = android.content.Intent(this, SelectContactoClienteNegocioActivity::class.java)
+    fun AdicionarContactoNegocio(view: View) {
+        val intent = Intent(this, SelectContactoClienteNegocioActivity::class.java)
         intent.putExtra("clienteIds", clienteIds)
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("contactoIds", contactoIds)

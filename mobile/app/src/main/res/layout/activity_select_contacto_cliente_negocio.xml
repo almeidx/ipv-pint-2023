@@ -48,7 +48,7 @@
 			android:src="@drawable/add"
 			android:layout_gravity="center"
 			android:layout_marginLeft="25dp"
-			android:onClick="adicionarNovoContacto"
+			android:onClick="adicionarNovoContactoCliente"
 		/>
     </LinearLayout>
 

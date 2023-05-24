@@ -22,12 +22,23 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
     private val contactosList = ArrayList<Contacto>()
     private val allContactosList = ArrayList<Contacto>()
     private lateinit var contactosAdapter: ContactosAdapter
+    private lateinit var clientNames: ArrayList<String>
     private lateinit var clienteIds: ArrayList<Int>
+    private lateinit var contactoIds: ArrayList<Int>
+    private lateinit var contactoNames: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        clientNames = intent.getStringArrayListExtra("clienteNome")!!
         clienteIds = intent.getIntegerArrayListExtra("clienteIds")!!
+        contactoIds = intent.getIntegerArrayListExtra("contactoIds")!!
+        contactoNames = intent.getStringArrayListExtra("contactoNome")!!
+
+        Log.i("clientNames", clientNames.toString())
+        Log.i("clienteIds", clienteIds.toString())
+        Log.i("contactoIds", contactoIds.toString())
+        Log.i("contactoNames", contactoNames.toString())
 
         val lista = findViewById<ListView>(R.id.listaContactosCliente22)
         contactosAdapter = ContactosAdapter(
@@ -115,6 +126,17 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         override fun getCount(): Int {
             return contactos.size
         }
+    }
+
+    fun adicionarNovoContactoCliente(view: View) {
+        val intent = Intent(this, CriarContactoClienteActivity::class.java)
+
+        intent.putExtra("clienteNome", clientNames)
+        intent.putExtra("clienteIds", clienteIds)
+        intent.putExtra("contactoIds", contactoIds)
+        intent.putExtra("contactoNames", contactoNames)
+
+        startActivity(intent)
     }
 
 }

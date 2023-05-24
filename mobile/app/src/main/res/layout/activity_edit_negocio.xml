@@ -268,7 +268,7 @@
 						android:text="Guardar"
 						android:textColor="@color/white"
 						android:textSize="10dp"
-						android:onClick="editarNegocio"
+						android:onClick="editarNegocioX"
 					/>
                 </LinearLayout>
 

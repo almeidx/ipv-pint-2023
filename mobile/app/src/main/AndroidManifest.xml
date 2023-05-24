@@ -19,7 +19,21 @@
             android:name=".pages.admin.edit.SelectUserActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-
+            />
+        <activity
+            android:name=".pages.admin.edit.AdicionarClienteNegocioActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".pages.admin.edit.CriarContactoClienteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".pages.admin.edit.SelectContactoClienteNegocioActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
             />
         <activity
             android:name=".pages.admin.edit.EditarReuniaoActivity"
