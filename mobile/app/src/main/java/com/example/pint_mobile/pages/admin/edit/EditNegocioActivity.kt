@@ -10,6 +10,8 @@ import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.editNegocio
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.Date
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -52,48 +54,21 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         idNegocio = intent.getIntExtra("id", 0)
 
         val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
-        estado.setText(items[getEstado[0]])
+        estado.setText(items[if (getEstado.size == 0) 0 else getEstado.size - 1])
 
         val setNextState = findViewById<Button>(R.id.setNextStatex)
         setNextState.setOnClickListener {
-            if (getEstado.isEmpty()) {
-                getEstado.add(1)
+            val atual = if (getEstado.size == 0) 0 else getEstado.size
 
-                val formattedDateTime = outputDateTimeFormat.format(currentDate)
-                getData.add(formattedDateTime)
+            getEstado.add(atual)
 
-                estado.setText(items[getEstado[getEstado.size - 1]])
+            val formattedDateTime = outputDateTimeFormat.format(currentDate)
+            getData.add(formattedDateTime)
 
-                Log.i("estado", getEstado.toString())
-                Log.i("data", getData.toString())
-            } else if (getEstado[getEstado.size - 1] < 2) {
-                getEstado.add(2)
+            estado.setText(items[atual])
 
-                val formattedDateTime = outputDateTimeFormat.format(currentDate)
-                getData.add(formattedDateTime)
-
-                estado.setText(items[getEstado[getEstado.size - 1]])
-
-                Log.i("estado", getEstado.toString())
-                Log.i("data", getData.toString())
-            } else if (getEstado[getEstado.size - 1] < 3) {
-                getEstado.add(3)
-
-                val formattedDateTime = outputDateTimeFormat.format(currentDate)
-                getData.add(formattedDateTime)
-
-                estado.setText(items[getEstado[getEstado.size - 1]])
-                Log.i("estado", getEstado.toString())
-                Log.i("data", getData.toString())
-            } else if (getEstado[getEstado.size - 1] < 4) {
-                getEstado.add(4)
-
-                val formattedDateTime = outputDateTimeFormat.format(currentDate)
-                getData.add(formattedDateTime)
-
-                estado.setText(items[getEstado[getEstado.size - 1]])
-                Log.i("estado", getEstado.toString())
-            }
+            Log.i("estado", getEstado.toString())
+            Log.i("data", getData.toString())
         }
 
         val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
@@ -131,10 +106,17 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         startActivity(intent)
     }
 
-    fun editarNegocio(view: View) {
+    fun editarNegocioX(view: View) {
+        val juntaArray = JSONArray()
 
-        editNegocio( idNegocio, getEstado, this)
+        for (i in 0 until getEstado.size) {
+            val junta = JSONObject()
+            junta.put("estado", getEstado[i])
+            junta.put("dataFinalizacao", getData[i])
+            juntaArray.put(junta)
+        }
 
+        editNegocio( idNegocio, juntaArray,  this)
     }
 
 }

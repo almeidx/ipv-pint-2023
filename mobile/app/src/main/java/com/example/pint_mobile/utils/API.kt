@@ -1002,11 +1002,11 @@ fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clie
     queue.add(request)
 }
 
-fun editNegocio( idNegocio: Int,  estado: ArrayList<Int>, ctx: Context) {
+fun editNegocio( idNegocio: Int,  estado: JSONArray, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
-    body.put("estados", JSONArray(estado))
+    body.put("estados", estado)
 
     Log.i("body", body.toString())
 
@@ -1014,6 +1014,48 @@ fun editNegocio( idNegocio: Int,  estado: ArrayList<Int>, ctx: Context) {
         Toast.makeText(ctx, "Negócio editado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminNegociosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
+
+fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames: ArrayList<String>, clienteIds: ArrayList<Int>, contactoIds: ArrayList<Int>, contactoNames: ArrayList<String>, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("type", type)
+    body.put("value", contacto)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/clientes/$idCliente/contactos", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Cliente criado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, SelectContactoClienteNegocioActivity::class.java)
+        intent.putExtra("clienteNome", clientNames)
+        intent.putExtra("clienteIds", clienteIds)
+        intent.putExtra("contactoIds", contactoIds)
+        intent.putExtra("contactoNames", contactoNames)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()
