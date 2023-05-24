@@ -1,20 +1,31 @@
 package com.example.pint_mobile.pages.admin.edit
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.AreaNegocio
+import com.example.pint_mobile.utils.CentroTrabalho
 import com.example.pint_mobile.utils.editNegocio
+import com.example.pint_mobile.utils.getCurrentUser
+import com.example.pint_mobile.utils.listarAreasNegocio
+import com.example.pint_mobile.utils.listarCentroTrabalho
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Date
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.properties.Delegates
 
 class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar Negócio") {
 
@@ -22,17 +33,57 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
     lateinit var estado: String
     private lateinit var getEstado: ArrayList<Int>
     private lateinit var getData: ArrayList<String>
+    var centroTrabalhoId by Delegates.notNull<Int>()
+
+    private val centroTrabalhoList = ArrayList<CentroTrabalho>()
+    private lateinit var centroTrabalhoAdapter: CentroTrabalhoAdapter
+    var utilizadorId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val FuncionarioName = intent.getStringExtra("FuncionarioName")
-        val FuncionarioEmail = intent.getStringExtra("FuncionarioEmail")
-        val centroTrabalhoName = intent.getStringExtra("centroTrabalhoName")
-        val centroTrabalhoLocation = intent.getStringExtra("centroTrabalhoLocation")
-        val centroTrabalhoPostalCode = intent.getStringExtra("centroTrabalhoPostalCode")
-        val centroTrabalhoAdress = intent.getStringExtra("centroTrabalhoAdress")
-        val cliente = intent.getStringExtra("Cliente")
+        val centroTrabalhoName = intent.getStringExtra("centroTrabalho")
+        val funcResponsavel = intent.getStringExtra("funcResponsavel")
+
+        val funcionarioResponsavel = findViewById<TextView>(R.id.FuncionarioResponsavelNegocioEdit)
+        funcionarioResponsavel.text = funcResponsavel
+
+        Log.i("centroTrabalhoName", centroTrabalhoName.toString())
+
+        val spinner = findViewById<Spinner>(R.id.centroTrabalhoNegocio)
+
+        centroTrabalhoAdapter = CentroTrabalhoAdapter(
+            this,
+            centroTrabalhoList
+        )
+
+        spinner.adapter = centroTrabalhoAdapter
+
+        listarCentroTrabalho(
+            centroTrabalhoList,
+            centroTrabalhoAdapter,
+            this
+        )
+
+
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position) as CentroTrabalho
+                centroTrabalhoId = selectedItem.id
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        val setFuncionario = findViewById<Button>(R.id.setFuncionarioNegocio)
+        setFuncionario.setOnClickListener {
+            val user = getCurrentUser(this)
+            utilizadorId = user?.id!!
+
+
+            funcionarioResponsavel.text = user?.name
+        }
+
         getEstado = intent.getIntegerArrayListExtra("estado")!!
         getData = intent.getStringArrayListExtra("data")!!
 
@@ -60,7 +111,13 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         setNextState.setOnClickListener {
             val atual = if (getEstado.size == 0) 0 else getEstado.size
 
-            getEstado.add(atual)
+            if (atual == 5){
+                return@setOnClickListener
+            }else
+            {
+                getEstado.add(atual)
+            }
+
 
             val formattedDateTime = outputDateTimeFormat.format(currentDate)
             getData.add(formattedDateTime)
@@ -71,32 +128,40 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             Log.i("data", getData.toString())
         }
 
-        val clienteEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.clienteNegocioEdit)
-        clienteEdit.setText(cliente)
-        clienteEdit.isFocusable = false
-        clienteEdit.isFocusableInTouchMode = false
-
         Log.i("idNegocio", idNegocio.toString())
 
-        val centroTrabalhoNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoNomeNegocioEdit)
-        centroTrabalhoNameEdit.setText(centroTrabalhoName)
+    }
 
-        val centroTrabalhoLocationEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoLocationNegocioEdit)
-        centroTrabalhoLocationEdit.setText(centroTrabalhoLocation)
+    class CentroTrabalhoAdapter(val context: Context, val dataSource: ArrayList<CentroTrabalho>) :
+        BaseAdapter() {
 
-        val centroTrabalhoPostalCodeEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhopostalCodeNegocioEdit)
-        centroTrabalhoPostalCodeEdit.setText(centroTrabalhoPostalCode)
+        private val inflater: LayoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val centroTrabalhoAdressEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.centroTrabalhoAdressNegocioEdit)
-        centroTrabalhoAdressEdit.setText(centroTrabalhoAdress)
+        override fun getCount(): Int {
+            return dataSource.size
+        }
 
-        val FuncionarioNameEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioDoNegocioEdit)
-        FuncionarioNameEdit.setText(FuncionarioName)
+        override fun getItem(position: Int): Any {
+            return dataSource[position]
+        }
 
-        val FuncionarioEmailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.funcionarioEmailNegocioEdit)
-        FuncionarioEmailEdit.setText(FuncionarioEmail)
+        override fun getItemId(position: Int): Long {
+            val centroTrabalho = getItem(position) as CentroTrabalho
+            return centroTrabalho.id.toLong()
+        }
 
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val rowView = inflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false)
 
+            val centroTrabalho = getItem(position) as CentroTrabalho
+
+            val nomeCentro = rowView.findViewById<TextView>(android.R.id.text1)
+
+            nomeCentro.text = centroTrabalho.nome
+
+            return rowView
+        }
 
     }
 
@@ -116,7 +181,11 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             juntaArray.put(junta)
         }
 
-        editNegocio( idNegocio, juntaArray,  this)
+        Log.i("juntaArray", juntaArray.toString())
+        Log.i("centroTrabalhoId", centroTrabalhoId.toString())
+        Log.i("utilizadorId", utilizadorId.toString())
+
+        editNegocio( idNegocio, juntaArray, centroTrabalhoId, utilizadorId,  this)
     }
 
 }
