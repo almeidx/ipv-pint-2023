@@ -1039,7 +1039,6 @@ fun editNegocio( idNegocio: Int,  estado: JSONArray, ctx: Context) {
     queue.add(request)
 }
 
-
 fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames: ArrayList<String>, clienteIds: ArrayList<Int>, contactoIds: ArrayList<Int>, contactoNames: ArrayList<String>, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 

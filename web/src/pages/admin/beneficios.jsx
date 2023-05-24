@@ -1,9 +1,7 @@
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import FormControl from "react-bootstrap/FormControl";
-import FormGroup from "react-bootstrap/FormGroup";
-import FormLabel from "react-bootstrap/FormLabel";
+import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -212,9 +210,8 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 	function onHideWrapper() {
 		onHide();
 		setBeneficioData({});
+		setPreviewUrl(null);
 	}
-
-	// TODO: Create preview doesn't work?
 
 	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
 	function handleIconChange(event) {
@@ -251,8 +248,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 		}
 
 		onSave(beneficioData);
-		onHide();
-		setBeneficioData({});
+		onHideWrapper();
 	}
 
 	return (
@@ -262,75 +258,77 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 			</Modal.Header>
 
 			<Modal.Body>
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="short-content-edit">
-						Titulo
-					</FormLabel>
-					<FormControl
-						id="short-content-edit"
-						placeholder="Título do benefício"
-						value={beneficioData.shortContent ?? data?.shortContent}
-						onChange={(e) => setBeneficioData((state) => ({ ...state, shortContent: e.target.value }))}
-						required={isCreate}
-						max={100}
-					/>
-				</FormGroup>
-
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="content-edit">
-						Descrição
-					</FormLabel>
-					<FormControl
-						id="content-edit"
-						placeholder="Descrição do benefício"
-						onChange={(e) => setBeneficioData((state) => ({ ...state, content: e.target.value }))}
-						value={beneficioData.content ?? data?.content}
-						required={isCreate}
-						as="textarea"
-						maxLength={1_000}
-					/>
-				</FormGroup>
-
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="data-validade-edit">
-						Data de validade
-					</FormLabel>
-					<FormControl
-						id="data-validade-edit"
-						placeholder="Data de validade do benefício"
-						onChange={(e) => setBeneficioData((state) => ({ ...state, dataValidade: e.target.value }))}
-						value={resolveDateValue(beneficioData.dataValidade ?? data?.dataValidade)}
-						type="datetime-local"
-						required={isCreate}
-						style={{ maxWidth: "18rem" }}
-						min={new Date().toISOString()}
-					/>
-				</FormGroup>
-
-				<FormGroup className="mb-3">
-					<FormLabel className="text-black" htmlFor="icone-beneficio-edit">
-						Ícone
-					</FormLabel>
-
-					<div className="d-flex align-items-center gap-3">
-						<FormControl
-							id="icone-beneficio-edit"
-							onChange={handleIconChange}
+				<Form>
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="short-content-edit">
+							Titulo
+						</Form.Label>
+						<Form.Control
+							id="short-content-edit"
+							placeholder="Título do benefício"
+							value={beneficioData.shortContent ?? data?.shortContent}
+							onChange={(e) => setBeneficioData((state) => ({ ...state, shortContent: e.target.value }))}
 							required={isCreate}
-							type="file"
-							style={{ maxWidth: "18rem" }}
-							accept="image/*"
+							max={100}
 						/>
+					</Form.Group>
 
-						{beneficioData.iconeBeneficio ?? data?.iconeBeneficio ? (
-							<img
-								className="ratio-1x1"
-								src={previewUrl ?? resolveIcon(beneficioData.iconeBeneficio ?? data?.iconeBeneficio)}
-								height={42}
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="content-edit">
+							Descrição
+						</Form.Label>
+						<Form.Control
+							id="content-edit"
+							placeholder="Descrição do benefício"
+							onChange={(e) => setBeneficioData((state) => ({ ...state, content: e.target.value }))}
+							value={beneficioData.content ?? data?.content}
+							required={isCreate}
+							as="textarea"
+							maxLength={1_000}
+						/>
+					</Form.Group>
+
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="data-validade-edit">
+							Data de validade
+						</Form.Label>
+						<Form.Control
+							id="data-validade-edit"
+							placeholder="Data de validade do benefício"
+							onChange={(e) => setBeneficioData((state) => ({ ...state, dataValidade: e.target.value }))}
+							value={resolveDateValue(beneficioData.dataValidade ?? data?.dataValidade)}
+							type="datetime-local"
+							required={isCreate}
+							style={{ maxWidth: "18rem" }}
+							min={new Date().toISOString()}
+						/>
+					</Form.Group>
+
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="icone-beneficio-edit">
+							Ícone
+						</Form.Label>
+
+						<div className="d-flex align-items-center gap-3">
+							<Form.Control
+								id="icone-beneficio-edit"
+								onChange={handleIconChange}
+								required={isCreate}
+								type="file"
+								style={{ maxWidth: "18rem" }}
+								accept="image/*"
 							/>
-						) : null}
-					</div>
-				</FormGroup>
+
+							{previewUrl ?? beneficioData.iconeBeneficio ?? data?.iconeBeneficio ? (
+								<img
+									className="ratio-1x1 object-cover"
+									src={previewUrl ?? resolveIcon(beneficioData.iconeBeneficio ?? data?.iconeBeneficio)}
+									height={42}
+								/>
+							) : null}
+						</div>
+					</Form.Group>
+				</Form>
 			</Modal.Body>
 
 			<Modal.Footer>

@@ -9,9 +9,11 @@ import { ToastProvider } from "./contexts/ToastContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { NotFound } from "./pages/404.jsx";
 import { Admin } from "./pages/admin/index.jsx";
+import { NotasEntrevista } from "./pages/admin/notas-entrevista.jsx";
 import { Beneficios } from "./pages/beneficios.jsx";
 import { Calendar } from "./pages/calendar.jsx";
 import { Contacto } from "./pages/contacto.jsx";
+import { HistoricoCandidaturas } from "./pages/historico-candidaturas.jsx";
 import { Ideias } from "./pages/ideias.jsx";
 import { Home } from "./pages/index.jsx";
 import { Login } from "./pages/login.jsx";
@@ -21,7 +23,6 @@ import { Profile } from "./pages/profile.jsx";
 import { SignUp } from "./pages/sign-up.jsx";
 import { Vagas } from "./pages/vagas.jsx";
 import { VerificarConta } from "./pages/verificar-conta.jsx";
-import { NotasEntrevista } from "./pages/admin/notas-entrevista.jsx";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
@@ -36,6 +37,7 @@ createRoot(document.getElementById("root")).render(
 							<Route path="/ideias" element={<Ideias />} />
 							<Route path="/negocios" element={<Negocios />} />
 							<Route path="/vagas" element={<Vagas />} />
+							<Route path="/vagas/historico" element={<HistoricoCandidaturas />} />
 
 							<Route path="/login" element={<Login />} />
 							<Route path="/signup" element={<SignUp />} />

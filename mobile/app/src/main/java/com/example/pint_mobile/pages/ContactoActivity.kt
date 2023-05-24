@@ -9,6 +9,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.criarMensagem
 import com.example.pint_mobile.utils.getCurrentUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
 class ContactoActivity : ActivityBase(R.layout.activity_contacto, "Contacto") {
@@ -38,6 +39,9 @@ class ContactoActivity : ActivityBase(R.layout.activity_contacto, "Contacto") {
             email.isFocusableInTouchMode = false
             email.isClickable = false
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun enviar(_view: View) {

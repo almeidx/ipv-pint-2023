@@ -1,15 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormCheck from "react-bootstrap/FormCheck";
-import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
+import FormLabel from "react-bootstrap/FormLabel";
 
 /**
  * @param {Object} props
  * @param {{ label: string; value: number }[]} props.options
  * @param {(selectedOptions: number[]) => void} props.onSelectOption
+ * @param {string} props.id
+ * @param {string} props.placeholder
+ * @param {string} props.buttonText
+ * @param {boolean} props.withSearch
  */
-export function Multiselect({ options, onSelectOption }) {
+export function Multiselect({ options, onSelectOption, id, placeholder, buttonText, withSearch }) {
 	const [optionsVisible, setOptionsVisible] = useState(false);
 	const [selectedOptions, setSelectedOptions] = useState([]);
 	const [search, setSearch] = useState("");
@@ -40,7 +44,9 @@ export function Multiselect({ options, onSelectOption }) {
 
 	return (
 		<div className="position-relative">
-			<Button onClick={() => setOptionsVisible((state) => !state)}>Adicionar utilizadores</Button>
+			<Button disabled={options.length === 0} onClick={() => setOptionsVisible((state) => !state)}>
+				{buttonText}
+			</Button>
 
 			<div
 				className="flex-column position-absolute mt-2 w-fit text-white"
@@ -54,13 +60,16 @@ export function Multiselect({ options, onSelectOption }) {
 					borderTopRightRadius: "0.5rem",
 				}}
 			>
-				<FormControl
-					placeholder="Pesquisar utilizadores"
-					className="mb-2"
-					style={{ backgroundColor: "lightgray" }}
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-				/>
+				{withSearch ? (
+					<FormControl
+						id={id}
+						placeholder={placeholder}
+						className="mb-2"
+						style={{ backgroundColor: "lightgray" }}
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+					/>
+				) : null}
 
 				{filteredOptions.map(({ label, value }, idx) => (
 					<Option

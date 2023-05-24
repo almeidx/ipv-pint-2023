@@ -12,6 +12,7 @@ import com.example.pint_mobile.pages.admin.edit.VagasEditActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Vaga
 import com.example.pint_mobile.utils.listaVagas
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
     private val vagasList = ArrayList<Vaga>()
@@ -48,7 +49,9 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class VagaAdapter(private val vagas: ArrayList<Vaga>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
