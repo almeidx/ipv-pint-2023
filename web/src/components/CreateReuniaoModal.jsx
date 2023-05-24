@@ -76,8 +76,12 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 							Participantes
 						</Form.Label>
 						<Multiselect
+							id="participants-edit"
 							options={(utilizadores ?? []).map(({ id, name }) => ({ label: name, value: id }))}
 							onSelectOption={(utilizadores) => setReuniaoData((state) => ({ ...state, utilizadores }))}
+							placeholder="Pesquise por utilizadores"
+							buttonText="Adicionar utilizadores"
+							withSearch
 						/>
 					</Form.Group>
 
