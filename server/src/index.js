@@ -14,6 +14,7 @@ const beneficiosRouter = require("./routes/beneficios.js");
 const candidaturasRouter = require("./routes/candidaturas.js");
 const centrosDeTrabalhoRouter = require("./routes/centros-de-trabalho.js");
 const clientesRouter = require("./routes/clientes.js");
+const eventsRouter = require("./routes/events.js");
 const ideiasRouter = require("./routes/ideias.js");
 const mensagensRouter = require("./routes/mensagens.js");
 const negociosRouter = require("./routes/negocios.js");
@@ -69,6 +70,7 @@ app
 	.use("/candidaturas", candidaturasRouter)
 	.use("/centros-de-trabalho", centrosDeTrabalhoRouter)
 	.use("/clientes", clientesRouter)
+	.use("/events", eventsRouter)
 	.use("/ideias", ideiasRouter)
 	.use("/mensagens", mensagensRouter)
 	.use("/negocios", negociosRouter)
