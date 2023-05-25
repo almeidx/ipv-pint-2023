@@ -19,7 +19,7 @@ const fieldValidations = [
 	body("idCliente", "`idCliente` tem que ser do tipo inteiro").isInt(),
 	body("description", "`description` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 		.isString()
-		.isLength({ min: 1, max: 100 }),
+		.isLength({ min: 1, max: 200 }),
 	body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
 		.isString()
 		.isLength({ min: 1, max: 100 }),
@@ -68,12 +68,12 @@ module.exports = {
 					{
 						model: Cliente,
 						as: "cliente",
-						attributes: ["name"],
+						attributes: ["id", "name"],
 					},
 					{
 						model: AreaNegocio,
 						as: "areaNegocio",
-						attributes: ["name"],
+						attributes: ["id", "name"],
 					},
 					{
 						model: CentroTrabalho,

@@ -24,16 +24,18 @@ import { fetcher } from "../utils/fetcher.js";
 
 export function Negocios() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(`${API_URL}/negocios`, fetcher);
-	const { data: areasNegocio } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
-	const { data: clientes, mutate: mutateClients } = useSWR(`${API_URL}/clientes`, fetcher);
-	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [showCreateOrEditModal, setShowCreateOrEditModal] = useState(false);
 	const [showCreateClientModal, setShowCreateClientModal] = useState(false);
 	const [showCreateContactoModal, setShowCreateContactoModal] = useState(false);
-	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
 	const [newClientId, setNewClientId] = useState(null);
 	const [newContactoId, setNewContactoId] = useState(null);
 	const [currentClientId, setCurrentClientId] = useState(null);
+	const [editNegocioData, setEditNegocioData] = useState(null);
+	const [isCreateModal, setIsCreateModal] = useState(false);
+	const { isLoading, data, mutate: mutateNegocios } = useSWR(`${API_URL}/negocios`, fetcher);
+	const { data: areasNegocio } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
+	const { data: clientes, mutate: mutateClients } = useSWR(`${API_URL}/clientes`, fetcher);
+	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
 	const isLoggedIn = useIsLoggedIn();
 
 	const filtered = search
@@ -50,8 +52,36 @@ export function Negocios() {
 		return <ErrorBase title="Por favor, inicie a sessão para ver os seus negócios" showLogin page="/negocios" />;
 	}
 
-	async function handleCreate(data) {}
+	/** @param {object} data */
+	async function handleCreate(data) {
+		try {
+			const response = await fetch(`${API_URL}/negocios`, {
+				credentials: "include",
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			});
 
+			if (!response.ok) {
+				throw new Error("Erro ao criar negócio");
+			}
+
+			mutateNegocios();
+
+			showToastWithMessage("Negócio criado com sucesso!");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Erro ao criar negócio");
+		}
+	}
+
+	/** @param {object} data */
+	async function handleEdit(data) {
+		// TODO: implementar
+	}
+
+	/** @param {object} data */
 	async function handleCreateClient(data) {
 		try {
 			const response = await fetch(`${API_URL}/clientes`, {
@@ -79,6 +109,10 @@ export function Negocios() {
 		}
 	}
 
+	/**
+	 * @param {number} clientId
+	 * @param {object} data
+	 */
 	async function handleCreateContacto(clientId, data) {
 		try {
 			const response = await fetch(`${API_URL}/clientes/${clientId}/contactos`, {
@@ -106,33 +140,44 @@ export function Negocios() {
 
 	return (
 		<Page page="/negocios">
-			<CreateNegocioModal
-				show={showCreateModal}
+			<CreateOrEditNegocioModal
+				show={showCreateOrEditModal}
 				onHide={() => {
-					setShowCreateModal(false);
+					setShowCreateOrEditModal(false);
 					setNewClientId(null);
+					setNewContactoId(null);
+					setCurrentClientId(null);
+					setEditNegocioData(null);
 				}}
-				onSave={handleCreate}
+				onSave={(...args) => {
+					if (isCreateModal) {
+						handleCreate(...args);
+					} else {
+						handleEdit(...args);
+					}
+				}}
 				areasNegocio={areasNegocio}
 				clientes={clientes}
 				newClientId={newClientId}
 				openCreateClientModal={() => {
 					setShowCreateClientModal(true);
-					setShowCreateModal(false);
+					setShowCreateOrEditModal(false);
 				}}
 				openCreateContactModal={() => {
 					setShowCreateContactoModal(true);
-					setShowCreateModal(false);
+					setShowCreateOrEditModal(false);
 				}}
 				newContactoId={newContactoId}
 				setCurrentClientId={setCurrentClientId}
+				data={editNegocioData}
+				isCreate={isCreateModal}
 			/>
 
 			<CreateClientModal
 				show={showCreateClientModal}
 				onHide={() => {
 					setShowCreateClientModal(false);
-					setShowCreateModal(true);
+					setShowCreateOrEditModal(true);
 				}}
 				onSave={handleCreateClient}
 			/>
@@ -141,7 +186,7 @@ export function Negocios() {
 				show={showCreateContactoModal}
 				onHide={() => {
 					setShowCreateContactoModal(false);
-					setShowCreateModal(true);
+					setShowCreateOrEditModal(true);
 				}}
 				idCliente={currentClientId}
 				onSave={handleCreateContacto}
@@ -156,7 +201,11 @@ export function Negocios() {
 			<Container className="col-11 row mx-auto gap-5 pt-4">
 				<Card
 					className="btn btn-light negocio-card negocio-add"
-					onClick={() => setShowCreateModal(true)}
+					onClick={() => {
+						setShowCreateOrEditModal(true);
+						setEditNegocioData(null);
+						setIsCreateModal(true);
+					}}
 					style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}
 				>
 					<Card.Body className="d-flex flex-column">
@@ -167,7 +216,21 @@ export function Negocios() {
 					</Card.Body>
 				</Card>
 
-				{isLoading ? <Spinner /> : (filtered ?? []).map((negocio) => <Negocio key={negocio.id} {...negocio} />)}
+				{isLoading ? (
+					<Spinner />
+				) : (
+					(filtered ?? []).map((negocio) => (
+						<Negocio
+							key={negocio.id}
+							onEditClick={(data) => {
+								setEditNegocioData(data);
+								setShowCreateOrEditModal(true);
+								setIsCreateModal(false);
+							}}
+							{...negocio}
+						/>
+					))
+				)}
 			</Container>
 		</Page>
 	);
@@ -188,15 +251,19 @@ export function Negocios() {
  * @param {string} props.centroTrabalho.name
  * @param {Object} props.cliente
  * @param {string} props.cliente.name
+ * @param {(data: any) => void} props.onEditClick
  */
-function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, cliente }) {
+function Negocio({ onEditClick, ...negocio }) {
+	const { title, description, areaNegocio, contactos, centroTrabalho, cliente } = negocio;
+
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
 				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
 					{title}
+
 					<OverlayTrigger placement="top" overlay={<Tooltip>Edite o seu Negócio</Tooltip>}>
-						<Button className="border-0 bg-transparent p-0">
+						<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
 							<RiPencilLine size={32} color="black" />
 						</Button>
 					</OverlayTrigger>
@@ -205,21 +272,23 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 				<hr />
 
 				<Card.Text style={{ fontSize: "1.1rem" }}>
-					<span className="fw-bold">{areaNegocio.name}</span> - {description}
+					<span className="fw-bold">{areaNegocio.name}</span>: {description}
 				</Card.Text>
 
 				<Card.Text style={{ fontSize: "1.1rem" }}>
 					{" "}
-					<span className="fw-bold"> Cliente -</span> {cliente.name}
+					<span className="fw-bold">Cliente: </span> {cliente.name}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
-					{" "}
-					<span className="fw-bold"> Centro de Trabalho - </span> {centroTrabalho.name}
-				</Card.Text>
+				{centroTrabalho ? (
+					<Card.Text style={{ fontSize: "1.1rem" }}>
+						{" "}
+						<span className="fw-bold">Centro de Trabalho: </span> {centroTrabalho.name}
+					</Card.Text>
+				) : null}
 
 				<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-					Contacto:
+					Contactos:
 				</span>
 
 				<ul>
@@ -240,7 +309,26 @@ function Negocio({ title, description, areaNegocio, contactos, centroTrabalho, c
 	);
 }
 
-function CreateNegocioModal({
+/**
+ * @param {Object} props
+ * @param {boolean} props.show
+ * @param {() => void} props.onHide
+ * @param {(negocio: Object) => void} props.onSave
+ * @param {Object[]} props.areasNegocio
+ * @param {number} props.areasNegocio.id
+ * @param {string} props.areasNegocio.name
+ * @param {Object[]} props.clientes
+ * @param {number} props.clientes.id
+ * @param {string} props.clientes.name
+ * @param {() => void} props.openCreateClientModal
+ * @param {number|null} props.newClientId
+ * @param {() => void} props.openCreateContactModal
+ * @param {number|null} props.newContactoId
+ * @param {(id: number) => void} props.setCurrentClientId
+ * @param {object|null} props.data
+ * @param {boolean} props.isCreate
+ */
+function CreateOrEditNegocioModal({
 	show,
 	onHide,
 	onSave,
@@ -251,17 +339,15 @@ function CreateNegocioModal({
 	openCreateContactModal,
 	newContactoId,
 	setCurrentClientId,
+	data,
+	isCreate,
 }) {
-	const [negocioData, setNegocioData] = useState({
-		areaNegocio: -1,
-		cliente: -1,
-		contactos: [],
-	});
+	const [negocioData, setNegocioData] = useState({ contactos: [] });
 	const [contactos, setContactos] = useState([]);
 
 	useEffect(() => {
 		if (newClientId !== null) {
-			setNegocioData((state) => ({ ...state, cliente: newClientId }));
+			setNegocioData((state) => ({ ...state, idCliente: newClientId }));
 		}
 	}, [newClientId]);
 
@@ -272,30 +358,27 @@ function CreateNegocioModal({
 	}, [newContactoId]);
 
 	useEffect(() => {
-		fetch(`${API_URL}/clientes/${negocioData.cliente}/contactos`, {
+		if (negocioData.idCliente == null) {
+			return;
+		}
+
+		fetch(`${API_URL}/clientes/${negocioData.idCliente}/contactos`, {
 			credentials: "include",
 		}).then(async (res) => {
 			if (res.ok) {
-				const data = await res.json();
-				setContactos(data);
+				const contactos = await res.json();
+				setContactos(contactos);
 			} else {
-				throw new Error("Erro ao obter contactos");
+				throw new Error("Erro ao obter contactos", { cause: res });
 			}
 		});
-	}, [negocioData.cliente]);
+	}, [negocioData.idCliente]);
 
-	const contactoOptions = useMemo(() => {
-		const names = contactos.map(({ idContacto, contacto }) => ({
-			value: idContacto,
-			label: contacto.value,
-		}));
-
-		return names;
-	}, []);
+	const contactoOptions = useMemo(() => contactos.map(({ id, value }) => ({ value: id, label: value })), [contactos]);
 
 	function onHideWrapper() {
 		onHide();
-		setNegocioData({ areaNegocio: -1, cliente: -1, contactos: [] });
+		setNegocioData({ contactos: [] });
 	}
 
 	/** @param {number[]} ids */
@@ -303,10 +386,12 @@ function CreateNegocioModal({
 		setNegocioData((state) => ({ ...state, contactos: ids }));
 	}
 
+	// TODO: Adicionar as necessidades do negócio
+
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="manage-negocio-modal">Criar Negócio</Modal.Title>
+				<Modal.Title id="manage-negocio-modal">{isCreate ? "Criar Negócio" : "Editar Negócio"}</Modal.Title>
 			</Modal.Header>
 
 			<Modal.Body>
@@ -315,8 +400,11 @@ function CreateNegocioModal({
 						<Form.Label htmlFor="negocio-titulo-edit">Titulo</Form.Label>
 						<Form.Control
 							id="negocio-titulo-edit"
-							value={negocioData.title}
+							value={negocioData.title ?? data?.title}
 							onChange={(e) => setNegocioData((state) => ({ ...state, title: e.target.value }))}
+							maxLength={100}
+							placeholder="Titulo do negócio"
+							required={isCreate}
 						/>
 					</Form.Group>
 
@@ -324,9 +412,12 @@ function CreateNegocioModal({
 						<Form.Label htmlFor="negocio-descricao-edit">Descrição</Form.Label>
 						<Form.Control
 							id="negocio-descricao-edit"
-							value={negocioData.description}
+							value={negocioData.description ?? data?.description}
 							onChange={(e) => setNegocioData((state) => ({ ...state, description: e.target.value }))}
 							as="textarea"
+							maxLength={1_000}
+							placeholder="Descrição do negócio"
+							required={isCreate}
 						/>
 					</Form.Group>
 
@@ -334,8 +425,11 @@ function CreateNegocioModal({
 						<Form.Label htmlFor="negocio-area-negocio-edit">Área de Negócio</Form.Label>
 						<Form.Select
 							id="negocio-area-negocio-edit"
-							value={negocioData.areaNegocio}
-							onChange={(e) => setNegocioData((state) => ({ ...state, areaNegocio: e.target.value }))}
+							value={negocioData.idAreaNegocio ?? data?.areaNegocio?.id ?? -1}
+							onChange={(e) =>
+								setNegocioData((state) => ({ ...state, idAreaNegocio: Number.parseInt(e.target.value, 10) }))
+							}
+							required={isCreate}
 						>
 							<option value={-1} disabled>
 								Selecione uma área de negócio
@@ -349,66 +443,71 @@ function CreateNegocioModal({
 						</Form.Select>
 					</Form.Group>
 
-					<Form.Group className="w-100 mb-3">
-						<Form.Label htmlFor="negocio-cliente-edit">Cliente</Form.Label>
+					{isCreate ? (
+						<>
+							<Form.Group className="w-100 mb-3">
+								<Form.Label htmlFor="negocio-cliente-edit">Cliente</Form.Label>
 
-						<div className="d-flex w-100 gap-2">
-							<Form.Select
-								id="negocio-cliente-edit"
-								value={negocioData.cliente}
-								onChange={(e) => {
-									setCurrentClientId(e.target.value);
+								<div className="d-flex w-100 gap-2">
+									<Form.Select
+										id="negocio-cliente-edit"
+										value={negocioData.idCliente ?? -1}
+										onChange={(e) => {
+											const id = Number.parseInt(e.target.value, 10);
 
-									setNegocioData((state) => ({ ...state, cliente: e.target.value }));
-								}}
-								disabled={newClientId !== null}
-							>
-								<option value={-1} disabled>
-									Selecione um cliente
-								</option>
+											setCurrentClientId(id);
+											setNegocioData((state) => ({ ...state, idCliente: id }));
+										}}
+										disabled={newClientId !== null}
+										required
+									>
+										<option value={-1} disabled>
+											Selecione um cliente
+										</option>
 
-								{(clientes ?? []).map(({ id, name }) => (
-									<option key={id} value={id}>
-										{name}
-									</option>
-								))}
-							</Form.Select>
+										{(clientes ?? []).map(({ id, name }) => (
+											<option key={id} value={id}>
+												{name}
+											</option>
+										))}
+									</Form.Select>
 
-							<Button
-								variant="light"
-								className="px-2"
-								style={{ height: "fit-content" }}
-								onClick={openCreateClientModal}
-								disabled={newClientId !== null}
-							>
-								<RxPlusCircled size={24} color="black" />
-							</Button>
-						</div>
-					</Form.Group>
+									<Button
+										variant="light"
+										className="px-2"
+										style={{ height: "fit-content" }}
+										onClick={openCreateClientModal}
+										disabled={newClientId !== null}
+									>
+										<RxPlusCircled size={24} color="black" />
+									</Button>
+								</div>
+							</Form.Group>
 
-					<Form.Group className="w-100 mb-3">
-						<Form.Label htmlFor="negocio-contactos-edit">Contactos do cliente</Form.Label>
+							<Form.Group className="w-100 mb-3">
+								<Form.Label htmlFor="negocio-contactos-edit">Contactos do cliente</Form.Label>
 
-						<div className="d-flex w-100 gap-2">
-							<Multiselect
-								id="negocio-contactos-edit"
-								options={contactoOptions}
-								onSelectOption={handleContactosChange}
-								buttonText="Selecionar os contactos do cliente"
-								withSearch={false}
-							/>
+								<div className="d-flex w-100 gap-2">
+									<Multiselect
+										id="negocio-contactos-edit"
+										options={contactoOptions}
+										onSelectOption={handleContactosChange}
+										buttonText="Selecionar os contactos do cliente"
+										withSearch={false}
+									/>
 
-							<Button
-								variant="light"
-								className="px-2"
-								style={{ height: "fit-content" }}
-								onClick={openCreateContactModal}
-								disabled={negocioData.cliente === -1}
-							>
-								<RxPlusCircled size={24} color="black" />
-							</Button>
-						</div>
-					</Form.Group>
+									<Button
+										variant="light"
+										className="px-2"
+										style={{ height: "fit-content" }}
+										onClick={openCreateContactModal}
+									>
+										<RxPlusCircled size={24} color="black" />
+									</Button>
+								</div>
+							</Form.Group>
+						</>
+					) : null}
 				</Form>
 			</Modal.Body>
 
@@ -420,7 +519,7 @@ function CreateNegocioModal({
 					}}
 					variant="success"
 				>
-					Criar
+					Guardar
 				</Button>
 
 				<Button onClick={onHideWrapper}>Cancelar</Button>
@@ -429,6 +528,12 @@ function CreateNegocioModal({
 	);
 }
 
+/**
+ * @param {Object} props
+ * @param {boolean} props.show
+ * @param {() => void} props.onHide
+ * @param {(data: any) => void} props.onSave
+ */
 function CreateClientModal({ show, onHide, onSave }) {
 	const [clientData, setClientData] = useState({});
 
@@ -475,6 +580,13 @@ function CreateClientModal({ show, onHide, onSave }) {
 	);
 }
 
+/**
+ * @param {Object} props
+ * @param {number} props.idCliente
+ * @param {boolean} props.show
+ * @param {() => void} props.onHide
+ * @param {(data: any) => void} props.onSave
+ */
 function CreateContactoModal({ idCliente, show, onHide, onSave }) {
 	const [contactoData, setContactoData] = useState({
 		type: -1,

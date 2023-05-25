@@ -33,8 +33,6 @@ class CriarContactoClienteActivity : ActivityBase(R.layout.activity_criar_negoci
         Log.i("clienteIds", clienteIds.toString())
         Log.i("contactoIds", contactoIds.toString())
         Log.i("contactoNames", contactoNames.toString())
-
-
     }
 
     fun criarNovoCliente(view: View) {

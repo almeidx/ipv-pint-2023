@@ -12,16 +12,33 @@ import FormLabel from "react-bootstrap/FormLabel";
  * @param {string} props.placeholder
  * @param {string} props.buttonText
  * @param {boolean} props.withSearch
+ * @param {number[]} [props.defaultSelectedOptions]
  */
-export function Multiselect({ options, onSelectOption, id, placeholder, buttonText, withSearch }) {
+export function Multiselect({
+	options,
+	onSelectOption,
+	id,
+	placeholder,
+	buttonText,
+	withSearch,
+	defaultSelectedOptions,
+}) {
 	const [optionsVisible, setOptionsVisible] = useState(false);
 	const [selectedOptions, setSelectedOptions] = useState([]);
 	const [search, setSearch] = useState("");
 
+	useEffect(() => {
+		if (defaultSelectedOptions && defaultSelectedOptions.length > 0) {
+			setSelectedOptions(defaultSelectedOptions);
+		}
+	}, [defaultSelectedOptions]);
+
+	useEffect(() => {
+		onSelectOption(selectedOptions);
+	}, [selectedOptions]);
+
 	function handleSelectOption(option) {
 		setSelectedOptions((state) => [...state, option]);
-
-		onSelectOption(selectedOptions);
 	}
 
 	const filteredOptions = useMemo(
@@ -29,10 +46,9 @@ export function Multiselect({ options, onSelectOption, id, placeholder, buttonTe
 		[options, search],
 	);
 
-	// handle click outside
 	useEffect(() => {
 		function handleClickOutside(event) {
-			if (optionsVisible && !event.target.closest(".position-relative")) {
+			if (optionsVisible && !event.target.closest(`#multiselect-${id}`)) {
 				setOptionsVisible(false);
 			}
 		}
@@ -43,7 +59,7 @@ export function Multiselect({ options, onSelectOption, id, placeholder, buttonTe
 	}, []);
 
 	return (
-		<div className="position-relative">
+		<div className="position-relative" id={`multiselect-${id}`}>
 			<Button disabled={options.length === 0} onClick={() => setOptionsVisible((state) => !state)}>
 				{buttonText}
 			</Button>
