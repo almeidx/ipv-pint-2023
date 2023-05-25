@@ -25,6 +25,7 @@ import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.createNegocio
 import com.example.pint_mobile.utils.listaIdeias
 import com.example.pint_mobile.utils.listarAreasNegocio
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.properties.Delegates
 
 class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Criar Negócio") {
@@ -83,6 +84,10 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         val contactoClientes = findViewById<EditText>(R.id.contactoClienteMostrar)
         val todosOsNomes = java.lang.String.join(", ", contactoNames)
         contactoClientes.setText(todosOsNomes)
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
 
     }
 

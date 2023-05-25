@@ -17,6 +17,7 @@ import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.listaUtilizadores
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Escolher Utilizadores") {
 
@@ -36,6 +37,8 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
             intent.getStringArrayListExtra("users")!!,
             intent.getIntegerArrayListExtra("userIds")!!,
             intent.getIntegerArrayListExtra("negocioId")!!,
+
+
         )
 
 
@@ -61,6 +64,8 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 }

@@ -5,6 +5,7 @@ import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.apagarMensagem
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar, "Validar Mensagem") {
 
@@ -31,6 +32,10 @@ class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar,
 
         val registoMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.utilizadorRegistadoEdit)
         registoMensagemEdit.setText(setRegisto)
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun apagarMessage(view: View) {

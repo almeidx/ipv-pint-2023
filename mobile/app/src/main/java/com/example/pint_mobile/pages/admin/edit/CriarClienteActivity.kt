@@ -6,6 +6,7 @@ import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createClient
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CriarClienteActivity : ActivityBase(R.layout.activity_criar_cliente, "Criar Cliente") {
 
@@ -17,6 +18,10 @@ class CriarClienteActivity : ActivityBase(R.layout.activity_criar_cliente, "Cria
 
         clienteNome = intent.getStringArrayListExtra("clienteNome") ?: ArrayList()
         clienteIds = intent.getIntegerArrayListExtra("clienteIds") ?: ArrayList()
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
 
     }
 

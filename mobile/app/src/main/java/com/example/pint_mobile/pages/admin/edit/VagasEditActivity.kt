@@ -10,6 +10,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteVaga
 import com.example.pint_mobile.utils.editVaga
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputEditText
 
@@ -55,6 +56,10 @@ class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vag
         } else if (status == 1) {
             toggleButton.check(button2.id)
         }
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     fun apagarVaga(view: View) {

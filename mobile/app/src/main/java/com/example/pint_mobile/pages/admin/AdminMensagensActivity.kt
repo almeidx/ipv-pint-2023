@@ -16,6 +16,7 @@ import com.example.pint_mobile.pages.admin.edit.MensagemValidarActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Mensagem
 import com.example.pint_mobile.utils.listaMensagens
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "Administração de Mensagens") {
     private val mensagensList = ArrayList<Mensagem>()
@@ -50,7 +51,9 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class MensagemAdapter(private val mensagens: ArrayList<Mensagem>, private val item: Int) : BaseAdapter() {

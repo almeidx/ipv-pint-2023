@@ -18,6 +18,7 @@ import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.listaUtilizadores
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizadores, "Administração de Utilizadores") {
     private val utilizadoresList = ArrayList<Utilizador>()
@@ -52,6 +53,9 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int, private val fromReuniao: Boolean = false, private val users: ArrayList<String> = ArrayList(), private val userIds: ArrayList<Int> = ArrayList(), private val negocioId: ArrayList<Int> = ArrayList()) : BaseAdapter() {

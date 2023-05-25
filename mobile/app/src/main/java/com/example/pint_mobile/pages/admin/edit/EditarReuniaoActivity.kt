@@ -14,6 +14,7 @@ import android.widget.TimePicker
 import androidx.appcompat.widget.ButtonBarLayout
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "Editar Reunião"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -62,6 +63,10 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         subject.setText(subjectReuniao)
 
         pickDate()
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     private fun getDateTimeCalendar() {

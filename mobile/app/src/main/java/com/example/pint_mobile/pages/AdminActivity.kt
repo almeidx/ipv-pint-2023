@@ -1,11 +1,20 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
+import android.os.Bundle
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.*
 import com.example.pint_mobile.utils.ActivityBase
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
+    }
+
     fun gotoAdminReporting(_view: android.view.View) {
         val intent = Intent(this, AdminReportingActivity::class.java)
         startActivity(intent)

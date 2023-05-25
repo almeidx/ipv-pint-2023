@@ -17,9 +17,7 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.CentroTrabalho
 import com.example.pint_mobile.utils.editNegocio
-import com.example.pint_mobile.utils.getCurrentUser
-import com.example.pint_mobile.utils.listarAreasNegocio
-import com.example.pint_mobile.utils.listarCentroTrabalho
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Date
