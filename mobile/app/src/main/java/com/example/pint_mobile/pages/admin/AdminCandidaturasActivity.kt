@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Candidatura
 import com.example.pint_mobile.utils.listaCandidaturas
@@ -66,6 +68,17 @@ class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidatu
             nomeCandidatura.text = candidatura.nome
             infoCandidatura.text = candidatura.titulo +  " - " + candidatura.descricao
             dataCandidatura.text = candidatura.data
+
+            view.setOnClickListener {
+                val intent = Intent(parent?.context, EditarCandidaturaActivity::class.java)
+                intent.putExtra("Nome", candidatura.nome)
+                intent.putExtra("Titulo", candidatura.titulo)
+                intent.putExtra("Descricao", candidatura.descricao)
+                intent.putExtra("Data", candidatura.data)
+                intent.putExtra("Id", candidatura.id)
+
+                parent?.context?.startActivity(intent)
+            }
 
             return view
         }
