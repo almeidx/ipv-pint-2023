@@ -29,6 +29,7 @@ import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
+import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
 import org.json.JSONArray
 import org.json.JSONException
@@ -266,6 +267,27 @@ fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivi
                 rawArea.getString("name"),
             )
             list.add(area)
+        }
+
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+fun listarCentroTrabalho(list: ArrayList<CentroTrabalho>, adapter: EditNegocioActivity.CentroTrabalhoAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/centros-de-trabalho", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawCentro = response.getJSONObject(i)
+            val centro = CentroTrabalho(
+                rawCentro.getInt("id"),
+                rawCentro.getString("name"),
+            )
+            list.add(centro)
         }
 
         adapter.notifyDataSetChanged()
@@ -1002,11 +1024,13 @@ fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clie
     queue.add(request)
 }
 
-fun editNegocio( idNegocio: Int,  estado: JSONArray, ctx: Context) {
+fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utilizadorId:Int,  ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
     body.put("estados", estado)
+    body.put("idCentroTrabalho", centroTrabalhoId)
+    body.put("idUtilizador", utilizadorId)
 
     Log.i("body", body.toString())
 
@@ -1078,5 +1102,6 @@ fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames:
             return super.parseNetworkResponse(response)
         }
     }
+
     queue.add(request)
 }

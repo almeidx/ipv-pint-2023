@@ -48,10 +48,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             areasList
         )
 
-
-        //areasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = areasAdapter
-
 
         listarAreasNegocio(
             areasList,

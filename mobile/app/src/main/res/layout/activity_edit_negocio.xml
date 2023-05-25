@@ -49,30 +49,6 @@
 					android:textSize="15dp"
 				/>
 
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/clienteNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Ciente do negocio"
-					android:orientation="horizontal"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/clienteNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <Button
 					android:id="@+id/setNextStatex"
 					android:layout_width="wrap_content"
@@ -84,6 +60,7 @@
 					android:text="Avançar estado do negocio"
 					android:textColor="@color/white"
 				/>
+
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/estadoDoNegocio"
@@ -109,143 +86,57 @@
 				</com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/funcionarioDoNegocio"
+				<Spinner
+					android:id="@+id/centroTrabalhoNegocio"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="25dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginEnd="25dp"
+					android:background="@drawable/spinner_background"
+					android:padding="8dp"
+
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_bias="1.0"
+					app:layout_constraintStart_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+
+				<Button
+					android:id="@+id/setFuncionarioNegocio"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="25dp"
+					android:layout_marginTop="25dp"
+					android:layout_marginEnd="25dp"
+					android:background="@color/white"
+					android:text="Funcionario responsavel"
+					android:textColor="@color/white"
+					/>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/FuncionarioResponsavelNegocio"
 					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="25dp"
 					android:layout_marginTop="25dp"
 					android:layout_marginEnd="25dp"
-					android:hint="Funcionario do negocio"
+					android:hint="Funcionario responsavel"
 					app:boxBackgroundColor="@color/white"
 					app:boxStrokeColor="@color/black"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-				>
+					>
 
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/funcionarioDoNegocioEdit"
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/FuncionarioResponsavelNegocioEdit"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-					/>
+						/>
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/funcionarioEmailNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Email funcionario do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/funcionarioEmailNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/centroTrabalhoNomeNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Nome do centro trabalho do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/centroTrabalhoNomeNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/centroTrabalhoLocationNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Localização do centro trabalho do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/centroTrabalhoLocationNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/centroTrabalhopostalCodeNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Codigo Postal do centro trabalho do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/centroTrabalhopostalCodeNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/centroTrabalhoAdressNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Adress do centro trabalho do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
-
-                    <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/centroTrabalhoAdressNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
-
-                </com.google.android.material.textfield.TextInputLayout>
+				</com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
 					android:layout_width="match_parent"

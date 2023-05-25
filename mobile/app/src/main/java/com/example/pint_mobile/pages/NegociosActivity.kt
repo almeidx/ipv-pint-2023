@@ -26,6 +26,8 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
         super.onCreate(savedInstanceState)
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
+        val userId = intent.getIntExtra("userId", 0)
+
         negociosAdapter = NegocioAdapter(negociosList, R.layout.item_negocio, false)
 
         lista.adapter = negociosAdapter
@@ -73,16 +75,10 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     val intent = Intent(view.context, EditNegocioActivity::class.java)
 
                     intent.putExtra("id", negocio.id)
-                    intent.putExtra("Cliente", negocio.cliente)
-                    intent.putExtra("FuncionarioName", negocio.FuncionarioName)
-                    intent.putExtra("FuncionarioEmail", negocio.FuncionarioEmail)
-                    intent.putExtra("centroTrabalhoName", negocio.centroTrabalhoName)
-                    intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
-                    intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
-                    intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
-                    intent.putExtra("titulo", negocio.titulo)
                     intent.putExtra("estado", negocio.estado)
                     intent.putExtra("data", negocio.dataFinalizacao)
+                    intent.putExtra("funcResponsavel", negocio.FuncionarioEmail)
+                    intent.putExtra("centroTrabalho", negocio.centroTrabalhoName)
 
                     view.context.startActivity(intent)
                 }
