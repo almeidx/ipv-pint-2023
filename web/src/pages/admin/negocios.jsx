@@ -23,14 +23,7 @@ import { useUser } from "../../contexts/UserContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-
-const estadosNames = [
-	{ color: "rgba(255, 0, 0, 0.1)", name: "Em espera" },
-	{ color: "rgba(255, 0, 0, 0.25)", name: "A validar" },
-	{ color: "rgba(255, 0, 0, 0.5)", name: "Em desenvolvimento" },
-	{ color: "rgba(255, 0, 0, 0.75)", name: "A finalizar" },
-	{ color: "rgba(255, 0, 0, 1)", name: "Finalizado" },
-];
+import { estadosNames, resolveNameOfNextEstado } from "../../utils/negocios.js";
 
 export default function Negocios() {
 	const { user } = useUser();
@@ -236,7 +229,7 @@ export default function Negocios() {
 													<li>{centroTrabalho.address}</li>
 												</ul>
 											) : (
-												<p className="mb-0">Não associado</p>
+												<p className="mb-0 ms-5">Não associado</p>
 											)}
 										</div>
 
@@ -305,26 +298,30 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 		setNegocioData({});
 	}
 
-	const estadoAtual = negocioData.estados?.[negocioData.estados.length - 1] ?? data?.estados?.[data.estados.length - 1];
-	const estado = estadosNames[estadoAtual?.estado ?? 0];
+	const estadoAtual = negocioData.estados?.at(-1) ?? data?.estados?.at(-1);
+	const estado = resolveNameOfNextEstado(estadoAtual);
 
 	function handleAdvanceEstado() {
-		setNegocioData((state) => ({
-			...state,
-			estados: [
-				...(state.estados ??
-					data.estados ?? [
-						{
-							estado: 0,
-							dataFinalizacao: new Date().toISOString(),
-						},
-					]),
-				{
-					estado: estadoAtual.estado + 1,
-					dataFinalizacao: new Date().toISOString(),
-				},
-			],
-		}));
+		setNegocioData((state) => {
+			const baseEstados = state.estados ??
+				data?.estados ?? [
+					{
+						estado: 0,
+						dataFinalizacao: new Date().toISOString(),
+					},
+				];
+
+			return {
+				...state,
+				estados: [
+					...baseEstados,
+					{
+						estado: !baseEstados.length || !estadoAtual ? 0 : (estadoAtual?.estado ?? 0) + 1,
+						dataFinalizacao: new Date().toISOString(),
+					},
+				],
+			};
+		});
 	}
 
 	return (
@@ -394,8 +391,7 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 				<Button
 					onClick={() => {
 						onSave(negocioData);
-						onHide();
-						setNegocioData({});
+						onHideWrapper();
 					}}
 					variant="success"
 				>
@@ -410,10 +406,12 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 
 function Progresso({ estados }) {
 	const obj = new Map(estados.map((estado) => [estado.estado, estado.dataFinalizacao]));
+	const lastEstado = estados.at(-1);
 
 	function hasState(estado) {
 		if (!obj.size && estado === 0) return true;
 		if (obj.has(estado)) return true;
+		if (estado === (lastEstado?.estado ?? 0) + 1) return true;
 
 		return false;
 	}
@@ -436,6 +434,8 @@ function Progresso({ estados }) {
 					now={hasState(index) ? 20 : 0}
 					key={index}
 					label={name}
+					data-bs-toggle="tooltip"
+					data-bs-placement="left"
 				/>
 				// </OverlayTrigger>
 			))}

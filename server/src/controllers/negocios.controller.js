@@ -121,7 +121,13 @@ module.exports = {
 				opts.where = { idUser: req.user.id };
 			}
 
-			res.json(await Negocio.findAll(opts));
+			const negocios = await Negocio.findAll(opts);
+
+			for (const negocio of negocios) {
+				negocio.estados.sort((a, b) => a.estado - b.estado);
+			}
+
+			res.json(negocios);
 		},
 	],
 

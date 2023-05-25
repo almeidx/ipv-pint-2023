@@ -21,6 +21,7 @@ import { useToast } from "../contexts/ToastContext.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import { resolveNameOfNextEstado } from "../utils/negocios.js";
 
 export function Negocios() {
 	const [search, setSearch] = useState("");
@@ -63,7 +64,7 @@ export function Negocios() {
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao criar negócio");
+				throw new Error("Erro ao criar negócio", { cause: response });
 			}
 
 			mutateNegocios();
@@ -78,7 +79,26 @@ export function Negocios() {
 
 	/** @param {object} data */
 	async function handleEdit(data) {
-		// TODO: implementar
+		try {
+			const response = await fetch(`${API_URL}/negocios/${editNegocioData.id}`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			});
+
+			if (!response.ok) {
+				throw new Error("Erro ao editar negócio", { cause: response });
+			}
+
+			mutateNegocios();
+
+			showToastWithMessage("Negócio editado com sucesso!");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Erro ao editar negócio");
+		}
 	}
 
 	/** @param {object} data */
@@ -92,7 +112,7 @@ export function Negocios() {
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao criar cliente");
+				throw new Error("Erro ao criar cliente", { cause: response });
 			}
 
 			const { id } = await response.json();
@@ -123,7 +143,7 @@ export function Negocios() {
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao criar contacto");
+				throw new Error("Erro ao criar contacto", { cause: response });
 			}
 
 			const { id } = await response.json();
@@ -240,21 +260,18 @@ export function Negocios() {
  * @param {Object} props
  * @param {string} props.title
  * @param {string} props.description
- * @param {Object} props.areaNegocio
- * @param {string} props.areaNegocio.name
- * @param {Object[]} props.contactos
- * @param {number} props.contactos.idContacto
- * @param {Object} props.contactos.contacto
- * @param {0|1} props.contactos.contacto.type
- * @param {string} props.contactos.contacto.value
- * @param {Object} props.centroTrabalho
- * @param {string} props.centroTrabalho.name
- * @param {Object} props.cliente
- * @param {string} props.cliente.name
+ * @param {{ id: number; name: string }} props.areaNegocio
+ * @param {{ idContacto: number; contacto: { type: 0 | 1; value: string } }[]} props.contactos
+ * @param {{ id: number; name: string }?} props.centroTrabalho
+ * @param {{ id: number; name: string }} props.cliente
+ * @param {{ estado: number; dataFinalizacao: string }[]} props.estados
  * @param {(data: any) => void} props.onEditClick
  */
 function Negocio({ onEditClick, ...negocio }) {
-	const { title, description, areaNegocio, contactos, centroTrabalho, cliente } = negocio;
+	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, estados } = negocio;
+
+	const estado = estados.at(-1);
+	const estadoAtual = resolveNameOfNextEstado(estado);
 
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
@@ -262,11 +279,13 @@ function Negocio({ onEditClick, ...negocio }) {
 				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
 					{title}
 
-					<OverlayTrigger placement="top" overlay={<Tooltip>Edite o seu Negócio</Tooltip>}>
-						<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
-							<RiPencilLine size={32} color="black" />
-						</Button>
-					</OverlayTrigger>
+					{estados.length === 0 ? (
+						<OverlayTrigger placement="top" overlay={<Tooltip>Edite o seu Negócio</Tooltip>}>
+							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
+								<RiPencilLine size={32} color="black" />
+							</Button>
+						</OverlayTrigger>
+					) : null}
 				</Card.Title>
 
 				<hr />
@@ -280,6 +299,11 @@ function Negocio({ onEditClick, ...negocio }) {
 					<span className="fw-bold">Cliente: </span> {cliente.name}
 				</Card.Text>
 
+				<Card.Text style={{ fontSize: "1.1rem" }}>
+					{" "}
+					<span className="fw-bold">Estado: </span> {estadoAtual.name}
+				</Card.Text>
+
 				{centroTrabalho ? (
 					<Card.Text style={{ fontSize: "1.1rem" }}>
 						{" "}
@@ -287,23 +311,27 @@ function Negocio({ onEditClick, ...negocio }) {
 					</Card.Text>
 				) : null}
 
-				<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-					Contactos:
-				</span>
+				{contactos.length ? (
+					<>
+						<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
+							Contactos:
+						</span>
 
-				<ul>
-					{contactos.map(({ idContacto, contacto }) => (
-						<li key={idContacto} style={{ fontSize: "1.1rem" }}>
-							<a
-								className="text-black"
-								style={{ listStyle: "none" }}
-								href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
-							>
-								{contacto.value}
-							</a>
-						</li>
-					))}
-				</ul>
+						<ul>
+							{contactos.map(({ idContacto, contacto }) => (
+								<li key={idContacto} style={{ fontSize: "1.1rem" }}>
+									<a
+										className="text-black"
+										style={{ listStyle: "none" }}
+										href={`${contacto.type === 0 ? "mailto" : "tel"}:${contacto.value}`}
+									>
+										{contacto.value}
+									</a>
+								</li>
+							))}
+						</ul>
+					</>
+				) : null}
 			</Card.Body>
 		</Card>
 	);
@@ -342,7 +370,7 @@ function CreateOrEditNegocioModal({
 	data,
 	isCreate,
 }) {
-	const [negocioData, setNegocioData] = useState({ contactos: [] });
+	const [negocioData, setNegocioData] = useState({});
 	const [contactos, setContactos] = useState([]);
 
 	useEffect(() => {
@@ -353,7 +381,7 @@ function CreateOrEditNegocioModal({
 
 	useEffect(() => {
 		if (newContactoId !== null) {
-			setNegocioData((state) => ({ ...state, contactos: [...state.contactos, newContactoId] }));
+			setNegocioData((state) => ({ ...state, contactos: [...(state.contactos ?? []), newContactoId] }));
 		}
 	}, [newContactoId]);
 
@@ -366,8 +394,7 @@ function CreateOrEditNegocioModal({
 			credentials: "include",
 		}).then(async (res) => {
 			if (res.ok) {
-				const contactos = await res.json();
-				setContactos(contactos);
+				setContactos(await res.json());
 			} else {
 				throw new Error("Erro ao obter contactos", { cause: res });
 			}
@@ -378,7 +405,7 @@ function CreateOrEditNegocioModal({
 
 	function onHideWrapper() {
 		onHide();
-		setNegocioData({ contactos: [] });
+		setNegocioData({});
 	}
 
 	/** @param {number[]} ids */
