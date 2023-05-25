@@ -1,8 +1,9 @@
 const { body, param } = require("express-validator");
-const { Vaga } = require("../database/index.js");
+const { Vaga, Candidatura } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { Op } = require("sequelize");
 
 const fieldValidations = [
 	body("amountSlots", "`amountSlots` tem que ser do tipo inteiro").isInt(),
@@ -44,15 +45,31 @@ module.exports = {
 	async read(req, res) {
 		const { admin } = req.query;
 
-		const attributes = ["id", "amountSlots", "public", "icon", "title", "description", "status"];
+		const opts = {
+			attributes: ["id", "amountSlots", "public", "icon", "title", "description", "status"],
+			order: [["id", "ASC"]],
+		};
 
 		if (admin !== undefined) {
 			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorConteudos)) return;
 
-			attributes.push("createdAt");
+			opts.attributes.push("createdAt");
+		} else if (req.user?.id) {
+			const candidaturas = await Candidatura.findAll({
+				where: {
+					idUser: req.user.id,
+				},
+				attributes: ["idVaga"],
+			});
+
+			opts.where = {
+				id: {
+					[Op.notIn]: candidaturas.map((c) => c.idVaga),
+				},
+			};
 		}
 
-		res.json(await Vaga.findAll({ attributes, order: [["id", "ASC"]] }));
+		res.json(await Vaga.findAll(opts));
 	},
 
 	update: [

@@ -15,6 +15,7 @@ import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.listaNegocios
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
     private val negociosList = ArrayList<Negocio>()
@@ -51,6 +52,9 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                 false
             }
         }
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
 
     class NegocioAdapter(private val negocios: ArrayList<Negocio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {

@@ -66,6 +66,23 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         )
 
 
+        val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
+        estado.setText(items[if (getEstado.size == 0) 0 else getEstado.size - 1])
+
+        val setNextState = findViewById<Button>(R.id.setNextStatex)
+        setNextState.setOnClickListener {
+            val atual = if (getEstado.size == 0) 0 else getEstado.size
+
+            getEstado.add(atual)
+
+            val formattedDateTime = outputDateTimeFormat.format(currentDate)
+            getData.add(formattedDateTime)
+
+            estado.setText(items[atual])
+
+            Log.i("estado", getEstado.toString())
+            Log.i("data", getData.toString())
+        }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -162,7 +179,6 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
             return rowView
         }
-
     }
 
     fun goToCriarReuniao(view: View) {

@@ -1,23 +1,44 @@
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormCheck from "react-bootstrap/FormCheck";
-import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
+import FormLabel from "react-bootstrap/FormLabel";
 
 /**
  * @param {Object} props
  * @param {{ label: string; value: number }[]} props.options
  * @param {(selectedOptions: number[]) => void} props.onSelectOption
+ * @param {string} props.id
+ * @param {string} props.placeholder
+ * @param {string} props.buttonText
+ * @param {boolean} props.withSearch
+ * @param {number[]} [props.defaultSelectedOptions]
  */
-export function Multiselect({ options, onSelectOption }) {
+export function Multiselect({
+	options,
+	onSelectOption,
+	id,
+	placeholder,
+	buttonText,
+	withSearch,
+	defaultSelectedOptions,
+}) {
 	const [optionsVisible, setOptionsVisible] = useState(false);
 	const [selectedOptions, setSelectedOptions] = useState([]);
 	const [search, setSearch] = useState("");
 
+	useEffect(() => {
+		if (defaultSelectedOptions && defaultSelectedOptions.length > 0) {
+			setSelectedOptions(defaultSelectedOptions);
+		}
+	}, [defaultSelectedOptions]);
+
+	useEffect(() => {
+		onSelectOption(selectedOptions);
+	}, [selectedOptions]);
+
 	function handleSelectOption(option) {
 		setSelectedOptions((state) => [...state, option]);
-
-		onSelectOption(selectedOptions);
 	}
 
 	const filteredOptions = useMemo(
@@ -25,10 +46,9 @@ export function Multiselect({ options, onSelectOption }) {
 		[options, search],
 	);
 
-	// handle click outside
 	useEffect(() => {
 		function handleClickOutside(event) {
-			if (optionsVisible && !event.target.closest(".position-relative")) {
+			if (optionsVisible && !event.target.closest(`#multiselect-${id}`)) {
 				setOptionsVisible(false);
 			}
 		}
@@ -39,8 +59,10 @@ export function Multiselect({ options, onSelectOption }) {
 	}, []);
 
 	return (
-		<div className="position-relative">
-			<Button onClick={() => setOptionsVisible((state) => !state)}>Adicionar utilizadores</Button>
+		<div className="position-relative" id={`multiselect-${id}`}>
+			<Button disabled={options.length === 0} onClick={() => setOptionsVisible((state) => !state)}>
+				{buttonText}
+			</Button>
 
 			<div
 				className="flex-column position-absolute mt-2 w-fit text-white"
@@ -54,13 +76,16 @@ export function Multiselect({ options, onSelectOption }) {
 					borderTopRightRadius: "0.5rem",
 				}}
 			>
-				<FormControl
-					placeholder="Pesquisar utilizadores"
-					className="mb-2"
-					style={{ backgroundColor: "lightgray" }}
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-				/>
+				{withSearch ? (
+					<FormControl
+						id={id}
+						placeholder={placeholder}
+						className="mb-2"
+						style={{ backgroundColor: "lightgray" }}
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+					/>
+				) : null}
 
 				{filteredOptions.map(({ label, value }, idx) => (
 					<Option

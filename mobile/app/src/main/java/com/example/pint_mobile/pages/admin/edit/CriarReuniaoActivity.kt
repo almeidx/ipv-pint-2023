@@ -17,6 +17,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createReunion
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Criar Reunião"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -69,6 +70,10 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
             setUser.text =  usersText
 
         pickDate()
+
+        val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+
+        nav.menu.findItem(R.id.mais).isChecked = true
     }
     private fun getDateTimeCalendar() {
         val cal: Calendar = Calendar.getInstance()

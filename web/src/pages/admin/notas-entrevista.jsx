@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BsTrash } from "react-icons/bs";
@@ -90,7 +89,7 @@ export function NotasEntrevista() {
 				</div>
 
 				<Form onSubmit={handleCreate}>
-					<FormControl
+					<Form.Control
 						className="mb-3"
 						name="content"
 						id="content"

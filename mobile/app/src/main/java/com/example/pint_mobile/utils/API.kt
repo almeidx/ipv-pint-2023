@@ -1063,7 +1063,6 @@ fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utili
     queue.add(request)
 }
 
-
 fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames: ArrayList<String>, clienteIds: ArrayList<Int>, contactoIds: ArrayList<Int>, contactoNames: ArrayList<String>, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
@@ -1099,8 +1098,10 @@ fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames:
 
                 throw ServerError()
             }
+
             return super.parseNetworkResponse(response)
         }
     }
+
     queue.add(request)
 }
