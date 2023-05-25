@@ -21,8 +21,6 @@ class CriarClienteActivity : ActivityBase(R.layout.activity_criar_cliente, "Cria
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
-        nav.menu.findItem(R.id.mais).isChecked = true
-
     }
 
     fun criarCliente(view: View) {

@@ -3,15 +3,11 @@ package com.example.pint_mobile.utils
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.android.volley.NetworkResponse
-import com.android.volley.ParseError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.ServerError
-import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
@@ -30,12 +26,12 @@ import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
+import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
+import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -277,7 +273,7 @@ fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivi
     queue.add(request)
 }
 
-fun listarCentroTrabalho(list: ArrayList<CentroTrabalho>, adapter: EditNegocioActivity.CentroTrabalhoAdapter, ctx: Context) {
+fun listarCentroTrabalho(list: ArrayList<CentroTrabalho>, adapter: EditNegocioActivity.CentroTrabalhoAdapter, ctx: Context, callback: () -> Unit ) {
     val queue = Volley.newRequestQueue(ctx)
 
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/centros-de-trabalho", null, { response -> try {
@@ -291,6 +287,7 @@ fun listarCentroTrabalho(list: ArrayList<CentroTrabalho>, adapter: EditNegocioAc
         }
 
         adapter.notifyDataSetChanged()
+        callback()
     } catch (e: JSONException) {
         e.printStackTrace()
     }
@@ -332,6 +329,7 @@ fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatu
         for (i in 0 until response.length()) {
             val rawCandidatura = response.getJSONObject(i)
             val candidatura = Candidatura(
+                rawCandidatura.getInt("id"),
                 rawCandidatura.getJSONObject("utilizador").getString("name"),
                 rawCandidatura.getJSONObject("vaga").getString("title"),
                 rawCandidatura.getJSONObject("vaga").getString("description"),
@@ -424,6 +422,28 @@ fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivit
                 list.add(notificacao)
             }
 
+            adapter.notifyDataSetChanged()
+        }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+fun listarNotasReuniao(
+    list: ArrayList<NotaReuniao>,
+    allList: ArrayList<NotaReuniao>, adapter: EditarNotaEntrevistaActivity.NotaReuniaoAdapter, id: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonObjectRequestWithCookie(ctx, Request.Method.GET, "$API_URL/reunioes/$id/notas", null,
+        { response ->
+            val notas = response.getJSONArray("notas")
+            for (i in 0 until notas.length()) {
+                val rawNota = notas.getJSONObject(i)
+                val nota = NotaReuniao(
+                    rawNota.getInt("id"),
+                    rawNota.getString("content"),
+                    rawNota.getString("createdAt")
+                )
+                list.add(nota)
+            }
             adapter.notifyDataSetChanged()
         }, { error -> error.printStackTrace() })
 
@@ -1080,6 +1100,44 @@ fun createContactoClient(idCliente: Int, type:Int, contacto:String, clientNames:
         intent.putExtra("clienteIds", clienteIds)
         intent.putExtra("contactoIds", contactoIds)
         intent.putExtra("contactoNames", contactoNames)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun createNotaReuniao(idCandidatura: Int, nota:String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("content", nota)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/reunioes/$idCandidatura/notas", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Nota criada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, EditarCandidaturaActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

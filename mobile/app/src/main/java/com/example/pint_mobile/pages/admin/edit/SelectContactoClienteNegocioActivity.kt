@@ -12,11 +12,13 @@ import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Contacto
 import com.example.pint_mobile.utils.listaContactosCliente
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlin.properties.Delegates
 
 class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_select_contacto_cliente_negocio, "Selecionar Contacto") {
 
@@ -27,6 +29,8 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
     private lateinit var clienteIds: ArrayList<Int>
     private lateinit var contactoIds: ArrayList<Int>
     private lateinit var contactoNames: ArrayList<String>
+
+    private var idCliente by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,18 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             intent.getStringArrayListExtra("contactoNome")!!,
         )
 
-        val idCliente = clienteIds[0]
+        if (clienteIds.isEmpty())
+        {
+            val intent = Intent(this, CriarNegocioActivity::class.java)
+            Toast.makeText(this, "Selecione um cliente primeiro", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        } else {
+            idCliente  = clienteIds[0]
+        }
+
+
+
+
 
         lista.adapter = contactosAdapter
 

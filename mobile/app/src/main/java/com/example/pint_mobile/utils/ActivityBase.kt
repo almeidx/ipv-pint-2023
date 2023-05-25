@@ -93,10 +93,6 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
             }
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-        nav.menu.findItem(R.id.inicio).isEnabled = false
-        nav.menu.findItem(R.id.notificacoes).isEnabled = true
-        nav.menu.findItem(R.id.inicio).isChecked = true
     }
 
     override fun onSupportNavigateUp(): Boolean {

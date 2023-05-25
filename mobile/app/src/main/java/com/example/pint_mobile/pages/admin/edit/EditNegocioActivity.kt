@@ -17,6 +17,8 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.CentroTrabalho
 import com.example.pint_mobile.utils.editNegocio
+import com.example.pint_mobile.utils.getCurrentUser
+import com.example.pint_mobile.utils.listarCentroTrabalho
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import org.json.JSONObject
@@ -61,26 +63,10 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             centroTrabalhoList,
             centroTrabalhoAdapter,
             this
-        )
-
-
-        val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
-        estado.setText(items[if (getEstado.size == 0) 0 else getEstado.size - 1])
-
-        val setNextState = findViewById<Button>(R.id.setNextStatex)
-        setNextState.setOnClickListener {
-            val atual = if (getEstado.size == 0) 0 else getEstado.size
-
-            getEstado.add(atual)
-
-            val formattedDateTime = outputDateTimeFormat.format(currentDate)
-            getData.add(formattedDateTime)
-
-            estado.setText(items[atual])
-
-            Log.i("estado", getEstado.toString())
-            Log.i("data", getData.toString())
+        ) {
+            spinner.setSelection(centroTrabalhoList.indexOfFirst { it.nome == centroTrabalhoName })
         }
+
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -144,7 +130,6 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         }
 
         Log.i("idNegocio", idNegocio.toString())
-
     }
 
     class CentroTrabalhoAdapter(val context: Context, val dataSource: ArrayList<CentroTrabalho>) :
