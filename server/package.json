@@ -3,10 +3,10 @@
 	"private": true,
 	"main": "src/index.js",
 	"scripts": {
+		"fmt": "pnpm format",
+		"format": "prettier --write .",
 		"start": "env-cmd node .",
 		"start-dev": "env-cmd node .",
-		"format": "prettier --write .",
-		"fmt": "pnpm format",
 		"watch": "env-cmd node --watch src src/index.js"
 	},
 	"dependencies": {
@@ -38,5 +38,6 @@
 		"env-cmd": "^10.1.0",
 		"prettier": "^2.8.8",
 		"prettier-plugin-tailwindcss": "^0.3.0"
-	}
+	},
+	"packageManager": "pnpm@8.6.0"
 }
