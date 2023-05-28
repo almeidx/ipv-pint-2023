@@ -45,4 +45,10 @@ class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidat
         startActivity(intent)
     }
 
+    fun goToMarcarReuniao(view: View) {
+        val intent = android.content.Intent(this, CriarReuniaoActivity::class.java)
+        intent.putExtra("idCandidatura", id)
+        startActivity(intent)
+    }
+
 }

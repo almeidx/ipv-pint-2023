@@ -14,6 +14,7 @@ import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.ContactoActivity
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.LoginActivity
+import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.PerfilActivity
@@ -70,7 +71,7 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                         startActivity(intent)
                     }
                     icon3.setOnClickListener {
-                        val intent = Intent(this, NegociosActivity::class.java)
+                        val intent = Intent(this, NegocioUtilizadorActivity::class.java)
                         startActivity(intent)
                     }
                     icon4.setOnClickListener {

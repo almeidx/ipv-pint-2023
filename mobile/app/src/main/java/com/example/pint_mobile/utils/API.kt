@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.IdeiasActivity
+import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.VagasActivity
@@ -158,6 +159,36 @@ fun listaNegocios(
     queue.add(request)
 }
 
+fun listaNegociosUser(
+    list: ArrayList<NegocioUser>,
+    allList: ArrayList<NegocioUser>,
+    adapter: NegocioUtilizadorActivity.NegocioAdapter,
+    ctx: Context,
+) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/negocios", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawNegocio = response.getJSONObject(i)
+            val negocioUser = NegocioUser(
+                rawNegocio.getInt("id"),
+                rawNegocio.getString("title"),
+                rawNegocio.getString("description"),
+                rawNegocio.getJSONObject("areaNegocio").getString("name"),
+                rawNegocio.getJSONObject("cliente").getString("name")
+            )
+            list.add(negocioUser)
+        }
+        allList.addAll(list)
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+    queue.add(request)
+}
+
+
 
 fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador>, adapter: AdminUtilizadoresActivity.UtilizadorAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
@@ -252,7 +283,7 @@ fun listaContactosCliente(list: ArrayList<Contacto>, allList: ArrayList<Contacto
     queue.add(request)
 }
 
-fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivity.AreaNegocioAdapter, ctx: Context) {
+fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivity.AreaNegocioAdapter, ctx: Context, callback: () -> Unit) {
     val queue = Volley.newRequestQueue(ctx)
 
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/areas-de-negocio", null, { response -> try {
@@ -266,6 +297,7 @@ fun listarAreasNegocio(list: ArrayList<AreaNegocio>, adapter: CriarNegocioActivi
         }
 
         adapter.notifyDataSetChanged()
+        callback()
     } catch (e: JSONException) {
         e.printStackTrace()
     }
@@ -909,7 +941,7 @@ fun createVaga(titulo:String, descricao:String, numeroVagas:Int, publico:Boolean
     queue.add(request)
 }
 
-fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, userIds:ArrayList<Int>, negocioId:ArrayList<Int>?, subject:String, idCandidatura: Int?, ctx: Context) {
+fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, userIds:ArrayList<Int>, negocioId: Int?, subject:String, idCandidatura: Int?, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -922,7 +954,7 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
 
     if(negocioId != null)
     {
-        body.put("idNegocio", JSONArray(negocioId))
+        body.put("idNegocio", negocioId)
     }
 
     if (idCandidatura != null) {
@@ -978,7 +1010,7 @@ fun createNegocio(titulo:String, area:Int, descricao:String, cliente: Int, conta
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/negocios", body, Response.Listener { response ->
         Toast.makeText(ctx, "Negócio criado com sucesso!", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(ctx, AdminNegociosActivity::class.java)
+        val intent = Intent(ctx, NegocioUtilizadorActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()
@@ -1058,6 +1090,45 @@ fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utili
         Toast.makeText(ctx, "Negócio editado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminNegociosActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
+
+fun editNegocioUser( idNegocio: Int,  titulo: String, descricao: String, area: Int,  ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("title", titulo)
+    body.put("description", descricao)
+    body.put("idAreaNegocio", area)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/negocios/$idNegocio", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Negócio editado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, NegocioUtilizadorActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

@@ -58,7 +58,7 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int, private val fromReuniao: Boolean = false, private val users: ArrayList<String> = ArrayList(), private val userIds: ArrayList<Int> = ArrayList(), private val negocioId: ArrayList<Int> = ArrayList()) : BaseAdapter() {
+    class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int, private val fromReuniao: Boolean = false, private val users: ArrayList<String> = ArrayList(), private val userIds: ArrayList<Int> = ArrayList(), private val negocioId: ArrayList<Int> = ArrayList(), private val candidaturaId: ArrayList<Int> = ArrayList(), private val data: ArrayList<String> = ArrayList()) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val utilizador = utilizadores[position]
@@ -83,6 +83,9 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
                     intent.putExtra("users",  users)
                     intent.putExtra("userIds", userIds)
                     intent.putExtra("negocioId", negocioId)
+                    intent.putExtra("candidaturaId", candidaturaId)
+                    intent.putExtra("data", data)
+
                     view.context.startActivity(intent)
                 }
             }else {

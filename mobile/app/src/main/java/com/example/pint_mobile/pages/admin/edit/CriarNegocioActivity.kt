@@ -55,7 +55,9 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             areasList,
             areasAdapter,
             this
-        )
+        ){
+
+        }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
