@@ -12,28 +12,28 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
-import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Negocio
-import com.example.pint_mobile.utils.listaNegocios
+import com.example.pint_mobile.utils.NegocioUser
+import com.example.pint_mobile.utils.listaNegociosUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
-    private val negociosList = ArrayList<Negocio>()
-    private val allNegociosList = ArrayList<Negocio>()
+class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utilizador, "Negócios") {
+    private val negociosList = ArrayList<NegocioUser>()
+    private val allNegociosList = ArrayList<NegocioUser>()
     private lateinit var negociosAdapter: NegocioAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val lista = findViewById<ListView>(R.id.listaNegocios)
+        val lista = findViewById<ListView>(R.id.listaNegociosUser)
         val userId = intent.getIntExtra("userId", 0)
 
-        negociosAdapter = NegocioAdapter(negociosList, R.layout.item_negocio, false)
+        negociosAdapter = NegocioAdapter(negociosList, R.layout.item_negocio)
 
         lista.adapter = negociosAdapter
 
-        listaNegocios(negociosList, allNegociosList, negociosAdapter, this)
+        listaNegociosUser(negociosList, allNegociosList, negociosAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
@@ -58,7 +58,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class NegocioAdapter(private val negocios: ArrayList<Negocio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
+    class NegocioAdapter(private val negocios: ArrayList<NegocioUser>, private val item: Int) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val negocio = negocios[position]
@@ -68,47 +68,22 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
             tituloNegocio.text = negocio.titulo
-            descricaoNegocio.text = negocio.descricao
+            descricaoNegocio.text = negocio.areaNegocio + ": " +  negocio.descricao
             clienteNegocio.text = negocio.cliente
 
-            if (attachListener) {
-                view.setOnClickListener {
-                    val intent = Intent(view.context, EditNegocioActivity::class.java)
+            view.setOnClickListener {
+                    val intent = Intent(view.context, EditNegocioUserActivity::class.java)
 
-                    intent.putExtra("id", negocio.id)
-                    intent.putExtra("estado", negocio.estado)
-                    intent.putExtra("data", negocio.dataFinalizacao)
-                    intent.putExtra("funcResponsavel", negocio.FuncionarioEmail)
-                    intent.putExtra("centroTrabalho", negocio.centroTrabalhoName)
-
-                    view.context.startActivity(intent)
-                }
-            } else {
-                view.setOnClickListener {
-                    val intent = Intent(view.context, InfoNegocioActivity::class.java)
-
+                    intent.putExtra("idNegocio", negocio.id)
                     intent.putExtra("titulo", negocio.titulo)
                     intent.putExtra("descricao", negocio.descricao)
-                    intent.putExtra("cliente", negocio.cliente)
-                    intent.putExtra("criador", negocio.criador)
-                    intent.putExtra("criadorEmail", negocio.criadorEmail)
                     intent.putExtra("areaNegocio", negocio.areaNegocio)
-                    intent.putExtra("FuncName", negocio.FuncionarioName)
-                    intent.putExtra("FuncEmail", negocio.FuncionarioEmail)
-                    intent.putExtra("centroTrabalhoName", negocio.centroTrabalhoName)
-                    intent.putExtra("centroTrabalhoLocation", negocio.centroTrabalhoLocation)
-                    intent.putExtra("centroTrabalhoPostalCode", negocio.centroTrabalhoPostalCode)
-                    intent.putExtra("centroTrabalhoAdress", negocio.centroTrabalhoAdress)
 
                     view.context.startActivity(intent)
                 }
-            }
-
-
-
             return view
         }
-        override fun getItem(position: Int): Negocio {
+        override fun getItem(position: Int): NegocioUser {
             return negocios[position]
         }
 

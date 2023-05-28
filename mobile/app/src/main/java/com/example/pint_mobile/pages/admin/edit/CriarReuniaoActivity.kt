@@ -35,11 +35,14 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
 
     private lateinit var userNames: ArrayList<String>
+    private lateinit var data: ArrayList<String>
     private lateinit var userIds: ArrayList<Int>
     private lateinit var negocioId: ArrayList<Int>
+    private lateinit var candidaturaId: ArrayList<Int>
 
     private var dataReuniao: String? = null
     private var getidNegocio = 0
+    private var getidCandidatura = 0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,21 +51,36 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         val id = intent.getStringExtra("idReuniao")
         dataReuniao = intent.getStringExtra("dataReuniao")
 
+        getidCandidatura = intent.getIntExtra("idCandidatura", -1)
         getidNegocio = intent.getIntExtra("idNegocio", -1)
         userNames = intent.getStringArrayListExtra("users") ?: ArrayList()
         userIds = intent.getIntegerArrayListExtra("userIds") ?: ArrayList()
         negocioId = intent.getIntegerArrayListExtra("negocioId") ?: ArrayList()
+        candidaturaId = intent.getIntegerArrayListExtra("candidaturaId") ?: ArrayList()
+        data = intent.getStringArrayListExtra("data") ?: ArrayList()
 
 
         if(getidNegocio != -1){
             negocioId.add(getidNegocio)
         }
 
+        if (getidCandidatura != -1){
+            candidaturaId.add(getidCandidatura)
+        }
+
+        Log.i("candidaturaId", candidaturaId.toString())
         Log.i("negocioId", negocioId.toString())
+        Log.i("data", data.toString())
 
         // LOG the arrays
          Log.i("users", userNames.toString())
          Log.i("users", userIds.toString())
+
+        if( data.size > 1) {
+            data.last().let {
+                dataReuniao = it
+            }
+        }
 
         val setUser = findViewById<TextView>(R.id.usersReuniaoEditText)
 
@@ -74,6 +92,9 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
         nav.menu.findItem(R.id.mais).isChecked = true
+
+        val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
+        tv_textTime.setText(dataReuniao)
     }
     private fun getDateTimeCalendar() {
         val cal: Calendar = Calendar.getInstance()
@@ -107,18 +128,26 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-        val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
+        val tv_textTime = findViewById<Button>(R.id.btn_timePicker)
         val formattedDateTime = String.format("%04d-%02d-%02dT%02d:%02d:00", savedYear, savedMonth + 1, savedDay, savedHour, savedMinute)
         tv_textTime.setText(formattedDateTime)
+
+        dataReuniao = formattedDateTime
+        data.add(dataReuniao!!)
     }
 
-   // go to page select users
     fun selectUsers(_view: View) {
         val intent = Intent(this, SelectUserActivity::class.java)
 
         intent.putExtra("users", userNames)
         intent.putExtra("userIds", userIds)
         intent.putExtra("negocioId", negocioId)
+        intent.putExtra("candidaturaId", candidaturaId)
+        intent.putExtra("data", data)
+
+       Log.i("negocioId", negocioId.toString())
+       Log.i("candidaturaId", candidaturaId.toString())
+       Log.i("data", data.toString())
 
         startActivity(intent)
     }
@@ -131,8 +160,13 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         val descricao = findViewById<EditText>(R.id.descricao_reuniao).text.toString()
         val subjetc = findViewById<EditText>(R.id.subjectReuniaoEditText).text.toString()
 
+        Log.i("negocioId", negocioId.toString())
 
-        createReunion( titulo, descricao, data, duracao,  userIds, negocioId, subjetc, null,  this)
+        getidCandidatura = candidaturaId.last()
+
+        Log.i("getidCandidatura", getidCandidatura.toString())
+
+        createReunion( titulo, descricao, data, duracao,  userIds, getidNegocio, subjetc, getidCandidatura,  this)
 
     }
 }

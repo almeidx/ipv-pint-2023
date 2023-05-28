@@ -37,8 +37,8 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
             intent.getStringArrayListExtra("users")!!,
             intent.getIntegerArrayListExtra("userIds")!!,
             intent.getIntegerArrayListExtra("negocioId")!!,
-
-
+            intent.getIntegerArrayListExtra("candidaturaId")!!,
+            intent.getStringArrayListExtra("data")!!
         )
 
 
