@@ -6,7 +6,6 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
-const sgMail = require("@sendgrid/mail");
 const { sequelize } = require("./database/index.js");
 const areasDeNegocioRouter = require("./routes/areas-de-negocio.js");
 const authRouter = require("./routes/auth.js");
@@ -27,8 +26,6 @@ const uploadsRouter = require("./routes/uploads.js");
 const vagasRouter = require("./routes/vagas.js");
 
 require("./middleware/passport.js")(passport);
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 

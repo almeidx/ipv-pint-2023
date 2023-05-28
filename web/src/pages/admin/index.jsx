@@ -67,31 +67,33 @@ export function Admin() {
 				</Nav>
 			</div>
 
-			<Suspense
-				fallback={
-					<div className="min-h-screen-no-footer flex items-center justify-center p-5">
-						<Spinner />
-					</div>
-				}
-			>
-				{section === "candidaturas" ? (
-					<Candidaturas />
-				) : section === "ideias" ? (
-					<Ideias />
-				) : section === "negocios" ? (
-					<Negocios />
-				) : section === "vagas" ? (
-					<Vagas />
-				) : section === "beneficios" ? (
-					<Beneficios />
-				) : section === "reunioes" ? (
-					<Reunioes />
-				) : section === "utilizadores" ? (
-					<Utilizadores />
-				) : section === "mensagens" ? (
-					<Mensagens />
-				) : null}
-			</Suspense>
+			<div className="w-100" style={{ height: "calc(100vh - 5rem)", overflowY: "scroll" }}>
+				<Suspense
+					fallback={
+						<div className="min-h-screen-no-footer flex items-center justify-center p-5">
+							<Spinner />
+						</div>
+					}
+				>
+					{section === "candidaturas" ? (
+						<Candidaturas />
+					) : section === "ideias" ? (
+						<Ideias />
+					) : section === "negocios" ? (
+						<Negocios />
+					) : section === "vagas" ? (
+						<Vagas />
+					) : section === "beneficios" ? (
+						<Beneficios />
+					) : section === "reunioes" ? (
+						<Reunioes />
+					) : section === "utilizadores" ? (
+						<Utilizadores />
+					) : section === "mensagens" ? (
+						<Mensagens />
+					) : null}
+				</Suspense>
+			</div>
 		</Page>
 	);
 }

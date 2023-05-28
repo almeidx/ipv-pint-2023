@@ -1,9 +1,18 @@
-import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement, Title, Tooltip } from "chart.js";
+import {
+	BarElement,
+	CategoryScale,
+	Chart as ChartJS,
+	LineElement,
+	LinearScale,
+	PointElement,
+	Title,
+	Tooltip,
+} from "chart.js";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import { Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiLightbulbFill, RiTrophyFill } from "react-icons/ri";
@@ -13,49 +22,16 @@ import { Page } from "../components/Page.jsx";
 import { Spinner } from "../components/Spinner.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import { estadosNames } from "../utils/negocios.js";
 import { roundRect } from "../utils/roundRect.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip);
 
-/** @type {import("chart.js").ChartOptions} */
-const negociosChartOptions = {
-	responsive: true,
-	plugins: {
-		legend: {
-			display: false,
-		},
-		title: {
-			display: true,
-			text: "Número de negócios por mês",
-			color: "black",
-			font: {
-				size: 20,
-			},
-		},
-		customCanvasBackgroundColor: {
-			color: "white",
-		},
-	},
-	scales: {
-		x: {
-			axis: "x",
-			ticks: {
-				color: "black",
-			},
-		},
-		y: {
-			axis: "y",
-			ticks: {
-				color: "black",
-			},
-		},
-	},
-};
-
-const plugins = [
+/** @type {import("chart.js").Plugin[]} */
+const chartPlugins = [
 	{
 		id: "customCanvasBackgroundColor",
-		beforeDraw: (chart, args, options) => {
+		beforeDraw: (chart, _args, options) => {
 			const { ctx } = chart;
 			ctx.save();
 
@@ -67,6 +43,13 @@ const plugins = [
 			ctx.restore();
 		},
 	},
+];
+
+const INTERVALS = [
+	{ name: "Diário", value: 1 },
+	{ name: "Semanal", value: 7 },
+	{ name: "Mensal", value: 30 },
+	{ name: "Total", value: "all" },
 ];
 
 export function Home() {
@@ -95,10 +78,10 @@ export function Home() {
 				style={{ marginInline: "5rem" }}
 			>
 				<div className="col">
-					<NegociosChart />
+					<NegociosPorMesChart />
 				</div>
 				<div className="col">
-					<NegociosChart />
+					<VolumeNegociosPorEstadoChart />
 				</div>
 			</div>
 
@@ -134,21 +117,16 @@ export function Home() {
 	);
 }
 
-function NegociosChart() {
-	const { data } = useSWR(`${API_URL}/reporting/negocios/chart`, fetcher);
-
-	const negociosChartLabels = useMemo(
-		() =>
-			data?.labels.map(
-				/** @param {Date} date */ (date) =>
-					new Date(date).toLocaleDateString("pt-PT", { month: "long", year: "numeric" }),
-			) ?? [],
-		[data],
-	);
+function NegociosPorMesChart() {
+	const { data } = useSWR(`${API_URL}/reporting/negocios/mes`, fetcher);
 
 	const negociosChartData = useMemo(
 		/** @return {import("chart.js").ChartData} */ () => ({
-			labels: negociosChartLabels,
+			labels:
+				data?.labels.map(
+					/** @param {Date} date */ (date) =>
+						new Date(date).toLocaleDateString("pt-PT", { month: "long", year: "numeric" }),
+				) ?? [],
 			datasets: [
 				{
 					label: "Nº de Negócios",
@@ -157,18 +135,34 @@ function NegociosChart() {
 				},
 			],
 		}),
-		[data, negociosChartLabels],
+		[data],
 	);
 
-	return <Line options={negociosChartOptions} data={negociosChartData} plugins={plugins} />;
+	return <Line options={getChartOptions("Negócios criados por mês")} data={negociosChartData} plugins={chartPlugins} />;
 }
 
-const INTERVALS = [
-	{ name: "Diário", value: 1 },
-	{ name: "Semanal", value: 7 },
-	{ name: "Mensal", value: 30 },
-	{ name: "Total", value: "all" },
-];
+function VolumeNegociosPorEstadoChart() {
+	const { data } = useSWR(`${API_URL}/reporting/negocios/volume-estados`, fetcher);
+
+	const negociosChartData = useMemo(
+		/** @return {ChartData} */ () => ({
+			labels:
+				data?.labels.map(/** @param {number} estado */ (estado) => estadosNames[estado]?.name ?? "Desconhecido") ?? [],
+			datasets: [
+				{
+					label: "Nº de Negócios",
+					data: data?.data ?? [],
+					backgroundColor: data?.data.map((_, i) => estadosNames[i]?.color ?? "#000") ?? [],
+				},
+			],
+		}),
+		[data],
+	);
+
+	return (
+		<Bar options={getChartOptions("Volume de negócios por estado")} data={negociosChartData} plugins={chartPlugins} />
+	);
+}
 
 /**
  * @param {Object} props
@@ -222,4 +216,38 @@ function PageCard({ title, description, icon: Icon, href }) {
 			</Card>
 		</Link>
 	);
+}
+
+/**
+ * @param {string} title
+ * @return {import("chart.js").ChartOptions}
+ */
+function getChartOptions(title) {
+	return {
+		responsive: true,
+		plugins: {
+			legend: {
+				display: false,
+			},
+			title: {
+				display: true,
+				text: title,
+				color: "black",
+				font: { size: 20 },
+			},
+			customCanvasBackgroundColor: {
+				color: "white",
+			},
+		},
+		scales: {
+			x: {
+				axis: "x",
+				ticks: { color: "black" },
+			},
+			y: {
+				axis: "y",
+				ticks: { color: "black" },
+			},
+		},
+	};
 }

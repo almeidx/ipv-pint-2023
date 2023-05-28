@@ -3,40 +3,24 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { BsCalendar2DayFill, BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
-import useSWR from "swr";
-import { API_URL } from "../utils/constants.js";
-import { fetcher } from "../utils/fetcher.js";
+import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
-import { Spinner } from "./Spinner.jsx";
 
 export default function Notifications() {
-	const { data, isLoading, error } = useSWR(`${API_URL}/notificacoes`, fetcher);
+	const { notifications } = useNotifications();
 
-	if (error) {
-		if (error.status === 401) {
-			return <p>Por favor, inicie a sessão para ver as suas notificações</p>;
-		}
-
-		console.log(error.info);
-
-		return <p>Ocorreu um erro ao tentar carregar as suas notificações</p>;
-	}
-
-	/**
-	 * @param {number} id
-	 */
+	/** @param {number} id */
 	function handleSingleDelete(id) {
+		// TODO: ABC
 		// setNotifications((notifications) => notifications.filter((notification) => notification.id !== id));
 	}
 
 	return (
 		<>
-			{isLoading ? (
-				<Spinner />
-			) : data.length ? (
+			{notifications?.length ? (
 				<ListGroup>
-					{data.map((notification) => (
+					{notifications.map((notification) => (
 						<Notification key={notification.id} {...notification} onDelete={handleSingleDelete} />
 					))}
 				</ListGroup>

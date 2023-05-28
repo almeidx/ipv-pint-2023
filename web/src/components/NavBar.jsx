@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Nav from "react-bootstrap/Nav";
@@ -9,7 +10,9 @@ import Popover from "react-bootstrap/Popover";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BiBell, BiChevronDown } from "react-icons/bi";
 import { FaRegUserCircle } from "react-icons/fa";
+import { MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { isAdmin } from "../utils/permissions.js";
@@ -33,6 +36,7 @@ const navLinks = [
  */
 export function NavBar({ page }) {
 	const { user } = useUser();
+	const { notifications } = useNotifications();
 
 	function handleDeleteAll() {
 		// setNotifications([]);
@@ -100,8 +104,22 @@ export function NavBar({ page }) {
 						</Popover>
 					}
 				>
-					<Button className="border-0 bg-transparent" disabled={user === null}>
-						<BiBell color="white" size={24} />
+					<Button className="position-relative border-0 bg-transparent" disabled={user === null}>
+						<BiBell color="white" size={24}></BiBell>
+
+						{notifications?.length ? (
+							<>
+								<Badge
+									bg="danger"
+									pill
+									className="position-absolute"
+									style={{ top: "20px", right: "1px", fontSize: "0.7rem" }}
+								>
+									{notifications.length}
+								</Badge>
+								<span className="visually-hidden">notificações não lidas</span>
+							</>
+						) : null}
 					</Button>
 				</OverlayTrigger>
 
@@ -116,8 +134,10 @@ export function NavBar({ page }) {
 						</style>
 
 						<Dropdown>
-							<Dropdown.Toggle variant="light" className="rounded-circle border-0 p-0">
-								<BiChevronDown color="black" size={24} />
+							<Dropdown.Toggle variant="light" className="position-relative border-0 bg-transparent p-0 text-white">
+								<MdOutlinePersonOutline size={28} />
+
+								<BiChevronDown color="white" size={28} />
 							</Dropdown.Toggle>
 
 							<Dropdown.Menu align="end">

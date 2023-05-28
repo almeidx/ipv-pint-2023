@@ -56,12 +56,8 @@ module.exports = {
 	 * @param {import("express").Request} req
 	 * @param {import("express").Response} res
 	 */
-	async negociosChart(_req, res) {
-		// Data de 12 meses atrás
-		const date = new Date();
-		date.setMonth(date.getMonth() - 12);
-		date.setDate(1);
-		date.setUTCHours(0, 0, 0, 0);
+	async negociosPorMes(_req, res) {
+		const date = getDateFromOneYearAgo();
 
 		const [result] = await sequelize.query(`
 			SELECT DATE_TRUNC('month', "DATA_CRIACAO") AS mes, COUNT(*) AS quantidade
@@ -92,7 +88,38 @@ module.exports = {
 
 		res.json({ data, labels });
 	},
+
+	async volumeNegociosPorEstado(_req, res) {
+		const [data] = await sequelize.query(`
+			SELECT "ESTADO" as estado, CAST(COUNT(*) AS INT) AS quantidade
+			FROM estados_negocios
+			INNER JOIN negocios
+				ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
+			GROUP BY estado
+			ORDER BY estado ASC
+		`);
+
+		const result = {
+			labels: [],
+			data: [],
+		};
+
+		for (const { estado, quantidade } of data) {
+			result.labels.push(estado);
+			result.data.push(quantidade);
+		}
+
+		res.json(result);
+	},
 };
+
+function getDateFromOneYearAgo() {
+	const date = new Date();
+	date.setMonth(date.getMonth() - 12);
+	date.setDate(1);
+	date.setUTCHours(0, 0, 0, 0);
+	return date;
+}
 
 /**
  * @param {import("sequelize").ModelCtor<import("sequelize").Model<any, any>>} model

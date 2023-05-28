@@ -6,7 +6,8 @@ const {
 	beneficios,
 	ideias,
 	vagas,
-	negociosChart: negociosPorMes,
+	negociosPorMes,
+	volumeNegociosPorEstado,
 } = require("../controllers/reporting.controller.js");
 
 const reportingRouter = Router()
@@ -16,6 +17,7 @@ const reportingRouter = Router()
 	.get("/negocios", negocios)
 	.get("/utilizadores", utilizadores)
 	.get("/vagas", vagas)
-	.get("/negocios/chart", negociosPorMes);
+	.get("/negocios/mes", negociosPorMes)
+	.get("/negocios/volume-estados", volumeNegociosPorEstado);
 
 module.exports = reportingRouter;
