@@ -60,6 +60,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             val intent = Intent(this, CriarNegocioActivity::class.java)
             Toast.makeText(this, "Selecione um cliente primeiro", Toast.LENGTH_SHORT).show()
             startActivity(intent)
+            overridePendingTransition(0, 0);
         } else {
             idCliente  = clienteIds[0]
         }
@@ -156,6 +157,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         intent.putExtra("contactoNames", contactoNames)
 
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
 }

@@ -104,5 +104,6 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
     fun CriarReuniao (view: View) {
         val intent = Intent(this, CriarReuniaoActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

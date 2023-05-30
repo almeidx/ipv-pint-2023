@@ -100,5 +100,6 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
     fun CriarNovaMensagem(view: View) {
         val intent = Intent(this, ContactoActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

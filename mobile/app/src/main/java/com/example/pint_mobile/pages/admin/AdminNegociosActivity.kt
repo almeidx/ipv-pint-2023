@@ -54,5 +54,6 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
     fun CriarNegocio(view: android.view.View) {
         val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

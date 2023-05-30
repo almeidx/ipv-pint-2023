@@ -41,10 +41,13 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     fun esqueceuPassword(_view: View) {
         val intent = Intent(this, EsqueceuPasswordActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun aindaNaoTemConta(_view: View) {
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
+
     }
 }

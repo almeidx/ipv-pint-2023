@@ -28,12 +28,14 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
             pag_admin.setOnClickListener{
                 val intent = Intent(this, AdminActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(0, 0);
             }
         }
 
         password.setOnClickListener{
             val intent = Intent(this, MudarPasswordActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(0, 0);
         }
 
         nome.text = user?.name ?: ""
@@ -45,5 +47,6 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

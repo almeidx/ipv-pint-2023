@@ -57,5 +57,6 @@ class AdminVagasActivity : ActivityBase(R.layout.activity_admin_vagas, "Administ
     fun CriarVaga(view: View) {
         val intent = Intent(this, CriarVagaActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

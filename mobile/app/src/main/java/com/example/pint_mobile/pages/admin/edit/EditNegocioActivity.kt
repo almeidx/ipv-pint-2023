@@ -168,6 +168,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         val intent = android.content.Intent(this, com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity::class.java)
         intent.putExtra("idNegocio", idNegocio)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun editarNegocioX(view: View) {

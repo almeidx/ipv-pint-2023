@@ -120,6 +120,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
         intent.putExtra("clienteIds", intent.getIntegerArrayListExtra("clienteIds"))
 
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
 }

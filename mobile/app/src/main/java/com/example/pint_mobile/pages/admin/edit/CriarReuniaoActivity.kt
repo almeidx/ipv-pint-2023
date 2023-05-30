@@ -150,6 +150,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
        Log.i("data", data.toString())
 
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun criarReuniao(_view: View) {

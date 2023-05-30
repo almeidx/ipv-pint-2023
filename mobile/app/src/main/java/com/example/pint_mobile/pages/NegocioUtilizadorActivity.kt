@@ -110,5 +110,6 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
     fun CriarNegocio(view: android.view.View) {
         val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }
