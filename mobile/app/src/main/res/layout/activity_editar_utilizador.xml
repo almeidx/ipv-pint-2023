@@ -115,26 +115,29 @@
 					android:orientation="horizontal"
 					android:layout_marginBottom="67dp"
 				>
-
                     <Button
+						android:id="@+id/DesativarUtilizador"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:background="@drawable/edit_button"
 						android:backgroundTint="@color/white"
-						android:text="Remover"
+						android:text="Desativar"
 						android:textColor="@color/white"
 						android:textSize="10dp"
+						android:onClick="desativarUtilizador"
 					/>
 
                     <Button
+						android:id="@+id/EditarUser"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="20dp"
 						android:background="@drawable/edit_button"
 						android:backgroundTint="@color/white"
-						android:text="Validar"
+						android:text="Ativar"
 						android:textColor="@color/white"
 						android:textSize="10dp"
+						android:onClick="editarUser"
 					/>
                 </LinearLayout>
 

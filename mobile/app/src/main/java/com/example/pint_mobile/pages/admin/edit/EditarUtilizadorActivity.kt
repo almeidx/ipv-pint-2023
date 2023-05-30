@@ -7,18 +7,25 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.TipoUtilizador
+import com.example.pint_mobile.utils.desativarUser
+import com.example.pint_mobile.utils.editUser
 import com.example.pint_mobile.utils.listaTipoUtilizador
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlin.properties.Delegates
 
 class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizador, "Editar Utilizador") {
     lateinit var cargo: String
+    private var id by Delegates.notNull<Int>()
 
+    private lateinit var tiposUser: ArrayList<TipoUtilizador>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        id = intent.getIntExtra("id", -1)
         val nome = intent.getStringExtra("nome")
         val email = intent.getStringExtra("email")
-        val cargoId = intent.getIntExtra("cargoId", 0)
+        val cargoId = intent.getIntExtra("cargoId", -1)
 
         val nomeEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.NomeUtilizadorEdit)
         nomeEdit.setText(nome)
@@ -32,6 +39,7 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lista.map {
                 it.nome
             })
+            tiposUser = lista
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
 
@@ -50,5 +58,20 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
         nav.menu.findItem(R.id.mais).isChecked = true
+    }
+
+    fun desativarUtilizador(view: View) {
+        val active = false
+        desativarUser(id, active, this)
+    }
+
+    fun editarUser(view: View) {
+        val spinner = findViewById<Spinner>(R.id.cargos)
+
+        val cargoId =  tiposUser.find {
+            it.nome == cargo
+        }!!.id
+
+        editUser(id, cargoId, this)
     }
 }
