@@ -59,7 +59,6 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         candidaturaId = intent.getIntegerArrayListExtra("candidaturaId") ?: ArrayList()
         data = intent.getStringArrayListExtra("data") ?: ArrayList()
 
-
         if(getidNegocio != -1){
             negocioId.add(getidNegocio)
         }
@@ -71,10 +70,8 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         Log.i("candidaturaId", candidaturaId.toString())
         Log.i("negocioId", negocioId.toString())
         Log.i("data", data.toString())
-
-        // LOG the arrays
-         Log.i("users", userNames.toString())
-         Log.i("users", userIds.toString())
+        Log.i("users", userNames.toString())
+        Log.i("users", userIds.toString())
 
         if( data.size > 1) {
             data.last().let {
@@ -94,7 +91,8 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         nav.menu.findItem(R.id.mais).isChecked = true
 
         val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
-        tv_textTime.setText(dataReuniao)
+        if (dataReuniao != null) tv_textTime.setText(dataReuniao)
+        else tv_textTime.setText("Data e Hora")
     }
     private fun getDateTimeCalendar() {
         val cal: Calendar = Calendar.getInstance()
@@ -128,7 +126,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-        val tv_textTime = findViewById<Button>(R.id.btn_timePicker)
+        val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
         val formattedDateTime = String.format("%04d-%02d-%02dT%02d:%02d:00", savedYear, savedMonth + 1, savedDay, savedHour, savedMinute)
         tv_textTime.setText(formattedDateTime)
 

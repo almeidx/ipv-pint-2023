@@ -37,7 +37,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
     private val centroTrabalhoList = ArrayList<CentroTrabalho>()
     private lateinit var centroTrabalhoAdapter: CentroTrabalhoAdapter
-    var utilizadorId by Delegates.notNull<Int>()
+    private var utilizadorId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,7 +182,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
         Log.i("juntaArray", juntaArray.toString())
         Log.i("centroTrabalhoId", centroTrabalhoId.toString())
-        Log.i("utilizadorId", utilizadorId.toString())
+        Log.i("utilizadorId", utilizadorId?.toString() ?: "nada")
 
         editNegocio( idNegocio, juntaArray, centroTrabalhoId, utilizadorId,  this)
     }

@@ -30,6 +30,7 @@ import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
+import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -170,12 +171,22 @@ fun listaNegociosUser(
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/negocios", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawNegocio = response.getJSONObject(i)
+
+            val estadosArray = rawNegocio.getJSONArray("estados")
+            val estadoList = ArrayList<Int>()
+            for (j in 0 until estadosArray.length()) {
+                val estadoObj = estadosArray.getJSONObject(j)
+                val estado = estadoObj.getInt("estado")
+                estadoList.add(estado)
+            }
+
             val negocioUser = NegocioUser(
                 rawNegocio.getInt("id"),
                 rawNegocio.getString("title"),
                 rawNegocio.getString("description"),
                 rawNegocio.getJSONObject("areaNegocio").getString("name"),
-                rawNegocio.getJSONObject("cliente").getString("name")
+                rawNegocio.getJSONObject("cliente").getString("name"),
+                estadoList
             )
             list.add(negocioUser)
         }
@@ -1076,7 +1087,7 @@ fun createClient(nome:String, clienteNome: ArrayList<String> = ArrayList(), clie
     queue.add(request)
 }
 
-fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utilizadorId:Int,  ctx: Context) {
+fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utilizadorId:Int?,  ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -1209,6 +1220,83 @@ fun createNotaReuniao(idCandidatura: Int, nota:String, ctx: Context) {
         Toast.makeText(ctx, "Nota criada com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, EditarCandidaturaActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+
+fun desativarUser(idUser: Int, active: Boolean,  ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("active", active)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/$idUser/disable", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Utilizador desativado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminUtilizadoresActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun editUser(idUser: Int,  cargo: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("idTipoUser", cargo)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/$idUser", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Utilizador editado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminUtilizadoresActivity::class.java)
         ctx.startActivity(intent)
     }, Response.ErrorListener { error ->
         error.printStackTrace()

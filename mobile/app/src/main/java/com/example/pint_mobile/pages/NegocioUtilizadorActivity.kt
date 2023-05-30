@@ -74,10 +74,12 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
             view.setOnClickListener {
                     val intent = Intent(view.context, EditNegocioUserActivity::class.java)
 
+
                     intent.putExtra("idNegocio", negocio.id)
                     intent.putExtra("titulo", negocio.titulo)
                     intent.putExtra("descricao", negocio.descricao)
                     intent.putExtra("areaNegocio", negocio.areaNegocio)
+                    intent.putExtra("estadosList", negocio.estados)
 
                     view.context.startActivity(intent)
                 }
