@@ -43,12 +43,14 @@ class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidat
         intent.putExtra("Titulo", titulo)
         intent.putExtra("Id", id)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun goToMarcarReuniao(view: View) {
         val intent = android.content.Intent(this, CriarReuniaoActivity::class.java)
         intent.putExtra("idCandidatura", id)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
 }

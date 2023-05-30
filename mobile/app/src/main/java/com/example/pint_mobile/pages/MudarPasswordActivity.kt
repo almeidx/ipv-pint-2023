@@ -16,5 +16,6 @@ class MudarPasswordActivity : ActivityBase(R.layout.activity_mudar_password) {
     fun submeterNovaPassword(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

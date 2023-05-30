@@ -55,5 +55,6 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
     fun criarBeneficio(view: View) {
         val intent = Intent(this, CriarBeneficioActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

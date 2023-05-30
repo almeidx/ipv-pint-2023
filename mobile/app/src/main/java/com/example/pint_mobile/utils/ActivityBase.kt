@@ -46,11 +46,13 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                 R.id.inicio -> {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(0, 0);
                     true
                 }
                 R.id.notificacoes -> {
                     val intent = Intent(this, NotificacoesActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(0, 0);
                     true
                 }
                 R.id.mais -> {
@@ -65,26 +67,32 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                     icon1.setOnClickListener {
                         val intent = Intent(this, BeneficiosActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     icon2.setOnClickListener {
                         val intent = Intent(this, VagasActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     icon3.setOnClickListener {
                         val intent = Intent(this, NegocioUtilizadorActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     icon4.setOnClickListener {
                         val intent = Intent(this, ContactoActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     icon5.setOnClickListener {
                         val intent = Intent(this, IdeiasActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     icon6.setOnClickListener {
                         val intent = Intent(this, CriarReuniaoActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(0, 0);
                     }
                     bottomSheetDialog.setContentView(bottomSheetView)
                     bottomSheetDialog.show()
@@ -114,10 +122,12 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                 if(user != null){
                     val intent = Intent(this, PerfilActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(0, 0);
                 }
                 else{
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(0, 0);
                 }
             }
         }

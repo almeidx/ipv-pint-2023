@@ -103,5 +103,6 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
     fun CriarIdeia(view: View) {
         val intent = Intent(this, IdeiasActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

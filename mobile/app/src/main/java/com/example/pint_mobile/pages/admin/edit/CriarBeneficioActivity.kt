@@ -93,6 +93,7 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
             Toast.makeText(this, "Benefício criar com sucesso", Toast.LENGTH_LONG).show()
             val intent = Intent(this, AdminBeneficiosActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(0, 0);
         }
     }
 }

@@ -130,6 +130,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("clienteIds", clienteIds)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun AdicionarContactoNegocio(view: View) {
@@ -139,6 +140,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         intent.putExtra("contactoIds", contactoIds)
         intent.putExtra("contactoNome", contactoNames)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun criarNovoNegocio(view: android.view.View) {

@@ -40,5 +40,6 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
     fun jaTemConta(_view: View) {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

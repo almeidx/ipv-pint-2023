@@ -19,5 +19,6 @@ class EsqueceuPasswordActivity : ActivityBase(R.layout.activity_esqueceu_passwor
     fun esqueceuPasswordSubmit(_view: View) {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

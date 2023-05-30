@@ -18,45 +18,55 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
     fun gotoAdminReporting(_view: android.view.View) {
         val intent = Intent(this, AdminReportingActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminCandidaturas(_view: android.view.View) {
         val intent = Intent(this, AdminCandidaturasActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminUtilizadores(_view: android.view.View) {
         val intent = Intent(this, AdminUtilizadoresActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminVagas(_view: android.view.View) {
         val intent = Intent(this, AdminVagasActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminNegocios(_view: android.view.View) {
         val intent = Intent(this, AdminNegociosActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminBeneficios(_view: android.view.View) {
         val intent = Intent(this, AdminBeneficiosActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminIdeias(_view: android.view.View) {
         val intent = Intent(this, AdminIdeiasActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminMensagens(_view: android.view.View) {
         val intent = Intent(this, AdminMensagensActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminReunioes(_view: android.view.View) {
         val intent = Intent(this, AdminReunioesActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0);
+
     }
 }
