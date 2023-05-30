@@ -141,7 +141,7 @@ function CandidatarVagaModal({ show, onHide, data, hasCv }) {
 		const formData = new FormData();
 		formData.append("file", file);
 
-		const response = await fetch(`${API_URL}/upload`, {
+		const response = await fetch(`${API_URL}/uploads`, {
 			method: "POST",
 			body: formData,
 		});

@@ -73,17 +73,14 @@ export function Home() {
 				<ReportingCard title="Número de beneficios" page="/beneficios" />
 			</Container>
 
-			<div
-				className="d-flex justify-content-center align-items-center flex-wrap gap-5 px-4 pb-5"
-				style={{ marginInline: "5rem" }}
-			>
-				<div className="col">
+			<Container className="row mx-auto pb-5">
+				<div className="col-6">
 					<NegociosPorMesChart />
 				</div>
-				<div className="col">
+				<div className="col-6">
 					<VolumeNegociosPorEstadoChart />
 				</div>
-			</div>
+			</Container>
 
 			<Container className="col-12 row mx-auto gap-3 pb-5">
 				<h2 className="text-white">Funcionalidades principais do website:</h2>

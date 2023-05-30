@@ -228,7 +228,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 				const formData = new FormData();
 				formData.append("file", file);
 
-				const uploadResponse = await fetch(`${API_URL}/upload`, {
+				const uploadResponse = await fetch(`${API_URL}/uploads`, {
 					method: "POST",
 					body: formData,
 				});

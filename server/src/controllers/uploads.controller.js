@@ -1,9 +1,11 @@
 const { randomUUID } = require("node:crypto");
-const { join } = require("node:path");
 const multer = require("multer");
 const { extname } = require("node:path");
+const { rm } = require("node:fs/promises");
+const { uploadToCloudinary, getCloudinaryImage } = require("../services/cloudinary.js");
+const { tmpdir } = require("node:os");
 
-const uploadsPath = join(process.cwd(), "/uploads");
+const uploadsPath = tmpdir();
 
 const upload = multer({
 	dest: uploadsPath,
@@ -54,10 +56,31 @@ module.exports = {
 					return;
 				}
 
-				res.json({
-					fileName: file.filename,
-				});
+				try {
+					const assetId = await uploadToCloudinary(file, "images");
+					res.json({ fileName: assetId });
+
+					await rm(file.path);
+				} catch (error) {
+					console.error(error);
+
+					res.status(500).json({ message: "Erro ao fazer upload do ficheiro" });
+				}
 			});
+		},
+	],
+
+	read: [
+		async (req, res) => {
+			const { fileName } = req.params;
+
+			try {
+				const imageUrl = await getCloudinaryImage(fileName);
+				res.redirect(imageUrl);
+			} catch (error) {
+				console.error(error);
+				res.status(404).json({ message: "Ficheiro não encontrado" });
+			}
 		},
 	],
 };

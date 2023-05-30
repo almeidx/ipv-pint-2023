@@ -12,7 +12,7 @@ module.exports = {
 		async (_req, res) => {
 			res.json(
 				await Utilizador.findAll({
-					attributes: ["id", "name", "email", "lastLoginDate"],
+					attributes: ["id", "name", "email", "lastLoginDate", "disabled", "disabledAt", "disabledBy"],
 					include: [
 						{
 							model: TipoUtilizador,
@@ -75,6 +75,8 @@ module.exports = {
 			}
 
 			await utilizador.update(opts);
+
+			res.json({ message: disabled ? "Conta desativada com sucesso" : "Conta ativada com sucesso" });
 		},
 	],
 };

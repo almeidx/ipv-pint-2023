@@ -43,7 +43,7 @@ module.exports = {
 		const { admin } = req.query;
 
 		const opts = {
-			attributes: ["id", "content", "shortContent", "iconeBeneficio"],
+			attributes: ["id", "content", "shortContent", "iconeBeneficio", "dataValidade"],
 			order: [
 				["dataValidade", "ASC"],
 				["id", "ASC"],
@@ -53,7 +53,7 @@ module.exports = {
 		if (admin !== undefined) {
 			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.Administrador)) return;
 
-			opts.attributes.push("dataValidade", "createdAt");
+			opts.attributes.push("createdAt");
 			opts.include = [
 				{
 					model: Utilizador,
