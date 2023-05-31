@@ -51,7 +51,7 @@ module.exports = {
 		requireLogin(),
 		validate(
 			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("active", "`active` tem que ser do tipo boolean").isBoolean(),
+			body("disabled", "`disabled` tem que ser do tipo boolean").isBoolean(),
 		),
 
 		async (req, res) => {
