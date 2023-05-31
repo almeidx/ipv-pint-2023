@@ -91,7 +91,7 @@ export default function Ideias() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Ideias</h2>

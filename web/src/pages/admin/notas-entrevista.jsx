@@ -73,7 +73,7 @@ export function NotasEntrevista() {
 
 	return (
 		<Page className="min-h-without-navbar bg-main py-5">
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<Container className="mb-5">
 				<h2 className="fw-bold mb-4">Entrevista</h2>

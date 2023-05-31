@@ -212,7 +212,7 @@ export function Negocios() {
 				onSave={handleCreateContacto}
 			/>
 
-			<Toast toastMessage={toastMessage} showToast={showToast} hide={() => toggleToast(false)} />
+			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} />
 
 			<Container className="col-11 pt-5">
 				<SearchBar placeholder="Pesquise por negócios..." onSearch={(text) => setSearch(text)} />

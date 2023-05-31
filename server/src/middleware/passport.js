@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
+const { Op } = require("sequelize");
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -13,6 +14,17 @@ module.exports = function (passport) {
 		done(null, user);
 	});
 
+	const selectOptions = {
+		attributes: ["id", "name", "cv", "email", "registrationType"],
+		include: [
+			{
+				model: TipoUtilizador,
+				attributes: ["id", "name"],
+				as: "tipoUtilizador",
+			},
+		],
+	};
+
 	passport.use(
 		new LocalStrategy(
 			{
@@ -23,14 +35,8 @@ module.exports = function (passport) {
 			async function (username, password, done) {
 				const user = await Utilizador.findOne({
 					where: { email: username },
-					attributes: ["id", "name", "email", "cv", "registrationType", "hashedPassword"],
-					include: [
-						{
-							model: TipoUtilizador,
-							attributes: ["id", "name"],
-							as: "tipoUtilizador",
-						},
-					],
+					...selectOptions,
+					attributes: [...selectOptions.attributes, "hashedPassword"],
 				});
 
 				if (!user) {
@@ -63,44 +69,40 @@ module.exports = function (passport) {
 				profileFields: ["id", "name", "email"],
 			},
 			async function (_accessToken, _refreshToken, profile, cb) {
+				const email = profile._json.email;
+				const existingUserWithEmail = await Utilizador.findOne({
+					where: {
+						email,
+						socialUserId: { [Op.ne]: profile.id },
+						registrationType: { [Op.ne]: "facebook" },
+					},
+				});
+
+				if (existingUserWithEmail) {
+					return cb(null, false, { message: "Email already in use" });
+				}
+
 				let user = await Utilizador.findOne({
 					where: {
 						socialUserId: profile.id,
 						registrationType: "facebook",
 					},
-					attributes: ["id", "name", "cv", "email", "registrationType"],
-					include: [
-						{
-							model: TipoUtilizador,
-							attributes: ["id", "name"],
-							as: "tipoUtilizador",
-						},
-					],
+					...selectOptions,
 				});
 
 				if (!user) {
-					user = await Utilizador.create(
-						{
-							name: profile._json.first_name + " " + profile._json.last_name,
-							email: profile._json.email,
-							socialUserId: profile.id,
-							registrationType: "facebook",
-							hashedPassword: "",
-						},
-						{
-							attributes: ["id", "name", "cv", "email", "registrationType"],
-							include: [
-								{
-									model: TipoUtilizador,
-									attributes: ["id", "name"],
-									as: "tipoUtilizador",
-								},
-							],
-						},
-					);
+					user = await Utilizador.create({
+						name: profile._json.first_name + " " + profile._json.last_name,
+						email: profile._json.email,
+						socialUserId: profile.id,
+						registrationType: "facebook",
+						hashedPassword: "",
+					});
+
+					user = await Utilizador.findByPk(user.id, selectOptions);
 				}
 
-				cb(null, user);
+				cb(null, user.toJSON());
 			},
 		),
 	);
@@ -118,39 +120,22 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "google",
 					},
-					attributes: ["id", "name", "cv", "email", "registrationType"],
-					include: [
-						{
-							model: TipoUtilizador,
-							attributes: ["id", "name"],
-							as: "tipoUtilizador",
-						},
-					],
+					...selectOptions,
 				});
 
 				if (!user) {
-					user = await Utilizador.create(
-						{
-							name: profile.displayName,
-							email: profile._json.email,
-							socialUserId: profile.id,
-							registrationType: "google",
-							hashedPassword: "",
-						},
-						{
-							attributes: ["id", "name", "cv", "email", "registrationType"],
-							include: [
-								{
-									model: TipoUtilizador,
-									attributes: ["id", "name"],
-									as: "tipoUtilizador",
-								},
-							],
-						},
-					);
+					user = await Utilizador.create({
+						name: profile.displayName,
+						email: profile._json.email,
+						socialUserId: profile.id,
+						registrationType: "google",
+						hashedPassword: "",
+					});
+
+					user = await Utilizador.findByPk(user.id, selectOptions);
 				}
 
-				cb(null, user);
+				cb(null, user.toJSON());
 			},
 		),
 	);

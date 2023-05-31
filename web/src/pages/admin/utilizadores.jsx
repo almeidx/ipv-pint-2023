@@ -76,7 +76,7 @@ export default function Utilizadores() {
 				tiposUtilizadores={tiposUtilizador ?? []}
 			/>
 
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<ListGroup>
 				{isLoading ? (

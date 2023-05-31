@@ -102,7 +102,7 @@ export function Profile() {
 				fetchpriority="high"
 			/>
 
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<CurriculumVitaeModal
 				update={!!user?.cv}

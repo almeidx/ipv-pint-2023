@@ -110,7 +110,7 @@ export function Contacto() {
 			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center"
 			page="/contacto"
 		>
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<img
 				src="/static/contacto-bg.png"

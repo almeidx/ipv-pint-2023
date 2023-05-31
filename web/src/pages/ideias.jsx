@@ -84,7 +84,7 @@ export function Ideias() {
 
 	return (
 		<Page page="/ideias">
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<Container className="col-11 row mx-auto gap-5 pt-4">
 				{categories.map((category) => (

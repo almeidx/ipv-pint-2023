@@ -66,7 +66,7 @@ export default function Candidaturas() {
 		<Container className="py-4">
 			<h2 className="mb-3">Candidaturas</h2>
 
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<CreateReuniaoModal
 				show={showCreateReuniaoModal}

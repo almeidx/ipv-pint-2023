@@ -13,7 +13,7 @@ import { API_URL } from "../utils/constants.js";
 export function Login() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
-	const { showToast, toastMessage, toggleToast, showToastWithMessage } = useToast();
+	const { showToast, toastMessage, toggleToast, showToastWithMessage, toastType } = useToast();
 
 	/** @param {SubmitEvent} event */
 	async function handleSubmit(event) {
@@ -34,7 +34,7 @@ export function Login() {
 
 		if (!response.ok) {
 			if (response.status === 401) {
-				showToastWithMessage("Email ou password incorretos");
+				showToastWithMessage("Email ou password incorretos", "error");
 			}
 
 			console.error(response);
@@ -53,7 +53,7 @@ export function Login() {
 		<LoginContainer handleSubmit={handleSubmit}>
 			<h1 className="title mb-5 text-white">Login</h1>
 
-			<Toast toastMessage={toastMessage} showToast={showToast} hide={() => toggleToast(false)} />
+			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} type={toastType} />
 
 			<InputGroup className="col-12 mb-3">
 				<InputGroup.Text id="email-icon">

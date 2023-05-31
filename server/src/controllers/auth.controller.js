@@ -94,7 +94,7 @@ module.exports = {
 
 	google: [passport.authenticate("google", { scope: ["profile", "email"] })],
 	googleCallback: [
-		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/login" }),
+		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
 		(_req, res) => {
 			res.redirect(process.env.WEB_URL);
 		},
@@ -102,7 +102,7 @@ module.exports = {
 
 	facebook: [passport.authenticate("facebook", { scope: ["email"] })],
 	facebookCallback: [
-		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/login" }),
+		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
 		(_req, res) => {
 			res.redirect(process.env.WEB_URL);
 		},
