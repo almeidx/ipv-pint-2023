@@ -55,19 +55,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 		<Spinner
-			android:id="@+id/areadeNegocio"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="25dp"
-			android:layout_marginTop="20dp"
-			android:layout_marginEnd="25dp"
-			android:background="@drawable/spinner_background"
-			android:padding="8dp"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="1.0"
-			app:layout_constraintStart_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
+				android:id="@+id/areadeNegocio"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="25dp"
+				android:background="@drawable/spinner_background"
+				android:padding="8dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="1.0"
+				app:layout_constraintStart_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
 			/>
 
         <com.google.android.material.textfield.TextInputLayout

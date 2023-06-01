@@ -193,7 +193,6 @@
 						android:text="Criar Vaga"
 						android:textColor="@color/white"
 						android:textSize="10dp"
-
 					/>
                 </LinearLayout>
             </LinearLayout>

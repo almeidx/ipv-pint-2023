@@ -91,7 +91,6 @@
 				android:textSize="10dp"
 				android:textColor="@color/white"
 				android:onClick="criarNovoCliente"
-
 			/>
     </LinearLayout>
     </LinearLayout>
