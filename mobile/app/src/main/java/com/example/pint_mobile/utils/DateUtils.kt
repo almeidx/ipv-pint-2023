@@ -11,3 +11,19 @@ fun formatDate(isoDate: String): String? {
     val p = PrettyTime(Locale("pt", "PT"))
     return p.format(date)
 }
+
+fun formatDateSemHoras(isoDate: String): String? {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val date = inputFormat.parse(isoDate) ?: return null
+    return outputFormat.format(date)
+}
+
+fun formatDateComHoras(isoDate: String): String? {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd '/' HH:mm:ss", Locale.getDefault())
+    val date = inputFormat.parse(isoDate) ?: return null
+    return outputFormat.format(date)
+}
+
+fun pad(n: Int) = n.toString().padStart(2, '0')

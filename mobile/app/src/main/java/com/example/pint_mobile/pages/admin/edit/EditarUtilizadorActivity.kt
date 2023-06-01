@@ -1,9 +1,11 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
@@ -16,6 +18,7 @@ import kotlin.properties.Delegates
 
 class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizador, "Editar Utilizador") {
     lateinit var cargo: String
+    var disable by Delegates.notNull<Boolean>()
     private var id by Delegates.notNull<Int>()
 
     private lateinit var tiposUser: ArrayList<TipoUtilizador>
@@ -26,12 +29,21 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
         val nome = intent.getStringExtra("nome")
         val email = intent.getStringExtra("email")
         val cargoId = intent.getIntExtra("cargoId", -1)
+        disable = intent.getBooleanExtra("disable", false)
+
 
         val nomeEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.NomeUtilizadorEdit)
         nomeEdit.setText(nome)
 
         val emailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.EmailUtilizadorEdit)
         emailEdit.setText(email)
+
+        val disableEdit = findViewById<Button>(R.id.DesativarUtilizador)
+        if (disable) {
+            disableEdit.text = "Ativar Utilizador"
+        } else {
+            disableEdit.text = "Desativar Utilizador"
+        }
 
         val spinner = findViewById<Spinner>(R.id.cargos)
 
@@ -61,8 +73,9 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
     }
 
     fun desativarUtilizador(view: View) {
-        val active = false
-        desativarUser(id, active, this)
+        disable = !disable
+        Log.i("disable", disable.toString())
+        desativarUser(id, disable, this)
     }
 
     fun editarUser(view: View) {

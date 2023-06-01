@@ -17,6 +17,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createReunion
+import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Criar Reunião"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -102,7 +103,6 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
-        fun pad(n: Int) = n.toString().padStart(2, '0')
 
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }

@@ -97,6 +97,7 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
                     intent.putExtra("nome", utilizador.nome)
                     intent.putExtra("email", utilizador.email)
                     intent.putExtra("cargoId", utilizador.tipoUser.id)
+                    intent.putExtra("disable", utilizador.disable)
 
                     view.context.startActivity(intent)
                 }

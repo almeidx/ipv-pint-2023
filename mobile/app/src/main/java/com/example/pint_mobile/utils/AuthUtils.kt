@@ -18,8 +18,8 @@ fun getCurrentUser(ctx: Context): Utilizador? {
         TipoUtilizador(
             tipoUtilizador.getInt("id"),
             tipoUtilizador.getString("name")
-        )
-
+        ),
+        false
     )
 }
 

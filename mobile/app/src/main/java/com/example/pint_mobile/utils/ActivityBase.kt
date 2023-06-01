@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.BeneficiosActivity
+import com.example.pint_mobile.pages.CalendarioActivity
 import com.example.pint_mobile.pages.ContactoActivity
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.LoginActivity
@@ -90,7 +91,7 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                         overridePendingTransition(0, 0);
                     }
                     icon6.setOnClickListener {
-                        val intent = Intent(this, CriarReuniaoActivity::class.java)
+                        val intent = Intent(this, CalendarioActivity::class.java)
                         startActivity(intent)
                         overridePendingTransition(0, 0);
                     }

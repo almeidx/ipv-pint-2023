@@ -3,6 +3,7 @@ package com.example.pint_mobile.utils
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.CalendarView
 import android.widget.Toast
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
@@ -11,6 +12,7 @@ import com.android.volley.ServerError
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
+import com.example.pint_mobile.pages.CalendarioActivity
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
@@ -30,7 +32,6 @@ import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
-import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -216,7 +217,8 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
                 TipoUtilizador(
                     tipoUser.getInt("id"),
                     tipoUser.getString("name")
-                )
+                ),
+                rawUser.getBoolean("disabled")
             )
             list.add(user)
         }
@@ -489,6 +491,32 @@ fun listarNotasReuniao(
             }
             adapter.notifyDataSetChanged()
         }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+
+fun listaEventos(list: ArrayList<Evento>,  adapter: CalendarioActivity.EventoAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/events", null, { response -> try {
+        list.clear()
+        for (i in 0 until response.length()) {
+            val rawEvento = response.getJSONObject(i)
+            val evento = Evento(
+                rawEvento.getInt("id"),
+                rawEvento.getString("startTime"),
+                rawEvento.getInt("duration"),
+                rawEvento.getString("title"),
+                rawEvento.getString("description"),
+                rawEvento.getString("subject"),
+            )
+            list.add(evento)
+        }
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
 
     queue.add(request)
 }
@@ -1238,20 +1266,17 @@ fun createNotaReuniao(idCandidatura: Int, nota:String, ctx: Context) {
 
                 throw ServerError()
             }
-
             return super.parseNetworkResponse(response)
         }
     }
-
     queue.add(request)
 }
 
-
-fun desativarUser(idUser: Int, active: Boolean,  ctx: Context) {
-    val queue = Volley.newRequestQueue(ctx);
+fun desativarUser(idUser: Int, disabled: Boolean,  ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
 
     val body = JSONObject()
-    body.put("active", active)
+    body.put("disabled", disabled)
 
     Log.i("body", body.toString())
 

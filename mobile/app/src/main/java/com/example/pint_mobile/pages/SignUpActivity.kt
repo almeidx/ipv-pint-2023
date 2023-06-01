@@ -16,13 +16,52 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
         val password = findViewById<EditText>(R.id.password).text.toString()
         val confirmPassword = findViewById<EditText>(R.id.confirmPassword).text.toString()
 
-        if (nome.isEmpty() || apelido.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+        if (nome.isEmpty()) {
+            val nomeInput = findViewById<EditText>(R.id.nome)
+            nomeInput.setBackgroundResource(R.drawable.edittext_red_border)
+            return;
+        }
+        if (apelido.isEmpty()) {
+            val apelidoInput = findViewById<EditText>(R.id.apelido)
+            apelidoInput.setBackgroundResource(R.drawable.edittext_red_border)
+            return;
+        }
+
+        if (email.isEmpty()) {
+            val emailInput = findViewById<EditText>(R.id.email)
+            emailInput.setBackgroundResource(R.drawable.edittext_red_border)
+            return;
+        }
+
+        var errorMsg: String? = null
+
+        if (password.isEmpty()) {
+            errorMsg = "Campo obrigatório"
+        }else if (password.length < 8 ) {
+            errorMsg = "A password tem de ter pelo menos 8 caracteres"
+        } else if (password.length > 128) {
+            errorMsg = "A password tem de ter menos de 128 caracteres"
+        } else if (!password.matches(".*[A-Z].*".toRegex())) {
+            errorMsg = "A password tem de ter pelo menos uma letra maiúscula"
+        } else if (!password.matches(".*[a-z].*".toRegex())) {
+            errorMsg = "A password tem de ter pelo menos uma letra minúscula"
+        } else if (!password.matches(".*[0-9].*".toRegex())) {
+            errorMsg = "A password tem de ter pelo menos um número"
+        } else if (!password.matches(".*[^a-zA-Z0-9].*".toRegex())) {
+            errorMsg = "A password tem de ter pelo menos um caracter especial"
+        }
+
+        if (errorMsg != null) {
+            Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
+            val confirmPasswordInput = findViewById<EditText>(R.id.password)
+            confirmPasswordInput.setBackgroundResource(R.drawable.edittext_red_border)
             return;
         }
 
         if (password != confirmPassword) {
             Toast.makeText(this, "As passwords não coincidem", Toast.LENGTH_SHORT).show()
+            val confirmPasswordInput = findViewById<EditText>(R.id.confirmPassword)
+            confirmPasswordInput.setBackgroundResource(R.drawable.edittext_red_border)
             return;
         }
 

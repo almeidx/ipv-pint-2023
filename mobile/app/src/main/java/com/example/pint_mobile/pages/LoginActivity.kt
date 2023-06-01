@@ -24,6 +24,16 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
 
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+
+            if (email.isEmpty()) {
+                emailInput.setBackgroundResource(R.drawable.edittext_red_border)
+            }
+            if (password.isEmpty()) {
+                passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
+            }
+        }
         login(email, password, this)
     }
 
