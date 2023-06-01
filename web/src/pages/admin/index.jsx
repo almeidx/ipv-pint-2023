@@ -21,7 +21,7 @@ const sections = [
 	{ name: "Candidaturas", link: "candidaturas" },
 	{ name: "Ideias", link: "ideias" },
 	{ name: "Mensagens", link: "mensagens" },
-	{ name: "Negócios", link: "negocios" },
+	{ name: "Oportunidades", link: "negocios" },
 	{ name: "Reuniões", link: "reunioes" },
 	{ name: "Utilizadores", link: "utilizadores" },
 	{ name: "Vagas", link: "vagas" },

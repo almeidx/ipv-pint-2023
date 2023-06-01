@@ -25,7 +25,7 @@ const navLinks = [
 	{ name: "Início", path: "/" },
 	{ name: "Benefícios", path: "/beneficios" },
 	{ name: "Vagas", path: "/vagas" },
-	{ name: "Negócios", path: "/negocios", requireLogin: true },
+	{ name: "Oportunidades", path: "/negocios", requireLogin: true },
 	{ name: "Ideias", path: "/ideias", requireLogin: true },
 	{ name: "Contacto", path: "/contacto" },
 ];

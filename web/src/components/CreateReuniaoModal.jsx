@@ -122,8 +122,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 				<Button
 					onClick={() => {
 						onSave(reuniaoData);
-						onHide();
-						setReuniaoData({});
+						onHideWrapper();
 					}}
 					variant="success"
 				>

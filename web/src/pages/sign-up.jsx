@@ -5,7 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { BsPerson } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
@@ -14,9 +14,9 @@ import { useQuery } from "../hooks/useQuery.jsx";
 import { API_URL } from "../utils/constants.js";
 
 export function SignUp() {
-	const { setUser } = useUser();
 	const query = useQuery();
 	const { showToast, showToastWithMessage, toastMessage, toggleToast, toastType } = useToast();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (query.has("fail")) {
@@ -59,9 +59,11 @@ export function SignUp() {
 				throw new Error("Something went wrong", { cause: response });
 			}
 
-			const data = await response.json();
+			const { userId } = await response.json();
 
-			setUser(data.user);
+			localStorage.setItem("pending", JSON.stringify({ email, userId }));
+
+			navigate("/verificar-conta");
 		} catch (error) {
 			console.error(error);
 

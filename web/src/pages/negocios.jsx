@@ -50,7 +50,7 @@ export function Negocios() {
 		: data ?? [];
 
 	if (!isLoggedIn) {
-		return <ErrorBase title="Por favor, inicie a sessão para ver os seus negócios" showLogin page="/negocios" />;
+		return <ErrorBase title="Por favor, inicie a sessão para ver as suas oportunidades" showLogin page="/negocios" />;
 	}
 
 	/** @param {object} data */
@@ -64,16 +64,16 @@ export function Negocios() {
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao criar negócio", { cause: response });
+				throw new Error("Erro ao criar oportunidade", { cause: response });
 			}
 
 			mutateNegocios();
 
-			showToastWithMessage("Negócio criado com sucesso!");
+			showToastWithMessage("Oportunidade criado com sucesso!");
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao criar negócio");
+			showToastWithMessage("Erro ao criar oportunidade");
 		}
 	}
 
@@ -88,16 +88,16 @@ export function Negocios() {
 			});
 
 			if (!response.ok) {
-				throw new Error("Erro ao editar negócio", { cause: response });
+				throw new Error("Erro ao editar oportunidade", { cause: response });
 			}
 
 			mutateNegocios();
 
-			showToastWithMessage("Negócio editado com sucesso!");
+			showToastWithMessage("oportunidade editado com sucesso!");
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao editar negócio");
+			showToastWithMessage("Erro ao editar oportunidade");
 		}
 	}
 
@@ -215,7 +215,7 @@ export function Negocios() {
 			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} />
 
 			<Container className="col-11 pt-5">
-				<SearchBar placeholder="Pesquise por negócios..." onSearch={(text) => setSearch(text)} />
+				<SearchBar placeholder="Pesquise por oportunidades..." onSearch={(text) => setSearch(text)} />
 			</Container>
 
 			<Container className="col-11 row mx-auto gap-5 pt-4">
@@ -230,7 +230,7 @@ export function Negocios() {
 				>
 					<Card.Body className="d-flex flex-column">
 						<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
-							Adicionar Negócio
+							Adicionar Oportunidade
 						</Card.Title>
 						<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
 					</Card.Body>
@@ -280,7 +280,7 @@ function Negocio({ onEditClick, ...negocio }) {
 					{title}
 
 					{estados.length === 0 ? (
-						<OverlayTrigger placement="top" overlay={<Tooltip>Edite o seu Negócio</Tooltip>}>
+						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
 								<RiPencilLine size={32} color="black" />
 							</Button>
@@ -418,7 +418,7 @@ function CreateOrEditNegocioModal({
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="manage-negocio-modal">{isCreate ? "Criar Negócio" : "Editar Negócio"}</Modal.Title>
+				<Modal.Title id="manage-negocio-modal">{isCreate ? "Criar Oportunidade" : "Editar Oportunidade"}</Modal.Title>
 			</Modal.Header>
 
 			<Modal.Body>
@@ -430,7 +430,7 @@ function CreateOrEditNegocioModal({
 							value={negocioData.title ?? data?.title}
 							onChange={(e) => setNegocioData((state) => ({ ...state, title: e.target.value }))}
 							maxLength={100}
-							placeholder="Titulo do negócio"
+							placeholder="Titulo da oportunidade "
 							required={isCreate}
 						/>
 					</Form.Group>
@@ -443,7 +443,7 @@ function CreateOrEditNegocioModal({
 							onChange={(e) => setNegocioData((state) => ({ ...state, description: e.target.value }))}
 							as="textarea"
 							maxLength={1_000}
-							placeholder="Descrição do negócio"
+							placeholder="Descrição da oportunidade"
 							required={isCreate}
 						/>
 					</Form.Group>

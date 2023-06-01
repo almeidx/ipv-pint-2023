@@ -4,6 +4,9 @@ const passport = require("passport");
 const { Utilizador } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
+const { randomNumberString } = require("../utils/randomNumberString.js");
+const { sendEmail } = require("../services/email.js");
+const { stripIndents } = require("common-tags");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -69,8 +72,56 @@ module.exports = {
 			const { name, email, password } = req.body;
 
 			const hashedPassword = await bcrypt.hash(password, 10);
+			const confirmCode = randomNumberString(12);
 
-			await Utilizador.create({ name, email, hashedPassword });
+			const user = await Utilizador.create({ name, email, hashedPassword, confirmCode, confirmDateStart: new Date() });
+
+			await sendEmail(
+				email,
+				"Confirmação de conta",
+				stripIndents`
+					<h2>Olá ${name},</h2>
+					<br>
+					<p>Para confirmar a sua conta, introduza o seguinte código na página:</p>
+					<br>
+					<b>${confirmCode}</b>
+					<br>
+					<p>Caso não tenha guardado a página, redirecione-se aqui: <a href="${process.env.WEB_URL}/verificar-conta">Página de verificação</a></p>
+					<p>Se não foi você que criou esta conta, ignore este email.</p>
+					<br>
+					<p>Obrigado</p>
+				`,
+			);
+
+			res.json({ message: "Conta criada com sucesso", userId: user.id });
+		},
+	],
+
+	validarConta: [
+		validate(
+			body("confirmCode", "`confirmCode` tem que ser do tipo string e ter 12 caracteres")
+				.isString()
+				.isLength({ min: 12, max: 100 }),
+			body("userId", "`userId` tem que ser do tipo number").isNumeric(),
+		),
+
+		async (req, res, next) => {
+			const { confirmCode, userId } = req.body;
+
+			const utilizador = await Utilizador.findOne({ where: { id: userId } });
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
+
+			if (utilizador.confirmCode !== confirmCode) {
+				res.status(401).json({ message: "Código de confirmação inválido" });
+				return;
+			}
+
+			await utilizador.update({ confirmCode: null, confirmDateStart: null, hasConfirmed: true });
+
+			req.body = { email: utilizador.email, password: process.env.PASSWORD_BYPASS_TOKEN };
 
 			passport.authenticate("local", function (err, user) {
 				if (err) {

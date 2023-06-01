@@ -86,7 +86,7 @@ export function Home() {
 				<h2 className="text-white">Funcionalidades principais do website:</h2>
 
 				<PageCard
-					title="Negócios"
+					title="Oportunidades"
 					description="Negócios, Parcerias e os Investimentos que existem na empresa e de potenciais novas oportunidades"
 					icon={FaHandHoldingUsd}
 					href="/negocios"

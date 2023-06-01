@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
 	auth,
 	register,
+	validarConta,
 	logout,
 	user,
 	email,
@@ -17,6 +18,7 @@ const authRouter = Router()
 	.get("/user", user)
 
 	.post("/register", register)
+	.post("/validate", validarConta)
 	.get("/logout", logout)
 
 	.get("/facebook", facebook)
