@@ -1,9 +1,8 @@
 package com.example.pint_mobile
 
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.pint_mobile.pages.*
@@ -11,6 +10,12 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.getCookieValue
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.getUserInfo
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+
 
 class MainActivity : ActivityBase(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +41,30 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         ).show()
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        val barChart = findViewById<BarChart>(R.id.barChart2)
+
+        val visitors = ArrayList<BarEntry>()
+        visitors.add(BarEntry(2014f, 420f))
+        visitors.add(BarEntry(2015f, 475f))
+        visitors.add(BarEntry(2016f, 508f))
+        visitors.add(BarEntry(2017f, 660f))
+        visitors.add(BarEntry(2018f, 550f))
+        visitors.add(BarEntry(2019f, 630f))
+        visitors.add(BarEntry(2020f, 470f))
+
+        val barDataSet = BarDataSet(visitors, "Visitors")
+        barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
+        barDataSet.valueTextColor = Color.BLACK
+        barDataSet.valueTextSize = 16f
+
+        val barData = BarData(barDataSet)
+
+        barChart.setFitBars(true)
+        barChart.data = barData
+        barChart.description.text = "Bar Chart Example"
+        barChart.animateY(2000)
     }
-
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
