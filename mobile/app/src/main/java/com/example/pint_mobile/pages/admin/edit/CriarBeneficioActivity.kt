@@ -16,6 +16,7 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.criarBeneficio
+import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
@@ -51,8 +52,6 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         year = cal.get(Calendar.YEAR)
         hour = cal.get(Calendar.HOUR_OF_DAY)  // Use HOUR_OF_DAY instead of HOUR
         minute = cal.get(Calendar.MINUTE)
-
-        fun pad(n: Int) = n.toString().padStart(2, '0')
 
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }

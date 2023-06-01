@@ -14,6 +14,7 @@ import android.widget.TimePicker
 import androidx.appcompat.widget.ButtonBarLayout
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "Editar Reunião"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -77,7 +78,6 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
-        fun pad(n: Int) = n.toString().padStart(2, '0')
 
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }
