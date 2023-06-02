@@ -1,5 +1,6 @@
 import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
 import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
+import { RiLightbulbFill } from "@react-icons/all-files/ri/RiLightbulbFill";
 import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import {
 	BarElement,
