@@ -1,9 +1,9 @@
+import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import { LoginContainer } from "../components/LoginContainer.jsx";
@@ -18,7 +18,7 @@ const schema = object().shape({
 		.length(12, "Código de verificação deve ter 12 caracteres"),
 });
 
-export function VerificarConta() {
+export default function VerificarConta() {
 	const [pendingData, setPendingData] = useState(null);
 	const { setUser } = useUser();
 	const navigate = useNavigate();

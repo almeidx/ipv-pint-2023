@@ -1,9 +1,9 @@
+import { MdAlternateEmail } from "@react-icons/all-files/md/MdAlternateEmail";
+import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { MdAlternateEmail } from "react-icons/md";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
@@ -23,7 +23,7 @@ const schema = object().shape({
 	// .matches(/[^a-zA-Z0-9]/, "Password deve ter pelo menos um caracter especial"),
 });
 
-export function Login() {
+export default function Login() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
 	const { showToast, toastMessage, toggleToast, showToastWithMessage, toastType } = useToast();

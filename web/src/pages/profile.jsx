@@ -1,3 +1,6 @@
+import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
+import { MdOutlineLogout } from "@react-icons/all-files/md/MdOutlineLogout";
+import { MdOutlinePersonOutline } from "@react-icons/all-files/md/MdOutlinePersonOutline";
 import { Formik } from "formik";
 import { startTransition, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -6,8 +9,6 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import FormLabel from "react-bootstrap/FormLabel";
 import Modal from "react-bootstrap/Modal";
-import { BsTrash } from "react-icons/bs";
-import { MdOutlineLogout, MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { object, ref, string } from "yup";
 import { Page } from "../components/Page.jsx";
@@ -32,7 +33,7 @@ const changePasswordFormSchema = object().shape({
 		.oneOf([ref("newPassword")], "Passwords não coincidem"),
 });
 
-export function Profile() {
+export default function Profile() {
 	const { user, setUser } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");

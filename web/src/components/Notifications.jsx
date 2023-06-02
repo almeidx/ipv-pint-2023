@@ -1,8 +1,9 @@
+import { BsCalendar2DayFill } from "@react-icons/all-files/bs/BsCalendar2DayFill";
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
+import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
+import { RiCloseFill, RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { BsCalendar2DayFill, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { FaHandHoldingUsd } from "react-icons/fa";
-import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";

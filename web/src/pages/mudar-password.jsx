@@ -1,9 +1,9 @@
+import { HiOutlineArrowLeft } from "@react-icons/all-files/hi/HiOutlineArrowLeft";
+import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { HiOutlineArrowLeft } from "react-icons/hi";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { object, ref, string } from "yup";
 import { LoginContainer } from "../components/LoginContainer.jsx";
@@ -26,7 +26,7 @@ const schema = object().shape({
 		.oneOf([ref("password"), null], "As passwords não coincidem"),
 });
 
-export function MudarPassword() {
+export default function MudarPassword() {
 	const query = useQuery();
 	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
 	const navigate = useNavigate();

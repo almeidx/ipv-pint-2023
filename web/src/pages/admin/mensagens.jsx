@@ -1,9 +1,11 @@
+import { BiTrash } from "@react-icons/all-files/bi/BiTrash";
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
-import { BiTrash } from "react-icons/bi";
-import { IoMdAdd } from "react-icons/io";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
@@ -13,8 +15,6 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");

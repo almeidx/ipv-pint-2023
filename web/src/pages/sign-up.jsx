@@ -1,11 +1,11 @@
+import { BsPerson } from "@react-icons/all-files/bs/BsPerson";
+import { MdAlternateEmail } from "@react-icons/all-files/md/MdAlternateEmail";
+import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { BsPerson } from "react-icons/bs";
-import { MdAlternateEmail } from "react-icons/md";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
@@ -29,7 +29,7 @@ const schema = object().shape({
 	confirmPassword: string().required("Password é obrigatória"),
 });
 
-export function SignUp() {
+export default function SignUp() {
 	const query = useQuery();
 	const { showToast, showToastWithMessage, toastMessage, toggleToast, toastType } = useToast();
 	const navigate = useNavigate();

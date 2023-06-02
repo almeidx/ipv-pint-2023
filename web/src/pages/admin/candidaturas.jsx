@@ -1,11 +1,11 @@
+import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
+import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BiNotepad } from "react-icons/bi";
-import { BsCalendarDate } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";

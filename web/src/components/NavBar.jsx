@@ -1,3 +1,7 @@
+import { BiBell } from "@react-icons/all-files/bi/BiBell";
+import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
+import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
+import { MdOutlinePersonOutline } from "@react-icons/all-files/md/MdOutlinePersonOutline";
 import { Suspense, lazy } from "react";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
@@ -8,9 +12,6 @@ import NavbarBrand from "react-bootstrap/NavbarBrand";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BiBell, BiChevronDown } from "react-icons/bi";
-import { FaRegUserCircle } from "react-icons/fa";
-import { MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";

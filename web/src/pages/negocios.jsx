@@ -1,5 +1,7 @@
 import "../styles/negocios.css";
 
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
+import { RxPlusCircled } from "@react-icons/all-files/rx/RxPlusCircled";
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -8,8 +10,6 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { RiPencilLine } from "react-icons/ri";
-import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Multiselect } from "../components/Multiselect.jsx";
@@ -23,7 +23,7 @@ import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { resolveNameOfNextEstado } from "../utils/negocios.js";
 
-export function Negocios() {
+export default function Negocios() {
 	const [search, setSearch] = useState("");
 	const [showCreateOrEditModal, setShowCreateOrEditModal] = useState(false);
 	const [showCreateClientModal, setShowCreateClientModal] = useState(false);

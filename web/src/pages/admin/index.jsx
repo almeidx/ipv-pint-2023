@@ -27,7 +27,7 @@ const sections = [
 	{ name: "Vagas", link: "vagas" },
 ];
 
-export function Admin() {
+export default function Admin() {
 	const { user } = useUser();
 	const [searchParams] = useSearchParams();
 	const [section, setSection] = useState(sections[0].link);

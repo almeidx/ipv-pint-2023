@@ -1,4 +1,6 @@
-import { RiFacebookCircleFill, RiInstagramLine, RiLinkedinBoxLine } from "react-icons/ri";
+import { RiFacebookCircleFill } from "@react-icons/all-files/ri/RiFacebookCircleFill";
+import { RiInstagramLine } from "@react-icons/all-files/ri/RiInstagramLine";
+import { RiLinkedinBoxLine } from "@react-icons/all-files/ri/RiLinkedinBoxLine";
 import { Link } from "react-router-dom";
 import { SoftinsaLogoSmall } from "./icons/SoftinsaLogoSmall.jsx";
 

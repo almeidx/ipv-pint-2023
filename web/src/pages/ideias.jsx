@@ -1,14 +1,15 @@
 import "../styles/Ideias.css";
 
+import { BiBuildingHouse } from "@react-icons/all-files/bi/BiBuildingHouse";
+import { BsFillBagCheckFill } from "@react-icons/all-files/bs/BsFillBagCheckFill";
+import { BsGraphUpArrow } from "@react-icons/all-files/bs/BsGraphUpArrow";
+import { FaRegLightbulb } from "@react-icons/all-files/fa/FaRegLightbulb";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import { BiBuildingHouse } from "react-icons/bi";
-import { BsFillBagCheckFill, BsGraphUpArrow } from "react-icons/bs";
-import { FaRegLightbulb } from "react-icons/fa";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Page } from "../components/Page.jsx";
 import { Toast } from "../components/Toast.jsx";
@@ -44,7 +45,7 @@ const categories = [
 	},
 ];
 
-export function Ideias() {
+export default function Ideias() {
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [content, setContent] = useState("");
 	const { buttonRef, disableButton } = useDisableableButton();

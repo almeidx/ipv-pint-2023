@@ -1,3 +1,7 @@
+import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -9,9 +13,6 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BsCalendarDate } from "react-icons/bs";
-import { IoMdAdd } from "react-icons/io";
-import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";

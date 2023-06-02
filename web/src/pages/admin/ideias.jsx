@@ -1,10 +1,12 @@
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import FormCheck from "react-bootstrap/FormCheck";
 import ListGroup from "react-bootstrap/ListGroup";
-import { IoMdAdd } from "react-icons/io";
-import { RiCloseFill } from "react-icons/ri";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
@@ -14,8 +16,6 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
