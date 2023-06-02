@@ -35,6 +35,7 @@ import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActi
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -1346,4 +1347,8 @@ fun editUser(idUser: Int,  cargo: Int, ctx: Context) {
     }
 
     queue.add(request)
+}
+
+fun resolveIcon(path: String): String {
+    return if (path.startsWith("/static")) "https://softinsa.almeidx.dev${path}" else "$API_URL/uploads/$path"
 }

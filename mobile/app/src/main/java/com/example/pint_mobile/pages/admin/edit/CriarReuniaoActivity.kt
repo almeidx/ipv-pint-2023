@@ -13,6 +13,7 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.utils.ActivityBase
@@ -103,7 +104,6 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
-
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }
 
@@ -154,18 +154,65 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
     fun criarReuniao(_view: View) {
 
         val titulo = findViewById<EditText>(R.id.titulo_reuniao).text.toString()
-        val duracao = findViewById<EditText>(R.id.duracaoReuniaoEditText).text.toString().toInt()
+        val duracao = findViewById<EditText>(R.id.duracaoReuniaoEditText).text.toString()
         val data = findViewById<EditText>(R.id.tv_textTime).text.toString()
         val descricao = findViewById<EditText>(R.id.descricao_reuniao).text.toString()
         val subjetc = findViewById<EditText>(R.id.subjectReuniaoEditText).text.toString()
 
         Log.i("negocioId", negocioId.toString())
 
-        getidCandidatura = candidaturaId.last()
+
+        if (candidaturaId.isEmpty()) {
+            ""
+        }else {
+            getidCandidatura = candidaturaId.last()
+        }
 
         Log.i("getidCandidatura", getidCandidatura.toString())
 
-        createReunion( titulo, descricao, data, duracao,  userIds, getidNegocio, subjetc, getidCandidatura,  this)
+        var errorMsg: String? = null
 
+        if (data.isEmpty()){
+            val data2 = findViewById<EditText>(R.id.tv_textTime)
+            data2.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "A data não pode estar vazia"
+        }else if(userIds.isEmpty()){
+            val users = findViewById<TextView>(R.id.usersReuniaoEditText)
+            users.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "Tem de selecionar pelo menos um utilizador"
+        } else if (titulo.isEmpty()) {
+            val titulo2 = findViewById<EditText>(R.id.titulo_reuniao)
+            titulo2.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "O título não pode estar vazio"
+        } else if (duracao.isEmpty()) {
+            val duracao2 = findViewById<EditText>(R.id.duracaoReuniaoEditText)
+            duracao2.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "A duração não pode estar vazia"
+        } else if (descricao.isEmpty()) {
+            val descricao2 = findViewById<EditText>(R.id.descricao_reuniao)
+            descricao2.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "A descrição não pode estar vazia"
+        } else if (subjetc.isEmpty()) {
+            val subject2 = findViewById<EditText>(R.id.subjectReuniaoEditText)
+            subject2.setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "O assunto não pode estar vazio"
+        }
+
+        if (errorMsg != null) {
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
+            return
+        } else {
+            createReunion(
+                titulo,
+                descricao,
+                data,
+                duracao.toInt(),
+                userIds,
+                getidNegocio,
+                subjetc,
+                getidCandidatura,
+                this
+            )
+        }
     }
 }
