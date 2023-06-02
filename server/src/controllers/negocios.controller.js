@@ -9,6 +9,7 @@ const {
 	Contacto,
 	EstadoNegocio,
 	sequelize,
+	NecessidadeNegocio,
 } = require("../database/index.js");
 const { requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -96,6 +97,11 @@ module.exports = {
 						as: "estados",
 						attributes: ["estado", "dataFinalizacao"],
 						order: [["estado", "ASC"]],
+					},
+					{
+						model: NecessidadeNegocio,
+						as: "necessidades",
+						attributes: ["id", "name"],
 					},
 				],
 				order: [["id", "ASC"]],

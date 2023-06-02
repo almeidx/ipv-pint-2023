@@ -12,7 +12,7 @@ export default function Notifications() {
 
 	/** @param {number} id */
 	function handleSingleDelete(id) {
-		// TODO: ABC
+		// TODO: implement
 		// setNotifications((notifications) => notifications.filter((notification) => notification.id !== id));
 	}
 
@@ -65,13 +65,14 @@ function Notification({ additionalDate, createdAt, content, type, onDelete, id }
  */
 function getTitle(type) {
 	switch (type) {
-		case "beneficio":
+		case 0:
+			return "Nova reunião";
+		case 1:
 			return "Novo benefício";
-		case "vaga":
+		case 2:
 			return "Nova vaga";
-		case "negocio":
+		case 3:
 			return "Novo negócio";
-		case "evento":
 		default:
 			return "Novo evento";
 	}
@@ -82,13 +83,14 @@ function getTitle(type) {
  */
 function getIcon(type) {
 	switch (type) {
-		case "beneficio":
+		case 0:
+			return BsCalendar2DayFill;
+		case 1:
 			return RiTrophyFill;
-		case "vaga":
+		case 2:
 			return BsFillFileEarmarkPersonFill;
-		case "negocio":
+		case 3:
 			return FaHandHoldingUsd;
-		case "evento":
 		default:
 			return BsCalendar2DayFill;
 	}

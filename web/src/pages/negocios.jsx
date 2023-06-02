@@ -229,10 +229,10 @@ export function Negocios() {
 					style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}
 				>
 					<Card.Body className="d-flex flex-column">
-						<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
+						<Card.Title className="title mb-5" style={{ fontSize: "1.6rem" }}>
 							Adicionar Oportunidade
 						</Card.Title>
-						<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
+						<RxPlusCircled className="negocio-card-icon mx-auto mb-auto mt-4" size={128} />
 					</Card.Body>
 				</Card>
 
@@ -264,11 +264,12 @@ export function Negocios() {
  * @param {{ idContacto: number; contacto: { type: 0 | 1; value: string } }[]} props.contactos
  * @param {{ id: number; name: string }?} props.centroTrabalho
  * @param {{ id: number; name: string }} props.cliente
+ * @param {{ id: number; name: string }[]} props.necessidades
  * @param {{ estado: number; dataFinalizacao: string }[]} props.estados
  * @param {(data: any) => void} props.onEditClick
  */
 function Negocio({ onEditClick, ...negocio }) {
-	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, estados } = negocio;
+	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, necessidades, estados } = negocio;
 
 	const estado = estados.at(-1);
 	const estadoAtual = resolveNameOfNextEstado(estado);
@@ -276,13 +277,13 @@ function Negocio({ onEditClick, ...negocio }) {
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
-				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
+				<Card.Title className="title d-flex justify-content-between my-2" style={{ fontSize: "1.4rem" }}>
 					{title}
 
 					{estados.length === 0 ? (
 						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
-								<RiPencilLine size={32} color="black" />
+								<RiPencilLine size={26} color="black" />
 							</Button>
 						</OverlayTrigger>
 					) : null}
@@ -290,36 +291,46 @@ function Negocio({ onEditClick, ...negocio }) {
 
 				<hr />
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					<span className="fw-bold">{areaNegocio.name}</span>: {description}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					{" "}
 					<span className="fw-bold">Cliente: </span> {cliente.name}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					{" "}
 					<span className="fw-bold">Estado: </span> {estadoAtual.name}
 				</Card.Text>
 
 				{centroTrabalho ? (
-					<Card.Text style={{ fontSize: "1.1rem" }}>
+					<Card.Text className="mb-2">
 						{" "}
 						<span className="fw-bold">Centro de Trabalho: </span> {centroTrabalho.name}
 					</Card.Text>
 				) : null}
 
+				{necessidades.length ? (
+					<>
+						<span className="fw-bold">Necessidades:</span>
+
+						<ul className="mb-2">
+							{necessidades.map(({ id, name }) => (
+								<li key={`necessidade-${negocio.id}-${id}`}>{name}</li>
+							))}
+						</ul>
+					</>
+				) : null}
+
 				{contactos.length ? (
 					<>
-						<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-							Contactos:
-						</span>
+						<span className="fw-bold">Contactos:</span>
 
-						<ul>
+						<ul className="mb-2">
 							{contactos.map(({ idContacto, contacto }) => (
-								<li key={idContacto} style={{ fontSize: "1.1rem" }}>
+								<li key={idContacto}>
 									<a
 										className="text-black"
 										style={{ listStyle: "none" }}
@@ -412,8 +423,6 @@ function CreateOrEditNegocioModal({
 	function handleContactosChange(ids) {
 		setNegocioData((state) => ({ ...state, contactos: ids }));
 	}
-
-	// TODO: Adicionar as necessidades do negócio
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>

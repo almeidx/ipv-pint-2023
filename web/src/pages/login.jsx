@@ -1,21 +1,21 @@
+import { Formik } from "formik";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
+import { object, string } from "yup";
 import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
-import { Formik } from "formik";
-import { object, string } from "yup";
 
 const schema = object().shape({
 	email: string().email("Email inválido").required("Email é obrigatório"),
 	password: string().required("Password é obrigatória"),
-	// .min(8, "Password deve ter pelo menos 8 caracteres")
+	// .min(16, "Password deve ter pelo menos 16 caracteres")
 	// .max(128, "Password deve ter no máximo 128 caracteres")
 	// .matches(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
 	// .matches(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
@@ -29,9 +29,7 @@ export function Login() {
 	const { showToast, toastMessage, toggleToast, showToastWithMessage, toastType } = useToast();
 
 	/**
-	 * @param {Object} data
-	 * @param {string} data.email
-	 * @param {string} data.password
+	 * @param {import("yup").InferType<typeof schema>} data
 	 */
 	async function handleSubmit({ email, password }) {
 		const response = await fetch(`${API_URL}/auth/email`, {
@@ -59,6 +57,38 @@ export function Login() {
 		setUser(user);
 
 		navigate("/");
+	}
+
+	/** @param {string} email */
+	async function handleEsqueceuPassword(email) {
+		if (!email) {
+			showToastWithMessage("Preencha o seu email", "error");
+			return;
+		}
+
+		try {
+			const response = await fetch(`${API_URL}/utilizadores/esqueceu-password`, {
+				credentials: "include",
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email }),
+			});
+
+			if (!response.ok) {
+				if (response.status === 404) {
+					showToastWithMessage("Conta não encontrada", "error");
+					return;
+				}
+
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			showToastWithMessage("Foi enviado um email para recuperar a sua password", "success");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao tentar recuperar a sua password", "error");
+		}
 	}
 
 	return (
@@ -111,16 +141,24 @@ export function Login() {
 						</InputGroup>
 
 						<Form.Group controlId="formBasicCheckbox" className="pb-3">
-							<Link className="fst-italic text-decoration-none text-white" to="/mudar-password">
+							<Button
+								className="fst-italic text-decoration-none border-0 bg-transparent p-0 text-white"
+								onClick={() => handleEsqueceuPassword(values.email)}
+							>
 								Esqueceu-se da password?
-							</Link>
+							</Button>
 						</Form.Group>
 
 						<Form.Group className="mb-3" controlId="lembrar-password">
 							<Form.Check type="checkbox" label="Lembrar Password" />
 						</Form.Group>
 
-						<Button variant="light" type="submit" className="col-8 rounded-5 mx-auto p-2">
+						<Button
+							variant="light"
+							type="submit"
+							className="col-8 rounded-5 mx-auto p-2"
+							disabled={Object.keys(errors).length > 0}
+						>
 							Login
 						</Button>
 

@@ -49,11 +49,7 @@ export default function Negocios() {
 		[data, search],
 	);
 
-	// TODO: Edit & Delete
-
 	async function handleEdit(data) {
-		console.log(data);
-
 		try {
 			const response = await fetch(`${API_URL}/negocios/${negocioData.id}`, {
 				credentials: "include",

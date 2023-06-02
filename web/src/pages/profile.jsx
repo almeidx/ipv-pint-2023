@@ -1,17 +1,36 @@
+import { Formik } from "formik";
 import { startTransition, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import FormLabel from "react-bootstrap/FormLabel";
 import Modal from "react-bootstrap/Modal";
 import { BsTrash } from "react-icons/bs";
 import { MdOutlineLogout, MdOutlinePersonOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { object, ref, string } from "yup";
 import { Page } from "../components/Page.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
+
+const changePasswordFormSchema = object().shape({
+	passwordAtual: string().required("Password é obrigatória"),
+	newPassword: string()
+		.required("Password é obrigatória")
+		.min(16, "Password deve ter pelo menos 16 caracteres")
+		.max(128, "Password deve ter no máximo 128 caracteres")
+		.matches(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
+		.matches(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
+		.matches(/[0-9]/, "Password deve ter pelo menos um número")
+		.matches(/[^a-zA-Z0-9]/, "Password deve ter pelo menos um caracter especial")
+		.notOneOf([ref("passwordAtual")], "Nova password deve ser diferente da atual"),
+	confirmNewPassword: string()
+		.required("Password é obrigatória")
+		.oneOf([ref("newPassword")], "Passwords não coincidem"),
+});
 
 export function Profile() {
 	const { user, setUser } = useUser();
@@ -19,6 +38,7 @@ export function Profile() {
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
+	const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 
 	const disabledEditing = user?.registrationType !== "email";
@@ -35,12 +55,6 @@ export function Profile() {
 				setName(value);
 				startTransition(() => setShowSaveButton(value !== user.name));
 				break;
-
-			case "email": {
-				// TODO: Allow editing email
-
-				break;
-			}
 
 			case "cv": {
 				try {
@@ -92,6 +106,10 @@ export function Profile() {
 		}
 	}
 
+	async function handleDisableAccount() {
+		// TODO: implement
+	}
+
 	const firstName = user?.name.split(" ")[0];
 
 	return (
@@ -109,6 +127,12 @@ export function Profile() {
 				show={showCvEditModal}
 				onSave={(filename) => handleProfileValueChange("cv", filename)}
 				onHide={() => setShowCvEditModal(false)}
+			/>
+
+			<AlterarPasswordModal
+				show={showPasswordChangeModal}
+				onHide={() => setShowPasswordChangeModal(false)}
+				showToastWithMessage={showToastWithMessage}
 			/>
 
 			{user ? (
@@ -161,7 +185,7 @@ export function Profile() {
 								value={email}
 								className="w-25"
 								onChange={(e) => handleProfileValueChange("email", e.target.value)}
-								disabled={disabledEditing}
+								disabled
 							/>
 
 							<div className="d-flex flex-column w-fit">
@@ -193,7 +217,9 @@ export function Profile() {
 						<Container>
 							<h3>Autenticação</h3>
 
-							<Button variant="light">Alterar palavra-passe</Button>
+							<Button variant="light" onClick={() => setShowPasswordChangeModal(true)}>
+								Alterar palavra-passe
+							</Button>
 						</Container>
 
 						<Container className="mt-4 pb-4 text-white">
@@ -213,12 +239,7 @@ export function Profile() {
 									Terminar sessão
 								</Button>
 
-								<Button
-									variant="danger"
-									onClick={() => {
-										// setUser(null);
-									}}
-								>
+								<Button variant="danger" onClick={handleDisableAccount}>
 									<BsTrash size={18} className="mb-1 me-2" />
 									Desativar conta
 								</Button>
@@ -286,6 +307,110 @@ function CurriculumVitaeModal({ update, onSave, onHide, show }) {
 					Cancelar
 				</Button>
 			</Modal.Footer>
+		</Modal>
+	);
+}
+
+/**
+ * @param {Object} props
+ * @param {boolean} props.show
+ * @param {() => void} props.onHide
+ * @param {(message: string, type: "error" | "success") => void} props.showToastWithMessage
+ */
+function AlterarPasswordModal({ show, onHide, showToastWithMessage }) {
+	/** @param {import("yup").InferType<typeof changePasswordFormSchema>} data */
+	async function handleSubmit({ passwordAtual, newPassword }) {
+		try {
+			const response = await fetch(`${API_URL}/utilizadores/@me/password`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ passwordAtual, newPassword }),
+			});
+
+			if (!response.ok) {
+				if (response.status === 401) {
+					showToastWithMessage("A password atual está incorreta", "error");
+					return;
+				}
+
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			window.open(`${API_URL}/auth/logout?r=login`, "_self");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao alterar a palavra-passe", "error");
+		}
+	}
+
+	return (
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+			<Modal.Header closeButton>
+				<Modal.Title id="contained-modal-title-vcenter">Alterar palavra-passe</Modal.Title>
+			</Modal.Header>
+
+			<Formik
+				validationSchema={changePasswordFormSchema}
+				initialValues={{ passwordAtual: "", newPassword: "", confirmNewPassword: "" }}
+				onSubmit={handleSubmit}
+			>
+				{({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
+					<Form noValidate onSubmit={handleSubmit}>
+						<Modal.Body>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="passwordAtual">Palavra-passe atual</Form.Label>
+								<Form.Control
+									id="passwordAtual"
+									type="password"
+									value={values.passwordAtual}
+									onChange={handleChange}
+									isInvalid={touched.passwordAtual && !!errors.passwordAtual}
+									onBlur={handleBlur}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.passwordAtual}</Form.Control.Feedback>
+							</Form.Group>
+
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="newPassword">Nova palavra-passe</Form.Label>
+								<Form.Control
+									id="newPassword"
+									type="password"
+									value={values.newPassword}
+									onChange={handleChange}
+									isInvalid={touched.newPassword && !!errors.newPassword}
+									onBlur={handleBlur}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
+							</Form.Group>
+
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="confirmNewPassword">Confirmar nova palavra-passe</Form.Label>
+								<Form.Control
+									id="confirmNewPassword"
+									type="password"
+									value={values.confirmNewPassword}
+									onChange={handleChange}
+									isInvalid={touched.confirmNewPassword && !!errors.confirmNewPassword}
+									onBlur={handleBlur}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.confirmNewPassword}</Form.Control.Feedback>
+							</Form.Group>
+						</Modal.Body>
+
+						<Modal.Footer>
+							<Button onClick={handleSubmit} type="button" variant="success" disabled={Object.keys(errors).length > 0}>
+								Alterar
+							</Button>
+
+							<Button onClick={onHide} type="button">
+								Cancelar
+							</Button>
+						</Modal.Footer>
+					</Form>
+				)}
+			</Formik>
 		</Modal>
 	);
 }
