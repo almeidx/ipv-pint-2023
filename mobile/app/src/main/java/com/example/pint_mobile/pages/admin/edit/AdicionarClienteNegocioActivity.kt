@@ -35,6 +35,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
             R.layout.item_cliente_negocio,
             intent.getStringArrayListExtra("clienteNome")!!,
             intent.getIntegerArrayListExtra("clienteIds")!!,
+            intent.getStringArrayListExtra("necessidades")!!,
         )
 
         lista.adapter = clientesAdapter
@@ -65,7 +66,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ClienteAdapter(private val clientes: ArrayList<Cliente>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList()) : BaseAdapter() {
+    class ClienteAdapter(private val clientes: ArrayList<Cliente>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val necessidades: ArrayList<String> = ArrayList() ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val cliente = clientes[position]
@@ -81,6 +82,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
 
             Log.i("cliente", cliente.nome)
             Log.i("clienteId", cliente.clienteId.toString())
+            Log.i("necessidades", necessidades.toString())
 
             view.setOnClickListener {
                 val intent = Intent(view.context, CriarNegocioActivity::class.java)
@@ -93,6 +95,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
 
                 intent.putExtra("clienteNome", clienteNome)
                 intent.putExtra("clienteIds", clienteIds)
+                intent.putExtra("necessidades", necessidades)
 
                 view.context.startActivity(intent)
             }

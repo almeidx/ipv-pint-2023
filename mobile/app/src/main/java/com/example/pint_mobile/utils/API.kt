@@ -35,6 +35,7 @@ import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActi
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -173,6 +174,14 @@ fun listaNegociosUser(
         for (i in 0 until response.length()) {
             val rawNegocio = response.getJSONObject(i)
 
+            val necessidadesArray = rawNegocio.getJSONArray("necessidades")
+            val necessidadesList = ArrayList<String>()
+            for (j in 0 until necessidadesArray.length()) {
+                val necessidadeObj = necessidadesArray.getJSONObject(j)
+                val necessidade = necessidadeObj.getString("name")
+                necessidadesList.add(necessidade)
+            }
+
             val estadosArray = rawNegocio.getJSONArray("estados")
             val estadoList = ArrayList<Int>()
             for (j in 0 until estadosArray.length()) {
@@ -187,7 +196,8 @@ fun listaNegociosUser(
                 rawNegocio.getString("description"),
                 rawNegocio.getJSONObject("areaNegocio").getString("name"),
                 rawNegocio.getJSONObject("cliente").getString("name"),
-                estadoList
+                estadoList,
+                necessidadesList
             )
             list.add(negocioUser)
         }
@@ -367,10 +377,10 @@ fun listaIdeias(list: ArrayList<Ideia>, allList: ArrayList<Ideia>, adapter: Admi
     queue.add(request)
 }
 
-fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatura>, adapter: AdminCandidaturasActivity.CandidaturaAdapter, ctx: Context) {
+fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatura>, adapter: AdminCandidaturasActivity.CandidaturaAdapter, ctx: Context, admin:Boolean = false) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequestWithCookie(ctx,Request.Method.GET, "$API_URL/candidaturas", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx,Request.Method.GET, "$API_URL/candidaturas?${if (admin) "admin" else ""}", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawCandidatura = response.getJSONObject(i)
             val candidatura = Candidatura(
@@ -609,7 +619,6 @@ fun getUserInfo(cookie: String, ctx: Context) {
     queue.add(request)
 }
 
-// delete beneficio
 fun deleteBeneficio(id: Int, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
@@ -1032,7 +1041,7 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
     queue.add(request)
 }
 
-fun createNegocio(titulo:String, area:Int, descricao:String, cliente: Int, contactos: ArrayList<Int>, ctx: Context) {
+fun createNegocio(titulo:String, area:Int, descricao:String, cliente: Int, contactos: ArrayList<Int>, necessidades: ArrayList<String>, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -1041,6 +1050,7 @@ fun createNegocio(titulo:String, area:Int, descricao:String, cliente: Int, conta
     body.put("idCliente", cliente)
     body.put("idAreaNegocio", area)
     body.put("contactos", JSONArray(contactos))
+    body.put("necessidades", JSONArray(necessidades))
 
     Log.i("body", body.toString())
 
@@ -1154,17 +1164,18 @@ fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utili
     queue.add(request)
 }
 
-fun editNegocioUser( idNegocio: Int,  titulo: String, descricao: String, area: Int,  ctx: Context) {
+fun editNegocioUser( idNegocio: Int,  titulo: String, descricao: String, area: Int, necessidades: ArrayList<String>, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
     body.put("title", titulo)
     body.put("description", descricao)
     body.put("idAreaNegocio", area)
+    body.put("necessidades", JSONArray(necessidades))
 
     Log.i("body", body.toString())
 
-    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/negocios/$idNegocio", body, Response.Listener { response ->
+    val request = object : JsonObjectRequestWithCookie(ctx, Method.PATCH, "$API_URL/negocios/$idNegocio", body, Response.Listener { response ->
         Toast.makeText(ctx, "Negócio editado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, NegocioUtilizadorActivity::class.java)
@@ -1346,4 +1357,8 @@ fun editUser(idUser: Int,  cargo: Int, ctx: Context) {
     }
 
     queue.add(request)
+}
+
+fun resolveIcon(path: String): String {
+    return if (path.startsWith("/static")) "https://softinsa.almeidx.dev${path}" else "$API_URL/uploads/$path"
 }
