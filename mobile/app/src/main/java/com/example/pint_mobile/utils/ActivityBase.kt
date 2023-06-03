@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.pint_mobile.MainActivity
@@ -65,6 +66,9 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                     val icon4 = bottomSheetView.findViewById<LinearLayout>(R.id.contacto)
                     val icon5 = bottomSheetView.findViewById<LinearLayout>(R.id.ideia)
                     val icon6 = bottomSheetView.findViewById<LinearLayout>(R.id.calendario)
+
+                    val user = getCurrentUser(this)
+
                     icon1.setOnClickListener {
                         val intent = Intent(this, BeneficiosActivity::class.java)
                         startActivity(intent)
@@ -75,20 +79,40 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                         startActivity(intent)
                         overridePendingTransition(0, 0);
                     }
-                    icon3.setOnClickListener {
-                        val intent = Intent(this, NegocioUtilizadorActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(0, 0);
+                    if(user != null){
+                        icon3.setOnClickListener {
+                            val intent = Intent(this, NegocioUtilizadorActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(0, 0);
+                        }
+                    }
+                    else{
+                        icon3.setOnClickListener {
+                            Toast.makeText(this, "Inicie sessão para ver as suas Oportunidades.", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(0, 0);
+                        }
                     }
                     icon4.setOnClickListener {
                         val intent = Intent(this, ContactoActivity::class.java)
                         startActivity(intent)
                         overridePendingTransition(0, 0);
                     }
-                    icon5.setOnClickListener {
-                        val intent = Intent(this, IdeiasActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(0, 0);
+                    if(user != null){
+                        icon5.setOnClickListener {
+                            val intent = Intent(this, IdeiasActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(0, 0);
+                        }
+                    }
+                    else{
+                        icon5.setOnClickListener {
+                            Toast.makeText(this, "Inicie sessão para ver as suas Ideias.", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(0, 0);
+                        }
                     }
                     icon6.setOnClickListener {
                         val intent = Intent(this, CalendarioActivity::class.java)
