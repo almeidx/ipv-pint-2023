@@ -1,60 +1,55 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".pages.CalendarioActivity"
->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pages.CalendarioActivity">
 
     <ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		app:layout_constraintBottom_toTopOf="@+id/bottombar"
-	>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottombar">
 
         <LinearLayout
-			android:id="@+id/linearLayout2"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-		>
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-				android:id="@+id/date_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:text="Set the Date"
-				android:textColor="@android:color/background_dark"
-				android:textSize="25dp"
-				android:textStyle="bold"
-			/>
+                android:id="@+id/date_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Set the Date"
+                android:textColor="@android:color/background_dark"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <CalendarView
-				android:id="@+id/calendar"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:layout_marginStart="25dp"
-				android:layout_marginEnd="25dp"
-			/>
+                android:id="@+id/calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp" />
         </LinearLayout>
 
     </ScrollView>
 
     <ListView
-		android:id="@+id/listaEventos"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="25dp"
-		android:layout_marginTop="390dp"
-		android:layout_marginEnd="25dp"
-		android:layout_marginBottom="67dp"
-		android:divider="@android:color/transparent"
-		android:dividerHeight="20dp"
-		app:layout_constraintTop_toBottomOf="@+id/calendar"
-	/>
+        android:id="@+id/listaEventos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="390dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="67dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/calendar" />
 
-    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
+    <include
+        layout="@layout/bottombar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </RelativeLayout>

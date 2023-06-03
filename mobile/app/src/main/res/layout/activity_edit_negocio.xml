@@ -1,165 +1,151 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/bg"
-	tools:context=".pages.admin.edit.CriarNegocioActivity"
->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".pages.admin.edit.CriarNegocioActivity">
 
     <ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		app:layout_constraintBottom_toTopOf="@+id/bottombar"
-	>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottombar">
 
         <LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-		>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
-				android:id="@+id/container2"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/white"
-				android:orientation="vertical"
-				android:paddingBottom="25dp"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintVertical_bias="0.0"
-			>
+                android:id="@+id/container2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
                 <Button
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginEnd="25dp"
-					android:background="@color/white"
-					android:onClick="goToCriarReuniao"
-					android:text="Criar Reuniao"
-					android:textColor="@color/white"
-					android:textSize="15dp"
-				/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@color/white"
+                    android:onClick="goToCriarReuniao"
+                    android:text="Criar Reuniao"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
 
                 <Button
-					android:id="@+id/setNextStatex"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:background="@color/white"
-					android:text="Avançar estado do negocio"
-					android:textColor="@color/white"
-				/>
+                    android:id="@+id/setNextStatex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@color/white"
+                    android:text="Avançar estado do negocio"
+                    android:textColor="@color/white" />
 
 
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/estadoDoNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Estado do negocio"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/estadoDoNegocio"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Estado do negocio"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/estadoDoNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/estadoDoNegocioEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-				</com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-				<Spinner
-					android:id="@+id/centroTrabalhoNegocio"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="20dp"
-					android:layout_marginEnd="25dp"
-					android:background="@drawable/spinner_background"
-					android:padding="8dp"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintHorizontal_bias="1.0"
-					app:layout_constraintStart_toEndOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				/>
+                <Spinner
+                    android:id="@+id/centroTrabalhoNegocio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@drawable/spinner_background"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-				<Button
-					android:id="@+id/setFuncionarioNegocio"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:background="@color/white"
-					android:text="Funcionario responsavel"
-					android:textColor="@color/white"
-				/>
+                <Button
+                    android:id="@+id/setFuncionarioNegocio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@color/white"
+                    android:text="Funcionario responsavel"
+                    android:textColor="@color/white" />
 
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/FuncionarioResponsavelNegocio"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Funcionario responsavel"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/FuncionarioResponsavelNegocio"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Funcionario responsavel"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/FuncionarioResponsavelNegocioEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/FuncionarioResponsavelNegocioEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-				</com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginLeft="80dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:gravity="end"
-					android:orientation="horizontal"
-					android:layout_marginBottom="67dp"
-				>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="67dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
                     <Button
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="20dp"
-						android:layout_marginBottom="67dp"
-						android:background="@drawable/edit_button"
-						android:backgroundTint="@color/white"
-						android:text="Guardar"
-						android:textColor="@color/white"
-						android:textSize="10dp"
-						android:onClick="editarNegocioX"
-					/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="67dp"
+                        android:background="@drawable/edit_button"
+                        android:backgroundTint="@color/white"
+                        android:onClick="editarNegocioX"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:textSize="10dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -168,5 +154,7 @@
 
     </ScrollView>
 
-    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
+    <include
+        layout="@layout/bottombar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

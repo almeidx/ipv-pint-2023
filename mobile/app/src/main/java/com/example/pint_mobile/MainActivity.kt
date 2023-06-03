@@ -50,8 +50,6 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         visitors.add(BarEntry(2016f, 508f))
         visitors.add(BarEntry(2017f, 660f))
         visitors.add(BarEntry(2018f, 550f))
-        visitors.add(BarEntry(2019f, 630f))
-        visitors.add(BarEntry(2020f, 470f))
 
         val barDataSet = BarDataSet(visitors, "Visitors")
         barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
@@ -60,9 +58,7 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
 
         val barData = BarData(barDataSet)
 
-        barChart.setFitBars(true)
         barChart.data = barData
-        barChart.description.text = "Bar Chart Example"
         barChart.animateY(2000)
     }
 

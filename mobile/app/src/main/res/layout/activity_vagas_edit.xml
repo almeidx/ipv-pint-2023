@@ -1,218 +1,198 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/bg"
-	tools:context=".pages.admin.edit.VagasEditActivity"
->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".pages.admin.edit.VagasEditActivity">
 
     <ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		app:layout_constraintBottom_toTopOf="@+id/bottombar"
-	>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottombar">
 
         <LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-		>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
-				android:id="@+id/container2"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/white"
-				android:orientation="vertical"
-				android:paddingBottom="25dp"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintVertical_bias="0.0"
-			>
+                android:id="@+id/container2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
                 <TextView
-					android:id="@+id/titulo"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:paddingStart="25dp"
-					android:paddingTop="10dp"
-					android:textAppearance="?android:textAppearanceLarge"
-					android:textColor="@color/black"
-					android:textSize="20dp"
-					android:textStyle="bold"
-					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				/>
+                    android:id="@+id/titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-					android:id="@+id/id"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
-					android:paddingStart="25dp"
-					android:paddingTop="10dp"
-					android:textAppearance="?android:textAppearanceLarge"
-					android:textColor="@color/black"
-					android:textSize="15dp"
-					android:textStyle="bold"
-					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/titulo"
-					app:layout_constraintTop_toTopOf="parent"
-				/>
+                    android:id="@+id/id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingStart="25dp"
+                    android:paddingTop="10dp"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titulo"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
-					android:id="@+id/toggleButton2"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					app:singleSelection="true"
-				>
+                    android:id="@+id/toggleButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    app:singleSelection="true">
 
                     <Button
-						android:id="@+id/aberta"
-						style="?attr/materialButtonOutlinedStyle"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="Aberta"
-					/>
+                        android:id="@+id/aberta"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aberta" />
 
                     <Button
-						android:id="@+id/fechada"
-						style="?attr/materialButtonOutlinedStyle"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="Fechada"
-					/>
+                        android:id="@+id/fechada"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fechada" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/tituloVaga"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Titulo da Vaga"
-					android:orientation="horizontal"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
+                    android:id="@+id/tituloVaga"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Titulo da Vaga"
+                    android:orientation="horizontal"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/tituloVagaEdit"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-					/>
+                        android:id="@+id/tituloVagaEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/descricaoVaga"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Descrição da Vaga"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
+                    android:id="@+id/descricaoVaga"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Descrição da Vaga"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/descricaoVagaEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
+                        android:id="@+id/descricaoVagaEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/NumeroVagas"
-					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:hint="Número de Vagas"
-					app:boxBackgroundColor="@color/white"
-					app:boxStrokeColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-				>
+                    android:id="@+id/NumeroVagas"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Número de Vagas"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/numeroVagasEdit"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-					/>
+                        android:id="@+id/numeroVagasEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox
-					android:id="@+id/checkBoxVaga"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginEnd="25dp"
-					android:text="Só para colaboradores"
-					android:textColor="@color/black"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/NumeroVagas"
-				/>
+                    android:id="@+id/checkBoxVaga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="Só para colaboradores"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/NumeroVagas" />
 
 
                 <LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="25dp"
-					android:layout_marginLeft="80dp"
-					android:layout_marginTop="25dp"
-					android:layout_marginEnd="25dp"
-					android:gravity="end"
-					android:orientation="horizontal"
-					android:layout_marginBottom="67dp"
-				>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="67dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
                     <Button
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:background="@drawable/edit_button"
-						android:backgroundTint="@color/white"
-						android:onClick="apagarVaga"
-						android:text="Apagar"
-						android:textColor="@color/white"
-						android:textSize="10dp"
-					/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_button"
+                        android:backgroundTint="@color/white"
+                        android:onClick="apagarVaga"
+                        android:text="Apagar"
+                        android:textColor="@color/white"
+                        android:textSize="10dp" />
 
                     <Button
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="20dp"
-						android:background="@drawable/edit_button"
-						android:backgroundTint="@color/white"
-						android:onClick="editarVaga"
-						android:text="Guardar"
-						android:textColor="@color/white"
-						android:textSize="10dp"
-					/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/edit_button"
+                        android:backgroundTint="@color/white"
+                        android:onClick="editarVaga"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:textSize="10dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -221,5 +201,7 @@
 
     </ScrollView>
 
-    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
+    <include
+        layout="@layout/bottombar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
