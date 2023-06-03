@@ -35,6 +35,8 @@ export default function Calendar() {
 		setShowEventModal(true);
 	}
 
+	// TODO: Remover bootstrap-icons
+
 	return (
 		<Page>
 			<DayModal

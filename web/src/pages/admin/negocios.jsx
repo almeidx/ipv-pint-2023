@@ -124,7 +124,7 @@ export default function Negocios() {
 			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
-				<h2>Negócios</h2>
+				<h2>Oportunidades</h2>
 
 				<Link to="/negocios">
 					<IoMdAdd size={40} color="black" />
@@ -166,6 +166,7 @@ export default function Negocios() {
 							contactos,
 							createdAt,
 							estados,
+							necessidades,
 						}) => (
 							<ListGroup.Item className="d-flex align-items-center" key={id}>
 								<div className="col-12">
@@ -199,6 +200,21 @@ export default function Negocios() {
 													? `${funcionarioResponsavel.name} (${funcionarioResponsavel.email})`
 													: "Não associado"}
 											</p>
+
+											{necessidades.length ? (
+												<>
+													<span className="fw-bold">Necessidades</span>
+													<ul className="mb-0">
+														{necessidades.map(({ id: idNecessidade, name }) => (
+															<li key={`${id}-necessidade-${idNecessidade}`}>{name}</li>
+														))}
+													</ul>
+												</>
+											) : (
+												<p className="mb-0">
+													<span className="fw-bold">Necessidades:</span> Não tem necessidades associadas
+												</p>
+											)}
 
 											<span className="fw-bold">Contactos:</span>
 											<ul className="mb-0">

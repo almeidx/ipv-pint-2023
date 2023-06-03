@@ -13,6 +13,7 @@ const {
 } = require("../database/index.js");
 const { requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
+const { arrayEqualsUnsorted } = require("../utils/arrayEqualsUnsorted.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
 const fieldValidations = [
@@ -26,6 +27,8 @@ const fieldValidations = [
 		.isLength({ min: 1, max: 100 }),
 	body("contactos", "`contactos` tem que ser do tipo array").isArray(),
 	body("contactos.*", "`contactos.*` tem que ser do tipo inteiro").isInt(),
+	body("necessidades", "`necessidades` tem que ser do tipo array").isArray().isLength({ min: 0, max: 5 }),
+	body("necessidades.*", "`necessidades.*` tem que ser do tipo string").isString(),
 ];
 
 /** @type {import("../database/index.js").Controller} */
@@ -35,25 +38,49 @@ module.exports = {
 		validate(...fieldValidations),
 
 		async (req, res) => {
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, necessidades } = req.body;
 
-			const negocio = await Negocio.create({
-				idUser: req.user.id,
-				idAreaNegocio,
-				idCliente,
-				idCentroTrabalho,
-				description,
-				title,
-			});
+			console.log(req.body);
 
-			await ContactoNegocio.bulkCreate(
-				contactos.map((idContacto) => ({
-					idNegocio: negocio.id,
-					idContacto,
-				})),
-			);
+			try {
+				await sequelize.transaction(async (transaction) => {
+					const negocio = await Negocio.create(
+						{
+							idUser: req.user.id,
+							idAreaNegocio,
+							idCliente,
+							idCentroTrabalho,
+							description,
+							title,
+						},
+						{ transaction },
+					);
 
-			res.json(negocio);
+					await ContactoNegocio.bulkCreate(
+						contactos.map((idContacto) => ({
+							idNegocio: negocio.id,
+							idContacto,
+						})),
+						{ transaction },
+					);
+
+					if (necessidades.length) {
+						await NecessidadeNegocio.bulkCreate(
+							necessidades.map((name) => ({
+								idNegocio: negocio.id,
+								name,
+							})),
+							{ transaction },
+						);
+					}
+
+					res.json(negocio);
+				});
+			} catch (error) {
+				console.error(error);
+
+				res.status(500).json({ error: "Erro ao criar o negócio" });
+			}
 		},
 	],
 
@@ -146,16 +173,47 @@ module.exports = {
 			body("estados", "`estados` tem que ser do tipo array").isArray().isLength({ min: 1, max: 5 }).optional(),
 			body("estados.*.estado", "`estados.*.estado` tem que ser do tipo inteiro").isInt(),
 			body("estados.*.dataFinalizacao", "`estados.*.dataFinalizacao` tem que ser do tipo data").isISO8601(),
+			body("necessidades", "`necessidades` tem que ser do tipo array")
+				.isArray()
+				.isLength({ min: 0, max: 5 })
+				.optional(),
+			body("necessidades.*", "`necessidades.*` tem que ser do tipo string").isString(),
 			...fieldValidations.map((v) => v.optional()),
 		),
 
 		async (req, res) => {
 			const { id } = req.params;
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, estados } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, estados, necessidades } =
+				req.body;
 
 			// TODO: Check if user is allowed to update this negocio
 
-			const negocio = await Negocio.findByPk(id);
+			const negocio = await Negocio.findByPk(id, {
+				include: [
+					{
+						model: ContactoNegocio,
+						as: "contactos",
+						attributes: [],
+						include: [
+							{
+								model: Contacto,
+								attributes: ["value"],
+							},
+						],
+					},
+					{
+						model: EstadoNegocio,
+						as: "estados",
+						attributes: ["estado"],
+					},
+					{
+						model: NecessidadeNegocio,
+						as: "necessidades",
+						attributes: ["name"],
+					},
+				],
+			});
+
 			if (!negocio) {
 				res.status(404).json({ message: "Negocio não encontrado" });
 				return;
@@ -175,7 +233,12 @@ module.exports = {
 				if (Object.keys(update).length > 0) updatedNegocio = await negocio.update(update, { transaction });
 				else updatedNegocio = negocio;
 
-				if (contactos) {
+				if (
+					!arrayEqualsUnsorted(
+						negocio.contactos.map(({ contacto }) => contacto.value),
+						contactos,
+					)
+				) {
 					await ContactoNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
 					await ContactoNegocio.bulkCreate(
 						contactos.map((idContacto) => ({
@@ -188,7 +251,12 @@ module.exports = {
 					updatedNegocio.contactos = contactos;
 				}
 
-				if (estados) {
+				if (
+					!arrayEqualsUnsorted(
+						negocio.estados.map(({ estado }) => estado),
+						estados.map(({ estado }) => estado),
+					)
+				) {
 					const estadoNumbers = estados.map(({ estado }) => estado);
 					const maxEstado = Math.max(...estadoNumbers);
 					if (maxEstado !== estadoNumbers.length - 1) {
@@ -207,6 +275,24 @@ module.exports = {
 					);
 
 					updatedNegocio.estados = estados;
+				}
+
+				if (
+					!arrayEqualsUnsorted(
+						negocio.necessidades.map(({ name }) => name),
+						necessidades,
+					)
+				) {
+					await NecessidadeNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
+					await NecessidadeNegocio.bulkCreate(
+						necessidades.map((name) => ({
+							idNegocio: negocio.id,
+							name,
+						})),
+						{ transaction },
+					);
+
+					updatedNegocio.necessidades = necessidades;
 				}
 
 				res.json(updatedNegocio);
