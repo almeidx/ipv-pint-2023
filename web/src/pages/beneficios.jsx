@@ -9,7 +9,7 @@ import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { resolveIcon } from "../utils/resolve-icon.js";
 
-export function Beneficios() {
+export default function Beneficios() {
 	const [search, setSearch] = useState("");
 	const { isLoading, data } = useSWR(`${API_URL}/beneficios`, fetcher);
 

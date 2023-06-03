@@ -24,8 +24,8 @@ const Vaga = require("./model/Vaga.js");
 Negocio.hasMany(ContactoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "contactos" });
 Negocio.hasMany(EstadoNegocio, { sourceKey: "id", foreignKey: "idNegocio", as: "estados" });
 
-NecessidadeNegocio.belongsTo(Negocio, { foreignKey: "idNegocio", as: "necessidades" });
-Negocio.hasMany(NecessidadeNegocio, { foreignKey: "idNegocio", as: "negocio" });
+NecessidadeNegocio.belongsTo(Negocio, { foreignKey: "idNegocio", as: "negocio" });
+Negocio.hasMany(NecessidadeNegocio, { foreignKey: "idNegocio", as: "necessidades" });
 
 Mensagem.hasOne(Utilizador, { sourceKey: "idCriador", foreignKey: "id", as: "criador", constraints: false });
 Utilizador.hasMany(Mensagem, { sourceKey: "id", foreignKey: "idCriador", as: "mensagens" });

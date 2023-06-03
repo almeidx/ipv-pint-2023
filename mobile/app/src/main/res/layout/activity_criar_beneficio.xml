@@ -69,6 +69,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+			<Button
+				android:id="@+id/imagePickerX"
+				android:layout_width="match_parent"
+				android:layout_height="64dp"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:text="Escolha a imagem do beneficio"
+				/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/iconBeneficio"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

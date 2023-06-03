@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createIdea
@@ -41,6 +42,12 @@ class IdeiasActivity : ActivityBase(R.layout.activity_ideias, "Ideias") {
     fun criarIdeias5(_view: View) {
         val tituloTextView = findViewById<TextInputEditText>(R.id.ideia)
         val titulo = tituloTextView.text.toString()
+
+        if (titulo.isEmpty()) {
+            tituloTextView.background = getDrawable(R.drawable.edittext_red_border)
+            Toast.makeText(this, "Descricao não pode ser vazia", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         createIdea(titulo, categoria, this)
     }

@@ -29,8 +29,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
 
             if (email.isEmpty()) {
                 emailInput.setBackgroundResource(R.drawable.edittext_red_border)
-            }
-            if (password.isEmpty()) {
+            } else if (password.isEmpty()) {
                 passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
             }
         }

@@ -43,19 +43,23 @@ module.exports = {
 	],
 
 	logout(req, res) {
+		const { r } = req.query;
+
+		const redirectUrl = r === "login" ? `${process.env.WEB_URL}/login` : process.env.WEB_URL;
+
 		if (!req.user) {
-			res.redirect(process.env.WEB_URL);
+			res.redirect(redirectUrl);
 			return;
 		}
 
 		req.logout((err) => {
 			if (err) {
 				console.error(err);
-				res.status(500).json({ message: "Não foi possível iniciar a sessão" });
+				res.status(500).json({ message: "Não foi possível terminar a sessão" });
 				return;
 			}
 
-			res.redirect(process.env.WEB_URL);
+			res.redirect(redirectUrl);
 		});
 	},
 
@@ -71,6 +75,12 @@ module.exports = {
 		async (req, res, next) => {
 			const { name, email, password } = req.body;
 
+			const existingUser = await Utilizador.findOne({ where: { email } });
+			if (existingUser) {
+				res.status(409).json({ message: "Email já está a ser usado" });
+				return;
+			}
+
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const confirmCode = randomNumberString(12);
 
@@ -81,9 +91,7 @@ module.exports = {
 				"Confirmação de conta",
 				stripIndents`
 					<h2>Olá ${name},</h2>
-					<br>
 					<p>Para confirmar a sua conta, introduza o seguinte código na página:</p>
-					<br>
 					<b>${confirmCode}</b>
 					<br>
 					<p>Caso não tenha guardado a página, redirecione-se aqui: <a href="${process.env.WEB_URL}/verificar-conta">Página de verificação</a></p>

@@ -29,7 +29,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
     private lateinit var clienteIds: ArrayList<Int>
     private lateinit var contactoIds: ArrayList<Int>
     private lateinit var contactoNames: ArrayList<String>
-
+    private lateinit var necessidades: ArrayList<String>
     private var idCliente by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +38,15 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         clientNames = intent.getStringArrayListExtra("clienteNome")!!
         clienteIds = intent.getIntegerArrayListExtra("clienteIds")!!
         contactoIds = intent.getIntegerArrayListExtra("contactoIds")!!
-        contactoNames = intent.getStringArrayListExtra("contactoNome")!!
+        contactoNames = intent.getStringArrayListExtra("contactoNames")!!
+        necessidades = intent.getStringArrayListExtra("necessidades")!!
+
 
         Log.i("clientNames", clientNames.toString())
         Log.i("clienteIds", clienteIds.toString())
         Log.i("contactoIds", contactoIds.toString())
         Log.i("contactoNames", contactoNames.toString())
+        Log.i("necessidades", necessidades.toString())
 
         val lista = findViewById<ListView>(R.id.listaContactosCliente22)
         contactosAdapter = ContactosAdapter(
@@ -52,7 +55,8 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             intent.getStringArrayListExtra("clienteNome")!!,
             clienteIds,
             intent.getIntegerArrayListExtra("contactoIds")!!,
-            intent.getStringArrayListExtra("contactoNome")!!,
+            intent.getStringArrayListExtra("contactoNames")!!,
+            intent.getStringArrayListExtra("necessidades")!!,
         )
 
         if (clienteIds.isEmpty())
@@ -96,7 +100,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val contactoIds: ArrayList<Int> = ArrayList(),  private val contactoNames: ArrayList<String> = ArrayList()) : BaseAdapter(){
+    class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val contactoIds: ArrayList<Int> = ArrayList(),  private val contactoNames: ArrayList<String> = ArrayList(),private val necessidades: ArrayList<String> = ArrayList() ) : BaseAdapter(){
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val contacto = contactos[position]
@@ -111,6 +115,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             Log.i("clienteNome", clienteNome.toString())
             Log.i("contactoIds", contactoIds.toString())
             Log.i("contactoNames", contactoNames.toString())
+            Log.i("necessidades", necessidades.toString())
 
             view.setOnClickListener {
                 val intent = Intent(view.context, CriarNegocioActivity::class.java)
@@ -122,12 +127,13 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
                 intent.putExtra("clienteIds", clienteIds)
                 intent.putExtra("contactoIds", contactoIds)
                 intent.putExtra("contactoNames", contactoNames)
+                intent.putExtra("necessidades", necessidades)
 
                 Log.i("clienteIds", clienteIds.toString())
                 Log.i("clienteNome", clienteNome.toString())
                 Log.i("contactoIds", contactoIds.toString())
                 Log.i("contactoNames", contactoNames.toString())
-
+                Log.i("necessidades", necessidades.toString())
 
                 view.context.startActivity(intent)
             }

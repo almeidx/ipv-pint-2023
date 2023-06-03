@@ -9,7 +9,7 @@ export const NotificationsContext = createContext({
 
 /** @param {import("react").PropsWithChildren} */
 export function NotificationsProvider({ children }) {
-	const { data: notifications } = useSWR(`${API_URL}/notificacoes`, fetcher, { refreshInterval: 60 * 1_000 });
+	const { data: notifications } = useSWR(`${API_URL}/notificacoes`, fetcher, { refreshInterval: 2 * 60 * 1_000 }); // 2 min
 
 	const value = useMemo(() => ({ notifications }), [notifications]);
 

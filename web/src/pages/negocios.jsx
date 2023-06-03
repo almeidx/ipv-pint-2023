@@ -1,5 +1,8 @@
 import "../styles/negocios.css";
 
+import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
+import { RxPlusCircled } from "@react-icons/all-files/rx/RxPlusCircled";
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -8,8 +11,6 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { RiPencilLine } from "react-icons/ri";
-import { RxPlusCircled } from "react-icons/rx";
 import useSWR from "swr";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Multiselect } from "../components/Multiselect.jsx";
@@ -22,8 +23,37 @@ import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { resolveNameOfNextEstado } from "../utils/negocios.js";
+import { Formik } from "formik";
+import { number, object, ref, string } from "yup";
 
-export function Negocios() {
+const createNegocioSchema = object().shape({
+	title: string().required("O titulo é obrigatório").max(100, "Máximo de 100 caracteres"),
+	description: string().required("A descrição é obrigatória").max(1_000, "Máximo de 1000 caracteres"),
+	idAreaNegocio: number().required("A área de negócio é obrigatória"),
+	idCliente: number().required("O cliente é obrigatório"),
+});
+
+const createClientSchema = object().shape({
+	name: string().required("O nome é obrigatório").max(100, "Máximo de 100 caracteres"),
+});
+
+const createContactoSchema = object().shape({
+	value: string()
+		.required("O contacto é obrigatório")
+		.max(100, "Máximo de 100 caracteres")
+		.when("type", {
+			is: "0",
+			then: () => string().email("O contacto tem de ser um email"),
+		})
+		.when("type", {
+			is: "1",
+			then: () =>
+				string().matches(/^(\+351 ?)?(9[1236]\d) ?(\d{3}) ?(\d{3})$/, "O contacto tem de ser um número de telefone"),
+		}),
+	type: string().required("O tipo de contacto é obrigatório").oneOf(["0", "1"], "O tipo de contacto é inválido"),
+});
+
+export default function Negocios() {
 	const [search, setSearch] = useState("");
 	const [showCreateOrEditModal, setShowCreateOrEditModal] = useState(false);
 	const [showCreateClientModal, setShowCreateClientModal] = useState(false);
@@ -131,7 +161,7 @@ export function Negocios() {
 
 	/**
 	 * @param {number} clientId
-	 * @param {object} data
+	 * @param {import("yup").InferType<typeof createContactoSchema>} data
 	 */
 	async function handleCreateContacto(clientId, data) {
 		try {
@@ -229,10 +259,10 @@ export function Negocios() {
 					style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}
 				>
 					<Card.Body className="d-flex flex-column">
-						<Card.Title className="title mx-auto my-3" style={{ fontSize: "2rem" }}>
+						<Card.Title className="title mb-5" style={{ fontSize: "1.6rem" }}>
 							Adicionar Oportunidade
 						</Card.Title>
-						<RxPlusCircled className="negocio-card-icon m-auto" size="7rem" />
+						<RxPlusCircled className="negocio-card-icon mx-auto mb-auto mt-4" size={128} />
 					</Card.Body>
 				</Card>
 
@@ -264,11 +294,12 @@ export function Negocios() {
  * @param {{ idContacto: number; contacto: { type: 0 | 1; value: string } }[]} props.contactos
  * @param {{ id: number; name: string }?} props.centroTrabalho
  * @param {{ id: number; name: string }} props.cliente
+ * @param {{ id: number; name: string }[]} props.necessidades
  * @param {{ estado: number; dataFinalizacao: string }[]} props.estados
  * @param {(data: any) => void} props.onEditClick
  */
 function Negocio({ onEditClick, ...negocio }) {
-	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, estados } = negocio;
+	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, necessidades, estados } = negocio;
 
 	const estado = estados.at(-1);
 	const estadoAtual = resolveNameOfNextEstado(estado);
@@ -276,13 +307,13 @@ function Negocio({ onEditClick, ...negocio }) {
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
-				<Card.Title className="title d-flex justify-content-between my-3" style={{ fontSize: "2rem" }}>
+				<Card.Title className="title d-flex justify-content-between my-2" style={{ fontSize: "1.4rem" }}>
 					{title}
 
 					{estados.length === 0 ? (
 						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
-								<RiPencilLine size={32} color="black" />
+								<RiPencilLine size={26} color="black" />
 							</Button>
 						</OverlayTrigger>
 					) : null}
@@ -290,36 +321,46 @@ function Negocio({ onEditClick, ...negocio }) {
 
 				<hr />
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					<span className="fw-bold">{areaNegocio.name}</span>: {description}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					{" "}
 					<span className="fw-bold">Cliente: </span> {cliente.name}
 				</Card.Text>
 
-				<Card.Text style={{ fontSize: "1.1rem" }}>
+				<Card.Text className="mb-2">
 					{" "}
 					<span className="fw-bold">Estado: </span> {estadoAtual.name}
 				</Card.Text>
 
 				{centroTrabalho ? (
-					<Card.Text style={{ fontSize: "1.1rem" }}>
+					<Card.Text className="mb-2">
 						{" "}
 						<span className="fw-bold">Centro de Trabalho: </span> {centroTrabalho.name}
 					</Card.Text>
 				) : null}
 
+				{necessidades.length ? (
+					<>
+						<span className="fw-bold">Necessidades:</span>
+
+						<ul className="mb-2">
+							{necessidades.map(({ id, name }) => (
+								<li key={`necessidade-${negocio.id}-${id}`}>{name}</li>
+							))}
+						</ul>
+					</>
+				) : null}
+
 				{contactos.length ? (
 					<>
-						<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-							Contactos:
-						</span>
+						<span className="fw-bold">Contactos:</span>
 
-						<ul>
+						<ul className="mb-2">
 							{contactos.map(({ idContacto, contacto }) => (
-								<li key={idContacto} style={{ fontSize: "1.1rem" }}>
+								<li key={idContacto}>
 									<a
 										className="text-black"
 										style={{ listStyle: "none" }}
@@ -372,6 +413,7 @@ function CreateOrEditNegocioModal({
 }) {
 	const [negocioData, setNegocioData] = useState({});
 	const [contactos, setContactos] = useState([]);
+	const [novaNecessidade, setNovaNecessidade] = useState("");
 
 	useEffect(() => {
 		if (newClientId !== null) {
@@ -413,7 +455,22 @@ function CreateOrEditNegocioModal({
 		setNegocioData((state) => ({ ...state, contactos: ids }));
 	}
 
-	// TODO: Adicionar as necessidades do negócio
+	function handleNewNecessidade() {
+		const necessidade = novaNecessidade.trim();
+
+		setNegocioData((state) => ({ ...state, necessidades: [...(state.necessidades ?? []), necessidade] }));
+
+		setNovaNecessidade("");
+	}
+
+	function handleRemoveNecessidade(index) {
+		setNegocioData((state) => ({
+			...state,
+			necessidades: state.necessidades.filter((_, i) => i !== index),
+		}));
+	}
+
+	// TODO: Contactos criados não estão a aparecer na lista (qnd é só 1?)
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
@@ -468,6 +525,44 @@ function CreateOrEditNegocioModal({
 								</option>
 							))}
 						</Form.Select>
+					</Form.Group>
+
+					<Form.Group className="mb-3">
+						<Form.Label htmlFor="nova-necessidade">Necessidades</Form.Label>
+						<div className="d-flex gap-2">
+							<Form.Control
+								id="nova-necessidade"
+								value={novaNecessidade}
+								onChange={(e) => setNovaNecessidade(e.target.value)}
+								maxLength={100}
+								placeholder="Nova necessidade do negócio"
+								disabled={(negocioData.necessidades ?? data?.necessidades ?? []).length >= 5}
+							/>
+
+							<Button
+								variant="light"
+								className="px-2"
+								style={{ height: "fit-content" }}
+								onClick={handleNewNecessidade}
+								disabled={
+									novaNecessidade.trim().length === 0 ||
+									(negocioData.necessidades ?? data?.necessidades ?? []).length >= 5 ||
+									(negocioData.necessidades ?? data?.necessidades ?? []).includes(novaNecessidade)
+								}
+							>
+								<RxPlusCircled size={24} color="black" />
+							</Button>
+						</div>
+						<ul>
+							{(negocioData.necessidades ?? data?.necessidades ?? []).map((necessidade, index) => (
+								<Necessidade
+									key={necessidade}
+									necessidade={necessidade}
+									index={index}
+									onRemove={handleRemoveNecessidade}
+								/>
+							))}
+						</ul>
 					</Form.Group>
 
 					{isCreate ? (
@@ -549,9 +644,37 @@ function CreateOrEditNegocioModal({
 					Guardar
 				</Button>
 
-				<Button onClick={onHideWrapper}>Cancelar</Button>
+				<Button onClick={onHideWrapper} type="button">
+					Cancelar
+				</Button>
 			</Modal.Footer>
 		</Modal>
+	);
+}
+
+/**
+ * @param {Object} props
+ * @param {string|{ id: number; name: string }} props.necessidade
+ * @param {number} props.index
+ * @param {(index: number) => void} props.onRemove
+ */
+function Necessidade({ necessidade, index, onRemove }) {
+	return (
+		<li className="mt-1">
+			<div className="d-flex justify-content-between">
+				<p className="mb-0">{typeof necessidade === "object" ? necessidade.name : necessidade}</p>
+
+				<Button
+					variant="light"
+					className="d-flex justify-content-center align-items-center px-1 py-0"
+					onClick={() => {
+						onRemove(index);
+					}}
+				>
+					<BsTrash size={16} color="black" />
+				</Button>
+			</div>
+		</li>
 	);
 }
 
@@ -562,47 +685,48 @@ function CreateOrEditNegocioModal({
  * @param {(data: any) => void} props.onSave
  */
 function CreateClientModal({ show, onHide, onSave }) {
-	const [clientData, setClientData] = useState({});
-
-	function onHideWrapper() {
-		onHide();
-		setClientData({});
-	}
-
 	return (
-		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-client-modal" centered>
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="manage-client-modal" centered>
 			<Modal.Header closeButton>
 				<Modal.Title id="manage-client-modal">Criar Cliente</Modal.Title>
 			</Modal.Header>
 
-			<Modal.Body>
-				<Form className="mb-3">
-					<Form.Group className="mb-3">
-						<Form.Label htmlFor="client-name-edit">Nome</Form.Label>
-						<Form.Control
-							id="client-name-edit"
-							value={clientData.name}
-							onChange={(e) => setClientData((state) => ({ ...state, name: e.target.value }))}
-							maxLength={100}
-							required
-						/>
-					</Form.Group>
-				</Form>
-			</Modal.Body>
+			<Formik validationSchema={createClientSchema} initialValues={{ name: "" }} onSubmit={onSave}>
+				{({ handleSubmit, handleBlur, handleChange, values, touched, errors }) => (
+					<Form className="mb-3" noValidate onSubmit={handleSubmit}>
+						<Modal.Body>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="name">Nome</Form.Label>
+								<Form.Control
+									id="name"
+									value={values.name}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									isInvalid={touched.name && errors.name}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+							</Form.Group>
+						</Modal.Body>
 
-			<Modal.Footer>
-				<Button
-					onClick={() => {
-						onSave(clientData);
-						onHideWrapper();
-					}}
-					variant="success"
-				>
-					Criar
-				</Button>
+						<Modal.Footer>
+							<Button
+								onClick={() => {
+									handleSubmit();
+									onHide();
+								}}
+								variant="success"
+								disabled={Object.keys(errors).length > 0}
+							>
+								Criar
+							</Button>
 
-				<Button onClick={onHideWrapper}>Voltar</Button>
-			</Modal.Footer>
+							<Button onClick={onHide} type="button">
+								Voltar
+							</Button>
+						</Modal.Footer>
+					</Form>
+				)}
+			</Formik>
 		</Modal>
 	);
 }
@@ -615,73 +739,72 @@ function CreateClientModal({ show, onHide, onSave }) {
  * @param {(data: any) => void} props.onSave
  */
 function CreateContactoModal({ idCliente, show, onHide, onSave }) {
-	const [contactoData, setContactoData] = useState({
-		type: -1,
-	});
-
-	function onHideWrapper() {
+	/** @param {import("yup").InferType<typeof createContactoSchema>} */
+	function handleSubmit({ type, value }) {
+		onSave(idCliente, { value, type: Number.parseInt(type, 10) });
 		onHide();
-		setContactoData({
-			type: -1,
-		});
 	}
 
 	return (
-		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-contacto-modal" centered>
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="manage-contacto-modal" centered>
 			<Modal.Header closeButton>
 				<Modal.Title id="manage-contacto-modal">Criar Contacto de Cliente</Modal.Title>
 			</Modal.Header>
 
-			<Modal.Body>
-				<Form className="mb-3">
-					<Form.Group className="mb-3">
-						<Form.Label htmlFor="contacto-type-edit">Tipo de contacto</Form.Label>
-						<Form.Select
-							id="contacto-type-edit"
-							value={contactoData.type}
-							onChange={(e) =>
-								setContactoData((state) => ({ ...state, type: Number.parseInt(e.target.value, 10), value: "" }))
-							}
-							required
-						>
-							<option value={-1} disabled>
-								Selecione o tipo de contacto
-							</option>
+			<Formik validationSchema={createContactoSchema} initialValues={{ value: "", type: "-1" }} onSubmit={handleSubmit}>
+				{({ handleBlur, handleChange, handleSubmit, values, errors, touched }) => (
+					<Form className="mb-3" noValidate onSubmit={handleSubmit}>
+						<Modal.Body>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="type">Tipo de contacto</Form.Label>
+								<Form.Select
+									id="type"
+									value={values.type}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									isInvalid={touched.type && errors.type}
+								>
+									<option value="-1" disabled>
+										Selecione o tipo de contacto
+									</option>
 
-							<option value={0}>Email</option>
-							<option value={1}>Telefone</option>
-						</Form.Select>
-					</Form.Group>
+									<option value="0">Email</option>
+									<option value="1">Telefone</option>
+								</Form.Select>
+								<Form.Control.Feedback type="invalid">{errors.type}</Form.Control.Feedback>
+							</Form.Group>
 
-					{contactoData.type === -1 ? null : (
-						<Form.Group className="mb-3">
-							<Form.Label htmlFor="contacto-value-edit">{contactoData.type === 0 ? "Email" : "Telefone"}</Form.Label>
-							<Form.Control
-								id="contacto-value-edit"
-								value={contactoData.value}
-								onChange={(e) => setContactoData((state) => ({ ...state, value: e.target.value }))}
-								maxLength={100}
-								required
-								type={contactoData.type === 0 ? "email" : "tel"}
-							/>
-						</Form.Group>
-					)}
-				</Form>
-			</Modal.Body>
+							{values.type === "-1" ? null : (
+								<Form.Group className="mb-3">
+									<Form.Label htmlFor="value">{values.type === "0" ? "Email" : "Telefone"}</Form.Label>
+									<Form.Control
+										id="value"
+										placeholder={
+											values.type === "0" ? "Introduza o email do cliente" : "Introduza o telefone do cliente"
+										}
+										type={values.value === "0" ? "email" : "tel"}
+										value={values.value}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										isInvalid={touched.value && errors.value}
+									/>
+									<Form.Control.Feedback type="invalid">{errors.value}</Form.Control.Feedback>
+								</Form.Group>
+							)}
+						</Modal.Body>
 
-			<Modal.Footer>
-				<Button
-					onClick={() => {
-						onSave(idCliente, contactoData);
-						onHideWrapper();
-					}}
-					variant="success"
-				>
-					Criar
-				</Button>
+						<Modal.Footer>
+							<Button onClick={handleSubmit} variant="success" type="submit" disabled={Object.keys(errors).length > 0}>
+								Criar
+							</Button>
 
-				<Button onClick={onHideWrapper}>Voltar</Button>
-			</Modal.Footer>
+							<Button onClick={onHide} type="button">
+								Voltar
+							</Button>
+						</Modal.Footer>
+					</Form>
+				)}
+			</Formik>
 		</Modal>
 	);
 }

@@ -1,6 +1,6 @@
 /** @param {number} length */
-exports.randomNumberString = function randomNumberString(length) {
-	const characters = "0123456789";
+function randomString(length) {
+	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	let result = "";
 
 	for (let i = 0; i < length; i++) {
@@ -8,4 +8,8 @@ exports.randomNumberString = function randomNumberString(length) {
 	}
 
 	return result;
+}
+
+module.exports = {
+	randomString,
 };

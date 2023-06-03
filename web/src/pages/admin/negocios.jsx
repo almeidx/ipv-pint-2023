@@ -1,3 +1,7 @@
+import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -9,9 +13,6 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BsCalendarDate } from "react-icons/bs";
-import { IoMdAdd } from "react-icons/io";
-import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
@@ -49,11 +50,7 @@ export default function Negocios() {
 		[data, search],
 	);
 
-	// TODO: Edit & Delete
-
 	async function handleEdit(data) {
-		console.log(data);
-
 		try {
 			const response = await fetch(`${API_URL}/negocios/${negocioData.id}`, {
 				credentials: "include",
@@ -127,7 +124,7 @@ export default function Negocios() {
 			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
-				<h2>Negócios</h2>
+				<h2>Oportunidades</h2>
 
 				<Link to="/negocios">
 					<IoMdAdd size={40} color="black" />
@@ -169,6 +166,7 @@ export default function Negocios() {
 							contactos,
 							createdAt,
 							estados,
+							necessidades,
 						}) => (
 							<ListGroup.Item className="d-flex align-items-center" key={id}>
 								<div className="col-12">
@@ -202,6 +200,21 @@ export default function Negocios() {
 													? `${funcionarioResponsavel.name} (${funcionarioResponsavel.email})`
 													: "Não associado"}
 											</p>
+
+											{necessidades.length ? (
+												<>
+													<span className="fw-bold">Necessidades</span>
+													<ul className="mb-0">
+														{necessidades.map(({ id: idNecessidade, name }) => (
+															<li key={`${id}-necessidade-${idNecessidade}`}>{name}</li>
+														))}
+													</ul>
+												</>
+											) : (
+												<p className="mb-0">
+													<span className="fw-bold">Necessidades:</span> Não tem necessidades associadas
+												</p>
+											)}
 
 											<span className="fw-bold">Contactos:</span>
 											<ul className="mb-0">

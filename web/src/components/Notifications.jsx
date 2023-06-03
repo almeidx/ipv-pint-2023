@@ -1,8 +1,10 @@
+import { BsCalendar2DayFill } from "@react-icons/all-files/bs/BsCalendar2DayFill";
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
+import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
+import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
+import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { BsCalendar2DayFill, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { FaHandHoldingUsd } from "react-icons/fa";
-import { RiCloseFill, RiTrophyFill } from "react-icons/ri";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
@@ -12,7 +14,7 @@ export default function Notifications() {
 
 	/** @param {number} id */
 	function handleSingleDelete(id) {
-		// TODO: ABC
+		// TODO: implement
 		// setNotifications((notifications) => notifications.filter((notification) => notification.id !== id));
 	}
 
@@ -65,13 +67,14 @@ function Notification({ additionalDate, createdAt, content, type, onDelete, id }
  */
 function getTitle(type) {
 	switch (type) {
-		case "beneficio":
+		case 0:
+			return "Nova reunião";
+		case 1:
 			return "Novo benefício";
-		case "vaga":
+		case 2:
 			return "Nova vaga";
-		case "negocio":
+		case 3:
 			return "Novo negócio";
-		case "evento":
 		default:
 			return "Novo evento";
 	}
@@ -82,13 +85,14 @@ function getTitle(type) {
  */
 function getIcon(type) {
 	switch (type) {
-		case "beneficio":
+		case 0:
+			return BsCalendar2DayFill;
+		case 1:
 			return RiTrophyFill;
-		case "vaga":
+		case 2:
 			return BsFillFileEarmarkPersonFill;
-		case "negocio":
+		case 3:
 			return FaHandHoldingUsd;
-		case "evento":
 		default:
 			return BsCalendar2DayFill;
 	}

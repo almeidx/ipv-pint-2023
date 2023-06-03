@@ -1,3 +1,7 @@
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
+import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
+import { RiLightbulbFill } from "@react-icons/all-files/ri/RiLightbulbFill";
+import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import {
 	BarElement,
 	CategoryScale,
@@ -13,9 +17,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { Bar, Line } from "react-chartjs-2";
-import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { FaHandHoldingUsd } from "react-icons/fa";
-import { RiLightbulbFill, RiTrophyFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { Page } from "../components/Page.jsx";
@@ -52,7 +53,7 @@ const INTERVALS = [
 	{ name: "Total", value: "all" },
 ];
 
-export function Home() {
+export default function Home() {
 	return (
 		<Page className="min-h-without-navbar position-relative" page="/">
 			<img

@@ -1,8 +1,9 @@
 const { body } = require("express-validator");
-const { Reuniao, Utilizador, Candidatura, Negocio, Vaga } = require("../database/index.js");
+const { Reuniao, Utilizador, Candidatura, Negocio, Vaga, Notificacao } = require("../database/index.js");
 const { requirePermission, requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const TipoNotificacaoEnum = require("../utils/TipoNotificacaoEnum.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -39,7 +40,19 @@ module.exports = {
 				subject,
 			});
 
-			reuniao.setUtilizadores(utilizadores);
+			const uniqueUtilizadores = [...new Set([utilizadores, req.user.id])];
+
+			await reuniao.setUtilizadores(uniqueUtilizadores);
+
+			for (const utilizador of uniqueUtilizadores) {
+				await Notificacao.create({
+					idUser: utilizador,
+					idReuniao: reuniao.id,
+					content: reuniao.title,
+					type: TipoNotificacaoEnum.Reuniao,
+					additionalDate: reuniao.startTime,
+				});
+			}
 
 			res.json(reuniao);
 		},
