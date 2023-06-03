@@ -80,6 +80,7 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
                     intent.putExtra("descricao", negocio.descricao)
                     intent.putExtra("areaNegocio", negocio.areaNegocio)
                     intent.putExtra("estadosList", negocio.estados)
+                    intent.putExtra("necessidades", negocio.necessidades)
 
                     view.context.startActivity(intent)
                 }

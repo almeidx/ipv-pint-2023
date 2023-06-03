@@ -30,7 +30,7 @@ class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidatu
 
         lista.adapter = candidaturasAdapter
 
-        listaCandidaturas(candidaturasList, allCandidaturasList, candidaturasAdapter, this)
+        listaCandidaturas(candidaturasList, allCandidaturasList, candidaturasAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->

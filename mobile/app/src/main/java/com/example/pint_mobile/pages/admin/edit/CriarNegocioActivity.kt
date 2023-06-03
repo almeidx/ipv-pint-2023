@@ -34,6 +34,10 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
     private lateinit var clienteIds: ArrayList<Int>
     private lateinit var contactoIds: ArrayList<Int>
     private lateinit var contactoNames: ArrayList<String>
+
+    private lateinit var necessidades: ArrayList<String>
+    private lateinit var adapter: ArrayAdapter<String>
+
     var areaNegocioId by Delegates.notNull<Int>()
 
     private val areasList = ArrayList<AreaNegocio>()
@@ -43,6 +47,22 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         super.onCreate(savedInstanceState)
 
         val spinner = findViewById<Spinner>(R.id.areadeNegocio)
+
+        clientNames = intent.getStringArrayListExtra("clienteNome") ?: ArrayList()
+        clienteIds = intent.getIntegerArrayListExtra("clienteIds") ?: ArrayList()
+        contactoIds = intent.getIntegerArrayListExtra("contactoIds") ?: ArrayList()
+        contactoNames = intent.getStringArrayListExtra("contactoNames") ?: ArrayList()
+        necessidades = intent.getStringArrayListExtra("necessidades") ?: ArrayList()
+
+        adapter = ArrayAdapter(this, R.layout.list_item_layout, R.id.item_text, necessidades)
+
+        val lista = findViewById<ListView>(R.id.listaNecessidades)
+        lista.adapter = adapter
+
+        lista.setOnItemClickListener { _, _, position, _ ->
+            necessidades.removeAt(position)
+            adapter.notifyDataSetChanged()
+        }
 
         areasAdapter = AreaNegocioAdapter(
             this,
@@ -68,10 +88,6 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        clientNames = intent.getStringArrayListExtra("clienteNome") ?: ArrayList()
-        clienteIds = intent.getIntegerArrayListExtra("clienteIds") ?: ArrayList()
-        contactoIds = intent.getIntegerArrayListExtra("contactoIds") ?: ArrayList()
-        contactoNames = intent.getStringArrayListExtra("contactoNames") ?: ArrayList()
 
         Log.i("clientNames", clientNames.toString())
         Log.i("clienteIds", clienteIds.toString())
@@ -129,6 +145,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         val intent = Intent(this, AdicionarClienteNegocioActivity::class.java)
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("clienteIds", clienteIds)
+        intent.putExtra("necessidades", necessidades)
         startActivity(intent)
         overridePendingTransition(0, 0);
     }
@@ -138,12 +155,29 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         intent.putExtra("clienteIds", clienteIds)
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("contactoIds", contactoIds)
-        intent.putExtra("contactoNome", contactoNames)
+        intent.putExtra("contactoNames", contactoNames)
+        intent.putExtra("necessidades", necessidades)
         startActivity(intent)
         overridePendingTransition(0, 0);
     }
 
-    fun criarNovoNegocio(view: android.view.View) {
+    fun criarNota(view: View) {
+        val nota = findViewById<EditText>(R.id.necessidadeInput)
+
+        val notaText = nota.text.toString()
+
+        Log.i("notaText", notaText)
+
+        necessidades.add(notaText)
+
+        Log.i("necessidades", necessidades.toString())
+
+        nota.setText("")
+
+        adapter.notifyDataSetChanged()
+    }
+
+    fun criarNovoNegocio(view: View) {
         val titulo = findViewById<EditText>(R.id.tituloNegocioCriar)
         val descricao = findViewById<EditText>(R.id.descricaoNegocioCriar)
 
@@ -158,6 +192,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             descricaoText,
             clienteID,
             contactoIds,
+            necessidades,
             this
         )
     }
