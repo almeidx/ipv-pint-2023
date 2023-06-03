@@ -16,7 +16,7 @@ import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { formatDate } from "../utils/formatDate.js";
 
-export function Calendar() {
+export default function Calendar() {
 	const [showDayModal, setShowDayModal] = useState(false);
 	const [showEventModal, setShowEventModal] = useState(false);
 	const [dayModalData, setDayModalData] = useState(null);
@@ -34,6 +34,8 @@ export function Calendar() {
 		setEventModalData(data);
 		setShowEventModal(true);
 	}
+
+	// TODO: Remover bootstrap-icons
 
 	return (
 		<Page>

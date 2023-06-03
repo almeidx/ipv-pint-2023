@@ -1,4 +1,4 @@
-const { read } = require("../controllers/events.controller.js")
+const { read } = require("../controllers/events.controller.js");
 const { Router } = require("express");
 
 const eventsRouter = Router() //

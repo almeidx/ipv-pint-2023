@@ -75,13 +75,13 @@
 					app:boxStrokeColor="@color/black"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-					>
+				>
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/estadoDoNegocioEdit"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						/>
+					/>
 
 				</com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +100,7 @@
 					app:layout_constraintStart_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-					/>
+				/>
 
 				<Button
 					android:id="@+id/setFuncionarioNegocio"
@@ -112,7 +112,7 @@
 					android:background="@color/white"
 					android:text="Funcionario responsavel"
 					android:textColor="@color/white"
-					/>
+				/>
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/FuncionarioResponsavelNegocio"
@@ -127,13 +127,13 @@
 					app:boxStrokeColor="@color/black"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
-					>
+				>
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/FuncionarioResponsavelNegocioEdit"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						/>
+					/>
 
 				</com.google.android.material.textfield.TextInputLayout>
 

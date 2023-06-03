@@ -1,7 +1,7 @@
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { FaSearch } from "react-icons/fa";
 
 /**
  * @param {Object} props

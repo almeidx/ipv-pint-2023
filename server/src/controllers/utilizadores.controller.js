@@ -3,6 +3,12 @@ const { Utilizador, TipoUtilizador } = require("../database/index.js");
 const { requirePermission, requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { randomString } = require("../utils/randomString.js");
+const { sendEmail } = require("../services/email.js");
+const { stripIndents } = require("common-tags");
+const bcrypt = require("bcrypt");
+
+const PASSWORD_CHANGE_EXPIRATION_TIME = 15 * 60 * 1_000; // 15m
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -51,7 +57,7 @@ module.exports = {
 		requireLogin(),
 		validate(
 			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("active", "`active` tem que ser do tipo boolean").isBoolean(),
+			body("disabled", "`disabled` tem que ser do tipo boolean").isBoolean(),
 		),
 
 		async (req, res) => {
@@ -77,6 +83,80 @@ module.exports = {
 			await utilizador.update(opts);
 
 			res.json({ message: disabled ? "Conta desativada com sucesso" : "Conta ativada com sucesso" });
+		},
+	],
+
+	esqueceuPasswordRequest: [
+		validate(body("email", "`email` tem que ser do tipo string").isString().isEmail()),
+
+		async (req, res) => {
+			const { email } = req.body;
+
+			const utilizador = await Utilizador.findOne({ where: { email } });
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
+
+			const newPasswordCode = randomString(32);
+			const newPasswordDate = new Date();
+
+			try {
+				await sendEmail(
+					email,
+					"Recuperação de password",
+					stripIndents`
+						<h2>Olá ${utilizador.name},</h2>
+						<p>Visite o seguinte link para redefinir a sua password: <a href="\`${process.env.WEB_URL}/mudar-password?code=${newPasswordCode}&id=${utilizador.id}\`">Recuperar password</a></p>
+						<br>
+						<p>Se não foi você que pediu para redefinir a sua password, ignore este email.</p>
+					`,
+				);
+			} catch (error) {
+				console.error(error);
+
+				res.status(500).json({ message: "Ocorreu um erro ao enviar o email" });
+				return;
+			}
+
+			await utilizador.update({ newPasswordCode, newPasswordDate });
+
+			res.json({ message: "Código enviado com sucesso" });
+		},
+	],
+
+	esqueceuPasswordUpdate: [
+		validate(
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
+			body("code", "`code` tem que ser do tipo string").isString(),
+			body("password", "`password` tem que ser do tipo string").isString(),
+		),
+
+		async (req, res) => {
+			const { id } = req.params;
+			const { code, password } = req.body;
+
+			const utilizador = await Utilizador.findByPk(id, { attributes: ["id", "newPasswordCode", "newPasswordDate"] });
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
+
+			if (utilizador.newPasswordCode !== code) {
+				res.status(403).json({ message: "Código inválido" });
+				return;
+			}
+
+			if (Date.now() - utilizador.newPasswordDate.getTime() > PASSWORD_CHANGE_EXPIRATION_TIME) {
+				res.status(403).json({ message: "Código expirado" });
+				return;
+			}
+
+			const hashedPassword = await bcrypt.hash(password, 10);
+
+			await utilizador.update({ hashedPassword, newPasswordCode: null, newPasswordDate: null });
+
+			res.json({ message: "Código atualizado com sucesso" });
 		},
 	],
 };

@@ -65,6 +65,12 @@ const Notificacao = sequelize.define(
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 		},
+		/**
+		 * 0 - Reunião
+		 * 1 - Benefício
+		 * 2 - Vaga
+		 * 3 - Negócio
+		 */
 		type: {
 			type: DataTypes.INTEGER,
 			field: "TIPO_NOTIFICACAO",

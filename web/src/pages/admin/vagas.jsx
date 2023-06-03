@@ -1,3 +1,6 @@
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -6,8 +9,6 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { IoMdAdd } from "react-icons/io";
-import { RiCloseFill, RiPencilLine } from "react-icons/ri";
 import useSWR from "swr";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
@@ -104,7 +105,7 @@ export default function Vagas() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Vagas</h2>

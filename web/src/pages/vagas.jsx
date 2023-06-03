@@ -1,3 +1,4 @@
+import { FaHistory } from "@react-icons/all-files/fa/FaHistory";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -8,7 +9,6 @@ import FormLabel from "react-bootstrap/FormLabel";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { FaHistory } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { Page } from "../components/Page.jsx";
@@ -18,7 +18,7 @@ import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 
-export function Vagas() {
+export default function Vagas() {
 	const { user } = useUser();
 
 	const [search, setSearch] = useState("");

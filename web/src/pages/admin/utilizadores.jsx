@@ -1,3 +1,5 @@
+import { BiNoEntry } from "@react-icons/all-files/bi/BiNoEntry";
+import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -5,18 +7,16 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
-import { BiNoEntry } from "react-icons/bi";
-import { RiPencilLine } from "react-icons/ri";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { SearchBar } from "../../components/SearchBar.jsx";
-import { Spinner } from "../../components/Spinner.jsx";
-import { Toast } from "../../components/Toast.jsx";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Utilizadores() {
 	const [search, setSearch] = useState("");
@@ -76,7 +76,7 @@ export default function Utilizadores() {
 				tiposUtilizadores={tiposUtilizador ?? []}
 			/>
 
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<ListGroup>
 				{isLoading ? (

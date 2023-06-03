@@ -21,13 +21,13 @@ const sections = [
 	{ name: "Candidaturas", link: "candidaturas" },
 	{ name: "Ideias", link: "ideias" },
 	{ name: "Mensagens", link: "mensagens" },
-	{ name: "Negócios", link: "negocios" },
+	{ name: "Oportunidades", link: "negocios" },
 	{ name: "Reuniões", link: "reunioes" },
 	{ name: "Utilizadores", link: "utilizadores" },
 	{ name: "Vagas", link: "vagas" },
 ];
 
-export function Admin() {
+export default function Admin() {
 	const { user } = useUser();
 	const [searchParams] = useSearchParams();
 	const [section, setSection] = useState(sections[0].link);

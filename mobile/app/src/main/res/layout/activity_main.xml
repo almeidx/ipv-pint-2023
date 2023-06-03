@@ -7,17 +7,18 @@
 	android:layout_height="match_parent"
 	tools:context=".MainActivity"
 >
-	<ScrollView
+	<!--<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:layout_constraintBottom_toTopOf="@+id/bottombar"
+		app:layout_constraintBottom_toTopOf="@+id/bottombar"-->
 	>
-		<androidx.constraintlayout.widget.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		>
 
-		</androidx.constraintlayout.widget.ConstraintLayout>
-	</ScrollView>
+		<com.github.mikephil.charting.charts.BarChart
+		android:id="@+id/barChart2"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+	/>
+
+	<!--</ScrollView>-->
 	<include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,10 @@
+import { AiOutlineMail } from "@react-icons/all-files/ai/AiOutlineMail";
+import { AiOutlinePhone } from "@react-icons/all-files/ai/AiOutlinePhone";
+import { IoLocationOutline } from "@react-icons/all-files/io5/IoLocationOutline";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
-import { IoLocationOutline } from "react-icons/io5";
 import { Page } from "../components/Page.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useDisableableButton } from "../contexts/DisableableButtonContext.jsx";
@@ -52,7 +53,7 @@ const contactMethods = [
 	},
 ];
 
-export function Contacto() {
+export default function Contacto() {
 	const { user } = useUser();
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
@@ -110,7 +111,7 @@ export function Contacto() {
 			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center"
 			page="/contacto"
 		>
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<img
 				src="/static/contacto-bg.png"

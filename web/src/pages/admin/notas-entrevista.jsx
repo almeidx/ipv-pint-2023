@@ -1,9 +1,9 @@
+import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BsTrash } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { Page } from "../../components/Page.jsx";
@@ -14,7 +14,7 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 
-export function NotasEntrevista() {
+export default function NotasEntrevista() {
 	const { id } = useParams();
 	const { data, isLoading, mutate } = useSWR(`${API_URL}/reunioes/${id}/notas`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
@@ -73,7 +73,7 @@ export function NotasEntrevista() {
 
 	return (
 		<Page className="min-h-without-navbar bg-main py-5">
-			<Toast hide={() => toggleToast(false)} showToast={showToast} toastMessage={toastMessage} />
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
 
 			<Container className="mb-5">
 				<h2 className="fw-bold mb-4">Entrevista</h2>

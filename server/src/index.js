@@ -65,7 +65,7 @@ app
 	.use(passport.initialize())
 	.use(passport.session())
 	.use(morgan("dev"))
-	.use(authRouter)
+	.use("/auth", authRouter)
 	.use("/areas-de-negocio", areasDeNegocioRouter)
 	.use("/beneficios", beneficiosRouter)
 	.use("/candidaturas", candidaturasRouter)

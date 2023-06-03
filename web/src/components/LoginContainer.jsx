@@ -1,21 +1,14 @@
 import "../styles/Login.css";
 
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { API_URL } from "../utils/constants.js";
 import { OrSeparator } from "./OrSeparator.jsx";
 import { Facebook } from "./icons/Facebook.jsx";
 import { Google } from "./icons/Google.jsx";
 
-/** @param {import("react").PropsWithChildren<{ handleSubmit: SubmitEvent }>} props */
-export function LoginContainer({ children, handleSubmit }) {
-	return (
-		<div className="login-cnt min-vw-100 min-vh-100">
-			<Form onSubmit={handleSubmit} className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column">
-				{children}
-			</Form>
-		</div>
-	);
+/** @param {import("react").PropsWithChildren} props */
+export function LoginContainer({ children }) {
+	return <div className="login-cnt min-vw-100 min-vh-100">{children}</div>;
 }
 
 export function SocialButtons() {

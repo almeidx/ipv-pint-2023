@@ -7,7 +7,7 @@ import { fetcher } from "../utils/fetcher.js";
 import { formatDate } from "../utils/formatDate.js";
 import { resolveIcon } from "../utils/resolve-icon.js";
 
-export function HistoricoCandidaturas() {
+export default function HistoricoCandidaturas() {
 	const { data, isLoading } = useSWR(`${API_URL}/candidaturas`, fetcher);
 
 	return (

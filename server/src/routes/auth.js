@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
 	auth,
 	register,
+	validarConta,
 	logout,
 	user,
 	email,
@@ -12,17 +13,18 @@ const {
 } = require("../controllers/auth.controller.js");
 
 const authRouter = Router()
-	.get("/auth", auth)
-	.post("/auth/email", email)
-	.get("/auth/user", user)
+	.get("/", auth)
+	.post("/email", email)
+	.get("/user", user)
 
-	.post("/auth/register", register)
-	.get("/auth/logout", logout)
+	.post("/register", register)
+	.post("/validate", validarConta)
+	.get("/logout", logout)
 
-	.get("/auth/facebook", facebook)
-	.get("/auth/facebook/callback", facebookCallback)
+	.get("/facebook", facebook)
+	.get("/facebook/callback", facebookCallback)
 
-	.get("/auth/google", google)
-	.get("/auth/google/callback", googleCallback);
+	.get("/google", google)
+	.get("/google/callback", googleCallback);
 
 module.exports = authRouter;
