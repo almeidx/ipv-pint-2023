@@ -11,16 +11,23 @@ module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			body("idVaga", "`idVaga` tem que ser do tipo inteiro").isInt(),
+			param("id", "`id` tem que ser do tipo inteiro").isInt(),
 			body("refEmail", "`refEmail` tem que ser um email").isEmail().optional(),
 		),
 
 		async (req, res) => {
-			const { idVaga, refEmail } = req.body;
+			const { refEmail } = req.body;
+			const { id } = req.params;
+
+			const vaga = await Vaga.findByPk(id);
+			if (!vaga) {
+				res.status(404).json({ message: "Vaga não encontrada" });
+				return;
+			}
 
 			const candidatura = await Candidatura.create({
 				idUser: req.user.id,
-				idVaga,
+				idVaga: id,
 				refEmail,
 			});
 
@@ -39,7 +46,18 @@ module.exports = {
 
 				res.json(
 					await Candidatura.findAll({
-						include: [{ model: Utilizador, as: "utilizador" }, Vaga],
+						include: [
+							{
+								model: Utilizador,
+								as: "utilizador",
+								attributes: ["id", "name"],
+							},
+							{
+								model: Vaga,
+								attributes: ["id", "title"],
+							},
+						],
+						attributes: ["id", "submissionDate", "refEmail", "conclusionAt"],
 						order: [["id", "ASC"]],
 					}),
 				);
@@ -72,7 +90,7 @@ module.exports = {
 				return;
 			}
 
-			res.json(await candidatura.update({ concludedAt: new Date() }));
+			res.json(await Candidatura.update({ conclusionAt: new Date() }, { where: { id } }));
 		},
 	],
 };

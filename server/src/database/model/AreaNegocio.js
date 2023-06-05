@@ -9,7 +9,7 @@ create table AREA_DE_NEGOCIO (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define(
+const AreaNegocio = sequelize.define(
 	"area_de_negocio",
 	{
 		id: {
@@ -27,3 +27,5 @@ module.exports = sequelize.define(
 	},
 	{ timestamps: false },
 );
+
+module.exports = AreaNegocio;

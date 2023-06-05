@@ -1,9 +1,10 @@
 const { body, param } = require("express-validator");
-const { Vaga, Candidatura } = require("../database/index.js");
+const { Vaga, Candidatura, sequelize } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { Op } = require("sequelize");
+const { stripIndents } = require("common-tags");
 
 const fieldValidations = [
 	body("amountSlots", "`amountSlots` tem que ser do tipo inteiro").isInt(),
@@ -46,7 +47,24 @@ module.exports = {
 		const { admin } = req.query;
 
 		const opts = {
-			attributes: ["id", "amountSlots", "public", "icon", "title", "description", "status"],
+			attributes: [
+				"id",
+				"amountSlots",
+				"public",
+				"icon",
+				"title",
+				"description",
+				"status",
+				[
+					sequelize.literal(stripIndents`
+						(
+							SELECT CAST(COUNT(*) AS INT)
+							FROM candidaturas
+							WHERE candidaturas."ID_VAGA" = vagas."ID_VAGA"
+						)`),
+					"slotsFilled",
+				],
+			],
 			order: [["id", "ASC"]],
 		};
 
@@ -66,6 +84,14 @@ module.exports = {
 				id: {
 					[Op.notIn]: candidaturas.map((c) => c.idVaga),
 				},
+			};
+		}
+
+		if (!req.user || req.user.tipoUtilizador === TipoUtilizadorEnum.Utilizador) {
+			opts.where = {
+				...opts.where,
+				public: true,
+				status: 0,
 			};
 		}
 

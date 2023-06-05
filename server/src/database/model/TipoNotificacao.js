@@ -9,7 +9,7 @@ create table TIPOS_DE_NOTIFICACAO (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define(
+const TipoNotificacao = sequelize.define(
 	"tipos_de_notificacao",
 	{
 		id: {
@@ -26,3 +26,5 @@ module.exports = sequelize.define(
 	},
 	{ timestamps: false },
 );
+
+module.exports = TipoNotificacao;

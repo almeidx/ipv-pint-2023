@@ -1,5 +1,3 @@
-import "bootstrap-icons/font/bootstrap-icons.css";
-
 import FullCalendar from "@fullcalendar/react";
 // O import de cima tem que ser feito primeiro
 import bootstrapPlugin from "@fullcalendar/bootstrap5";
@@ -34,8 +32,6 @@ export default function Calendar() {
 		setEventModalData(data);
 		setShowEventModal(true);
 	}
-
-	// TODO: Remover bootstrap-icons
 
 	return (
 		<Page>
@@ -76,6 +72,11 @@ export default function Calendar() {
 					locale={ptBrLocale}
 					eventClick={handleEventClick}
 					themeSystem="bootstrap5"
+					buttonIcons={false}
+					buttonText={{
+						prev: "<",
+						next: ">",
+					}}
 				/>
 			</Container>
 		</Page>

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define(
+const Mensagem = sequelize.define(
 	"mensagens",
 	{
 		id: {
@@ -40,3 +40,5 @@ module.exports = sequelize.define(
 	},
 	{ timestamps: false },
 );
+
+module.exports = Mensagem;

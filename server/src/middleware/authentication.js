@@ -5,7 +5,7 @@ function requireColaborador() {
 	return function (req, res, next) {
 		if (!checkLoginStandalone(req, res)) return;
 
-		if (req.user.tipoUtilizador.id === 1) {
+		if (req.user.tipoUtilizador.id === TipoUtilizadorEnum.Utilizador) {
 			res.status(403).json({ message: "Não tem permissão para acessar esta funcionalidade" });
 			return;
 		}

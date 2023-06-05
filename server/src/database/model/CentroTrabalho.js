@@ -13,7 +13,7 @@ create table CENTROS_DE_TRABALHO (
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 
-module.exports = sequelize.define(
+const CentroTrabalho = sequelize.define(
 	"centros_de_trabalho",
 	{
 		id: {
@@ -51,3 +51,5 @@ module.exports = sequelize.define(
 	},
 	{ timestamps: false },
 );
+
+module.exports = CentroTrabalho;
