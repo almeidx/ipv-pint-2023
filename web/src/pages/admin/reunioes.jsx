@@ -1,11 +1,13 @@
 import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { API_URL } from "../../utils/constants.js";
@@ -14,7 +16,7 @@ import { formatDate } from "../../utils/formatDate.js";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
-	const { isLoading, data } = useSWR(`${API_URL}/reunioes?admin`, fetcher);
+	const { isLoading, data, error } = useSWR(`${API_URL}/reunioes?admin`, fetcher);
 
 	const filtered = useMemo(
 		() =>
@@ -26,6 +28,19 @@ export default function Reuniões() {
 			),
 		[data, search],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
+
+	async function handleEdit(data) {
+		// TODO: implement
+	}
+
+	/** @param {number} id */
+	async function handleDelete(id) {
+		// TODO: implement
+	}
 
 	return (
 		<Container className="py-4">
@@ -55,10 +70,14 @@ export default function Reuniões() {
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
 								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Reunião</Tooltip>}>
-									<RiPencilLine size={32} />
+									<Button className="border-0 bg-transparent p-0" onClick={handleEdit}>
+										<RiPencilLine size={32} />
+									</Button>
 								</OverlayTrigger>
 								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Reunião</Tooltip>}>
-									<RiCloseFill size={32} color="red" />
+									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
+										<RiCloseFill size={32} color="red" />
+									</Button>
 								</OverlayTrigger>
 							</div>
 						</ListGroup.Item>

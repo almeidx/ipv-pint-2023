@@ -9,6 +9,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
@@ -24,7 +25,7 @@ export default function Candidaturas() {
 	const [filtro, setFiltro] = useState("1");
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
 	const [idCandidatura, setIdCandidatura] = useState(null);
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/candidaturas?admin`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/candidaturas?admin`, fetcher);
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 
@@ -42,6 +43,10 @@ export default function Candidaturas() {
 			}),
 		[data, search, filtro],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	async function handleCreateReuniao(data) {
 		try {
@@ -121,7 +126,7 @@ export default function Candidaturas() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga }) => (
+					filtered.map(({ id, submissionDate, refEmail, utilizador, vaga, conclusionAt }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`candidatura-${id}`}>
 							<div>
 								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
@@ -132,7 +137,14 @@ export default function Candidaturas() {
 									{formatDate(new Date(submissionDate))} - {vaga.title}
 								</p>
 
-								{refEmail ? <p className="mb-0">Referência: {refEmail}</p> : null}
+								{refEmail || conclusionAt ? (
+									<p className="mb-0">
+										{conclusionAt
+											? `Concluída a: ${formatDate(new Date(conclusionAt), true)}${refEmail ? " | " : ""}`
+											: ""}
+										{refEmail ? `Referência: ${refEmail}` : ""}
+									</p>
+								) : null}
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">

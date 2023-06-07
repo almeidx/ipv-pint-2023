@@ -1,18 +1,19 @@
-const { body, param } = require("express-validator");
 const { Candidatura } = require("../database/index.js");
 const Utilizador = require("../database/model/Utilizador.js");
 const Vaga = require("../database/model/Vaga.js");
 const { requireLogin, requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("refEmail", "`refEmail` tem que ser um email").isEmail().optional(),
+			z.object({
+				refEmail: z.string().email().optional(),
+			}),
 		),
 
 		async (req, res) => {
@@ -79,7 +80,6 @@ module.exports = {
 
 	concluir: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

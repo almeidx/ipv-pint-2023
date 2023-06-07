@@ -3,7 +3,7 @@ const { create, read, update } = require("../controllers/negocios.controller.js"
 
 const negociosRouter = Router() //
 	.get("/", read)
-	.post("/", create)
+	.post("/", ...create)
 	.patch("/:id", update);
 
 module.exports = negociosRouter;

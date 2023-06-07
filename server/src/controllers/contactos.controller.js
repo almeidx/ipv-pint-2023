@@ -1,16 +1,17 @@
-const { param, body } = require("express-validator");
 const { Contacto } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("value", "`value` tem que ser do tipo string").isString(),
-			body("type", "`type` tem que ser do tipo int").isInt().isIn([0, 1]),
+			z.object({
+				value: z.string(),
+				type: z.number().min(0).max(1),
+			}),
 		),
 
 		async (req, res) => {
@@ -29,7 +30,6 @@ module.exports = {
 
 	read: [
 		requireLogin(),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

@@ -9,6 +9,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -20,7 +21,7 @@ import { formatDate } from "../../utils/formatDate.js";
 export default function Ideias() {
 	const [search, setSearch] = useState("");
 	const { showToast, toastMessage, showToastWithMessage, toggleToast } = useToast();
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/ideias`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/ideias`, fetcher);
 
 	const filtered = search
 		? (data ?? []).filter(
@@ -31,6 +32,10 @@ export default function Ideias() {
 					utilizador.name.toLowerCase().includes(search.toLowerCase()),
 		  )
 		: data ?? [];
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	/**
 	 * @param {number} id

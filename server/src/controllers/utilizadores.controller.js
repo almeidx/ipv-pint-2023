@@ -1,4 +1,3 @@
-const { body, param } = require("express-validator");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
 const { requirePermission, requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -7,6 +6,7 @@ const { randomString } = require("../utils/randomString.js");
 const { sendEmail } = require("../services/email.js");
 const { stripIndents } = require("common-tags");
 const bcrypt = require("bcrypt");
+const { z } = require("zod");
 
 const PASSWORD_CHANGE_EXPIRATION_TIME = 15 * 60 * 1_000; // 15m
 
@@ -35,8 +35,9 @@ module.exports = {
 	update: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
 		validate(
-			param("id", "`id` tem que ser do tipo int").isInt(),
-			body("idTipoUser", "`idTipoUser` tem que estar entre [1, 6]").isInt({ min: 1, max: 6 }),
+			z.object({
+				idTipoUser: z.number().int().min(1).max(6),
+			}),
 		),
 
 		async (req, res) => {
@@ -56,8 +57,9 @@ module.exports = {
 	disableAccount: [
 		requireLogin(),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("disabled", "`disabled` tem que ser do tipo boolean").isBoolean(),
+			z.object({
+				disabled: z.boolean(),
+			}),
 		),
 
 		async (req, res) => {
@@ -87,7 +89,11 @@ module.exports = {
 	],
 
 	esqueceuPasswordRequest: [
-		validate(body("email", "`email` tem que ser do tipo string").isString().isEmail()),
+		validate(
+			z.object({
+				email: z.string().email(),
+			}),
+		),
 
 		async (req, res) => {
 			const { email } = req.body;
@@ -127,9 +133,10 @@ module.exports = {
 
 	esqueceuPasswordUpdate: [
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("code", "`code` tem que ser do tipo string").isString(),
-			body("password", "`password` tem que ser do tipo string").isString(),
+			z.object({
+				code: z.string(),
+				password: z.string(),
+			}),
 		),
 
 		async (req, res) => {

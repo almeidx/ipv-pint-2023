@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -22,7 +23,7 @@ export default function Utilizadores() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [userId, setUserId] = useState(null);
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/utilizadores`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/utilizadores`, fetcher);
 	const { data: tiposUtilizador } = useSWR(`${API_URL}/tipos-utilizador`, fetcher);
 	const { showToast, toggleToast, toastMessage, showToastWithMessage } = useToast();
 
@@ -34,6 +35,10 @@ export default function Utilizadores() {
 			),
 		[data, search],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	/**
 	 * @param {number} role

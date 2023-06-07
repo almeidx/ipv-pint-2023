@@ -1,7 +1,7 @@
-const { body, param } = require("express-validator");
 const { Notificacao } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -37,8 +37,9 @@ module.exports = {
 	update: [
 		requireLogin(),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("seen", "`seen` tem que ser do tipo boolean").isBoolean(),
+			z.object({
+				seen: z.boolean(),
+			}),
 		),
 
 		async (req, res) => {

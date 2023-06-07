@@ -6,6 +6,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { Page } from "../../components/Page.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -16,8 +17,12 @@ import { formatDate } from "../../utils/formatDate.js";
 
 export default function NotasEntrevista() {
 	const { id } = useParams();
-	const { data, isLoading, mutate } = useSWR(`${API_URL}/reunioes/${id}/notas`, fetcher);
+	const { data, isLoading, mutate, error } = useSWR(`${API_URL}/reunioes/${id}/notas`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	/** @param {SubmitEvent} event */
 	async function handleCreate(event) {

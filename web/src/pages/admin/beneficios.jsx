@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -24,7 +25,7 @@ export default function Beneficios() {
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [beneficioData, setBeneficioData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/beneficios?admin`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/beneficios?admin`, fetcher);
 	const { showToastWithMessage, showToast, toggleToast, toastMessage } = useToast();
 
 	const filtered = useMemo(
@@ -37,6 +38,10 @@ export default function Beneficios() {
 			),
 		[data, search],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	async function handleCreate(data) {
 		try {

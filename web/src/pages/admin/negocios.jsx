@@ -15,6 +15,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
@@ -33,7 +34,7 @@ export default function Negocios() {
 	const [negocioData, setNegocioData] = useState(null);
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
 	const [idNegocio, setIdNegocio] = useState(null);
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/negocios?admin`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/negocios?admin`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 
@@ -49,6 +50,10 @@ export default function Negocios() {
 			),
 		[data, search],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	async function handleEdit(data) {
 		try {
@@ -377,7 +382,11 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 						<Button
 							className="w-fit"
 							onClick={() => {
-								setNegocioData((state) => ({ ...state, funcionarioResponsavel: { id: user.id, name: user.name } }));
+								setNegocioData((state) => ({
+									...state,
+									funcionarioResponsavel: { id: user.id, name: user.name },
+									idFuncionarioResponsavel: user.id,
+								}));
 							}}
 						>
 							Associar

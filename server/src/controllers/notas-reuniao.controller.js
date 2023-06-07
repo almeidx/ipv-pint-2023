@@ -1,16 +1,17 @@
-const { param, body } = require("express-validator");
 const { NotaEntrevista, Reuniao, Vaga, Candidatura, Utilizador } = require("../database/index.js");
 const { requirePermission } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("content", "`content` tem que ser do tipo string").isString().isLength({ min: 1, max: 1_000 }),
+			z.object({
+				content: z.string().min(1).max(1000),
+			}),
 		),
 
 		async (req, res) => {
@@ -34,7 +35,6 @@ module.exports = {
 
 	read: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -81,10 +81,6 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			param("idNote", "`idNote` tem que ser do tipo inteiro").isInt(),
-		),
 
 		async (req, res) => {
 			const { id, idNote } = req.params;

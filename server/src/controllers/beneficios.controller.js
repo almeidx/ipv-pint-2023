@@ -1,28 +1,23 @@
 const { Op } = require("sequelize");
-const { body, param } = require("express-validator");
 const { Beneficio, Utilizador } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
+const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
-const fieldValidations = [
-	body("content", "`content` tem que ser do tipo string e ter entre 1 e 1000 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 1_000 }),
-	body("shortContent", "`shortContent` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("iconeBeneficio", "`iconeBeneficio` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("dataValidade", "`dataValidade` tem que ser do tipo data").isISO8601(),
-];
+const fieldValidations = z.object({
+	content: z.string().min(1).max(1000),
+	shortContent: z.string().min(1).max(100),
+	iconeBeneficio: z.string().min(1).max(100),
+	dataValidade: z.string().regex(ISO_DATETIME_REGEX),
+});
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(...fieldValidations),
+		validate(fieldValidations),
 
 		async (req, res) => {
 			const { dataValidade, content, shortContent, iconeBeneficio } = req.body;
@@ -39,7 +34,7 @@ module.exports = {
 		},
 	],
 
-	async read(req, res, next) {
+	async read(req, res) {
 		const { admin } = req.query;
 
 		const opts = {
@@ -51,7 +46,7 @@ module.exports = {
 		};
 
 		if (admin !== undefined) {
-			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.Administrador)) return;
+			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorConteudos)) return;
 
 			opts.attributes.push("createdAt");
 			opts.include = [
@@ -74,7 +69,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
+		validate(fieldValidations.partial()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -104,7 +99,6 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

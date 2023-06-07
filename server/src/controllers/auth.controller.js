@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const { body } = require("express-validator");
 const passport = require("passport");
 const { Utilizador } = require("../database/index.js");
 const { requireLogin } = require("../middleware/authentication.js");
@@ -7,6 +6,7 @@ const { validate } = require("../middleware/validation.js");
 const { randomNumberString } = require("../utils/randomNumberString.js");
 const { sendEmail } = require("../services/email.js");
 const { stripIndents } = require("common-tags");
+const { z } = require("zod");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -65,11 +65,11 @@ module.exports = {
 
 	register: [
 		validate(
-			body("name", "`name` tem que ser do tipo string ").isString().isLength({ min: 1, max: 100 }),
-			body("email", "`email` tem que ser um email").isEmail(),
-			body("password", "`password` tem que ser do tipo string e ter entre 12 e 100 caracteres")
-				.isString()
-				.isLength({ min: 1, max: 100 }),
+			z.object({
+				name: z.string().min(1).max(100),
+				email: z.string().email(),
+				password: z.string().min(12).max(100),
+			}),
 		),
 
 		async (req, res, next) => {
@@ -107,10 +107,10 @@ module.exports = {
 
 	validarConta: [
 		validate(
-			body("confirmCode", "`confirmCode` tem que ser do tipo string e ter 12 caracteres")
-				.isString()
-				.isLength({ min: 12, max: 100 }),
-			body("userId", "`userId` tem que ser do tipo number").isNumeric(),
+			z.object({
+				confirmCode: z.string().min(12).max(100),
+				userId: z.number(),
+			}),
 		),
 
 		async (req, res, next) => {

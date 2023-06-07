@@ -8,6 +8,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -18,7 +19,7 @@ import { formatDate } from "../../utils/formatDate.js";
 
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
-	const { data, isLoading, mutate } = useSWR(`${API_URL}/mensagens`, fetcher);
+	const { data, isLoading, mutate, error } = useSWR(`${API_URL}/mensagens`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 
 	const filtered = search
@@ -26,6 +27,10 @@ export default function Mensagens() {
 				({ id, criador, content }) => id.includes(search) || criador.name.includes(search) || content.includes(search),
 		  )
 		: data ?? [];
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	/** @param {number} id */
 	async function handleDelete(id) {

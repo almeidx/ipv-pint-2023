@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
@@ -24,7 +25,7 @@ export default function Vagas() {
 	const [vagaData, setVagaData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
-	const { isLoading, data, mutate } = useSWR(`${API_URL}/vagas?admin`, fetcher);
+	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/vagas?admin`, fetcher);
 
 	const filtered = useMemo(
 		() =>
@@ -35,6 +36,10 @@ export default function Vagas() {
 			),
 		[data, search],
 	);
+
+	if (error) {
+		return <AdminPageError error={error} />;
+	}
 
 	async function handleCreate(data) {
 		try {

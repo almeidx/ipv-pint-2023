@@ -1,18 +1,18 @@
-const { body, param } = require("express-validator");
 const { Utilizador, Mensagem } = require("../database/index.js");
 const { requirePermission } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		validate(
-			body("name", "`name` tem que ser do tipo string").isString().optional(),
-			body("email", "`email` tem que ser um email").isEmail().optional(),
-			body("content", "`content` tem que ser do tipo string e ter entre 1 e 1000 caracteres")
-				.isString()
-				.isLength({ min: 1, max: 1_000 }),
+			z.object({
+				name: z.string().optional(),
+				email: z.string().email().optional(),
+				content: z.string().min(1).max(1000),
+			}),
 		),
 
 		async (req, res) => {
@@ -63,7 +63,6 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

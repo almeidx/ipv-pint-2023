@@ -5,7 +5,8 @@ import { ErrorBase } from "../../components/ErrorBase.jsx";
 import { Page } from "../../components/Page.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { useUser } from "../../contexts/UserContext.jsx";
-import { isAdmin } from "../../utils/permissions.js";
+import { hasPermission, isColaborador } from "../../utils/permissions.js";
+import { TipoUtilizadorEnum } from "../../utils/TipoUtilizadorEnum.js";
 
 const Beneficios = lazy(() => import("./beneficios.jsx"));
 const Candidaturas = lazy(() => import("./candidaturas.jsx"));
@@ -17,14 +18,18 @@ const Utilizadores = lazy(() => import("./utilizadores.jsx"));
 const Vagas = lazy(() => import("./vagas.jsx"));
 
 const sections = [
-	{ name: "Benefícios", link: "beneficios" },
-	{ name: "Candidaturas", link: "candidaturas" },
-	{ name: "Ideias", link: "ideias" },
-	{ name: "Mensagens", link: "mensagens" },
-	{ name: "Oportunidades", link: "negocios" },
-	{ name: "Reuniões", link: "reunioes" },
-	{ name: "Utilizadores", link: "utilizadores" },
-	{ name: "Vagas", link: "vagas" },
+	{ name: "Benefícios", link: "beneficios", permission: TipoUtilizadorEnum.GestorConteudos },
+	{ name: "Candidaturas", link: "candidaturas", permission: TipoUtilizadorEnum.GestorRecursosHumanos },
+	{ name: "Ideias", link: "ideias", permission: TipoUtilizadorEnum.GestorIdeias },
+	{ name: "Mensagens", link: "mensagens", permission: TipoUtilizadorEnum.GestorConteudos },
+	{ name: "Oportunidades", link: "negocios", permission: TipoUtilizadorEnum.GestorNegocios },
+	{
+		name: "Reuniões",
+		link: "reunioes",
+		permission: [TipoUtilizadorEnum.GestorNegocios, TipoUtilizadorEnum.GestorRecursosHumanos],
+	},
+	{ name: "Utilizadores", link: "utilizadores", permission: TipoUtilizadorEnum.Administrador },
+	{ name: "Vagas", link: "vagas", permission: TipoUtilizadorEnum.GestorRecursosHumanos },
 ];
 
 export default function Admin() {
@@ -39,7 +44,17 @@ export default function Admin() {
 		}
 	}, []);
 
-	if (!isAdmin(user)) {
+	useEffect(() => {
+		if (user) {
+			const section = sections.find(({ permission }) => hasPermission(user, permission));
+			if (section) {
+				history.pushState(null, null, `/admin?p=${section.link}`);
+				setSection(section.link);
+			}
+		}
+	}, [user]);
+
+	if (!isColaborador(user)) {
 		return <ErrorBase title="Não tem sessão iniciada ou não tem permissões de administrador" />;
 	}
 
@@ -50,20 +65,22 @@ export default function Admin() {
 				style={{ width: "18rem", backgroundColor: "#546beb" }}
 			>
 				<Nav className="nav-pills flex-column mb-auto">
-					{sections.map(({ name, link }, idx) => (
-						<button
-							key={name}
-							className="fw-bold text-decoration-none border-top-0 border-start-0 border-end-0 mb-3 bg-transparent pb-3 text-start text-white"
-							style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
-							type="button"
-							onClick={() => {
-								history.pushState(null, null, `/admin?p=${link}`);
-								setSection(link);
-							}}
-						>
-							{name}
-						</button>
-					))}
+					{sections.map(({ name, link, permission }, idx) =>
+						hasPermission(user, permission) ? (
+							<button
+								key={name}
+								className="fw-bold text-decoration-none border-top-0 border-start-0 border-end-0 mb-3 bg-transparent pb-3 text-start text-white"
+								style={{ borderBottom: idx === sections.length - 1 ? "none" : "1px solid lightgray" }}
+								type="button"
+								onClick={() => {
+									history.pushState(null, null, `/admin?p=${link}`);
+									setSection(link);
+								}}
+							>
+								{name}
+							</button>
+						) : null,
+					)}
 				</Nav>
 			</div>
 

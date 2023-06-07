@@ -1,4 +1,3 @@
-const { body, param } = require("express-validator");
 const {
 	Negocio,
 	Cliente,
@@ -15,32 +14,26 @@ const { requireLogin, checkPermissionStandalone } = require("../middleware/authe
 const { validate } = require("../middleware/validation.js");
 const { arrayEqualsUnsorted } = require("../utils/arrayEqualsUnsorted.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
+const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
-const fieldValidations = [
-	body("idAreaNegocio", "`idAreaNegocio` tem que ser do tipo inteiro").isInt(),
-	body("idCliente", "`idCliente` tem que ser do tipo inteiro").isInt(),
-	body("description", "`description` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 200 }),
-	body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("contactos", "`contactos` tem que ser do tipo array").isArray(),
-	body("contactos.*", "`contactos.*` tem que ser do tipo inteiro").isInt(),
-	body("necessidades", "`necessidades` tem que ser do tipo array").isArray().isLength({ min: 0, max: 5 }),
-	body("necessidades.*", "`necessidades.*` tem que ser do tipo string").isString(),
-];
+const fieldValidations = z.object({
+	idAreaNegocio: z.number().int(),
+	idCliente: z.number().int(),
+	description: z.string().min(1).max(200),
+	title: z.string().min(1).max(100),
+	contactos: z.array(z.number().int()).min(1).max(5),
+	necessidades: z.array(z.string()).max(5),
+});
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requireLogin(),
-		validate(...fieldValidations),
+		validate(fieldValidations),
 
 		async (req, res) => {
 			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, necessidades } = req.body;
-
-			console.log(req.body);
 
 			try {
 				await sequelize.transaction(async (transaction) => {
@@ -135,7 +128,7 @@ module.exports = {
 			};
 
 			if (admin !== undefined) {
-				if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.Administrador)) return;
+				if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorNegocios)) return;
 
 				opts.attributes.push("createdAt");
 				opts.include.push(
@@ -167,24 +160,39 @@ module.exports = {
 	update: [
 		requireLogin(),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("idCentroTrabalho", "`idCentroTrabalho` tem que ser do tipo inteiro").isInt().optional(),
-			body("idFuncionarioResponsavel", "`idFuncionarioResponsavel` tem que ser do tipo inteiro").isInt().optional(),
-			body("estados", "`estados` tem que ser do tipo array").isArray().isLength({ min: 1, max: 5 }).optional(),
-			body("estados.*.estado", "`estados.*.estado` tem que ser do tipo inteiro").isInt(),
-			body("estados.*.dataFinalizacao", "`estados.*.dataFinalizacao` tem que ser do tipo data").isISO8601(),
-			body("necessidades", "`necessidades` tem que ser do tipo array")
-				.isArray()
-				.isLength({ min: 0, max: 5 })
-				.optional(),
-			body("necessidades.*", "`necessidades.*` tem que ser do tipo string").isString(),
-			...fieldValidations.map((v) => v.optional()),
+			fieldValidations
+				.extend({
+					idCentroTrabalho: z.number().int(),
+					idFuncionarioResponsavel: z.number().int(),
+					estados: z
+						.array(
+							z.object({
+								estado: z.number().int(),
+								dataFinalizacao: z.string().regex(ISO_DATETIME_REGEX),
+							}),
+						)
+						.min(1)
+						.max(5),
+					necessidades: z.array(z.string()).max(5),
+				})
+				.partial(),
 		),
 
 		async (req, res) => {
 			const { id } = req.params;
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, estados, necessidades } =
-				req.body;
+			const {
+				idAreaNegocio,
+				idCliente,
+				idCentroTrabalho,
+				idFuncionarioResponsavel,
+				description,
+				title,
+				contactos,
+				estados,
+				necessidades,
+			} = req.body;
+
+			console.log(id, req.body);
 
 			// TODO: Check if user is allowed to update this negocio
 
@@ -225,6 +233,8 @@ module.exports = {
 			if (idCliente !== undefined && idCliente !== negocio.idCliente) update.idCliente = idCliente;
 			if (idCentroTrabalho !== undefined && idCentroTrabalho !== negocio.idCentroTrabalho)
 				update.idCentroTrabalho = idCentroTrabalho;
+			if (idFuncionarioResponsavel !== undefined && idFuncionarioResponsavel !== negocio.idFuncionarioResponsavel)
+				update.idFuncionarioResponsavel = idFuncionarioResponsavel;
 			if (description && description !== negocio.description) update.description = description;
 			if (title && title !== negocio.title) update.title = title;
 
@@ -234,10 +244,12 @@ module.exports = {
 				else updatedNegocio = negocio;
 
 				if (
-					!arrayEqualsUnsorted(
-						negocio.contactos.map(({ contacto }) => contacto.value),
-						contactos,
-					)
+					contactos &&
+					(!negocio.contactos ||
+						!arrayEqualsUnsorted(
+							negocio.contactos.map(({ contacto }) => contacto.value),
+							contactos,
+						))
 				) {
 					await ContactoNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
 					await ContactoNegocio.bulkCreate(
@@ -252,6 +264,7 @@ module.exports = {
 				}
 
 				if (
+					estados &&
 					!arrayEqualsUnsorted(
 						negocio.estados.map(({ estado }) => estado),
 						estados.map(({ estado }) => estado),
@@ -261,7 +274,7 @@ module.exports = {
 					const maxEstado = Math.max(...estadoNumbers);
 					if (maxEstado !== estadoNumbers.length - 1) {
 						res.status(400).json({ message: "Estados têm que ser inseridos por ordem" });
-						throw new Error("Estados têm que ser inseridos por ordem");
+						return;
 					}
 
 					await EstadoNegocio.destroy({ where: { idNegocio: negocio.id } }, { transaction });
@@ -278,6 +291,7 @@ module.exports = {
 				}
 
 				if (
+					necessidades &&
 					!arrayEqualsUnsorted(
 						negocio.necessidades.map(({ name }) => name),
 						necessidades,

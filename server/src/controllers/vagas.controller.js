@@ -1,31 +1,25 @@
-const { body, param } = require("express-validator");
 const { Vaga, Candidatura, sequelize } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { Op } = require("sequelize");
 const { stripIndents } = require("common-tags");
+const { z } = require("zod");
 
-const fieldValidations = [
-	body("amountSlots", "`amountSlots` tem que ser do tipo inteiro").isInt(),
-	body("public", "`public` tem que ser do tipo boolean").isBoolean(),
-	body("icon", "`icon` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("description", "`description` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-		.isString()
-		.isLength({ min: 1, max: 100 }),
-	body("status", "`status` tem que ser do tipo int e estar entre 1 e 3").isInt().isIn([0, 1]),
-];
+const fieldValidations = z.object({
+	amountSlots: z.number().int(),
+	public: z.boolean(),
+	icon: z.string().min(1).max(100),
+	title: z.string().min(1).max(100),
+	description: z.string().min(1).max(100),
+	status: z.number().int().min(0).max(1),
+});
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(...fieldValidations),
+		validate(fieldValidations),
 
 		async (req, res) => {
 			const { amountSlots, public, icon, title, description, status } = req.body;
@@ -69,7 +63,7 @@ module.exports = {
 		};
 
 		if (admin !== undefined) {
-			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorConteudos)) return;
+			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
 
 			opts.attributes.push("createdAt");
 		} else if (req.user?.id) {
@@ -100,7 +94,7 @@ module.exports = {
 
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt(), ...fieldValidations.map((v) => v.optional())),
+		validate(fieldValidations.partial()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -132,7 +126,6 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

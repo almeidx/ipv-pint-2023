@@ -1,18 +1,18 @@
-const { body, param } = require("express-validator");
 const { Ideia, Utilizador } = require("../database/index.js");
 const { requirePermission, requireLogin } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			body("content", "`content` tem que ser do tipo string").isString().isLength({ min: 1, max: 1_000 }),
-			body("categoria", "`categoria` tem que ser do tipo string")
-				.isString()
-				.isIn(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
+			z.object({
+				content: z.string().min(1).max(1000),
+				categoria: z.enum(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
+			}),
 		),
 
 		async (req, res) => {
@@ -56,8 +56,9 @@ module.exports = {
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
 		validate(
-			param("id", "`id` tem que ser do tipo inteiro").isInt(),
-			body("ideiaValidada", "`ideiaValidada` tem que ser do tipo boolean").isBoolean(),
+			z.object({
+				ideiaValidada: z.boolean(),
+			}),
 		),
 
 		async (req, res) => {
@@ -86,7 +87,6 @@ module.exports = {
 
 	destroy: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
-		validate(param("id", "`id` tem que ser do tipo inteiro").isInt()),
 
 		async (req, res) => {
 			const { id } = req.params;

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
-import { isAdmin } from "../utils/permissions.js";
+import { isColaborador } from "../utils/permissions.js";
 import { Spinner } from "./Spinner.jsx";
 import { Softinsa } from "./icons/Softinsa.jsx";
 
@@ -156,7 +156,7 @@ export function NavBar({ page }) {
 									</Link>
 								</li>
 
-								{isAdmin(user) ? (
+								{isColaborador(user) ? (
 									<li>
 										<Link className="dropdown-item" to="/admin">
 											Painel de administração

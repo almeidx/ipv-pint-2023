@@ -1,60 +1,68 @@
-const { body } = require("express-validator");
-const { Reuniao, Utilizador, Candidatura, Negocio, Vaga, Notificacao } = require("../database/index.js");
+const { Reuniao, Utilizador, Candidatura, Negocio, Vaga, Notificacao, sequelize } = require("../database/index.js");
 const { requirePermission, requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const TipoNotificacaoEnum = require("../utils/TipoNotificacaoEnum.js");
+const { z } = require("zod");
+const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
 		validate(
-			body("idNegocio", "`idNegocio` tem que ser do tipo inteiro").isInt().optional(),
-			body("idCandidatura", "`idCandidatura` tem que ser do tipo inteiro").isInt().optional(),
-			body("startTime", "`startTime` tem que ser do tipo data").isISO8601(),
-			body("duration", "`duration` tem que ser do tipo inteiro").isInt(),
-			body("title", "`title` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-				.isString()
-				.isLength({ min: 1, max: 100 }),
-			body("description", "`description` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-				.isString()
-				.isLength({ min: 1, max: 100 }),
-			body("subject", "`subject` tem que ser do tipo string e ter entre 1 e 100 caracteres")
-				.isString()
-				.isLength({ min: 1, max: 100 }),
-			body("utilizadores", "`utilizadores` tem que ser do tipo array").isArray(),
-			body("utilizadores.*", "`utilizadores.*` tem que ser do tipo inteiro").isInt(),
+			z.object({
+				idNegocio: z.number().int().optional(),
+				idCandidatura: z.number().int().optional(),
+				startTime: z.string().regex(ISO_DATETIME_REGEX),
+				duration: z.number().int(),
+				title: z.string().min(1).max(100),
+				description: z.string().min(1).max(100),
+				subject: z.string().min(1).max(100),
+				utilizadores: z.array(z.number().int()),
+			}),
 		),
 
 		async (req, res) => {
 			const { idNegocio, idCandidatura, startTime, duration, title, description, subject, utilizadores } = req.body;
 
-			const reuniao = await Reuniao.create({
-				idNegocio,
-				idCandidatura,
-				startTime,
-				duration,
-				title,
-				description,
-				subject,
-			});
+			try {
+				await sequelize.transaction(async (transaction) => {
+					const reuniao = await Reuniao.create(
+						{
+							idNegocio,
+							idCandidatura,
+							startTime,
+							duration,
+							title,
+							description,
+							subject,
+						},
+						{ transaction },
+					);
 
-			const uniqueUtilizadores = [...new Set([utilizadores, req.user.id])];
+					const uniqueUtilizadores = [...new Set([utilizadores, req.user.id])];
 
-			await reuniao.setUtilizadores(uniqueUtilizadores);
+					await reuniao.setUtilizadores(uniqueUtilizadores, { transaction });
 
-			for (const utilizador of uniqueUtilizadores) {
-				await Notificacao.create({
-					idUser: utilizador,
-					idReuniao: reuniao.id,
-					content: reuniao.title,
-					type: TipoNotificacaoEnum.Reuniao,
-					additionalDate: reuniao.startTime,
+					await Notificacao.bulkCreate(
+						uniqueUtilizadores.map((utilizador) => [
+							{
+								idUser: utilizador,
+								idReuniao: reuniao.id,
+								content: reuniao.title,
+								type: TipoNotificacaoEnum.Reuniao,
+								additionalDate: reuniao.startTime,
+							},
+						]),
+						{ transaction },
+					);
+
+					res.json(reuniao);
 				});
+			} catch (error) {
+				res.status(500).json({ error: error.message });
 			}
-
-			res.json(reuniao);
 		},
 	],
 
@@ -65,7 +73,13 @@ module.exports = {
 			const { admin } = req.query;
 
 			if (admin !== undefined) {
-				if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
+				if (
+					!checkPermissionStandalone(req, res, [
+						TipoUtilizadorEnum.GestorNegocios,
+						TipoUtilizadorEnum.GestorRecursosHumanos,
+					])
+				)
+					return;
 
 				res.json(
 					await Reuniao.findAll({

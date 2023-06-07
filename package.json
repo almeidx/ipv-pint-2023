@@ -3,8 +3,8 @@
 	"scripts": {
 		"fmt": "pnpm format",
 		"format": "prettier -u --write \"**/*\"",
-		"server": "pnpm --filter server",
-		"web": "pnpm --filter web"
+		"server": "pnpm -C server",
+		"web": "pnpm -C web"
 	},
 	"prettier": {
 		"plugins": [
