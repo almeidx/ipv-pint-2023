@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.formatDateComHoras
+import com.example.pint_mobile.utils.formatDateSemHoras
 
 class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidatura, "Dados Candidatura") {
 
@@ -18,7 +20,6 @@ class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidat
 
         nome = intent.getStringExtra("Nome")
         titulo = intent.getStringExtra("Titulo")
-        val descricao = intent.getStringExtra("Descricao")
         val data = intent.getStringExtra("Data")
         id = intent.getIntExtra("Id", -1)
 
@@ -30,11 +31,9 @@ class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidat
         val tituloCandidatura = findViewById<android.widget.TextView>(R.id.tituloCandidaturaEdit)
         tituloCandidatura.setText(titulo)
 
-        val descricaoCandidatura = findViewById<android.widget.TextView>(R.id.descricaoCandidaturaEdit)
-        descricaoCandidatura.setText(descricao)
-
+        val data2 = data?.let { formatDateComHoras(it) }
         val dataCandidatura = findViewById<android.widget.TextView>(R.id.dataCandidaturaEdit)
-        dataCandidatura.setText(data)
+        dataCandidatura.setText(data2)
     }
 
     fun goToNotaEntrevista(view: View) {

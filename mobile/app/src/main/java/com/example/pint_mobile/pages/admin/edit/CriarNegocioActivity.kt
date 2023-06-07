@@ -145,7 +145,6 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         val intent = Intent(this, AdicionarClienteNegocioActivity::class.java)
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("clienteIds", clienteIds)
-        intent.putExtra("necessidades", necessidades)
         startActivity(intent)
         overridePendingTransition(0, 0);
     }

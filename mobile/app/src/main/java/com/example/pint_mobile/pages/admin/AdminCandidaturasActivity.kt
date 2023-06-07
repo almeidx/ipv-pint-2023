@@ -14,6 +14,8 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Candidatura
+import com.example.pint_mobile.utils.formatDateComHoras
+import com.example.pint_mobile.utils.formatDateSemHoras
 import com.example.pint_mobile.utils.listaCandidaturas
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -66,14 +68,13 @@ class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidatu
             val dataCandidatura = view.findViewById<TextView>(R.id.data_candidatura)
 
             nomeCandidatura.text = candidatura.nome
-            infoCandidatura.text = candidatura.titulo +  " - " + candidatura.descricao
+            infoCandidatura.text = candidatura.titulo
             dataCandidatura.text = candidatura.data
 
             view.setOnClickListener {
                 val intent = Intent(parent?.context, EditarCandidaturaActivity::class.java)
                 intent.putExtra("Nome", candidatura.nome)
                 intent.putExtra("Titulo", candidatura.titulo)
-                intent.putExtra("Descricao", candidatura.descricao)
                 intent.putExtra("Data", candidatura.data)
                 intent.putExtra("Id", candidatura.id)
 

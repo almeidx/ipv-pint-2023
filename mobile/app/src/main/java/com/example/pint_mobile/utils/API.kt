@@ -36,6 +36,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.util.Calendar
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -387,7 +388,6 @@ fun listaCandidaturas(list: ArrayList<Candidatura>, allList: ArrayList<Candidatu
                 rawCandidatura.getInt("id"),
                 rawCandidatura.getJSONObject("utilizador").getString("name"),
                 rawCandidatura.getJSONObject("vaga").getString("title"),
-                rawCandidatura.getJSONObject("vaga").getString("description"),
                 rawCandidatura.getString("submissionDate")
             )
             list.add(candidatura)
@@ -505,11 +505,10 @@ fun listarNotasReuniao(
     queue.add(request)
 }
 
-fun listaEventos(list: ArrayList<Evento>,  adapter: CalendarioActivity.EventoAdapter, ctx: Context) {
+fun listaEventos(list: ArrayList<Evento>, allList: ArrayList<Evento>, adapter: CalendarioActivity.EventoAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/events", null, { response -> try {
-        list.clear()
         for (i in 0 until response.length()) {
             val rawEvento = response.getJSONObject(i)
             val evento = Evento(
@@ -520,8 +519,23 @@ fun listaEventos(list: ArrayList<Evento>,  adapter: CalendarioActivity.EventoAda
                 rawEvento.getString("description"),
                 rawEvento.getString("subject"),
             )
-            list.add(evento)
+            allList.add(evento)
         }
+
+        val c = Calendar.getInstance()
+
+        val dia = c.get(Calendar.DAY_OF_MONTH)
+        val mes = c.get(Calendar.MONTH)
+        val ano = c.get(Calendar.YEAR)
+
+        val data = "$ano-${pad(mes + 1)}-${pad(dia)}"
+
+        for (evento in allList) {
+            if (evento.startTime.contains(data)) {
+                list.add(evento)
+            }
+        }
+
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
