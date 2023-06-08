@@ -17,18 +17,17 @@ import com.example.pint_mobile.utils.formatDateSemHoras
 import com.example.pint_mobile.utils.listaEventos
 import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.Calendar
 
 class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendario") {
 
     private var calendar: CalendarView? = null
     private var dateView: TextView? = null
 
-    private var dia: Int = 0
-    private var mes: Int = 0
-    private var ano: Int = 0
     private var data: String = ""
 
     private val eventosList = ArrayList<Evento>()
+    private val allEventsList = ArrayList<Evento>()
     private lateinit var eventosAdapter: EventoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +39,11 @@ class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendari
 
         val lista = findViewById<ListView>(R.id.listaEventos)
 
+        eventosAdapter = EventoAdapter(eventosList, R.layout.item_evento, data)
+
+        lista.adapter = eventosAdapter
+
+        listaEventos(eventosList, allEventsList, eventosAdapter, applicationContext)
 
         calendar = findViewById(R.id.calendar)
         dateView = findViewById(R.id.date_view)
@@ -56,11 +60,15 @@ class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendari
 
                 data = date
 
-                eventosAdapter = EventoAdapter(eventosList, R.layout.item_evento, data)
+                eventosList.clear()
 
-                lista.adapter = eventosAdapter
+                for (evento in allEventsList) {
+                    if (evento.startTime.contains(date)) {
+                        eventosList.add(evento)
+                    }
+                }
 
-                listaEventos(eventosList, eventosAdapter, applicationContext)
+                eventosAdapter.notifyDataSetChanged()
             }
         })
     }
@@ -75,8 +83,6 @@ class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendari
                 convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val evento = eventos[position]
 
-            val formattedDate = formatDateSemHoras(evento.startTime)
-
             val tituloBeneficio = view.findViewById<TextView>(R.id.titulo_evento)
             val descricaoBeneficio = view.findViewById<TextView>(R.id.description)
             val dataBeneficio = view.findViewById<TextView>(R.id.startTime)
@@ -86,12 +92,6 @@ class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendari
             descricaoBeneficio.text = evento.description
             dataBeneficio.text = formatDateComHoras(evento.startTime)
             duration.text = "Duração - " + evento.duration.toString() + " minutos"
-
-            if (formattedDate == data) {
-                view.visibility = View.VISIBLE
-            } else {
-                view.visibility = View.GONE
-            }
 
             return view
         }
