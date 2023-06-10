@@ -68,7 +68,7 @@ export default function Beneficios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar o benefício");
+			showToastWithMessage("Ocorreu um erro ao criar o benefício", "error");
 		}
 	}
 
@@ -91,7 +91,7 @@ export default function Beneficios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao editar o benefício");
+			showToastWithMessage("Ocorreu um erro ao editar o benefício", "error");
 		}
 	}
 
@@ -113,7 +113,7 @@ export default function Beneficios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar o benefício");
+			showToastWithMessage("Ocorreu um erro ao eliminar o benefício", "error");
 		}
 	}
 
@@ -249,7 +249,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 			} catch (error) {
 				console.error(error);
 
-				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro");
+				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro", "error");
 			}
 		}
 

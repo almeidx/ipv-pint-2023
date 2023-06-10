@@ -1,6 +1,6 @@
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -23,6 +23,8 @@ export default function VerificarConta() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
 	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
+	const [reenviarDisabled, setReenviarDisabled] = useState(false);
+	const timeoutRef = useRef(null);
 
 	useEffect(() => {
 		const pending = localStorage.getItem("pending");
@@ -35,6 +37,8 @@ export default function VerificarConta() {
 
 	/** @param {import("yup").InferType<typeof schema>} data */
 	async function handleSubmit({ confirmCode }) {
+		if (!pendingData) return;
+
 		try {
 			const response = await fetch(`${API_URL}/auth/validate`, {
 				credentials: "include",
@@ -66,7 +70,35 @@ export default function VerificarConta() {
 	}
 
 	async function handleReenviar() {
-		// TODO: implement
+		if (!pendingData) return;
+
+		try {
+			setReenviarDisabled(true);
+
+			const response = await fetch(`${API_URL}/auth/validate/retry`, {
+				credentials: "include",
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ userId: pendingData.userId }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			showToastWithMessage("Código reenviado com sucesso", "success");
+
+			timeoutRef.current = setTimeout(() => {
+				setReenviarDisabled(false);
+				timeoutRef.current = null;
+			}, 60_000);
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao reenviar o código", "error");
+
+			setReenviarDisabled(false);
+		}
 	}
 
 	return (
@@ -119,7 +151,13 @@ export default function VerificarConta() {
 								Submeter
 							</Button>
 
-							<Button variant="light" type="button" className="col-5 rounded-5" onClick={handleReenviar}>
+							<Button
+								variant="light"
+								type="button"
+								className="col-5 rounded-5"
+								onClick={handleReenviar}
+								disabled={!pendingData || reenviarDisabled}
+							>
 								Re-enviar
 							</Button>
 						</Form.Group>

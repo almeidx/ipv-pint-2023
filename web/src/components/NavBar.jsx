@@ -19,6 +19,8 @@ import { API_URL } from "../utils/constants.js";
 import { isColaborador } from "../utils/permissions.js";
 import { Spinner } from "./Spinner.jsx";
 import { Softinsa } from "./icons/Softinsa.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { Toast } from "./Toast.jsx";
 
 const Notifications = lazy(() => import("./Notifications.jsx"));
 
@@ -37,14 +39,32 @@ const navLinks = [
  */
 export function NavBar({ page }) {
 	const { user } = useUser();
-	const { notifications } = useNotifications();
+	const { notifications, mutate } = useNotifications();
+	const { toastMessage, toastType, toggleToast, showToastWithMessage, showToast } = useToast();
 
-	function handleDeleteAll() {
-		// setNotifications([]);
+	async function handleMarcarNotificacoesComoLidas() {
+		try {
+			const response = await fetch(`${API_URL}/notificacoes/seen-all`, {
+				credentials: "include",
+				method: "POST",
+			});
+
+			if (!response.ok) {
+				throw new Error("Erro ao marcar as notificações como lidas", { cause: response });
+			}
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Não foi possível marcar todas as notificações como lidas", "error");
+		}
 	}
 
 	return (
 		<BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>
+			<Toast hide={() => toggleToast(false)} message={toastMessage} show={showToast} type={toastType} />
+
 			<Link to="/">
 				<NavbarBrand>
 					<Softinsa />
@@ -91,8 +111,12 @@ export function NavBar({ page }) {
 							<Popover.Header as="h3">
 								<div className="d-flex justify-content-between align-items-center me-auto">
 									Notificações
-									<Button className="border-0 bg-transparent p-0 text-black" onClick={handleDeleteAll} disabled={true}>
-										Apagar todas
+									<Button
+										className="border-0 bg-transparent p-0 text-black"
+										onClick={handleMarcarNotificacoesComoLidas}
+										disabled={!notifications || notifications.length === 0}
+									>
+										Marcar todas como lidas
 									</Button>
 								</div>
 							</Popover.Header>

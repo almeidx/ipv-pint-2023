@@ -5,13 +5,16 @@ import { fetcher } from "../utils/fetcher.js";
 
 export const NotificationsContext = createContext({
 	notifications: [],
+	mutate: () => {},
 });
 
 /** @param {import("react").PropsWithChildren} */
 export function NotificationsProvider({ children }) {
-	const { data: notifications } = useSWR(`${API_URL}/notificacoes`, fetcher, { refreshInterval: 2 * 60 * 1_000 }); // 2 min
+	const { data: notifications, mutate } = useSWR(`${API_URL}/notificacoes`, fetcher, {
+		refreshInterval: 2 * 60 * 1_000,
+	}); // 2 min
 
-	const value = useMemo(() => ({ notifications }), [notifications]);
+	const value = useMemo(() => ({ notifications, mutate }), [notifications, mutate]);
 
 	return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 }

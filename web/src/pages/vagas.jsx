@@ -31,8 +31,6 @@ export default function Vagas() {
 	const { data, isLoading, mutate } = useSWR(`${API_URL}/vagas`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
 
-	// TODO: testar se funciona a submissão
-
 	useEffect(() => {
 		if (user) {
 			setHasCv(!!user.cv);
@@ -72,13 +70,13 @@ export default function Vagas() {
 
 			setShowCandidaturaModal(false);
 
-			showToastWithMessage("Candidatura enviada com sucesso!", "success");
+			showToastWithMessage("Candidatura enviada com sucesso!");
 
 			mutate();
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Não foi possível candidatar-se à vaga", "danger");
+			showToastWithMessage("Não foi possível candidatar-se à vaga", "error");
 		}
 	}
 

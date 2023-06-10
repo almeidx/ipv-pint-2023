@@ -79,7 +79,7 @@ export default function Ideias() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao submeter a ideia");
+			showToastWithMessage("Ocorreu um erro ao submeter a ideia", "error");
 		}
 	}
 

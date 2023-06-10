@@ -102,7 +102,7 @@ export default function Contacto() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao enviar a mensagem");
+			showToastWithMessage("Ocorreu um erro ao enviar a mensagem", "error");
 		}
 	}
 

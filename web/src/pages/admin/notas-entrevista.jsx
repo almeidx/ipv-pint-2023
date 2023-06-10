@@ -50,7 +50,7 @@ export default function NotasEntrevista() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar a nota");
+			showToastWithMessage("Ocorreu um erro ao criar a nota", "error");
 		}
 	}
 
@@ -72,7 +72,7 @@ export default function NotasEntrevista() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar a nota");
+			showToastWithMessage("Ocorreu um erro ao eliminar a nota", "error");
 		}
 	}
 

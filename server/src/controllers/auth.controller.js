@@ -151,6 +151,54 @@ module.exports = {
 		},
 	],
 
+	retryValidar: [
+		validate(
+			z.object({
+				userId: z.number(),
+			}),
+		),
+
+		async (req, res) => {
+			const { userId } = req.body;
+
+			const utilizador = await Utilizador.findOne({ where: { id: userId } });
+			if (!utilizador) {
+				res.status(404).json({ message: "Utilizador não encontrado" });
+				return;
+			}
+
+			if (utilizador.confirmRetries > 1 && new Date(utilizador.confirmDateStart).getTime() + 60_000 < Date.now()) {
+				res.status(401).json({ message: "Aguarde 1 minuto para voltar a pedir um código de confirmação" });
+				return;
+			}
+
+			const confirmCode = randomNumberString(12);
+
+			await utilizador.update({
+				confirmCode,
+				confirmDateStart: new Date(),
+				confirmRetries: utilizador.confirmRetries + 1,
+			});
+
+			await sendEmail(
+				utilizador.email,
+				"Confirmação de conta",
+				stripIndents`
+					<h2>Olá ${utilizador.name},</h2>
+					<p>Para confirmar a sua conta, introduza o seguinte código na página:</p>
+					<b>${confirmCode}</b>
+					<br>
+					<p>Caso não tenha guardado a página, redirecione-se aqui: <a href="${process.env.WEB_URL}/verificar-conta">Página de verificação</a></p>
+					<p>Se não foi você que criou esta conta, ignore este email.</p>
+					<br>
+					<p>Obrigado</p>
+				`,
+			);
+
+			res.json({ message: "Email enviado com sucesso" });
+		},
+	],
+
 	google: [passport.authenticate("google", { scope: ["profile", "email"] })],
 	googleCallback: [
 		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),

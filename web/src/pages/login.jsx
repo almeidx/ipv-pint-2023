@@ -83,7 +83,7 @@ export default function Login() {
 				throw new Error("Something went wrong", { cause: response });
 			}
 
-			showToastWithMessage("Foi enviado um email para recuperar a sua password", "success");
+			showToastWithMessage("Foi enviado um email para recuperar a sua password");
 		} catch (error) {
 			console.error(error);
 

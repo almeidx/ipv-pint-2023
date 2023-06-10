@@ -66,7 +66,7 @@ export default function Ideias() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao tentar alterar o estado da ideia");
+			showToastWithMessage("Ocorreu um erro ao tentar alterar o estado da ideia", "error");
 		}
 	}
 
@@ -90,7 +90,7 @@ export default function Ideias() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao tentar eliminar a ideia");
+			showToastWithMessage("Ocorreu um erro ao tentar eliminar a ideia", "error");
 		}
 	}
 

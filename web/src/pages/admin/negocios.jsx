@@ -74,7 +74,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao editar o negócio");
+			showToastWithMessage("Ocorreu um erro ao editar o negócio", "error");
 		}
 	}
 
@@ -95,7 +95,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem");
+			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem", "error");
 		}
 	}
 
@@ -120,7 +120,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar a reunião");
+			showToastWithMessage("Ocorreu um erro ao criar a reunião", "error");
 		}
 	}
 

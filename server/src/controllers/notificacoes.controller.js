@@ -5,22 +5,6 @@ const { z } = require("zod");
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
-	// create(req, res) {
-	// 	const { idUser, idReuniao, content, seen, type, additionalDate } = req.body;
-
-	// 	const notificacao = Notificacao.create({
-	// 		idUser,
-	// 		idReuniao,
-	// 		content,
-	// 		seen,
-	// 		createdAt: new Date(),
-	// 		type,
-	// 		additionalDate,
-	// 	});
-
-	// 	res.json(notificacao);
-	// },
-
 	read: [
 		requireLogin(),
 		async (req, res) => {
@@ -28,6 +12,7 @@ module.exports = {
 				await Notificacao.findAll({
 					where: {
 						idUser: req.user.id,
+						seen: false,
 					},
 				}),
 			);
@@ -53,6 +38,25 @@ module.exports = {
 			}
 
 			res.json(await notificacao.update({ seen }));
+		},
+	],
+
+	seenAll: [
+		requireLogin(),
+
+		async (req, res) => {
+			await Notificacao.update(
+				{
+					seen: true,
+				},
+				{
+					where: {
+						idUser: req.user.id,
+					},
+				},
+			);
+
+			res.json({ message: "Notificações marcadas como lidas" });
 		},
 	],
 };

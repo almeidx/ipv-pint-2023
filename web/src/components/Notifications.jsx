@@ -3,27 +3,49 @@ import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFil
 import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
 import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
+import { TbCheck } from "@react-icons/all-files/tb/TbCheck";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { Toast } from "./Toast.jsx";
 
 export default function Notifications() {
-	const { notifications } = useNotifications();
+	const { notifications, mutate } = useNotifications();
+	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
 
 	/** @param {number} id */
-	function handleSingleDelete(id) {
-		// TODO: implement
-		// setNotifications((notifications) => notifications.filter((notification) => notification.id !== id));
+	async function handleSingleSeen(id) {
+		try {
+			const response = await fetch(`${API_URL}/notificacoes/${id}`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ seen: true }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Erro ao marcar a notificação como lida", { cause: response });
+			}
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Não foi possível marcar a notificação como lida", "error");
+		}
 	}
 
 	return (
 		<>
+			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} type={toastType} />
+
 			{notifications?.length ? (
 				<ListGroup>
 					{notifications.map((notification) => (
-						<Notification key={notification.id} {...notification} onDelete={handleSingleDelete} />
+						<Notification key={notification.id} {...notification} onSeen={handleSingleSeen} />
 					))}
 				</ListGroup>
 			) : (
@@ -33,7 +55,7 @@ export default function Notifications() {
 	);
 }
 
-function Notification({ additionalDate, createdAt, content, type, onDelete, id }) {
+function Notification({ additionalDate, createdAt, content, type, onSeen, id }) {
 	let composedDescription;
 	if (additionalDate) {
 		composedDescription = `${content} dia ${formatDate(new Date(additionalDate))}`;
@@ -54,8 +76,8 @@ function Notification({ additionalDate, createdAt, content, type, onDelete, id }
 
 			<div className="d-flex justify-content-between align-items-center gap-2">
 				<span style={{ fontSize: "0.8rem" }}>{getRelativeTimeString(new Date(createdAt))}</span>
-				<Button className="border-0 bg-transparent p-0" onClick={() => onDelete(id)}>
-					<RiCloseFill size={24} color="black" />
+				<Button className="border-0 bg-transparent p-0" onClick={() => onSeen(id)}>
+					<TbCheck size={24} color="black" />
 				</Button>
 			</div>
 		</ListGroup.Item>

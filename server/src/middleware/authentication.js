@@ -52,8 +52,9 @@ function checkLoginStandalone(req, res) {
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  * @param {number|number[]} permission
+ * @param {boolean} [reply=true]
  */
-function checkPermissionStandalone(req, res, permission) {
+function checkPermissionStandalone(req, res, permission, reply = true) {
 	if (!checkLoginStandalone(req, res)) return false;
 
 	const hasPermission = Array.isArray(permission)
@@ -61,7 +62,7 @@ function checkPermissionStandalone(req, res, permission) {
 		: req.user.tipoUtilizador.id !== permission;
 
 	if (hasPermission && req.user.tipoUtilizador.id !== TipoUtilizadorEnum.Administrador) {
-		res.status(403).json({ message: "Não tem permissão para acessar esta funcionalidade" });
+		if (reply) res.status(403).json({ message: "Não tem permissão para acessar esta funcionalidade" });
 		return false;
 	}
 

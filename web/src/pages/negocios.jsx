@@ -103,7 +103,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao criar oportunidade");
+			showToastWithMessage("Erro ao criar oportunidade", "error");
 		}
 	}
 
@@ -123,11 +123,11 @@ export default function Negocios() {
 
 			mutateNegocios();
 
-			showToastWithMessage("oportunidade editado com sucesso!");
+			showToastWithMessage("Oportunidade editada com sucesso!");
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao editar oportunidade");
+			showToastWithMessage("Erro ao editar oportunidade", "error");
 		}
 	}
 
@@ -155,7 +155,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao criar cliente");
+			showToastWithMessage("Erro ao criar cliente", "error");
 		}
 	}
 
@@ -184,7 +184,7 @@ export default function Negocios() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Erro ao criar contacto");
+			showToastWithMessage("Erro ao criar contacto", "error");
 		}
 	}
 

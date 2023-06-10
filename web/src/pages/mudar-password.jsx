@@ -53,7 +53,7 @@ export default function MudarPassword() {
 				throw new Error("Something went wrong", { cause: response });
 			}
 
-			showToastWithMessage("Password alterada com sucesso!", "success");
+			showToastWithMessage("Password alterada com sucesso!");
 
 			setTimeout(() => {
 				navigate("/login");

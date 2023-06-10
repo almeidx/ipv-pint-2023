@@ -3,6 +3,7 @@ const {
 	auth,
 	register,
 	validarConta,
+	retryValidar,
 	logout,
 	user,
 	email,
@@ -19,6 +20,7 @@ const authRouter = Router()
 
 	.post("/register", register)
 	.post("/validate", validarConta)
+	.post("/validate/retry", retryValidar)
 	.get("/logout", logout)
 
 	.get("/facebook", facebook)

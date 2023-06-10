@@ -60,7 +60,7 @@ export default function Vagas() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar a vaga");
+			showToastWithMessage("Ocorreu um erro ao criar a vaga", "error");
 		}
 	}
 
@@ -83,7 +83,7 @@ export default function Vagas() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao editar a vaga");
+			showToastWithMessage("Ocorreu um erro ao editar a vaga", "error");
 		}
 	}
 
@@ -104,7 +104,7 @@ export default function Vagas() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar a vaga");
+			showToastWithMessage("Ocorreu um erro ao eliminar a vaga", "error");
 		}
 	}
 
@@ -238,7 +238,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 			} catch (error) {
 				console.error(error);
 
-				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro");
+				showToastWithMessage("Ocorreu um erro ao fazer upload do ficheiro", "error");
 			}
 		}
 

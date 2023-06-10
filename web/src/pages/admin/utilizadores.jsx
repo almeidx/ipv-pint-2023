@@ -62,7 +62,7 @@ export default function Utilizadores() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao editar o utilizador");
+			showToastWithMessage("Ocorreu um erro ao editar o utilizador", "error");
 		}
 	}
 

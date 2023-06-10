@@ -1,4 +1,13 @@
-const { Reuniao, Utilizador, Candidatura, Negocio, Vaga, Notificacao, sequelize } = require("../database/index.js");
+const {
+	Reuniao,
+	Utilizador,
+	Candidatura,
+	Negocio,
+	Vaga,
+	Notificacao,
+	sequelize,
+	NotaEntrevista,
+} = require("../database/index.js");
 const { requirePermission, requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
@@ -6,19 +15,22 @@ const TipoNotificacaoEnum = require("../utils/TipoNotificacaoEnum.js");
 const { z } = require("zod");
 const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
+const fieldValidations = z.object({
+	duration: z.number().int(),
+	title: z.string().min(1).max(100),
+	description: z.string().min(1).max(100),
+	subject: z.string().min(1).max(100),
+});
+
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
 		validate(
-			z.object({
+			fieldValidations.extend({
+				startTime: z.string().regex(ISO_DATETIME_REGEX),
 				idNegocio: z.number().int().optional(),
 				idCandidatura: z.number().int().optional(),
-				startTime: z.string().regex(ISO_DATETIME_REGEX),
-				duration: z.number().int(),
-				title: z.string().min(1).max(100),
-				description: z.string().min(1).max(100),
-				subject: z.string().min(1).max(100),
 				utilizadores: z.array(z.number().int()),
 			}),
 		),
@@ -132,6 +144,53 @@ module.exports = {
 			).toJSON();
 
 			res.json(reunioes.map(({ reunioes_utilizadores, ...reuniao }) => reuniao));
+		},
+	],
+
+	update: [
+		requirePermission([TipoUtilizadorEnum.GestorNegocios, TipoUtilizadorEnum.GestorRecursosHumanos]),
+		validate(fieldValidations.partial()),
+
+		async (req, res) => {
+			const { id } = req.params;
+			const { duration, title, description, subject } = req.body;
+
+			const reuniao = await Reuniao.findByPk(id);
+			if (!reuniao) {
+				res.status(404).json({ message: "Reunião não encontrada" });
+				return;
+			}
+
+			const update = {};
+
+			if (title && title !== reuniao.title) update.title = title;
+			if (description && description !== reuniao.description) update.description = description;
+			if (subject && subject !== reuniao.subject) update.subject = subject;
+			if (duration !== undefined && duration !== reuniao.duration) update.duration = duration;
+
+			res.json(await reuniao.update(update));
+		},
+	],
+
+	destroy: [
+		requirePermission([TipoUtilizadorEnum.GestorNegocios, TipoUtilizadorEnum.GestorRecursosHumanos]),
+
+		async (req, res) => {
+			const { id } = req.params;
+
+			const reuniao = await Reuniao.findByPk(id);
+			if (!reuniao) {
+				res.status(404).json({ message: "Reunião não encontrada" });
+				return;
+			}
+
+			await sequelize.transaction(async (transaction) => {
+				await NotaEntrevista.destroy({ where: { idReuniao: id }, transaction });
+
+				await reuniao.destroy({ transaction });
+			});
+
+			res.json({ message: "Reunião eliminada com sucesso" });
 		},
 	],
 };

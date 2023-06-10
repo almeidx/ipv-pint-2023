@@ -192,10 +192,6 @@ module.exports = {
 				necessidades,
 			} = req.body;
 
-			console.log(id, req.body);
-
-			// TODO: Check if user is allowed to update this negocio
-
 			const negocio = await Negocio.findByPk(id, {
 				include: [
 					{
@@ -224,6 +220,14 @@ module.exports = {
 
 			if (!negocio) {
 				res.status(404).json({ message: "Negocio não encontrado" });
+				return;
+			}
+
+			if (
+				negocio.idUser !== req.user.id &&
+				!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorNegocios, false)
+			) {
+				res.status(403).json({ message: "Não tem permissão para editar este negócio" });
 				return;
 			}
 

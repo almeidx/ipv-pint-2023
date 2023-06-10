@@ -50,7 +50,7 @@ export default function Mensagens() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem");
+			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem", "error");
 		}
 	}
 

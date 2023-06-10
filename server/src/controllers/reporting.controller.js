@@ -1,5 +1,6 @@
 const { literal, Op } = require("sequelize");
 const { Utilizador, Candidatura, Negocio, Beneficio, Ideia, Vaga, sequelize } = require("../database/index.js");
+const { stripIndents } = require("common-tags");
 
 const DEFAULT_INTERVAL = 30;
 
@@ -59,12 +60,14 @@ module.exports = {
 	async negociosPorMes(_req, res) {
 		const date = getDateFromOneYearAgo();
 
-		const [result] = await sequelize.query(`
-			SELECT DATE_TRUNC('month', "DATA_CRIACAO") AS mes, COUNT(*) AS quantidade
-			FROM negocios
-			GROUP BY mes
-			HAVING DATE_TRUNC('month', "DATA_CRIACAO") >= '${date.toISOString()}'
-		`);
+		const [result] = await sequelize.query(
+			stripIndents`
+				SELECT DATE_TRUNC('month', "DATA_CRIACAO") AS mes, COUNT(*) AS quantidade
+				FROM negocios
+				GROUP BY mes
+				HAVING DATE_TRUNC('month', "DATA_CRIACAO") >= '${date.toISOString()}'
+			`,
+		);
 
 		const data = [];
 		const labels = [];
@@ -90,14 +93,16 @@ module.exports = {
 	},
 
 	async volumeNegociosPorEstado(_req, res) {
-		const [data] = await sequelize.query(`
-			SELECT "ESTADO" as estado, CAST(COUNT(*) AS INT) AS quantidade
-			FROM estados_negocios
-			INNER JOIN negocios
-				ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
-			GROUP BY estado
-			ORDER BY estado ASC
-		`);
+		const [data] = await sequelize.query(
+			stripIndents`
+				SELECT "ESTADO" as estado, CAST(COUNT(*) AS INT) AS quantidade
+				FROM estados_negocios
+				INNER JOIN negocios
+					ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
+				GROUP BY estado
+				ORDER BY estado ASC
+			`,
+		);
 
 		const result = {
 			labels: [],

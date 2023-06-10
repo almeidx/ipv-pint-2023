@@ -94,6 +94,11 @@ const Utilizador = sequelize.define(
 			type: DataTypes.DATE,
 			field: "CONFIRM_DATE_START",
 		},
+		confirmRetries: {
+			type: DataTypes.INTEGER,
+			field: "CONFIRM_RETRIES",
+			defaultValue: 0,
+		},
 		lastLoginDate: {
 			type: DataTypes.DATE,
 			field: "ULTIMA_DATA_LOGIN",

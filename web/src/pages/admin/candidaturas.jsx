@@ -69,7 +69,7 @@ export default function Candidaturas() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar a reunião");
+			showToastWithMessage("Ocorreu um erro ao criar a reunião", "error");
 		}
 	}
 
@@ -91,7 +91,7 @@ export default function Candidaturas() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao concluir a candidatura");
+			showToastWithMessage("Ocorreu um erro ao concluir a candidatura", "error");
 		}
 	}
 

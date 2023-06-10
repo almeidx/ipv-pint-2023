@@ -76,7 +76,7 @@ export default function Profile() {
 				} catch (error) {
 					console.error(error);
 
-					showToastWithMessage("Ocorreu um erro ao atualizar o seu CV");
+					showToastWithMessage("Ocorreu um erro ao atualizar o seu CV", "error");
 				}
 
 				break;
@@ -103,7 +103,7 @@ export default function Profile() {
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao atualizar o seu nome");
+			showToastWithMessage("Ocorreu um erro ao atualizar o seu nome", "error");
 		}
 	}
 
