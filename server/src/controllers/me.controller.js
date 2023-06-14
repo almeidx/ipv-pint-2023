@@ -44,9 +44,16 @@ module.exports = {
 		requireLogin(),
 		validate(
 			z.object({
-				// TODO: Update min length to 16
+				// TODO: Update min length to 12
 				passwordAtual: z.string().min(1).max(128),
-				newPassword: z.string().min(16).max(128),
+				newPassword: z
+					.string()
+					.min(12, "Password deve ter pelo menos 12 caracteres")
+					.max(128, "Password deve ter no máximo 128 caracteres")
+					.regex(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
+					.regex(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
+					.regex(/[0-9]/, "Password deve ter pelo menos um número")
+					.regex(/[^a-z0-9]/i, "Password deve ter pelo menos um caracter especial"),
 			}),
 		),
 

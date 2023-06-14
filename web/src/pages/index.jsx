@@ -54,6 +54,8 @@ const INTERVALS = [
 ];
 
 export default function Home() {
+	// TODO: Separar reporting
+
 	return (
 		<Page className="min-h-without-navbar position-relative" page="/">
 			<img

@@ -20,7 +20,7 @@ const schema = object().shape({
 	email: string().email("Email inválido").required("Email é obrigatório"),
 	password: string()
 		.required("Password é obrigatória")
-		.min(16, "Password deve ter pelo menos 16 caracteres")
+		.min(12, "Password deve ter pelo menos 12 caracteres")
 		.max(128, "Password deve ter no máximo 128 caracteres")
 		.matches(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
 		.matches(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")

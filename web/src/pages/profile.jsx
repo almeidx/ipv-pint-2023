@@ -21,7 +21,7 @@ const changePasswordFormSchema = object().shape({
 	passwordAtual: string().required("Password é obrigatória"),
 	newPassword: string()
 		.required("Password é obrigatória")
-		.min(16, "Password deve ter pelo menos 16 caracteres")
+		.min(12, "Password deve ter pelo menos 12 caracteres")
 		.max(128, "Password deve ter no máximo 128 caracteres")
 		.matches(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
 		.matches(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
@@ -108,7 +108,24 @@ export default function Profile() {
 	}
 
 	async function handleDisableAccount() {
-		// TODO: implement
+		try {
+			const response = await fetch(`${API_URL}/utilizadores/${user.id}/disable`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ disabled: true }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Something went wrong", { cause: response });
+			}
+
+			window.open(`${API_URL}/auth/logout`, "_self");
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage("Ocorreu um erro ao desativar a sua conta", "error");
+		}
 	}
 
 	const firstName = user?.name.split(" ")[0];
