@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Demonstração Softinsa</title>
+
+		<link rel="stylesheet" href="/globals.css" />
+	</head>
+
+	<body
+		class="flex min-h-screen flex-col items-center justify-center scroll-smooth bg-[#c5cae9] text-black antialiased"
+	>
+		<div id="top" class="invisible h-0 w-0"></div>
+
+		<nav class="fixed inset-x-0 top-0 flex items-center justify-between bg-[#3f51b5] px-5 text-2xl text-white">
+			<a href="#top">
+				<img src="logo.svg" alt="" />
+			</a>
+			<ul class="flex gap-6">
+				<li><a class="hover:text-blue-200" href="#top">Home</a></li>
+				<li><a class="hover:text-blue-200" href="#video">Video</a></li>
+				<li><a class="hover:text-blue-200" href="#">Sobre</a></li>
+			</ul>
+		</nav>
+
+		<div class="max-w-7xl">
+			<h2 class="mx-auto mt-4 flex items-center justify-center text-xl font-bold" id="video">
+				Video de demonstração do projeto
+			</h2>
+
+			<iframe
+				class="mx-auto my-4 aspect-video"
+				width="1240"
+				src="https://www.youtube.com/embed/B7IZMb7VOtU"
+				title="IVANDRO - Chakras ft. Julinho KSD"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+				allowfullscreen
+			></iframe>
+
+			<div class="">
+				<a
+					class="rounded-lg bg-red-500 px-3 py-2 text-white"
+					href="https://softinsa.almeidx.dev/login"
+					target="_blank"
+					rel="external noopener noreferrer"
+				>
+					Login
+				</a>
+			</div>
+		</div>
+		<script type="module" src="/main.js"></script>
+	</body>
+</html>

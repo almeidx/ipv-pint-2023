@@ -4,7 +4,7 @@ import BootstrapSpinner from "react-bootstrap/Spinner";
 export function Spinner(props) {
 	return (
 		<BootstrapSpinner animation="border" role="status" {...props}>
-			<span className="visually-hidden">Loading...</span>
+			<span className="visually-hidden">A carregar...</span>
 		</BootstrapSpinner>
 	);
 }

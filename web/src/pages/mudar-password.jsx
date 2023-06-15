@@ -1,6 +1,9 @@
+import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
+import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import { HiOutlineArrowLeft } from "@react-icons/all-files/hi/HiOutlineArrowLeft";
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -70,68 +73,96 @@ export default function MudarPassword() {
 			<Toast show={showToast} hide={() => toggleToast(false)} message={toastMessage} type={toastType} />
 
 			<Formik validationSchema={schema} onSubmit={handleSubmit} initialValues={{ password: "", confirmPassword: "" }}>
-				{({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => (
-					<Form
-						noValidate
-						onSubmit={handleSubmit}
-						className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
-					>
-						<div className="d-flex align-items-center mb-5 gap-1">
-							<Link to="/">
-								<HiOutlineArrowLeft size={32} color="white" />
-							</Link>
+				{({ handleSubmit, handleChange, handleBlur, errors, touched, values }) => {
+					const [showPassword, setShowPassword] = useState(false);
 
-							<h1 className="title text-white" style={{ fontSize: "2rem" }}>
-								Mudar Password
-							</h1>
-						</div>
-
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="password-icon">
-								<RiLockPasswordLine />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Password"
-								aria-label="Nova password"
-								aria-describedby="password-icon"
-								id="password"
-								type="password"
-								value={values.password}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								isInvalid={touched.password && !!errors.password}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="confirmar-password-icon">
-								<RiLockPasswordLine />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Confirmar Password"
-								aria-label="Confirmar Password"
-								aria-describedby="confirmar-password-icon"
-								id="confirmPassword"
-								type="password"
-								value={values.confirmPassword}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								isInvalid={touched.confirmPassword && !!errors.confirmPassword}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
-						</InputGroup>
-
-						<Button
-							variant="light"
-							type="submit"
-							className="col-8 rounded-5 mx-auto mt-3 p-2"
-							disabled={Object.keys(errors).length > 0}
+					return (
+						<Form
+							noValidate
+							onSubmit={handleSubmit}
+							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
 						>
-							Alterar
-						</Button>
-					</Form>
-				)}
+							<div className="d-flex align-items-center mb-5 gap-1">
+								<Link to="/">
+									<HiOutlineArrowLeft size={32} color="white" />
+								</Link>
+
+								<h1 className="title text-white" style={{ fontSize: "2rem" }}>
+									Mudar Password
+								</h1>
+							</div>
+
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="password-icon">
+									<RiLockPasswordLine />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Password"
+									aria-label="Nova password"
+									aria-describedby="password-icon"
+									id="password"
+									type={showPassword ? "text" : "password"}
+									value={values.password}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									isInvalid={touched.password && !!errors.password}
+								/>
+								<InputGroup.Text>
+									<Button
+										className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+										onClick={() => setShowPassword((state) => !state)}
+									>
+										{showPassword ? (
+											<AiFillEyeInvisible color="black" size={20} />
+										) : (
+											<AiFillEye color="black" size={20} />
+										)}
+									</Button>
+								</InputGroup.Text>
+								<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+							</InputGroup>
+
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="confirmar-password-icon">
+									<RiLockPasswordLine />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Confirmar Password"
+									aria-label="Confirmar Password"
+									aria-describedby="confirmar-password-icon"
+									id="confirmPassword"
+									type={showPassword ? "text" : "password"}
+									value={values.confirmPassword}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									isInvalid={touched.confirmPassword && !!errors.confirmPassword}
+								/>
+								<InputGroup.Text>
+									<Button
+										className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+										onClick={() => setShowPassword((state) => !state)}
+									>
+										{showPassword ? (
+											<AiFillEyeInvisible color="black" size={20} />
+										) : (
+											<AiFillEye color="black" size={20} />
+										)}
+									</Button>
+								</InputGroup.Text>
+								<Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+							</InputGroup>
+
+							<Button
+								variant="light"
+								type="submit"
+								className="col-8 rounded-5 mx-auto mt-3 p-2"
+								disabled={Object.keys(errors).length > 0}
+							>
+								Alterar
+							</Button>
+						</Form>
+					);
+				}}
 			</Formik>
 		</LoginContainer>
 	);

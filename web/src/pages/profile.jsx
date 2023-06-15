@@ -1,3 +1,5 @@
+import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
+import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
 import { MdOutlineLogout } from "@react-icons/all-files/md/MdOutlineLogout";
 import { MdOutlinePersonOutline } from "@react-icons/all-files/md/MdOutlinePersonOutline";
@@ -8,6 +10,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import FormLabel from "react-bootstrap/FormLabel";
+import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { object, ref, string } from "yup";
@@ -374,60 +377,111 @@ function AlterarPasswordModal({ show, onHide, showToastWithMessage }) {
 				initialValues={{ passwordAtual: "", newPassword: "", confirmNewPassword: "" }}
 				onSubmit={handleSubmit}
 			>
-				{({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
-					<Form noValidate onSubmit={handleSubmit}>
-						<Modal.Body>
-							<Form.Group className="mb-3">
-								<Form.Label htmlFor="passwordAtual">Palavra-passe atual</Form.Label>
-								<Form.Control
-									id="passwordAtual"
-									type="password"
-									value={values.passwordAtual}
-									onChange={handleChange}
-									isInvalid={touched.passwordAtual && !!errors.passwordAtual}
-									onBlur={handleBlur}
-								/>
-								<Form.Control.Feedback type="invalid">{errors.passwordAtual}</Form.Control.Feedback>
-							</Form.Group>
+				{({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => {
+					const [showPassword, setShowPassword] = useState(false);
 
-							<Form.Group className="mb-3">
-								<Form.Label htmlFor="newPassword">Nova palavra-passe</Form.Label>
-								<Form.Control
-									id="newPassword"
-									type="password"
-									value={values.newPassword}
-									onChange={handleChange}
-									isInvalid={touched.newPassword && !!errors.newPassword}
-									onBlur={handleBlur}
-								/>
-								<Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
-							</Form.Group>
+					return (
+						<Form noValidate onSubmit={handleSubmit}>
+							<Modal.Body>
+								<Form.Group className="mb-3">
+									<Form.Label htmlFor="passwordAtual">Palavra-passe atual</Form.Label>
+									<InputGroup hasValidation>
+										<Form.Control
+											id="passwordAtual"
+											type={showPassword ? "text" : "password"}
+											value={values.passwordAtual}
+											onChange={handleChange}
+											isInvalid={touched.passwordAtual && !!errors.passwordAtual}
+											onBlur={handleBlur}
+										/>
+										<InputGroup.Text>
+											<Button
+												className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+												onClick={() => setShowPassword((state) => !state)}
+											>
+												{showPassword ? (
+													<AiFillEyeInvisible color="black" size={20} />
+												) : (
+													<AiFillEye color="black" size={20} />
+												)}
+											</Button>
+										</InputGroup.Text>
+										<Form.Control.Feedback type="invalid">{errors.passwordAtual}</Form.Control.Feedback>
+									</InputGroup>
+								</Form.Group>
 
-							<Form.Group className="mb-3">
-								<Form.Label htmlFor="confirmNewPassword">Confirmar nova palavra-passe</Form.Label>
-								<Form.Control
-									id="confirmNewPassword"
-									type="password"
-									value={values.confirmNewPassword}
-									onChange={handleChange}
-									isInvalid={touched.confirmNewPassword && !!errors.confirmNewPassword}
-									onBlur={handleBlur}
-								/>
-								<Form.Control.Feedback type="invalid">{errors.confirmNewPassword}</Form.Control.Feedback>
-							</Form.Group>
-						</Modal.Body>
+								<Form.Group className="mb-3">
+									<Form.Label htmlFor="newPassword">Nova palavra-passe</Form.Label>
+									<InputGroup hasValidation>
+										<Form.Control
+											id="newPassword"
+											type={showPassword ? "text" : "password"}
+											value={values.newPassword}
+											onChange={handleChange}
+											isInvalid={touched.newPassword && !!errors.newPassword}
+											onBlur={handleBlur}
+										/>
+										<InputGroup.Text>
+											<Button
+												className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+												onClick={() => setShowPassword((state) => !state)}
+											>
+												{showPassword ? (
+													<AiFillEyeInvisible color="black" size={20} />
+												) : (
+													<AiFillEye color="black" size={20} />
+												)}
+											</Button>
+										</InputGroup.Text>
+										<Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
+									</InputGroup>
+								</Form.Group>
 
-						<Modal.Footer>
-							<Button onClick={handleSubmit} type="button" variant="success" disabled={Object.keys(errors).length > 0}>
-								Alterar
-							</Button>
+								<Form.Group className="mb-3">
+									<Form.Label htmlFor="confirmNewPassword">Confirmar nova palavra-passe</Form.Label>
+									<InputGroup hasValidation>
+										<Form.Control
+											id="confirmNewPassword"
+											type={showPassword ? "text" : "password"}
+											value={values.confirmNewPassword}
+											onChange={handleChange}
+											isInvalid={touched.confirmNewPassword && !!errors.confirmNewPassword}
+											onBlur={handleBlur}
+										/>
+										<InputGroup.Text>
+											<Button
+												className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+												onClick={() => setShowPassword((state) => !state)}
+											>
+												{showPassword ? (
+													<AiFillEyeInvisible color="black" size={20} />
+												) : (
+													<AiFillEye color="black" size={20} />
+												)}
+											</Button>
+										</InputGroup.Text>
+										<Form.Control.Feedback type="invalid">{errors.confirmNewPassword}</Form.Control.Feedback>
+									</InputGroup>
+								</Form.Group>
+							</Modal.Body>
 
-							<Button onClick={onHide} type="button">
-								Cancelar
-							</Button>
-						</Modal.Footer>
-					</Form>
-				)}
+							<Modal.Footer>
+								<Button
+									onClick={handleSubmit}
+									type="button"
+									variant="success"
+									disabled={Object.keys(errors).length > 0}
+								>
+									Alterar
+								</Button>
+
+								<Button onClick={onHide} type="button">
+									Cancelar
+								</Button>
+							</Modal.Footer>
+						</Form>
+					);
+				}}
 			</Formik>
 		</Modal>
 	);

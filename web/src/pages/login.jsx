@@ -1,6 +1,9 @@
+import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
+import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import { MdAlternateEmail } from "@react-icons/all-files/md/MdAlternateEmail";
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -96,84 +99,100 @@ export default function Login() {
 			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} type={toastType} />
 
 			<Formik validationSchema={schema} initialValues={{ email: "", password: "" }} onSubmit={handleSubmit}>
-				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => (
-					<Form
-						noValidate
-						onSubmit={handleSubmit}
-						className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
-					>
-						<h1 className="title mb-5 text-white">Login</h1>
+				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => {
+					const [showPassword, setShowPassword] = useState(false);
 
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="email-icon">
-								<MdAlternateEmail />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Email"
-								aria-label="Email"
-								aria-describedby="email-icon"
-								id="email"
-								type="email"
-								onBlur={handleBlur}
-								value={values.email}
-								onChange={handleChange}
-								isInvalid={touched.email && errors.email}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12 mb-1" hasValidation>
-							<InputGroup.Text id="password-icon">
-								<RiLockPasswordLine />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Password"
-								aria-label="Password"
-								aria-describedby="password-icon"
-								id="password"
-								type="password"
-								onBlur={handleBlur}
-								value={values.password}
-								onChange={handleChange}
-								isInvalid={touched.password && errors.password}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-						</InputGroup>
-
-						<Form.Group controlId="formBasicCheckbox" className="pb-3">
-							<Button
-								className="fst-italic text-decoration-none border-0 bg-transparent p-0 text-white"
-								onClick={() => handleEsqueceuPassword(values.email)}
-							>
-								Esqueceu-se da password?
-							</Button>
-						</Form.Group>
-
-						<Form.Group className="mb-3" controlId="lembrar-password">
-							<Form.Check type="checkbox" label="Lembrar Password" />
-						</Form.Group>
-
-						<Button
-							variant="light"
-							type="submit"
-							className="col-8 rounded-5 mx-auto p-2"
-							disabled={Object.keys(errors).length > 0}
+					return (
+						<Form
+							noValidate
+							onSubmit={handleSubmit}
+							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
 						>
-							Login
-						</Button>
+							<h1 className="title mb-5 text-white">Login</h1>
 
-						<SocialButtons />
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="email-icon">
+									<MdAlternateEmail />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Email"
+									aria-label="Email"
+									aria-describedby="email-icon"
+									id="email"
+									type="email"
+									onBlur={handleBlur}
+									value={values.email}
+									onChange={handleChange}
+									isInvalid={touched.email && errors.email}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+							</InputGroup>
 
-						<Form.Group controlId="formBasicCheckbox" className="mx-auto">
-							<Form.Text className="text-white">
-								Ainda não tem uma conta?{" "}
-								<Link className="text-white" to="/signup">
-									Crie uma
-								</Link>
-							</Form.Text>
-						</Form.Group>
-					</Form>
-				)}
+							<InputGroup className="col-12 mb-1" hasValidation>
+								<InputGroup.Text id="password-icon">
+									<RiLockPasswordLine />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Password"
+									aria-label="Password"
+									aria-describedby="password-icon"
+									id="password"
+									type={showPassword ? "text" : "password"}
+									onBlur={handleBlur}
+									value={values.password}
+									onChange={handleChange}
+									isInvalid={touched.password && errors.password}
+								/>
+								<InputGroup.Text>
+									<Button
+										className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+										onClick={() => setShowPassword((state) => !state)}
+									>
+										{showPassword ? (
+											<AiFillEyeInvisible color="black" size={20} />
+										) : (
+											<AiFillEye color="black" size={20} />
+										)}
+									</Button>
+								</InputGroup.Text>
+								<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+							</InputGroup>
+
+							<Form.Group controlId="formBasicCheckbox" className="pb-3">
+								<Button
+									className="fst-italic text-decoration-none border-0 bg-transparent p-0 text-white"
+									onClick={() => handleEsqueceuPassword(values.email)}
+								>
+									Esqueceu-se da password?
+								</Button>
+							</Form.Group>
+
+							<Form.Group className="mb-3" controlId="lembrar-password">
+								<Form.Check type="checkbox" label="Lembrar Password" />
+							</Form.Group>
+
+							<Button
+								variant="light"
+								type="submit"
+								className="col-8 rounded-5 mx-auto p-2"
+								disabled={Object.keys(errors).length > 0}
+							>
+								Login
+							</Button>
+
+							<SocialButtons />
+
+							<Form.Group controlId="formBasicCheckbox" className="mx-auto">
+								<Form.Text className="text-white">
+									Ainda não tem uma conta?{" "}
+									<Link className="text-white" to="/signup">
+										Crie uma
+									</Link>
+								</Form.Text>
+							</Form.Group>
+						</Form>
+					);
+				}}
 			</Formik>
 		</LoginContainer>
 	);

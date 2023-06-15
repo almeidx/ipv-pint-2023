@@ -66,6 +66,11 @@ export default function Utilizadores() {
 		}
 	}
 
+	/** @param {number} id */
+	async function handleDesativarUser(id) {
+		// TODO: implement
+	}
+
 	return (
 		<Container className="py-4">
 			<h2 className="mb-3">Utilizadores</h2>
@@ -122,7 +127,7 @@ export default function Utilizadores() {
 									</Button>
 								</OverlayTrigger>
 								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Utilizador</Tooltip>}>
-									<Button onClick={() => {}} className="border-0 bg-transparent p-0">
+									<Button onClick={() => handleDesativarUser(id)} className="border-0 bg-transparent p-0">
 										<BiNoEntry size={32} color="red" />
 									</Button>
 								</OverlayTrigger>

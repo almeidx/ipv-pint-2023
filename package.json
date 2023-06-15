@@ -3,6 +3,7 @@
 	"scripts": {
 		"fmt": "pnpm format",
 		"format": "prettier -u --write \"**/*\"",
+		"minisite": "pnpm -C minisite",
 		"server": "pnpm -C server",
 		"web": "pnpm -C web"
 	},

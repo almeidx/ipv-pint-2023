@@ -1,10 +1,10 @@
+const { oneLine } = require("common-tags");
+const { Op } = require("sequelize");
+const { z } = require("zod");
 const { Vaga, Candidatura, sequelize } = require("../database/index.js");
 const { requirePermission, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
-const { Op } = require("sequelize");
-const { stripIndents } = require("common-tags");
-const { z } = require("zod");
 
 const fieldValidations = z.object({
 	amountSlots: z.number().int(),
@@ -50,7 +50,7 @@ module.exports = {
 				"description",
 				"status",
 				[
-					sequelize.literal(stripIndents`
+					sequelize.literal(oneLine`
 						(
 							SELECT CAST(COUNT(*) AS INT)
 							FROM candidaturas

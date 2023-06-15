@@ -38,10 +38,11 @@ function requirePermission(permission) {
 /**
  * @param {import("express").Request} req
  * @param {import("express").Response} res
+ * @param {boolean} [reply=true]
  */
-function checkLoginStandalone(req, res) {
+function checkLoginStandalone(req, res, reply = true) {
 	if (!req.user) {
-		res.status(401).json({ message: "Tem que ter sessão iniciada para acessar esta funcionalidade" });
+		if (reply) res.status(401).json({ message: "Tem que ter sessão iniciada para acessar esta funcionalidade" });
 		return false;
 	}
 
@@ -55,7 +56,7 @@ function checkLoginStandalone(req, res) {
  * @param {boolean} [reply=true]
  */
 function checkPermissionStandalone(req, res, permission, reply = true) {
-	if (!checkLoginStandalone(req, res)) return false;
+	if (!checkLoginStandalone(req, res, reply)) return false;
 
 	const hasPermission = Array.isArray(permission)
 		? !permission.includes(req.user.tipoUtilizador.id)

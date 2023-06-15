@@ -1,8 +1,10 @@
+import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
+import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import { BsPerson } from "@react-icons/all-files/bs/BsPerson";
 import { MdAlternateEmail } from "@react-icons/all-files/md/MdAlternateEmail";
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -93,122 +95,150 @@ export default function SignUp() {
 				initialValues={{ nome: "", apelido: "", email: "", password: "", confirmPassword: "" }}
 				onSubmit={handleSubmit}
 			>
-				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => (
-					<Form
-						noValidate
-						onSubmit={handleSubmit}
-						className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
-					>
-						<h1 className="title mb-5 text-white">Sign up</h1>
+				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => {
+					const [showPassword, setShowPassword] = useState(false);
 
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="nome-icon">
-								<BsPerson />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Nome"
-								aria-label="Nome"
-								aria-describedby="nome-icon"
-								id="nome"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.nome}
-								isInvalid={touched.nome && errors.nome}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.nome}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="apelido-icon">
-								<BsPerson />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Apelido"
-								aria-label="Apelido"
-								aria-describedby="apelido-icon"
-								id="apelido"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.apelido}
-								isInvalid={touched.apelido && errors.apelido}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.apelido}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="email-icon">
-								<MdAlternateEmail />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Email"
-								aria-label="Email"
-								aria-describedby="email-icon"
-								id="email"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.email}
-								isInvalid={touched.email && errors.email}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12 mb-3" hasValidation>
-							<InputGroup.Text id="password-icon">
-								<RiLockPasswordLine />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Password"
-								aria-label="Password"
-								aria-describedby="password-icon"
-								id="password"
-								type="password"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.password}
-								isInvalid={touched.password && errors.password}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-						</InputGroup>
-
-						<InputGroup className="col-12" hasValidation>
-							<InputGroup.Text id="confirmar-password-icon">
-								<RiLockPasswordLine />
-							</InputGroup.Text>
-							<Form.Control
-								placeholder="Confirmar password"
-								aria-label="Confirmar password"
-								aria-describedby="confirmar-password-icon"
-								id="confirmPassword"
-								type="password"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.confirmPassword}
-								isInvalid={touched.confirmPassword && errors.confirmPassword}
-							/>
-							<Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
-						</InputGroup>
-
-						<Button
-							variant="light"
-							type="submit"
-							className="col-8 rounded-5 mx-auto mt-4 p-2"
-							disabled={Object.keys(errors).length > 0}
+					return (
+						<Form
+							noValidate
+							onSubmit={handleSubmit}
+							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
 						>
-							Criar conta
-						</Button>
+							<h1 className="title mb-5 text-white">Sign up</h1>
 
-						<SocialButtons />
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="nome-icon">
+									<BsPerson />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Nome"
+									aria-label="Nome"
+									aria-describedby="nome-icon"
+									id="nome"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.nome}
+									isInvalid={touched.nome && errors.nome}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.nome}</Form.Control.Feedback>
+							</InputGroup>
 
-						<Form.Group controlId="formBasicCheckbox" className="mx-auto">
-							<Form.Text className="text-white">
-								Já tem uma conta?{" "}
-								<Link className="text-white" to="/login">
-									Login
-								</Link>
-							</Form.Text>
-						</Form.Group>
-					</Form>
-				)}
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="apelido-icon">
+									<BsPerson />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Apelido"
+									aria-label="Apelido"
+									aria-describedby="apelido-icon"
+									id="apelido"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.apelido}
+									isInvalid={touched.apelido && errors.apelido}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.apelido}</Form.Control.Feedback>
+							</InputGroup>
+
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="email-icon">
+									<MdAlternateEmail />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Email"
+									aria-label="Email"
+									aria-describedby="email-icon"
+									id="email"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.email}
+									isInvalid={touched.email && errors.email}
+								/>
+								<Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+							</InputGroup>
+
+							<InputGroup className="col-12 mb-3" hasValidation>
+								<InputGroup.Text id="password-icon">
+									<RiLockPasswordLine />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Password"
+									aria-label="Password"
+									aria-describedby="password-icon"
+									id="password"
+									type={showPassword ? "text" : "password"}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.password}
+									isInvalid={touched.password && errors.password}
+								/>
+								<InputGroup.Text>
+									<Button
+										className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+										onClick={() => setShowPassword((state) => !state)}
+									>
+										{showPassword ? (
+											<AiFillEyeInvisible color="black" size={20} />
+										) : (
+											<AiFillEye color="black" size={20} />
+										)}
+									</Button>
+								</InputGroup.Text>
+								<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+							</InputGroup>
+
+							<InputGroup className="col-12" hasValidation>
+								<InputGroup.Text id="confirmar-password-icon">
+									<RiLockPasswordLine />
+								</InputGroup.Text>
+								<Form.Control
+									placeholder="Confirmar password"
+									aria-label="Confirmar password"
+									aria-describedby="confirmar-password-icon"
+									id="confirmPassword"
+									type={showPassword ? "text" : "password"}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.confirmPassword}
+									isInvalid={touched.confirmPassword && errors.confirmPassword}
+								/>
+								<InputGroup.Text>
+									<Button
+										className="d-flex justify-content-center align-items-center border-0 bg-transparent p-0"
+										onClick={() => setShowPassword((state) => !state)}
+									>
+										{showPassword ? (
+											<AiFillEyeInvisible color="black" size={20} />
+										) : (
+											<AiFillEye color="black" size={20} />
+										)}
+									</Button>
+								</InputGroup.Text>
+								<Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+							</InputGroup>
+
+							<Button
+								variant="light"
+								type="submit"
+								className="col-8 rounded-5 mx-auto mt-4 p-2"
+								disabled={Object.keys(errors).length > 0}
+							>
+								Criar conta
+							</Button>
+
+							<SocialButtons />
+
+							<Form.Group controlId="formBasicCheckbox" className="mx-auto">
+								<Form.Text className="text-white">
+									Já tem uma conta?{" "}
+									<Link className="text-white" to="/login">
+										Login
+									</Link>
+								</Form.Text>
+							</Form.Group>
+						</Form>
+					);
+				}}
 			</Formik>
 		</LoginContainer>
 	);
