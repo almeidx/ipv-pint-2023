@@ -21,10 +21,7 @@
                 android:id="@+id/container2"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="432dp"
-                android:background="@drawable/vaga2_rounded"
+                android:background="@color/white"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +87,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="25dp"
                     android:paddingVertical="5dp"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textSize="18dp"
@@ -101,8 +97,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="65dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="85dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -110,10 +107,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/enviar_cv"
-                        android:text="EnviarCV"
+                        android:text="Enviar CV"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:background="@drawable/button_vaga2"
+                        android:textSize="12sp"
+                        />
 
                     <Button
                         android:id="@+id/VagaInscricao"
@@ -121,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_vaga2"
-                        android:text="Inscrever-se"
+                        android:text="Inscrever"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
