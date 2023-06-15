@@ -146,8 +146,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_button"
                     android:backgroundTint="@color/white"
-                    android:text="Apagar"
+                    android:text="Cancelar"
                     android:textColor="@color/white"
+                    android:onClick="cancelarBeneficio10"
                     android:textSize="10dp" />
 
                 <Button

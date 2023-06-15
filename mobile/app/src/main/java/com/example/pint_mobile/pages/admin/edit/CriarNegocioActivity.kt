@@ -28,7 +28,7 @@ import com.example.pint_mobile.utils.listarAreasNegocio
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.properties.Delegates
 
-class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Criar Negócio") {
+class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Criar Oportunidade") {
 
     private lateinit var clientNames: ArrayList<String>
     private lateinit var clienteIds: ArrayList<Int>
@@ -194,5 +194,9 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             necessidades,
             this
         )
+    }
+
+    fun CancelarNovoNegocio(view: View) {
+        finish()
     }
 }

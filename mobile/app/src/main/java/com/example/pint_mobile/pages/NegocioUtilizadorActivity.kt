@@ -18,7 +18,7 @@ import com.example.pint_mobile.utils.NegocioUser
 import com.example.pint_mobile.utils.listaNegociosUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utilizador, "Negócios") {
+class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utilizador, "Oportunidades") {
     private val negociosList = ArrayList<NegocioUser>()
     private val allNegociosList = ArrayList<NegocioUser>()
     private lateinit var negociosAdapter: NegocioAdapter
@@ -111,8 +111,6 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
     }
 
     fun CriarNegocio(view: android.view.View) {
-        val intent = Intent(this, CriarNegocioActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
+        finish()
     }
 }

@@ -1,11 +1,13 @@
 package com.example.pint_mobile.pages.admin.edit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.example.pint_mobile.R
+import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createVaga
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -62,5 +64,9 @@ class CriarVagaActivity : ActivityBase(R.layout.activity_criar_vaga, "Criar Vaga
         }
 
         createVaga(titulo, descricao, numeroVagas.toInt(), publico, statusInt, icon, this)
+    }
+
+    fun cancelarVaga(view: View) {
+        finish()
     }
 }

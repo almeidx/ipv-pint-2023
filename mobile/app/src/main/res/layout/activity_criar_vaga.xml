@@ -171,6 +171,17 @@
                         android:layout_marginLeft="20dp"
                         android:background="@drawable/edit_button"
                         android:backgroundTint="@color/white"
+                        android:onClick="cancelarVaga"
+                        android:text="Cancelar"
+                        android:textColor="@color/white"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/edit_button"
+                        android:backgroundTint="@color/white"
                         android:onClick="criarVaga"
                         android:text="Criar Vaga"
                         android:textColor="@color/white"

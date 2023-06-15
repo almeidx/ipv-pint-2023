@@ -2,6 +2,7 @@ package com.example.pint_mobile.pages
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +77,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     val intent = Intent(view.context, EditNegocioActivity::class.java)
 
                     intent.putExtra("id", negocio.id)
+                    Log.d("id", negocio.id.toString())
                     intent.putExtra("estado", negocio.estado)
                     intent.putExtra("data", negocio.dataFinalizacao)
                     intent.putExtra("funcResponsavel", negocio.FuncionarioEmail)
