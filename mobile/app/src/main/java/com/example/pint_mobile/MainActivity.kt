@@ -45,11 +45,11 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         val barChart = findViewById<BarChart>(R.id.barChart2)
 
         val visitors = ArrayList<BarEntry>()
-        visitors.add(BarEntry(2014f, 420f))
-        visitors.add(BarEntry(2015f, 475f))
-        visitors.add(BarEntry(2016f, 508f))
-        visitors.add(BarEntry(2017f, 660f))
-        visitors.add(BarEntry(2018f, 550f))
+        visitors.add(BarEntry(1f, 420f))
+        visitors.add(BarEntry(2f, 475f))
+        visitors.add(BarEntry(3f, 1508f))
+        visitors.add(BarEntry(4f, 660f))
+        visitors.add(BarEntry(5f, 550f))
 
         val barDataSet = BarDataSet(visitors, "Visitors")
         barDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)

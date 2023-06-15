@@ -39,7 +39,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="Nome da reuniao"
+                    android:hint="Titulo da reuniao"
                     android:orientation="horizontal"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/black"
@@ -54,14 +54,40 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/dataReuniaoEdit"
+                    android:id="@+id/DataReuniaoEdit"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:padding="10dp"
+                    android:text="Data da reuniao"
+                    android:textColor="@color/white"
+                    />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/duracaoReuniao"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
-                    android:text="Selecionar data"
-                    android:textColor="@color/white" />
+                    android:hint="Duracao da reuniao"
+                    android:orientation="horizontal"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/duracaoReuniaoEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/DescricaoReuniao"
@@ -71,7 +97,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="Descricao do negocio"
+                    android:hint="Descricao da reuniao"
                     android:orientation="horizontal"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/black"
@@ -93,7 +119,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="Subject da reuniao"
+                    android:hint="Assunto da reuniao"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,6 +191,7 @@
                         android:backgroundTint="@color/white"
                         android:text="Validar"
                         android:textColor="@color/white"
+                        android:onClick="editarReuniao"
                         android:textSize="10dp" />
                 </LinearLayout>
 

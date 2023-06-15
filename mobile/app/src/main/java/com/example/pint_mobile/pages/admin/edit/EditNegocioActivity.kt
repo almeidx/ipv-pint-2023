@@ -103,7 +103,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             "Concluído"
         )
 
-        idNegocio = intent.getIntExtra("id", 0)
+        idNegocio = intent.getIntExtra("id", -1)
 
         val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
         estado.setText(items[if (getEstado.size == 0) 0 else getEstado.size - 1])
@@ -181,6 +181,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             juntaArray.put(junta)
         }
 
+        Log.i("idNegocio", idNegocio.toString())
         Log.i("juntaArray", juntaArray.toString())
         Log.i("centroTrabalhoId", centroTrabalhoId.toString())
         Log.i("utilizadorId", utilizadorId?.toString() ?: "nada")

@@ -176,4 +176,10 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         }
 
     }
+
+    fun cancelarBeneficio10(_view: View) {
+        val intent = Intent(this, AdminBeneficiosActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
+    }
 }

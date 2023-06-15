@@ -24,7 +24,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="270dp"
             android:layout_height="64dp"
-            android:hint="@string/pesquise_por_negocios"
+            android:hint="@string/pesquise_por_oportunidades"
             app:boxBackgroundColor="@color/white"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"

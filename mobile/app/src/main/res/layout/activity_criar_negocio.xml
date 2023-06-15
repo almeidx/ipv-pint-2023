@@ -230,6 +230,7 @@
 					android:layout_height="wrap_content"
 					android:background="@drawable/edit_button"
 					android:backgroundTint="@color/white"
+					android:onClick="CancelarNovoNegocio"
 					android:text="Cancelar"
 					android:textSize="10dp"
 					android:textColor="@color/white"

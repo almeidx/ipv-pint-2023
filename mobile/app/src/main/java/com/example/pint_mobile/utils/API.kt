@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.CalendarView
 import android.widget.Toast
+import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
@@ -17,6 +18,7 @@ import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
+import com.example.pint_mobile.pages.PerfilActivity
 import com.example.pint_mobile.pages.VagasActivity
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
@@ -31,6 +33,7 @@ import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
+import com.example.pint_mobile.pages.admin.edit.EditarReuniaoActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
 import org.json.JSONArray
 import org.json.JSONException
@@ -1364,6 +1367,101 @@ fun editUser(idUser: Int,  cargo: Int, ctx: Context) {
                 }
 
                 throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun editReuniao(idReuniao: Int,  descricao: String , titulo: String, assunto: String, duracao: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("description", descricao)
+    body.put("title", titulo)
+    body.put("subject", assunto)
+    body.put("duration", duracao)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/reunioes/$idReuniao", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Reunião editada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, EditarReuniaoActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun mudarPasswordPerfil(passwordAntiga: String, passwordNova: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("passwordAtual", passwordAntiga)
+    body.put("newPassword", passwordNova)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/@me/password", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Password alterada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, PerfilActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            if (statusCode == 401) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+                Toast.makeText(ctx, "Password atual incorreta!", Toast.LENGTH_LONG).show()
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw AuthFailureError()
             }
 
             return super.parseNetworkResponse(response)

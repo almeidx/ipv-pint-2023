@@ -165,4 +165,6 @@ class EditNegocioUserActivity : ActivityBase(R.layout.activity_edit_negocio_user
            this
        )
    }
+
+
 }

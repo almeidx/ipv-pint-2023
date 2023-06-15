@@ -77,6 +77,7 @@
     <string name="facebook_app_id">1234</string>
     <string name="facebook_client_token">56789</string>
     <string name="Oportunidades">Oportunidades</string>
-    <string name="Calendário" >Calendário</string>/
+    <string name="Calendário" >Calendário</string>
+    <string name="pesquise_por_oportunidades">pesquise por oportunidades</string>/
 
 </resources>

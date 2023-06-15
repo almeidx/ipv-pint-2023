@@ -80,11 +80,10 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
                 intent.putExtra("nomeReuniao", reuniao.title)
                 intent.putExtra("candidaturaReuniao", reuniao.candidatura)
                 intent.putExtra("subjectReuniao", reuniao.subject)
+                intent.putExtra("duracaoReuniao", reuniao.duration)
 
                 view.context.startActivity(intent)
             }
-
-
             return view
         }
 
@@ -99,11 +98,5 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
         override fun getCount(): Int {
             return reunioes.size
         }
-    }
-
-    fun CriarReuniao (view: View) {
-        val intent = Intent(this, CriarReuniaoActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
     }
 }
