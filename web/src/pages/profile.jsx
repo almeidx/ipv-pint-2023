@@ -19,6 +19,7 @@ import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
+import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const changePasswordFormSchema = object().shape({
 	passwordAtual: string().required("Password é obrigatória"),
@@ -470,7 +471,7 @@ function AlterarPasswordModal({ show, onHide, showToastWithMessage }) {
 									onClick={handleSubmit}
 									type="button"
 									variant="success"
-									disabled={Object.keys(errors).length > 0}
+									disabled={formikButtonDisabled(errors, touched)}
 								>
 									Alterar
 								</Button>

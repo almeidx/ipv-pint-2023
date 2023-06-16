@@ -25,13 +25,7 @@ import { fetcher } from "../utils/fetcher.js";
 import { resolveNameOfNextEstado } from "../utils/negocios.js";
 import { Formik } from "formik";
 import { number, object, ref, string } from "yup";
-
-const createNegocioSchema = object().shape({
-	title: string().required("O titulo é obrigatório").max(100, "Máximo de 100 caracteres"),
-	description: string().required("A descrição é obrigatória").max(1_000, "Máximo de 1000 caracteres"),
-	idAreaNegocio: number().required("A área de negócio é obrigatória"),
-	idCliente: number().required("O cliente é obrigatório"),
-});
+import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const createClientSchema = object().shape({
 	name: string().required("O nome é obrigatório").max(100, "Máximo de 100 caracteres"),
@@ -291,6 +285,7 @@ export default function Negocios() {
  * @param {string} props.title
  * @param {string} props.description
  * @param {{ id: number; name: string }} props.areaNegocio
+ * @param {{ id: number; name: string }} props.tipoProjeto
  * @param {{ idContacto: number; contacto: { type: 0 | 1; value: string } }[]} props.contactos
  * @param {{ id: number; name: string }?} props.centroTrabalho
  * @param {{ id: number; name: string }} props.cliente
@@ -299,7 +294,8 @@ export default function Negocios() {
  * @param {(data: any) => void} props.onEditClick
  */
 function Negocio({ onEditClick, ...negocio }) {
-	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, necessidades, estados } = negocio;
+	const { title, description, areaNegocio, contactos, centroTrabalho, cliente, necessidades, estados, tipoProjeto } =
+		negocio;
 
 	const estado = estados.at(-1);
 	const estadoAtual = resolveNameOfNextEstado(estado);
@@ -307,37 +303,36 @@ function Negocio({ onEditClick, ...negocio }) {
 	return (
 		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
 			<Card.Body>
-				<Card.Title className="title d-flex justify-content-between my-2" style={{ fontSize: "1.4rem" }}>
+				<Card.Title className="title d-flex justify-content-between" style={{ fontSize: "1.4rem" }}>
 					{title}
 
 					{estados.length === 0 ? (
 						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
-								<RiPencilLine size={26} color="black" />
+								<RiPencilLine size={24} color="black" />
 							</Button>
 						</OverlayTrigger>
 					) : null}
 				</Card.Title>
 
-				<hr />
+				<hr className="my-2" />
 
-				<Card.Text className="mb-2">
-					<span className="fw-bold">{areaNegocio.name}</span>: {description}
+				<Card.Text style={{ marginBottom: "0.375rem" }}>{description}</Card.Text>
+
+				<Card.Text style={{ marginBottom: "0.375rem" }}>
+					<span className="fw-bold">{areaNegocio.name}: </span> {tipoProjeto.name}
 				</Card.Text>
 
-				<Card.Text className="mb-2">
-					{" "}
+				<Card.Text style={{ marginBottom: "0.375rem" }}>
 					<span className="fw-bold">Cliente: </span> {cliente.name}
 				</Card.Text>
 
-				<Card.Text className="mb-2">
-					{" "}
+				<Card.Text style={{ marginBottom: "0.375rem" }}>
 					<span className="fw-bold">Estado: </span> {estadoAtual.name}
 				</Card.Text>
 
 				{centroTrabalho ? (
-					<Card.Text className="mb-2">
-						{" "}
+					<Card.Text style={{ marginBottom: "0.375rem" }}>
 						<span className="fw-bold">Centro de Trabalho: </span> {centroTrabalho.name}
 					</Card.Text>
 				) : null}
@@ -346,7 +341,7 @@ function Negocio({ onEditClick, ...negocio }) {
 					<>
 						<span className="fw-bold">Necessidades:</span>
 
-						<ul className="mb-2">
+						<ul style={{ marginBottom: "0.375rem" }}>
 							{necessidades.map(({ id, name }) => (
 								<li key={`necessidade-${negocio.id}-${id}`}>{name}</li>
 							))}
@@ -358,7 +353,7 @@ function Negocio({ onEditClick, ...negocio }) {
 					<>
 						<span className="fw-bold">Contactos:</span>
 
-						<ul className="mb-2">
+						<ul style={{ marginBottom: "0.375rem" }}>
 							{contactos.map(({ idContacto, contacto }) => (
 								<li key={idContacto}>
 									<a
@@ -471,6 +466,7 @@ function CreateOrEditNegocioModal({
 	}
 
 	// TODO: Contactos criados não estão a aparecer na lista (qnd é só 1?)
+	// TODO: add tipo projeto
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
@@ -715,7 +711,7 @@ function CreateClientModal({ show, onHide, onSave }) {
 									onHide();
 								}}
 								variant="success"
-								disabled={Object.keys(errors).length > 0}
+								disabled={formikButtonDisabled(errors, touched)}
 							>
 								Criar
 							</Button>
@@ -794,7 +790,12 @@ function CreateContactoModal({ idCliente, show, onHide, onSave }) {
 						</Modal.Body>
 
 						<Modal.Footer>
-							<Button onClick={handleSubmit} variant="success" type="submit" disabled={Object.keys(errors).length > 0}>
+							<Button
+								onClick={handleSubmit}
+								variant="success"
+								type="submit"
+								disabled={formikButtonDisabled(errors, touched)}
+							>
 								Criar
 							</Button>
 

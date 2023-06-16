@@ -14,6 +14,7 @@ import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
+import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const schema = object().shape({
 	email: string().email("Email inválido").required("Email é obrigatório"),
@@ -175,7 +176,7 @@ export default function Login() {
 								variant="light"
 								type="submit"
 								className="col-8 rounded-5 mx-auto p-2"
-								disabled={Object.keys(errors).length > 0}
+								disabled={formikButtonDisabled(errors, touched)}
 							>
 								Login
 							</Button>

@@ -34,21 +34,25 @@ export default function Negocios() {
 	const [negocioData, setNegocioData] = useState(null);
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
 	const [idNegocio, setIdNegocio] = useState(null);
+	const [sortMethod, setSortMethod] = useState("titleAsc");
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/negocios?admin`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 
 	const filtered = useMemo(
 		() =>
-			(data ?? []).filter(
-				({ title, description, criador, areaNegocio, cliente }) =>
-					title.toLowerCase().includes(search.toLowerCase()) ||
-					description.toLowerCase().includes(search.toLowerCase()) ||
-					criador.name.toLowerCase().includes(search.toLowerCase()) ||
-					areaNegocio.name.toLowerCase().includes(search.toLowerCase()) ||
-					cliente.name.toLowerCase().includes(search.toLowerCase()),
-			),
-		[data, search],
+			(data ?? [])
+				.filter(
+					({ title, description, criador, areaNegocio, cliente, tipoProjeto }) =>
+						title.toLowerCase().includes(search.toLowerCase()) ||
+						description.toLowerCase().includes(search.toLowerCase()) ||
+						criador.name.toLowerCase().includes(search.toLowerCase()) ||
+						areaNegocio.name.toLowerCase().includes(search.toLowerCase()) ||
+						tipoProjeto.name.toLowerCase().includes(search.toLowerCase()) ||
+						cliente.name.toLowerCase().includes(search.toLowerCase()),
+				)
+				.sort(sortWrapper(sortMethod)),
+		[data, search, sortMethod],
 	);
 
 	if (error) {
@@ -101,13 +105,11 @@ export default function Negocios() {
 
 	async function handleCreateReuniao(data) {
 		try {
-			const body = { ...data, idNegocio };
-
 			const response = await fetch(`${API_URL}/reunioes`, {
 				credentials: "include",
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(body),
+				body: JSON.stringify({ ...data, idNegocio }),
 			});
 
 			if (!response.ok) {
@@ -152,7 +154,22 @@ export default function Negocios() {
 				user={user}
 			/>
 
-			<SearchBar placeholder="Pesquise por negócios..." onSearch={(value) => setSearch(value)} />
+			<div className="d-flex w-100 gap-3">
+				<div className="w-100">
+					<SearchBar placeholder="Pesquise por negócios..." onSearch={(value) => setSearch(value)} />
+				</div>
+
+				<div className="w-25">
+					<FormSelect value={sortMethod} onChange={(e) => setSortMethod(e.target.value)}>
+						<option value="titleAsc">Titulo (ascendente)</option>
+						<option value="titleDesc">Titulo (descendente)</option>
+						<option value="dataCriacaoAsc">Data criação (ascendente)</option>
+						<option value="dataCriacaoDesc">Data criação (descendente)</option>
+						<option value="areaNegocio">Área de negócio</option>
+						<option value="estado">Estado</option>
+					</FormSelect>
+				</div>
+			</div>
 
 			<ListGroup>
 				{isLoading ? (
@@ -172,12 +189,13 @@ export default function Negocios() {
 							createdAt,
 							estados,
 							necessidades,
+							tipoProjeto,
 						}) => (
 							<ListGroup.Item className="d-flex align-items-center" key={id}>
 								<div className="col-12">
 									<div className="d-flex align-items-center mb-2">
 										<span className="fw-bold" style={{ fontSize: "1.2rem" }}>
-											{id} - {title}: &nbsp;
+											{title}: &nbsp;
 										</span>
 
 										{description}
@@ -193,6 +211,10 @@ export default function Negocios() {
 
 											<p className="mb-0">
 												<span className="fw-bold">Area:</span> {areaNegocio.name}
+											</p>
+
+											<p className="mb-0">
+												<span className="fw-bold">Tipo de Projeto:</span> {tipoProjeto.name}
 											</p>
 
 											<p className="mb-0">
@@ -285,7 +307,7 @@ export default function Negocios() {
 									</div>
 
 									<p className="mb-0 mt-2" style={{ fontSize: "0.85rem" }}>
-										{formatDate(new Date(createdAt))}
+										ID: {id} • {formatDate(new Date(createdAt))}
 									</p>
 								</div>
 							</ListGroup.Item>
@@ -463,4 +485,24 @@ function Progresso({ estados }) {
 			))}
 		</ProgressBar>
 	);
+}
+
+/** @param {"dataCriacaoAsc"|"dataCriacaoDesc"|"areaNegocio"|"estado"|"titleAsc"|"titleDesc"} method */
+function sortWrapper(method) {
+	switch (method) {
+		case "areaNegocio":
+			return (a, b) => a.areaNegocio.name.localeCompare(b.areaNegocio.name);
+		case "estado":
+			return (a, b) => (a.estados.at(-1)?.estado ?? 0) - (b.estados.at(-1)?.estado ?? 0);
+		case "titleAsc":
+			return (a, b) => a.title.localeCompare(b.title);
+		case "titleDesc":
+			return (a, b) => b.title.localeCompare(a.title);
+		case "dataCriacaoAsc":
+			return (a, b) => new Date(a.dataCriacao) - new Date(b.dataCriacao);
+		case "dataCriacaoDesc":
+			return (a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao);
+		default:
+			return () => 0;
+	}
 }

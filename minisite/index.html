@@ -6,7 +6,14 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>Demonstração Softinsa</title>
 
-		<link rel="stylesheet" href="/globals.css" />
+		<style>
+			body {
+				text-rendering: optimizeLegibility;
+			}
+		</style>
+
+		<!-- <link rel="stylesheet" href="/globals.css" /> -->
+		<script src="https://cdn.tailwindcss.com"></script>
 	</head>
 
 	<body
@@ -14,10 +21,13 @@
 	>
 		<div id="top" class="invisible h-0 w-0"></div>
 
-		<nav class="fixed inset-x-0 top-0 flex items-center justify-between bg-[#3f51b5] px-5 text-2xl text-white">
+		<nav
+			class="fixed inset-x-0 top-0 z-10 flex items-center justify-between bg-[#3f51b5] px-5 py-3 text-2xl text-white"
+		>
 			<a href="#top">
 				<img src="logo.svg" alt="" />
 			</a>
+
 			<ul class="flex gap-6">
 				<li><a class="hover:text-blue-200" href="#top">Home</a></li>
 				<li><a class="hover:text-blue-200" href="#video">Video</a></li>
@@ -25,30 +35,50 @@
 			</ul>
 		</nav>
 
-		<div class="max-w-7xl">
-			<h2 class="mx-auto mt-4 flex items-center justify-center text-xl font-bold" id="video">
-				Video de demonstração do projeto
-			</h2>
+		<div
+			class="mt-6 flex h-[calc(100vh-1.5rem)] bg-[url('https://static.vecteezy.com/system/resources/previews/006/430/145/original/technology-background-concept-circuit-board-electronic-system-futuristic-hi-tech-light-on-dark-blue-free-vector.jpg')]"
+		>
+			<div class="flex flex-col gap-9 ps-10 pt-28 backdrop-brightness-50">
+				<h2 class="pt-16 font-mono text-4xl font-bold text-white subpixel-antialiased">SOFTINSA APP</h2>
 
-			<iframe
-				class="mx-auto my-4 aspect-video"
-				width="1240"
-				src="https://www.youtube.com/embed/B7IZMb7VOtU"
-				title="IVANDRO - Chakras ft. Julinho KSD"
-				frameborder="0"
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-				allowfullscreen
-			></iframe>
+				<div class="flex flex-col gap-6 text-slate-50">
+					<p class="pe-20 tracking-wider">
+						Apresentamos nossa solução integrada para o engajamento empresarial, que visa aproximar empresas de seus
+						clientes e colaboradores de forma colaborativa.
+					</p>
+					<p class="pe-20 tracking-wider">
+						Com recursos que abrangem informações básicas da empresa, oportunidades de negócios, gestão de
+						relacionamento com clientes, ofertas de emprego, benefícios para colaboradores e um canal de ideias, nossa
+						solução promove a evolução contínua da empresa, crescimento das equipes e conexões sólidas com sua rede de
+						colaboradores e clientes.
+					</p>
+					<p class="pe-20 tracking-wider">
+						Simplificamos processos e proporcionamos uma abordagem ágil para impulsionar o sucesso organizacional.
+					</p>
+				</div>
 
-			<div class="">
-				<a
-					class="rounded-lg bg-red-500 px-3 py-2 text-white"
-					href="https://softinsa.almeidx.dev/login"
-					target="_blank"
-					rel="external noopener noreferrer"
-				>
-					Login
-				</a>
+				<div class="">
+					<a
+						class="rounded-lg bg-red-500 px-3 py-2 text-white"
+						href="https://softinsa.almeidx.de	v/login"
+						target="_blank"
+						rel="external noopener noreferrer"
+					>
+						Login
+					</a>
+				</div>
+			</div>
+
+			<div class="flex flex-col items-center justify-center pe-10 backdrop-brightness-50">
+				<iframe
+					class="mx-auto aspect-video"
+					width="1240"
+					src="https://www.youtube.com/embed/B7IZMb7VOtU"
+					title="IVANDRO - Chakras ft. Julinho KSD"
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen
+				></iframe>
 			</div>
 		</div>
 		<script type="module" src="/main.js"></script>

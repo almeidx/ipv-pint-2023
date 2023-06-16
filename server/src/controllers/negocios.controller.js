@@ -9,6 +9,7 @@ const {
 	EstadoNegocio,
 	sequelize,
 	NecessidadeNegocio,
+	TipoProjeto,
 } = require("../database/index.js");
 const { requireLogin, checkPermissionStandalone } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
@@ -20,6 +21,7 @@ const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 const fieldValidations = z.object({
 	idAreaNegocio: z.number().int(),
 	idCliente: z.number().int(),
+	idTipoProjeto: z.number().int(),
 	description: z.string().min(1).max(200),
 	title: z.string().min(1).max(100),
 	contactos: z.array(z.number().int()).min(1).max(5),
@@ -33,7 +35,8 @@ module.exports = {
 		validate(fieldValidations),
 
 		async (req, res) => {
-			const { idAreaNegocio, idCliente, idCentroTrabalho, description, title, contactos, necessidades } = req.body;
+			const { idAreaNegocio, idCliente, idCentroTrabalho, idTipoProjeto, description, title, contactos, necessidades } =
+				req.body;
 
 			try {
 				await sequelize.transaction(async (transaction) => {
@@ -43,6 +46,7 @@ module.exports = {
 							idAreaNegocio,
 							idCliente,
 							idCentroTrabalho,
+							idTipoProjeto,
 							description,
 							title,
 						},
@@ -123,6 +127,11 @@ module.exports = {
 						as: "necessidades",
 						attributes: ["id", "name"],
 					},
+					{
+						model: TipoProjeto,
+						as: "tipoProjeto",
+						attributes: ["id", "name"],
+					},
 				],
 				order: [["id", "ASC"]],
 			};
@@ -185,6 +194,7 @@ module.exports = {
 				idCliente,
 				idCentroTrabalho,
 				idFuncionarioResponsavel,
+				idTipoProjeto,
 				description,
 				title,
 				contactos,
@@ -237,6 +247,7 @@ module.exports = {
 			if (idCliente !== undefined && idCliente !== negocio.idCliente) update.idCliente = idCliente;
 			if (idCentroTrabalho !== undefined && idCentroTrabalho !== negocio.idCentroTrabalho)
 				update.idCentroTrabalho = idCentroTrabalho;
+			if (idTipoProjeto !== undefined && idTipoProjeto !== negocio.idTipoProjeto) update.idTipoProjeto = idTipoProjeto;
 			if (idFuncionarioResponsavel !== undefined && idFuncionarioResponsavel !== negocio.idFuncionarioResponsavel)
 				update.idFuncionarioResponsavel = idFuncionarioResponsavel;
 			if (description && description !== negocio.description) update.description = description;

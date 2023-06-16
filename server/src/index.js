@@ -89,9 +89,7 @@ app
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	// await sequelize.sync({
-	// 	alter: true,
-	// });
+	// await sequelize.sync();
 
 	const PORT = process.env.PORT || 3333;
 

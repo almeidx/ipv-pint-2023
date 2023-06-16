@@ -3,11 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import { useSearchParams } from "react-router-dom";
 import { ErrorBase } from "../../components/ErrorBase.jsx";
 import { Page } from "../../components/Page.jsx";
-import { Spinner } from "../../components/Spinner.jsx";
 import { useUser } from "../../contexts/UserContext.jsx";
-import { hasPermission, isColaborador } from "../../utils/permissions.js";
 import { TipoUtilizadorEnum } from "../../utils/TipoUtilizadorEnum.js";
+import { hasPermission, isColaborador } from "../../utils/permissions.js";
 
+const AreasNegocio = lazy(() => import("./areas-negocio.jsx"));
 const Beneficios = lazy(() => import("./beneficios.jsx"));
 const Candidaturas = lazy(() => import("./candidaturas.jsx"));
 const Ideias = lazy(() => import("./ideias.jsx"));
@@ -18,6 +18,7 @@ const Utilizadores = lazy(() => import("./utilizadores.jsx"));
 const Vagas = lazy(() => import("./vagas.jsx"));
 
 const sections = [
+	{ name: "Áreas de Negócio", link: "areas-negocio", permission: TipoUtilizadorEnum.GestorNegocios },
 	{ name: "Benefícios", link: "beneficios", permission: TipoUtilizadorEnum.GestorConteudos },
 	{ name: "Candidaturas", link: "candidaturas", permission: TipoUtilizadorEnum.GestorRecursosHumanos },
 	{ name: "Ideias", link: "ideias", permission: TipoUtilizadorEnum.GestorIdeias },
@@ -85,14 +86,10 @@ export default function Admin() {
 			</div>
 
 			<div className="w-100" style={{ height: "calc(100vh - 5rem)", overflowY: "scroll" }}>
-				<Suspense
-					fallback={
-						<div className="min-h-screen-no-footer flex items-center justify-center p-5">
-							<Spinner />
-						</div>
-					}
-				>
-					{section === "candidaturas" ? (
+				<Suspense fallback={<div className="min-h-screen-no-footer flex items-center justify-center p-5"> </div>}>
+					{section === "areas-negocio" ? (
+						<AreasNegocio />
+					) : section === "candidaturas" ? (
 						<Candidaturas />
 					) : section === "ideias" ? (
 						<Ideias />

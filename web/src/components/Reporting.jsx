@@ -1,4 +1,5 @@
 import {
+	ArcElement,
 	BarElement,
 	CategoryScale,
 	Chart as ChartJS,
@@ -13,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { Bar, Line } from "react-chartjs-2";
+import { Line, Pie } from "react-chartjs-2";
 import useSWR from "swr";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
@@ -21,7 +22,7 @@ import { estadosNames } from "../utils/negocios.js";
 import { roundRect } from "../utils/roundRect.js";
 import { Spinner } from "./Spinner.jsx";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip);
+ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip);
 
 /** @type {import("chart.js").Plugin[]} */
 const chartPlugins = [
@@ -76,7 +77,7 @@ export function Reporting() {
 	return (
 		<Container className="">
 			{isLoading ? (
-				<Row className="mx-auto px-4 py-5" style={{ gap: "2rem" }}>
+				<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
 					<Skeleton />
 					<Skeleton />
 					<Skeleton />
@@ -87,7 +88,7 @@ export function Reporting() {
 				</Row>
 			) : (
 				<>
-					<Row className="mx-auto px-4 py-5" style={{ gap: "2rem" }}>
+					<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
 						{Object.entries(sorted).map(([key, data]) => (
 							<ReportingCard
 								key={key}
@@ -98,34 +99,22 @@ export function Reporting() {
 						))}
 					</Row>
 
-					<Row className="mx-auto px-4 py-3" style={{ gap: "0.8rem" }}>
-						<Col>{"porMes" in sorted.negócios ? <NegociosPorMesChart data={sorted.negócios.porMes} /> : null}</Col>
+					{"porMes" in sorted.negócios ? (
+						<Row className="mx-auto py-3" style={{ gap: "0.5rem" }}>
+							<h2 className="text-white">Gestão de negócios:</h2>
 
-						<Col>
-							{"volumeEstados" in sorted.negócios ? (
+							<Col>
+								<NegociosPorMesChart data={sorted.negócios.porMes} />
+							</Col>
+
+							<Col style={{ maxHeight: "19.5rem" }}>
 								<VolumeNegociosPorEstadoChart data={sorted.negócios.volumeEstados} />
-							) : null}
-						</Col>
-					</Row>
+							</Col>
+						</Row>
+					) : null}
 				</>
 			)}
 		</Container>
-	);
-}
-
-function Skeleton() {
-	return (
-		<Col sm={3} className="rounded-3 bg-white px-4 py-3" style={{ width: "18rem" }}>
-			<span className="d-flex justify-content-between">
-				<p className="fw-bold mb-0">A carregar...</p>
-
-				<Button variant="secondary" size="sm" disabled>
-					{Interval[Interval.Total]}
-				</Button>
-			</span>
-
-			<Spinner size="sm" />
-		</Col>
 	);
 }
 
@@ -178,7 +167,11 @@ function VolumeNegociosPorEstadoChart({ data }) {
 	);
 
 	return (
-		<Bar options={getChartOptions("Volume de negócios por estado")} data={negociosChartData} plugins={chartPlugins} />
+		<Pie
+			options={getChartOptions("Volume de negócios por estado", false)}
+			data={negociosChartData}
+			plugins={chartPlugins}
+		/>
 	);
 }
 
@@ -204,6 +197,22 @@ function NegociosPorMesChart({ data }) {
 	return <Line options={getChartOptions("Negócios criados por mês")} data={negociosChartData} plugins={chartPlugins} />;
 }
 
+function Skeleton() {
+	return (
+		<Col sm={3} className="rounded-3 bg-white px-4 py-3" style={{ width: "18rem" }}>
+			<span className="d-flex justify-content-between">
+				<p className="fw-bold mb-0">A carregar...</p>
+
+				<Button variant="secondary" size="sm" disabled>
+					{Interval[Interval.Total]}
+				</Button>
+			</span>
+
+			<Spinner size="sm" />
+		</Col>
+	);
+}
+
 /** @param {Interval} current */
 function advancedInterval(current) {
 	switch (current) {
@@ -218,6 +227,7 @@ function advancedInterval(current) {
 	}
 }
 
+/** @param {string} str */
 function firstLetterUppercase(str) {
 	return str[0].toUpperCase() + str.slice(1);
 }
@@ -226,7 +236,7 @@ function firstLetterUppercase(str) {
  * @param {string} title
  * @return {import("chart.js").ChartOptions}
  */
-function getChartOptions(title) {
+function getChartOptions(title, withScales = true) {
 	return {
 		responsive: true,
 		plugins: {
@@ -243,15 +253,17 @@ function getChartOptions(title) {
 				color: "white",
 			},
 		},
-		scales: {
-			x: {
-				axis: "x",
-				ticks: { color: "black" },
-			},
-			y: {
-				axis: "y",
-				ticks: { color: "black" },
-			},
-		},
+		scales: withScales
+			? {
+					x: {
+						axis: "x",
+						ticks: { color: "black" },
+					},
+					y: {
+						axis: "y",
+						ticks: { color: "black" },
+					},
+			  }
+			: undefined,
 	};
 }

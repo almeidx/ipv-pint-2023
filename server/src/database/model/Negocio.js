@@ -25,7 +25,6 @@ create table NEGOCIOS (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
-const AreaNegocio = require("./AreaNegocio.js");
 const CentroTrabalho = require("./CentroTrabalho.js");
 const Cliente = require("./Cliente.js");
 const Utilizador = require("./Utilizador.js");
@@ -44,44 +43,24 @@ const Negocio = sequelize.define(
 			type: DataTypes.INTEGER,
 			field: "ID_AREA_NEGOCIO",
 			allowNull: false,
-			// references: {
-			// 	model: "area_de_negocio",
-			// 	key: "id",
-			// },
 		},
 		idUser: {
 			type: DataTypes.INTEGER,
 			field: "ID_USER",
 			allowNull: false,
-			// references: {
-			// 	model: "utilizadores",
-			// 	key: "id",
-			// },
 		},
 		idFuncionarioResponsavel: {
 			type: DataTypes.INTEGER,
 			field: "UTI_ID_USER",
-			// references: {
-			// 	model: "utilizadores",
-			// 	key: "id",
-			// },
 		},
 		idCliente: {
 			type: DataTypes.INTEGER,
 			field: "ID_CLIENTE",
 			allowNull: false,
-			// references: {
-			// 	model: "clientes",
-			// 	key: "id",
-			// },
 		},
 		idCentroTrabalho: {
 			type: DataTypes.INTEGER,
 			field: "ID_CENTRO_TRABALHO",
-			// references: {
-			// 	model: "centros_de_trabalho",
-			// 	key: "id",
-			// },
 		},
 		description: {
 			type: DataTypes.STRING(1_000),
@@ -99,11 +78,15 @@ const Negocio = sequelize.define(
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 		},
+		idTipoProjeto: {
+			type: DataTypes.INTEGER,
+			field: "ID_TIPO_PROJETO",
+			allowNull: false,
+		},
 	},
 	{ timestamps: false },
 );
 
-Negocio.hasOne(AreaNegocio, { sourceKey: "idAreaNegocio", foreignKey: "id", as: "areaNegocio" });
 Negocio.belongsTo(Cliente, { foreignKey: "idCliente", as: "cliente" });
 Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id", as: "centroTrabalho" });
 

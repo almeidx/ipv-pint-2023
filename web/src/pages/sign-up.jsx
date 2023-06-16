@@ -15,6 +15,7 @@ import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
 import { useQuery } from "../hooks/useQuery.jsx";
 import { API_URL } from "../utils/constants.js";
+import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const schema = object().shape({
 	nome: string().required("Nome é obrigatório"),
@@ -221,7 +222,7 @@ export default function SignUp() {
 								variant="light"
 								type="submit"
 								className="col-8 rounded-5 mx-auto mt-4 p-2"
-								disabled={Object.keys(errors).length > 0}
+								disabled={formikButtonDisabled(errors, touched)}
 							>
 								Criar conta
 							</Button>
