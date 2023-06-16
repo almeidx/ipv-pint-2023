@@ -228,10 +228,15 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
                 rawUser.getString("name"),
                 rawUser.getString("email"),
                 rawUser.getString("lastLoginDate"),
-                TipoUtilizador(
-                    tipoUser.getInt("id"),
-                    tipoUser.getString("name")
-                ),
+                //erro: 'when' expression must be exhaustive, add necessary 'else' branch
+                when (tipoUser.getInt("id")) {
+                    1 -> TipoUtilizadorEnum.Utilizador
+                    2 -> TipoUtilizadorEnum.GestorIdeias
+                    3 -> TipoUtilizadorEnum.GestorRecursosHumanos
+                    4 -> TipoUtilizadorEnum.GestorNegocios
+                    5 -> TipoUtilizadorEnum.GestorConteudos
+                    6 -> TipoUtilizadorEnum.Administrador
+                },
                 rawUser.getBoolean("disabled")
             )
             list.add(user)
