@@ -61,13 +61,16 @@ const Interval = {
 	total: "Total",
 };
 
+const reportingPublicKeys = ["benefícios", "utilizadores", "ideias", "negócios", "vagas"];
+
 export function Reporting() {
 	const { data: reportingData, isLoading } = useSWR(`${API_URL}/reporting`, fetcher);
 
-	const sorted = useMemo(
+	const publicSorted = useMemo(
 		() =>
 			reportingData
 				? Object.entries(reportingData)
+						.filter(([key]) => reportingPublicKeys.includes(key))
 						.sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
 						.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 				: null,
@@ -88,8 +91,9 @@ export function Reporting() {
 				</Row>
 			) : (
 				<>
+					{/* Global */}
 					<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
-						{Object.entries(sorted).map(([key, data]) => (
+						{Object.entries(publicSorted).map(([key, data]) => (
 							<ReportingCard
 								key={key}
 								title={key}
@@ -99,18 +103,139 @@ export function Reporting() {
 						))}
 					</Row>
 
-					{"porMes" in sorted.negócios ? (
-						<Row className="mx-auto py-3" style={{ gap: "0.5rem" }}>
-							<h2 className="text-white">Gestão de negócios:</h2>
+					{/* Gestor de Negócios */}
+					{"porMes" in reportingData.negócios ? (
+						<>
+							<h2 className="my-3 text-white">Gestão de negócios</h2>
 
-							<Col>
-								<NegociosPorMesChart data={sorted.negócios.porMes} />
-							</Col>
+							<Row className="mx-auto mb-4 ms-2" style={{ gap: "2rem" }}>
+								<ReportingCard
+									title="Negócios associados a si"
+									onIntervalChange={() => reportingData.negócios.managed}
+									isLoading={isLoading}
+									withButton={false}
+								/>
+							</Row>
 
-							<Col style={{ maxHeight: "19.5rem" }}>
-								<VolumeNegociosPorEstadoChart data={sorted.negócios.volumeEstados} />
-							</Col>
-						</Row>
+							<Row className="mx-auto mb-4">
+								<Col md={6}>
+									<PorMesChart
+										data={reportingData.negócios.porMes}
+										title="Negócios criados por mês"
+										label="Número de negócios"
+									/>
+								</Col>
+
+								<Col style={{ maxHeight: "19.5rem" }}>
+									<VolumeChart
+										data={reportingData.negócios.volumeEstados}
+										label="Número de negócios"
+										title="Negócios por estado"
+										getLabels={(data) =>
+											data?.labels.map(
+												/** @param {number} estado */ (estado) => estadosNames[estado]?.name ?? "Desconhecido",
+											)
+										}
+										getColors={(data) => data?.data.map((_, i) => estadosNames[i]?.color ?? "#000")}
+									/>
+								</Col>
+
+								<Col style={{ maxHeight: "19.5rem" }}>
+									<VolumeChart
+										data={reportingData.negócios.volumeTiposProjeto}
+										label="Número de negócios"
+										title="Negócios por tipo de projeto"
+									/>
+								</Col>
+							</Row>
+						</>
+					) : null}
+
+					{/* Gestor de Ideias */}
+					{"porMes" in reportingData.ideias ? (
+						<>
+							<h2 className="my-3 text-white">Gestão de ideias</h2>
+
+							<Row className="mx-auto mb-4 ms-2" style={{ gap: "2rem" }}>
+								<ReportingCard
+									title="Ideias validadas"
+									onIntervalChange={() => reportingData.ideias.validadas}
+									isLoading={isLoading}
+									withButton={false}
+								/>
+							</Row>
+
+							<Row className="mx-auto mb-4">
+								<Col>
+									<PorMesChart
+										data={reportingData.ideias.porMes}
+										title="Ideias enviadas por mês"
+										label="Número de ideias"
+									/>
+								</Col>
+
+								<Col style={{ maxHeight: "19.5rem" }}>
+									<VolumeChart
+										data={reportingData.ideias.volumeCategorias}
+										title="Ideias por categoria"
+										label="Número de ideias"
+									/>
+								</Col>
+							</Row>
+						</>
+					) : null}
+
+					{/* Gestor de Recursos Humanos */}
+					{"candidaturas" in reportingData ? (
+						<>
+							<h2 className="my-3 text-white">Gestão de recursos humanos</h2>
+
+							<Row className="mx-auto mb-4 ms-2" style={{ gap: "2rem" }}>
+								<ReportingCard
+									title="Candidaturas"
+									onIntervalChange={(interval) => reportingData.candidaturas[interval]}
+									isLoading={isLoading}
+								/>
+								<ReportingCard
+									title="Reuniões"
+									onIntervalChange={(interval) => reportingData.reuniões[interval]}
+									isLoading={isLoading}
+								/>
+							</Row>
+
+							<Row className="mx-auto mb-4">
+								<Col>
+									<PorMesChart
+										data={reportingData.candidaturas.porMes}
+										title="Candidaturas submetidas por mês"
+										label="Número de candidaturas"
+									/>
+								</Col>
+
+								<Col>
+									<PorMesChart
+										data={reportingData.reuniões.porMes}
+										title="Reuniões por mês"
+										label="Número de reuniões"
+									/>
+								</Col>
+							</Row>
+						</>
+					) : null}
+
+					{/* Gestor de Conteúdos */}
+					{"mensagens" in reportingData ? (
+						<>
+							<h2 className="my-3 text-white">Gestão de conteúdos</h2>
+
+							<Row className="mx-auto mb-4 ms-2" style={{ gap: "2rem" }}>
+								<ReportingCard
+									title="Mensagens"
+									onIntervalChange={(interval) => reportingData.mensagens[interval]}
+									isLoading={isLoading}
+								/>
+							</Row>
+						</>
 					) : null}
 				</>
 			)}
@@ -123,8 +248,9 @@ export function Reporting() {
  * @param {string} props.title
  * @param {(interval: Interval) => number} props.onIntervalChange
  * @param {boolean} props.isLoading
+ * @param {boolean} [props.withButton=true]
  */
-function ReportingCard({ title, onIntervalChange, isLoading }) {
+function ReportingCard({ title, onIntervalChange, isLoading, withButton = true }) {
 	const [currentInterval, setCurrentInterval] = useState(Interval.Total);
 	const [value, setValue] = useState(onIntervalChange(currentInterval));
 
@@ -140,9 +266,11 @@ function ReportingCard({ title, onIntervalChange, isLoading }) {
 			<span className="d-flex justify-content-between">
 				<p className="fw-bold mb-0">{firstLetterUppercase(title)}</p>
 
-				<Button variant="secondary" onClick={handleIntervalChange} size="sm">
-					{Interval[currentInterval]}
-				</Button>
+				{withButton ? (
+					<Button variant="secondary" onClick={handleIntervalChange} size="sm">
+						{Interval[currentInterval]}
+					</Button>
+				) : null}
 			</span>
 
 			{isLoading ? <Spinner size="sm" /> : <p className="mb-0">{value}</p>}
@@ -150,51 +278,66 @@ function ReportingCard({ title, onIntervalChange, isLoading }) {
 	);
 }
 
-function VolumeNegociosPorEstadoChart({ data }) {
+/**
+ * @param {Object} props
+ * @param {any} props.data
+ * @param {string} props.title
+ * @param {string} props.label
+ * @param {(data: any) => string[]} [props.getLabels]
+ * @param {(data: any) => string|string[]} [props.getColors]
+ */
+function VolumeChart({ data, getColors, label, getLabels, title }) {
 	const negociosChartData = useMemo(
 		/** @return {ChartData} */ () => ({
-			labels:
-				data?.labels.map(/** @param {number} estado */ (estado) => estadosNames[estado]?.name ?? "Desconhecido") ?? [],
+			labels: getLabels?.(data) ?? data?.labels ?? [],
 			datasets: [
 				{
-					label: "Nº de Negócios",
+					label,
 					data: data?.data ?? [],
-					backgroundColor: data?.data.map((_, i) => estadosNames[i]?.color ?? "#000") ?? [],
+					backgroundColor: getColors?.(data) ?? [
+						"rgba(255, 99, 132, 0.2)",
+						"rgba(54, 162, 235, 0.2)",
+						"rgba(255, 206, 86, 0.2)",
+						"rgba(75, 192, 192, 0.2)",
+						"rgba(153, 102, 255, 0.2)",
+						"rgba(255, 159, 64, 0.2)",
+					],
 				},
 			],
 		}),
 		[data],
 	);
 
-	return (
-		<Pie
-			options={getChartOptions("Volume de negócios por estado", false)}
-			data={negociosChartData}
-			plugins={chartPlugins}
-		/>
-	);
+	return <Pie options={getChartOptions(title, false)} data={negociosChartData} plugins={chartPlugins} />;
 }
 
-function NegociosPorMesChart({ data }) {
-	const negociosChartData = useMemo(
+/**
+ * @param {Object} props
+ * @param {any} props.data
+ * @param {string} props.title
+ * @param {string} props.label
+ * @param {string} [props.color]
+ */
+function PorMesChart({ data, label, title, color = "#2184c7" }) {
+	const reuniõesChartData = useMemo(
 		/** @return {import("chart.js").ChartData} */ () => ({
 			labels:
 				data?.labels.map(
-					/** @param {Date} date */ (date) =>
+					/** @param {Date|string} date */ (date) =>
 						new Date(date).toLocaleDateString("pt-PT", { month: "long", year: "numeric" }),
 				) ?? [],
 			datasets: [
 				{
-					label: "Nº de Negócios",
+					label,
 					data: data?.data ?? [],
-					borderColor: "#2184c7",
+					borderColor: color,
 				},
 			],
 		}),
 		[data],
 	);
 
-	return <Line options={getChartOptions("Negócios criados por mês")} data={negociosChartData} plugins={chartPlugins} />;
+	return <Line options={getChartOptions(title)} data={reuniõesChartData} plugins={chartPlugins} />;
 }
 
 function Skeleton() {

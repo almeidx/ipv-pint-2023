@@ -135,6 +135,8 @@ module.exports = {
 						type: QueryTypes.SELECT,
 					},
 				),
+				getDataPerMonth("candidaturas", "DATA_SUBMISSAO", "candidaturas"),
+				getDataPerMonth("reunioes", "DATA_INICIO", "reuniões"),
 			);
 		}
 
@@ -152,13 +154,85 @@ module.exports = {
 						type: QueryTypes.SELECT,
 					},
 				),
-				getVolumeDeNegociosPorEstado(),
-				getNegociosPorMes(),
+				getDataPerMonth("negocios", "DATA_CRIACAO", "negócios"),
+				getVolumeData(
+					oneLine`
+						SELECT "ESTADO" as label, CAST(COUNT(*) AS INT) AS data
+						FROM estados_negocios
+						INNER JOIN negocios
+							ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
+						GROUP BY label
+						ORDER BY label ASC
+					`,
+					"negócios",
+					"volumeEstados",
+				),
+				getVolumeData(
+					oneLine`
+						SELECT negocios."ID_TIPO_PROJETO" as tipo, CAST(COUNT(*) AS INT) AS data, "NOME_TIPO_PROJETO" as label
+						FROM negocios INNER JOIN tipos_de_projetos
+							ON negocios."ID_TIPO_PROJETO" = tipos_de_projetos."ID_TIPO_PROJETO"
+						GROUP BY tipo, "NOME_TIPO_PROJETO"
+						ORDER BY tipo
+					`,
+					"negócios",
+					"volumeTiposProjeto",
+				),
 			);
 		}
 
 		if (checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorIdeias, false)) {
-			// TODO: implement
+			promises.push(
+				sequelize.query(
+					oneLine`
+						SELECT CAST(COUNT(*) AS INT) as "ideias.validadas"
+						FROM IDEIAS
+						WHERE "IDEIA_VALIDADA" = TRUE
+					`,
+					{
+						nest: true,
+						type: QueryTypes.SELECT,
+					},
+				),
+				getDataPerMonth("ideias", "DATA_CRIACAO_IDEIA", "ideias"),
+				getVolumeData(
+					oneLine`
+						SELECT ideias."CATEGORIA" as label, CAST(COUNT(*) AS INT) AS data
+						FROM ideias
+						GROUP BY label
+						ORDER BY label
+					`,
+					"ideias",
+					"volumeCategorias",
+				),
+			);
+		}
+
+		if (checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorConteudos, false)) {
+			promises.push(
+				sequelize.query(
+					oneLine`
+						SELECT CAST(COUNT(*) AS INT) as "mensagens.total", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM mensagens
+							WHERE "DATA_CRIACAO_MENSAGEM" >= NOW() - INTERVAL '1d'
+						) as "mensagens.today", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM mensagens
+							WHERE "DATA_CRIACAO_MENSAGEM" >= NOW() - INTERVAL '7d'
+						) as "mensagens.lastWeek", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM mensagens
+							WHERE "DATA_CRIACAO_MENSAGEM" >= NOW() - INTERVAL '30d'
+						) as "mensagens.lastMonth"
+						FROM mensagens
+					`,
+					{
+						nest: true,
+						type: QueryTypes.SELECT,
+					},
+				),
+			);
 		}
 
 		const results = await Promise.all(promises);
@@ -168,14 +242,42 @@ module.exports = {
 	},
 };
 
-async function getNegociosPorMes() {
+/**
+ * @param {string} query
+ * @param {string} name
+ * @param {string} key
+ */
+async function getVolumeData(query, name, key) {
+	const queryData = await sequelize.query(query, {
+		type: QueryTypes.SELECT,
+	});
+
+	const result = {
+		labels: [],
+		data: [],
+	};
+
+	for (const { data, label } of queryData) {
+		result.labels.push(label);
+		result.data.push(data);
+	}
+
+	return [{ [name]: { [key]: result } }];
+}
+
+/**
+ * @param {string} table
+ * @param {string} column
+ * @param {string} name Nome da key do objeto que é retornado
+ */
+async function getDataPerMonth(table, column, name) {
 	const result = await sequelize.query(
 		oneLine`
 			SELECT mes, CAST(COUNT(*) AS INT) AS quantidade
 			FROM (
-				SELECT DATE_TRUNC('month', "DATA_CRIACAO") AS mes
-				FROM negocios
-				WHERE "DATA_CRIACAO" >= NOW() - INTERVAL '1y'
+				SELECT DATE_TRUNC('month', "${column}") AS mes
+				FROM ${table}
+				WHERE "${column}" >= NOW() - INTERVAL '1y'
 			) as subquery
 			GROUP BY mes
 		`,
@@ -204,30 +306,5 @@ async function getNegociosPorMes() {
 		}
 	}
 
-	return [{ negócios: { porMes: { data, labels } } }];
-}
-
-async function getVolumeDeNegociosPorEstado() {
-	const [data] = await sequelize.query(
-		oneLine`
-			SELECT "ESTADO" as estado, CAST(COUNT(*) AS INT) AS quantidade
-			FROM estados_negocios
-			INNER JOIN negocios
-				ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
-			GROUP BY estado
-			ORDER BY estado ASC
-		`,
-	);
-
-	const result = {
-		labels: [],
-		data: [],
-	};
-
-	for (const { estado, quantidade } of data) {
-		result.labels.push(estado);
-		result.data.push(quantidade);
-	}
-
-	return [{ negócios: { volumeEstados: result } }];
+	return [{ [name]: { porMes: { data, labels } } }];
 }

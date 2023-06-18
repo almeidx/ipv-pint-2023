@@ -9,8 +9,6 @@ import { Page } from "../components/Page.jsx";
 import { Reporting } from "../components/Reporting.jsx";
 
 export default function Home() {
-	// TODO: Separar reporting
-
 	return (
 		<Page className="min-h-without-navbar position-relative" page="/">
 			<img
@@ -22,7 +20,7 @@ export default function Home() {
 			<Reporting />
 
 			<Container className="col-12 row mx-auto gap-3 pb-5">
-				<h2 className="text-white">Funcionalidades principais do website:</h2>
+				<h2 className="text-white">Funcionalidades principais do website</h2>
 
 				<PageCard
 					title="Oportunidades"
