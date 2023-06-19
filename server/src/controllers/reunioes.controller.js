@@ -52,45 +52,33 @@ module.exports = {
 				return;
 			}
 
-			try {
-				await sequelize.transaction(async (transaction) => {
-					const reuniao = await Reuniao.create(
-						{
-							idNegocio,
-							idCandidatura,
-							startTime,
-							duration,
-							title,
-							description,
-							subject,
-						},
-						{ transaction },
-					);
+			const reuniao = await Reuniao.create({
+				idNegocio,
+				idCandidatura,
+				startTime,
+				duration,
+				title,
+				description,
+				subject,
+			});
 
-					const uniqueUtilizadores = [...new Set([...utilizadores, req.user.id])];
+			const uniqueUtilizadores = [...new Set([...utilizadores, req.user.id])];
 
-					await reuniao.setUtilizadores(uniqueUtilizadores, { transaction });
+			await reuniao.setUtilizadores(uniqueUtilizadores);
 
-					await Notificacao.bulkCreate(
-						uniqueUtilizadores.map((utilizador) => [
-							{
-								idUser: utilizador,
-								idReuniao: reuniao.id,
-								content: reuniao.title,
-								type: TipoNotificacaoEnum.Reuniao,
-								additionalDate: reuniao.startTime,
-							},
-						]),
-						{ transaction },
-					);
+			await Notificacao.bulkCreate(
+				uniqueUtilizadores.map((utilizador) => [
+					{
+						idUser: utilizador,
+						idReuniao: reuniao.id,
+						content: reuniao.title,
+						type: TipoNotificacaoEnum.Reuniao,
+						additionalDate: reuniao.startTime,
+					},
+				]),
+			);
 
-					res.json(reuniao);
-				});
-			} catch (error) {
-				console.error(error);
-
-				res.status(500).json({ error: error.message });
-			}
+			res.json(reuniao);
 		},
 	],
 
