@@ -22,9 +22,11 @@ import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.Ideia
+import com.example.pint_mobile.utils.TipoProjeto
 import com.example.pint_mobile.utils.createNegocio
 import com.example.pint_mobile.utils.listaIdeias
 import com.example.pint_mobile.utils.listarAreasNegocio
+import com.example.pint_mobile.utils.listarTiposProjeto
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.properties.Delegates
 
@@ -39,14 +41,19 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
     private lateinit var adapter: ArrayAdapter<String>
 
     var areaNegocioId by Delegates.notNull<Int>()
+    var tipoProjetoId by Delegates.notNull<Int>()
 
     private val areasList = ArrayList<AreaNegocio>()
     private lateinit var areasAdapter: AreaNegocioAdapter
+
+    private val tiposProjetoList = ArrayList<TipoProjeto>()
+    private lateinit var tiposProjetoAdapter: TipoProjetoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val spinner = findViewById<Spinner>(R.id.areadeNegocio)
+        val spinnerProjeto = findViewById<Spinner>(R.id.tipoProjeto)
 
         clientNames = intent.getStringArrayListExtra("clienteNome") ?: ArrayList()
         clienteIds = intent.getIntegerArrayListExtra("clienteIds") ?: ArrayList()
@@ -76,13 +83,38 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             areasAdapter,
             this
         ){
-
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position) as AreaNegocio
                 areaNegocioId = selectedItem.id
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+
+
+
+        tiposProjetoAdapter = TipoProjetoAdapter(
+            this,
+            tiposProjetoList
+        )
+
+        spinnerProjeto.adapter = tiposProjetoAdapter
+
+        listarTiposProjeto(
+            tiposProjetoList,
+            tiposProjetoAdapter,
+            this
+        ){
+        }
+
+        spinnerProjeto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position) as TipoProjeto
+                tipoProjetoId = selectedItem.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -141,6 +173,38 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         }
     }
 
+    class TipoProjetoAdapter(val context: Context, val dataSource: ArrayList<TipoProjeto>) :
+        BaseAdapter() {
+
+        private val inflater: LayoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        override fun getCount(): Int {
+            return dataSource.size
+        }
+
+        override fun getItem(position: Int): Any {
+            return dataSource[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            val tipoProjeto = getItem(position) as TipoProjeto
+            return tipoProjeto.id.toLong()
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val rowView = inflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false)
+
+            val tipoProjeto = getItem(position) as TipoProjeto
+
+            val nomeProjeto = rowView.findViewById<TextView>(android.R.id.text1)
+
+            nomeProjeto.text = tipoProjeto.nome
+
+            return rowView
+        }
+    }
+
     fun AdicionarClienteNegocio(view: View) {
         val intent = Intent(this, AdicionarClienteNegocioActivity::class.java)
         intent.putExtra("clienteNome", clientNames)
@@ -192,6 +256,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             clienteID,
             contactoIds,
             necessidades,
+            tipoProjetoId,
             this
         )
     }

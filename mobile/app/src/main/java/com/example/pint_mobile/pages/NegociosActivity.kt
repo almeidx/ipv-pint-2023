@@ -82,6 +82,8 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
                     intent.putExtra("data", negocio.dataFinalizacao)
                     intent.putExtra("funcResponsavel", negocio.FuncionarioEmail)
                     intent.putExtra("centroTrabalho", negocio.centroTrabalhoName)
+                    intent.putExtra("cliente", negocio.cliente)
+                    intent.putExtra("titulo", negocio.titulo)
 
                     view.context.startActivity(intent)
                 }

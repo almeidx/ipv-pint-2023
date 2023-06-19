@@ -7,23 +7,15 @@
     android:background="@color/bg"
     tools:context=".pages.AdminActivity">
 
-    <ListView
-        android:id="@+id/listaAdmin"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="67dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        app:layout_constraintVertical_bias="0.0">
-
-        <!--<TextView
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+                <TextView
                 android:id="@+id/Beneficios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,8 +205,9 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Utilizador" />-->
-    </ListView>
+                app:layout_constraintTop_toBottomOf="@+id/Utilizador" />
+            </LinearLayout>
+        </ScrollView>
 
     <include
         android:id="@+id/include"
