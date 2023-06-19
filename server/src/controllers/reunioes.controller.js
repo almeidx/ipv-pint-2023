@@ -87,6 +87,8 @@ module.exports = {
 					res.json(reuniao);
 				});
 			} catch (error) {
+				console.error(error);
+
 				res.status(500).json({ error: error.message });
 			}
 		},
