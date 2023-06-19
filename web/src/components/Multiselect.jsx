@@ -42,7 +42,10 @@ export function Multiselect({
 	}
 
 	const filteredOptions = useMemo(
-		() => options.filter(({ label }) => label.toLowerCase().includes(search.toLowerCase())),
+		() =>
+			options
+				.sort((a, b) => a.label.localeCompare(b.label))
+				.filter(({ label }) => label.toLowerCase().includes(search.toLowerCase())),
 		[options, search],
 	);
 

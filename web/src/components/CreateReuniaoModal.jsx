@@ -108,7 +108,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 							id="duration-edit"
 							placeholder="Duração da reunião (em minutos)"
 							value={reuniaoData.duration}
-							onChange={(e) => setReuniaoData((state) => ({ ...state, duration: e.target.value }))}
+							onChange={(e) => setReuniaoData((state) => ({ ...state, duration: e.target.valueAsNumber }))}
 							required
 							type="number"
 							min={1}
@@ -121,6 +121,10 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 			<Modal.Footer>
 				<Button
 					onClick={() => {
+						if (reuniaoData.startTime) {
+							reuniaoData.startTime += ":00.000Z";
+						}
+
 						onSave(reuniaoData);
 						onHideWrapper();
 					}}

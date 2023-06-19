@@ -40,21 +40,6 @@ module.exports = {
 						WHERE "DATA_CRIACAO" >= NOW() - INTERVAL '30d'
 					) as "utilizadores.lastMonth", (
 						SELECT CAST(COUNT(*) AS INT)
-						FROM ideias
-					) as "ideias.total", (
-						SELECT CAST(COUNT(*) AS INT)
-						FROM ideias
-						WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '1d'
-					) as "ideias.today", (
-						SELECT CAST(COUNT(*) AS INT)
-						FROM ideias
-						WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '7d'
-					) as "ideias.lastWeek", (
-						SELECT CAST(COUNT(*) AS INT)
-						FROM ideias
-						WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '30d'
-					) as "ideias.lastMonth", (
-						SELECT CAST(COUNT(*) AS INT)
 						FROM negocios
 					) as "negócios.total", (
 						SELECT CAST(COUNT(*) AS INT)
@@ -185,7 +170,22 @@ module.exports = {
 			promises.push(
 				sequelize.query(
 					oneLine`
-						SELECT CAST(COUNT(*) AS INT) as "ideias.validadas"
+						SELECT CAST(COUNT(*) AS INT) as "ideias.validadas", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM ideias
+						) as "ideias.total", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM ideias
+							WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '1d'
+						) as "ideias.today", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM ideias
+							WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '7d'
+						) as "ideias.lastWeek", (
+							SELECT CAST(COUNT(*) AS INT)
+							FROM ideias
+							WHERE "DATA_CRIACAO_IDEIA" >= NOW() - INTERVAL '30d'
+						) as "ideias.lastMonth"
 						FROM IDEIAS
 						WHERE "IDEIA_VALIDADA" = TRUE
 					`,

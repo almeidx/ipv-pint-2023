@@ -149,7 +149,11 @@ export default function Candidaturas() {
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
 								<OverlayTrigger placement="top" overlay={<Tooltip>Concluir candidatura</Tooltip>}>
-									<Button className="border-0 bg-transparent p-0" onClick={() => handleConclusao(id)}>
+									<Button
+										className="border-0 bg-transparent p-0"
+										onClick={() => handleConclusao(id)}
+										disabled={!!conclusionAt}
+									>
 										<HandshakeIcon />
 									</Button>
 								</OverlayTrigger>

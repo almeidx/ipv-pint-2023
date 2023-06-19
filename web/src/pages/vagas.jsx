@@ -154,6 +154,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					width="110px"
 					className="rounded-circle position-absolute"
 					style={{ width: "110px", top: "-3.4rem", left: "7.5rem" }}
+					fetchpriority="high"
 				/>
 
 				<Card.Title className="title my-3 pt-5" style={{ fontSize: "2rem" }}>

@@ -36,7 +36,7 @@ module.exports = {
 		requirePermission(TipoUtilizadorEnum.Administrador),
 		validate(
 			z.object({
-				idTipoUser: z.number().int().min(1).max(6),
+				idTipoUser: z.number().int().nonnegative().min(1).max(6),
 			}),
 		),
 
