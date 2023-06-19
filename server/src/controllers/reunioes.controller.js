@@ -67,15 +67,13 @@ module.exports = {
 			await reuniao.setUtilizadores(uniqueUtilizadores);
 
 			await Notificacao.bulkCreate(
-				uniqueUtilizadores.map((utilizador) => [
-					{
-						idUser: utilizador,
-						idReuniao: reuniao.id,
-						content: reuniao.title,
-						type: TipoNotificacaoEnum.Reuniao,
-						additionalDate: reuniao.startTime,
-					},
-				]),
+				uniqueUtilizadores.map((utilizador) => ({
+					idUser: utilizador,
+					idReuniao: reuniao.id,
+					content: reuniao.title,
+					type: TipoNotificacaoEnum.Reuniao,
+					additionalDate: reuniao.startTime,
+				})),
 			);
 
 			res.json(reuniao);
