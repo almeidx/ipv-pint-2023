@@ -272,7 +272,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						<Form.Control
 							id="short-content-edit"
 							placeholder="Título do benefício"
-							value={beneficioData.shortContent ?? data?.shortContent}
+							value={beneficioData.shortContent ?? data?.shortContent ?? ""}
 							onChange={(e) => setBeneficioData((state) => ({ ...state, shortContent: e.target.value }))}
 							required={isCreate}
 							max={100}
@@ -287,7 +287,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 							id="content-edit"
 							placeholder="Descrição do benefício"
 							onChange={(e) => setBeneficioData((state) => ({ ...state, content: e.target.value }))}
-							value={beneficioData.content ?? data?.content}
+							value={beneficioData.content ?? data?.content ?? ""}
 							required={isCreate}
 							as="textarea"
 							maxLength={1_000}

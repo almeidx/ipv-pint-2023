@@ -15,7 +15,7 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 
-export default function NotasEntrevista() {
+export default function NotasReuniao() {
 	const { id } = useParams();
 	const { data, isLoading, mutate, error } = useSWR(`${API_URL}/reunioes/${id}/notas`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();

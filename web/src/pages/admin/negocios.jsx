@@ -376,7 +376,7 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 
 					<FormSelect
 						id="centro-de-trabalho-edit"
-						value={negocioData.centroTrabalho?.id ?? data?.centroTrabalho?.id}
+						value={negocioData.centroTrabalho?.id ?? data?.centroTrabalho?.id ?? ""}
 						onChange={(e) => setNegocioData((state) => ({ ...state, centroTrabalho: { id: e.target.value } }))}
 					>
 						{(centrosDeTrabalho ?? []).map(({ id, name }) => (

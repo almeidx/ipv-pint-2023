@@ -90,9 +90,6 @@ export function Reporting() {
 					<Skeleton />
 					<Skeleton />
 					<Skeleton />
-					<Skeleton />
-					<Skeleton />
-					<Skeleton />
 				</Row>
 			) : (
 				<>

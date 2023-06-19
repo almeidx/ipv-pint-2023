@@ -1,15 +1,15 @@
 import { BsCalendar2DayFill } from "@react-icons/all-files/bs/BsCalendar2DayFill";
 import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
 import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
-import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import { TbCheck } from "@react-icons/all-files/tb/TbCheck";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { API_URL } from "../utils/constants.js";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
-import { useToast } from "../contexts/ToastContext.jsx";
 import { Toast } from "./Toast.jsx";
 
 export default function Notifications() {

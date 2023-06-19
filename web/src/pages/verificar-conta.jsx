@@ -111,7 +111,7 @@ export default function VerificarConta() {
 					<Form
 						noValidate
 						onSubmit={handleSubmit}
-						className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
+						className="col-lg-3 col-sm-7 col-10 col-md-5 login-form d-flex flex-column"
 					>
 						<h1 className="title mb-4 text-white" style={{ fontSize: "3rem" }}>
 							Verificar Conta

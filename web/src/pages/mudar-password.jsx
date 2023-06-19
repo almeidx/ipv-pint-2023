@@ -81,7 +81,7 @@ export default function MudarPassword() {
 						<Form
 							noValidate
 							onSubmit={handleSubmit}
-							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
+							className="col-lg-3 col-sm-7 col-10 col-md-5 login-form d-flex flex-column"
 						>
 							<div className="d-flex align-items-center mb-5 gap-1">
 								<Link to="/">

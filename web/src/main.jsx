@@ -10,7 +10,7 @@ import { ToastProvider } from "./contexts/ToastContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import NotFound from "./pages/404.jsx";
 import Admin from "./pages/admin/index.jsx";
-import NotasEntrevista from "./pages/admin/notas-entrevista.jsx";
+import NotasReuniao from "./pages/admin/notas-reuniao.jsx";
 import Beneficios from "./pages/beneficios.jsx";
 import Calendar from "./pages/calendar.jsx";
 import Contacto from "./pages/contacto.jsx";
@@ -49,7 +49,7 @@ createRoot(document.getElementById("root")).render(
 								<Route path="/calendar" element={<Calendar />} />
 
 								<Route path="/admin" element={<Admin />} />
-								<Route path="/admin/notas/:id" element={<NotasEntrevista />} />
+								<Route path="/admin/notas/:id" element={<NotasReuniao />} />
 
 								<Route path="*" element={<NotFound />} />
 							</Routes>

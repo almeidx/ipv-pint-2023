@@ -20,6 +20,7 @@ const negociosRouter = require("./routes/negocios.js");
 const notificacoesRouter = require("./routes/notificacoes.js");
 const reportingRouter = require("./routes/reporting.js");
 const reunioesRouter = require("./routes/reunioes.js");
+const tiposDeProjetoRouter = require("./routes/tipos-de-projeto.js");
 const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
 const utilizadoresRouter = require("./routes/utilizadores.js");
 const uploadsRouter = require("./routes/uploads.js");
@@ -78,6 +79,7 @@ app
 	.use("/notificacoes", notificacoesRouter)
 	.use("/reporting", reportingRouter)
 	.use("/reunioes", reunioesRouter)
+	.use("/tipos-projeto", tiposDeProjetoRouter)
 	.use("/tipos-utilizador", tiposUtilizadorRouter)
 	.use("/utilizadores", utilizadoresRouter)
 	.use("/uploads", uploadsRouter)
@@ -89,7 +91,7 @@ app
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	// await sequelize.sync();
+	await sequelize.sync();
 
 	const PORT = process.env.PORT || 3333;
 

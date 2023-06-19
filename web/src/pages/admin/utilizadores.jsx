@@ -145,8 +145,6 @@ export default function Utilizadores() {
 function EditUtilizadorModal({ defaultValue, show, onHide, onSave, userId, tiposUtilizadores }) {
 	const ref = useRef(null);
 
-	// TODO: disable button if defaultValue === ref.current.value (it's not that simple)
-
 	return (
 		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="edit-utilizador-modal" centered>
 			<Modal.Header closeButton>

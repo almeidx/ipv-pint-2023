@@ -35,7 +35,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 						<Form.Control
 							id="title-edit"
 							placeholder="Título da reunião"
-							value={reuniaoData.title}
+							value={reuniaoData.title ?? ""}
 							onChange={(e) => setReuniaoData((state) => ({ ...state, title: e.target.value }))}
 							required
 							max={100}
@@ -49,7 +49,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 						<Form.Control
 							id="description-edit"
 							placeholder="Descrição da reunião"
-							value={reuniaoData.description}
+							value={reuniaoData.description ?? ""}
 							as="textarea"
 							onChange={(e) => setReuniaoData((state) => ({ ...state, description: e.target.value }))}
 							required
@@ -64,7 +64,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 						<Form.Control
 							id="subject-edit"
 							placeholder="Assunto da reunião"
-							value={reuniaoData.subject}
+							value={reuniaoData.subject ?? ""}
 							onChange={(e) => setReuniaoData((state) => ({ ...state, subject: e.target.value }))}
 							required
 							max={100}
@@ -92,7 +92,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 						<Form.Control
 							id="startTime-edit"
 							placeholder="Data de início da reunião"
-							value={reuniaoData.startTime}
+							value={reuniaoData.startTime ?? ""}
 							onChange={(e) => setReuniaoData((state) => ({ ...state, startTime: e.target.value }))}
 							required
 							type="datetime-local"
@@ -107,7 +107,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 						<Form.Control
 							id="duration-edit"
 							placeholder="Duração da reunião (em minutos)"
-							value={reuniaoData.duration}
+							value={reuniaoData.duration ?? ""}
 							onChange={(e) => setReuniaoData((state) => ({ ...state, duration: e.target.valueAsNumber }))}
 							required
 							type="number"

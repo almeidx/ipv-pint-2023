@@ -261,7 +261,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 						<Form.Control
 							id="title-edit"
 							placeholder="Título da vaga"
-							value={vagaData.title ?? data?.title}
+							value={vagaData.title ?? data?.title ?? ""}
 							onChange={(e) => setVagaData((state) => ({ ...state, title: e.target.value }))}
 							required={isCreate}
 							maxLength={100}
@@ -276,7 +276,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							id="description-edit"
 							placeholder="Descrição da vaga"
 							onChange={(e) => setVagaData((state) => ({ ...state, description: e.target.value }))}
-							value={vagaData.description ?? data?.description}
+							value={vagaData.description ?? data?.description ?? ""}
 							required={isCreate}
 							as="textarea"
 							maxLength={1_000}
@@ -291,7 +291,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							id="amount-slots-edit"
 							placeholder="Quantidade de vagas"
 							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
-							value={vagaData.amountSlots ?? data?.amountSlots}
+							value={vagaData.amountSlots ?? data?.amountSlots ?? ""}
 							required={isCreate}
 							type="number"
 							style={{ maxWidth: "18rem" }}

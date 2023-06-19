@@ -24,7 +24,7 @@ import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
 import { resolveNameOfNextEstado } from "../utils/negocios.js";
 import { Formik } from "formik";
-import { number, object, ref, string } from "yup";
+import { object, string } from "yup";
 import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const createClientSchema = object().shape({
@@ -60,6 +60,7 @@ export default function Negocios() {
 	const { isLoading, data, mutate: mutateNegocios } = useSWR(`${API_URL}/negocios`, fetcher);
 	const { data: areasNegocio } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
 	const { data: clientes, mutate: mutateClients } = useSWR(`${API_URL}/clientes`, fetcher);
+	const { data: tiposProjeto } = useSWR(`${API_URL}/tipos-projeto`, fetcher);
 	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
 	const isLoggedIn = useIsLoggedIn();
 
@@ -202,6 +203,7 @@ export default function Negocios() {
 				}}
 				areasNegocio={areasNegocio}
 				clientes={clientes}
+				tiposProjeto={tiposProjeto}
 				newClientId={newClientId}
 				openCreateClientModal={() => {
 					setShowCreateClientModal(true);
@@ -384,6 +386,9 @@ function Negocio({ onEditClick, ...negocio }) {
  * @param {Object[]} props.clientes
  * @param {number} props.clientes.id
  * @param {string} props.clientes.name
+ * @param {Object[]} props.tiposProjeto
+ * @param {number} props.tiposProjeto.id
+ * @param {string} props.tiposProjeto.name
  * @param {() => void} props.openCreateClientModal
  * @param {number|null} props.newClientId
  * @param {() => void} props.openCreateContactModal
@@ -398,6 +403,7 @@ function CreateOrEditNegocioModal({
 	onSave,
 	areasNegocio,
 	clientes,
+	tiposProjeto,
 	openCreateClientModal,
 	newClientId,
 	openCreateContactModal,
@@ -480,10 +486,10 @@ function CreateOrEditNegocioModal({
 						<Form.Label htmlFor="negocio-titulo-edit">Titulo</Form.Label>
 						<Form.Control
 							id="negocio-titulo-edit"
-							value={negocioData.title ?? data?.title}
+							value={negocioData.title ?? data?.title ?? ""}
 							onChange={(e) => setNegocioData((state) => ({ ...state, title: e.target.value }))}
 							maxLength={100}
-							placeholder="Titulo da oportunidade "
+							placeholder="Titulo da oportunidade"
 							required={isCreate}
 						/>
 					</Form.Group>
@@ -492,13 +498,35 @@ function CreateOrEditNegocioModal({
 						<Form.Label htmlFor="negocio-descricao-edit">Descrição</Form.Label>
 						<Form.Control
 							id="negocio-descricao-edit"
-							value={negocioData.description ?? data?.description}
+							value={negocioData.description ?? data?.description ?? ""}
 							onChange={(e) => setNegocioData((state) => ({ ...state, description: e.target.value }))}
 							as="textarea"
 							maxLength={1_000}
 							placeholder="Descrição da oportunidade"
 							required={isCreate}
 						/>
+					</Form.Group>
+
+					<Form.Group className="mb-3">
+						<Form.Label htmlFor="negocio-tipo-projeto-edit">Tipo de Projeto</Form.Label>
+						<Form.Select
+							id="negocio-tipo-projeto-edit"
+							value={negocioData.idTipoProjeto ?? data?.tipoProjeto?.id ?? -1}
+							onChange={(e) =>
+								setNegocioData((state) => ({ ...state, idTipoProjeto: Number.parseInt(e.target.value, 10) }))
+							}
+							required={isCreate}
+						>
+							<option value={-1} disabled>
+								Selecione o tipo de projeto
+							</option>
+
+							{(tiposProjeto ?? []).map(({ id, name }) => (
+								<option key={id} value={id}>
+									{name}
+								</option>
+							))}
+						</Form.Select>
 					</Form.Group>
 
 					<Form.Group className="mb-3">

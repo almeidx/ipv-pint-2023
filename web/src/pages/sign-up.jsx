@@ -103,7 +103,7 @@ export default function SignUp() {
 						<Form
 							noValidate
 							onSubmit={handleSubmit}
-							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
+							className="col-lg-3 col-sm-7 col-10 col-md-5 login-form d-flex flex-column"
 						>
 							<h1 className="title mb-5 text-white">Sign up</h1>
 

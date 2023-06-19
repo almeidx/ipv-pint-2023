@@ -78,7 +78,7 @@ module.exports = {
 				disabledBy: undefined,
 			};
 
-			if (req.user.tipoUtilizador.id === TipoUtilizadorEnum.Administrador) {
+			if (req.user.tipoUtilizador.id === TipoUtilizadorEnum.Administrador && id !== req.user.id) {
 				opts.disabledBy = req.user.id;
 			}
 
