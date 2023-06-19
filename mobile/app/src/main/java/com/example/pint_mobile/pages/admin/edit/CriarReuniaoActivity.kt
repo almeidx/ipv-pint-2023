@@ -15,7 +15,6 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createReunion
 import com.example.pint_mobile.utils.pad
@@ -104,7 +103,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
-        dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
+        dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00.000Z"
     }
 
     private fun pickDate() {
@@ -155,20 +154,9 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
         val titulo = findViewById<EditText>(R.id.titulo_reuniao).text.toString()
         val duracao = findViewById<EditText>(R.id.duracaoReuniaoEditText).text.toString()
-        val data = findViewById<EditText>(R.id.tv_textTime).text.toString()
+        val data = findViewById<EditText>(R.id.tv_textTime).text.toString() + ".000Z"
         val descricao = findViewById<EditText>(R.id.descricao_reuniao).text.toString()
         val subjetc = findViewById<EditText>(R.id.subjectReuniaoEditText).text.toString()
-
-        Log.i("negocioId", negocioId.toString())
-
-
-        if (candidaturaId.isEmpty()) {
-            ""
-        }else {
-            getidCandidatura = candidaturaId.last()
-        }
-
-        Log.i("getidCandidatura", getidCandidatura.toString())
 
         var errorMsg: String? = null
 
@@ -202,15 +190,34 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
             Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
             return
         } else {
+            Log.i("negocioId", negocioId.toString())
+            Log.i("candidaturaId", candidaturaId.toString())
+
+            var idNegocio = 0
+
+            if (negocioId.isEmpty()) {
+                 idNegocio = -1
+            }else{
+                 idNegocio = negocioId[0]
+            }
+
+            var idCandidatura = 0
+
+            if (candidaturaId.isEmpty()) {
+                idCandidatura = -1
+            }else{
+                idCandidatura = candidaturaId[0]
+            }
+
             createReunion(
                 titulo,
                 descricao,
                 data,
                 duracao.toInt(),
                 userIds,
-                getidNegocio,
+                idNegocio,
                 subjetc,
-                getidCandidatura,
+                idCandidatura,
                 this
             )
         }

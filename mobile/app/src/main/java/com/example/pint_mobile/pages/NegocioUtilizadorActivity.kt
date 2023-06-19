@@ -110,7 +110,10 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
         }
     }
 
+
+
     fun CriarNegocio(view: android.view.View) {
-        finish()
+        val intent = Intent(this, CriarNegocioActivity::class.java)
+        startActivity(intent)
     }
 }
