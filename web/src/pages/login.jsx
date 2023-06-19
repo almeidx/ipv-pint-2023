@@ -30,7 +30,7 @@ const schema = object().shape({
 export default function Login() {
 	const { setUser } = useUser();
 	const navigate = useNavigate();
-	const { showToast, toastMessage, toggleToast, showToastWithMessage, toastType } = useToast();
+	const { showToast, toastMessage, hide, showToastWithMessage, toastType } = useToast();
 
 	/**
 	 * @param {import("yup").InferType<typeof schema>} data
@@ -97,7 +97,7 @@ export default function Login() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} type={toastType} />
+			<Toast message={toastMessage} show={showToast} hide={hide} type={toastType} />
 
 			<Formik validationSchema={schema} initialValues={{ email: "", password: "" }} onSubmit={handleSubmit}>
 				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => {

@@ -18,15 +18,17 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { z } = require("zod");
 const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
-const fieldValidations = z.object({
-	idAreaNegocio: z.number().int().nonnegative(),
-	idCliente: z.number().int().nonnegative(),
-	idTipoProjeto: z.number().int().nonnegative(),
-	description: z.string().min(1).max(200),
-	title: z.string().min(1).max(100),
-	contactos: z.array(z.number().int().nonnegative()).min(1).max(5),
-	necessidades: z.array(z.string()).max(5),
-});
+const fieldValidations = z
+	.object({
+		idAreaNegocio: z.number().int().nonnegative(),
+		idCliente: z.number().int().nonnegative(),
+		idTipoProjeto: z.number().int().nonnegative(),
+		description: z.string().min(1).max(200),
+		title: z.string().min(1).max(100),
+		contactos: z.array(z.number().int().nonnegative()).min(1).max(5),
+		necessidades: z.array(z.string()).max(5),
+	})
+	.strict();
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -175,10 +177,12 @@ module.exports = {
 					idFuncionarioResponsavel: z.number().int().nonnegative(),
 					estados: z
 						.array(
-							z.object({
-								estado: z.number().int().nonnegative(),
-								dataFinalizacao: z.string().regex(ISO_DATETIME_REGEX),
-							}),
+							z
+								.object({
+									estado: z.number().int().nonnegative(),
+									dataFinalizacao: z.string().regex(ISO_DATETIME_REGEX),
+								})
+								.strict(),
 						)
 						.min(1)
 						.max(5),

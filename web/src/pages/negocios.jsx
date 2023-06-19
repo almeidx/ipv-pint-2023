@@ -3,6 +3,7 @@ import "../styles/negocios.css";
 import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { RxPlusCircled } from "@react-icons/all-files/rx/RxPlusCircled";
+import { Formik } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -12,6 +13,7 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { object, string } from "yup";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Multiselect } from "../components/Multiselect.jsx";
 import { Page } from "../components/Page.jsx";
@@ -22,10 +24,8 @@ import { useToast } from "../contexts/ToastContext.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { resolveNameOfNextEstado } from "../utils/negocios.js";
-import { Formik } from "formik";
-import { object, string } from "yup";
 import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
+import { resolveNameOfNextEstado } from "../utils/negocios.js";
 
 const createClientSchema = object().shape({
 	name: string().required("O nome é obrigatório").max(100, "Máximo de 100 caracteres"),
@@ -61,7 +61,7 @@ export default function Negocios() {
 	const { data: areasNegocio } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
 	const { data: clientes, mutate: mutateClients } = useSWR(`${API_URL}/clientes`, fetcher);
 	const { data: tiposProjeto } = useSWR(`${API_URL}/tipos-projeto`, fetcher);
-	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
+	const { showToastWithMessage, showToast, toastMessage, hide } = useToast();
 	const isLoggedIn = useIsLoggedIn();
 
 	const filtered = search
@@ -238,7 +238,7 @@ export default function Negocios() {
 				onSave={handleCreateContacto}
 			/>
 
-			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} />
+			<Toast message={toastMessage} show={showToast} hide={hide} />
 
 			<Container className="col-11 pt-5">
 				<SearchBar placeholder="Pesquise por oportunidades..." onSearch={(text) => setSearch(text)} />
@@ -309,7 +309,7 @@ function Negocio({ onEditClick, ...negocio }) {
 					{title}
 
 					{estados.length === 0 ? (
-						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
+						<OverlayTrigger placement="top" overlay={<Tooltip>Editar Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
 								<RiPencilLine size={24} color="black" />
 							</Button>
@@ -472,7 +472,6 @@ function CreateOrEditNegocioModal({
 	}
 
 	// TODO: Contactos criados não estão a aparecer na lista (qnd é só 1?)
-	// TODO: add tipo projeto
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>

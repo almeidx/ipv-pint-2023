@@ -1,5 +1,6 @@
 import { BiNoEntry } from "@react-icons/all-files/bi/BiNoEntry";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
+import { TbCheck } from "@react-icons/all-files/tb/TbCheck";
 import { useMemo, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -25,7 +26,7 @@ export default function Utilizadores() {
 	const [userId, setUserId] = useState(null);
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/utilizadores`, fetcher);
 	const { data: tiposUtilizador } = useSWR(`${API_URL}/tipos-utilizador`, fetcher);
-	const { showToast, toggleToast, toastMessage, showToastWithMessage } = useToast();
+	const { showToast, hide, toastMessage, showToastWithMessage } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -66,9 +67,31 @@ export default function Utilizadores() {
 		}
 	}
 
-	/** @param {number} id */
-	async function handleDesativarUser(id) {
-		// TODO: implement
+	/**
+	 * @param {number} id
+	 * @param {boolean} disabled
+	 */
+	async function handleDesativarUser(id, disabled) {
+		try {
+			const response = await fetch(`${API_URL}/utilizadores/${id}/disable`, {
+				credentials: "include",
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ disabled }),
+			});
+
+			if (!response.ok) {
+				throw new Error(`Ocorreu um erro ao ${disabled ? "desativar" : "ativar"} o utilizador`, { cause: response });
+			}
+
+			showToastWithMessage(`Utilizador ${disabled ? "desativado" : "ativado"} com sucesso`);
+
+			mutate();
+		} catch (error) {
+			console.error(error);
+
+			showToastWithMessage(`Ocorreu um erro ao ${disabled ? "desativar" : "ativar"} o utilizador`, "error");
+		}
 	}
 
 	return (
@@ -86,13 +109,13 @@ export default function Utilizadores() {
 				tiposUtilizadores={tiposUtilizador ?? []}
 			/>
 
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<ListGroup>
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate }) => (
+					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate, disabled }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div>
 								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
@@ -126,9 +149,13 @@ export default function Utilizadores() {
 										<RiPencilLine size={32} color="black" />
 									</Button>
 								</OverlayTrigger>
-								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Utilizador</Tooltip>}>
-									<Button onClick={() => handleDesativarUser(id)} className="border-0 bg-transparent p-0">
-										<BiNoEntry size={32} color="red" />
+
+								<OverlayTrigger
+									placement="top"
+									overlay={<Tooltip>{disabled ? "Ativar Utilizador" : "Desativar Utilizador"}</Tooltip>}
+								>
+									<Button onClick={() => handleDesativarUser(id, !disabled)} className="border-0 bg-transparent p-0">
+										{disabled ? <TbCheck size={32} color="green" /> : <BiNoEntry size={32} color="red" />}
 									</Button>
 								</OverlayTrigger>
 							</div>

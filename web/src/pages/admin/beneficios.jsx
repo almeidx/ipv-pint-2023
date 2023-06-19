@@ -26,7 +26,7 @@ export default function Beneficios() {
 	const [beneficioData, setBeneficioData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/beneficios?admin`, fetcher);
-	const { showToastWithMessage, showToast, toggleToast, toastMessage } = useToast();
+	const { showToastWithMessage, showToast, hide, toastMessage } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -119,7 +119,7 @@ export default function Beneficios() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Benefícios</h2>

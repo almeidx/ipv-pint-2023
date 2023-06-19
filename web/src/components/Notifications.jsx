@@ -14,7 +14,7 @@ import { Toast } from "./Toast.jsx";
 
 export default function Notifications() {
 	const { notifications, mutate } = useNotifications();
-	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, toastType, hide } = useToast();
 
 	/** @param {number} id */
 	async function handleSingleSeen(id) {
@@ -40,7 +40,7 @@ export default function Notifications() {
 
 	return (
 		<>
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} type={toastType} />
+			<Toast hide={hide} show={showToast} message={toastMessage} type={toastType} />
 
 			{notifications?.length ? (
 				<ListGroup>

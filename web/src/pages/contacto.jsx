@@ -59,7 +59,7 @@ export default function Contacto() {
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [message, setMessage] = useState("");
 	const { buttonRef, disableButton } = useDisableableButton();
-	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
+	const { showToastWithMessage, showToast, toastMessage, hide } = useToast();
 
 	useEffect(() => {
 		if (user) {
@@ -111,7 +111,7 @@ export default function Contacto() {
 			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center overflow-hidden"
 			page="/contacto"
 		>
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<img
 				src="/static/contacto-bg.png"

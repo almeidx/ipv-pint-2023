@@ -1,6 +1,6 @@
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -23,7 +23,7 @@ export default function VerificarConta() {
 	const [pendingData, setPendingData] = useState(null);
 	const { setUser } = useUser();
 	const navigate = useNavigate();
-	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, toastType, hide } = useToast();
 	const [reenviarDisabled, setReenviarDisabled] = useState(false);
 	const timeoutRef = useRef(null);
 
@@ -104,7 +104,7 @@ export default function VerificarConta() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<Toast message={toastMessage} type={toastType} show={showToast} onClose={toggleToast} />
+			<Toast message={toastMessage} type={toastType} show={showToast} onClose={hide} />
 
 			<Formik validationSchema={schema} initialValues={{ confirmCode: "" }} onSubmit={handleSubmit}>
 				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => (

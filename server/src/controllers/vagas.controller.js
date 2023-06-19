@@ -6,14 +6,16 @@ const { requirePermission, checkPermissionStandalone } = require("../middleware/
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
-const fieldValidations = z.object({
-	amountSlots: z.number().int().nonnegative(),
-	public: z.boolean(),
-	icon: z.string().min(1).max(100),
-	title: z.string().min(1).max(100),
-	description: z.string().min(1).max(100),
-	status: z.number().int().nonnegative().min(0).max(1),
-});
+const fieldValidations = z
+	.object({
+		amountSlots: z.number().int().nonnegative(),
+		public: z.boolean(),
+		icon: z.string().min(1).max(100),
+		title: z.string().min(1).max(100),
+		description: z.string().min(1).max(100),
+		status: z.number().int().nonnegative().min(0).max(1),
+	})
+	.strict();
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {

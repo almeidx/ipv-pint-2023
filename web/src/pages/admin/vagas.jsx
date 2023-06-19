@@ -24,7 +24,7 @@ export default function Vagas() {
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [vagaData, setVagaData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/vagas?admin`, fetcher);
 
 	const filtered = useMemo(
@@ -110,7 +110,7 @@ export default function Vagas() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Vagas</h2>

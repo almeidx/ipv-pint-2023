@@ -1,3 +1,4 @@
+import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
 import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
@@ -8,22 +9,23 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
+import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { useToast } from "../../contexts/ToastContext.jsx";
-import { Toast } from "../../components/Toast.jsx";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [editData, setEditData] = useState({});
 	const { isLoading, data, error, mutate } = useSWR(`${API_URL}/reunioes?admin`, fetcher);
-	const { showToastWithMessage, toastType, toastMessage, toggleToast, showToast } = useToast();
+	const { showToastWithMessage, toastType, toastMessage, hide, showToast } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -89,7 +91,7 @@ export default function Reuniões() {
 
 	return (
 		<Container className="py-4">
-			<Toast show={showToast} hide={() => toggleToast(false)} type={toastType} message={toastMessage} />
+			<Toast show={showToast} hide={hide} type={toastType} message={toastMessage} />
 
 			<EditReuniaoModal
 				show={showEditModal}
@@ -133,6 +135,12 @@ export default function Reuniões() {
 									>
 										<RiPencilLine size={32} color="black" />
 									</Button>
+								</OverlayTrigger>
+
+								<OverlayTrigger placement="top" overlay={<Tooltip>Notas da reunião</Tooltip>}>
+									<Link to={`/admin/notas/${id}`}>
+										<BiNotepad size={32} color="black" />
+									</Link>
 								</OverlayTrigger>
 
 								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Reunião</Tooltip>}>

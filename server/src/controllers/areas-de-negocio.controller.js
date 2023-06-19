@@ -9,9 +9,11 @@ module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorNegocios),
 		validate(
-			z.object({
-				name: z.string().min(3).max(64),
-			}),
+			z
+				.object({
+					name: z.string().min(3).max(64),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

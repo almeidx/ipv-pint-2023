@@ -35,9 +35,11 @@ module.exports = {
 	update: [
 		requirePermission(TipoUtilizadorEnum.Administrador),
 		validate(
-			z.object({
-				idTipoUser: z.number().int().nonnegative().min(1).max(6),
-			}),
+			z
+				.object({
+					idTipoUser: z.number().int().nonnegative().min(1).max(6),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
@@ -57,9 +59,11 @@ module.exports = {
 	disableAccount: [
 		requireLogin(),
 		validate(
-			z.object({
-				disabled: z.boolean(),
-			}),
+			z
+				.object({
+					disabled: z.boolean(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
@@ -90,9 +94,11 @@ module.exports = {
 
 	esqueceuPasswordRequest: [
 		validate(
-			z.object({
-				email: z.string().email(),
-			}),
+			z
+				.object({
+					email: z.string().email(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
@@ -133,10 +139,12 @@ module.exports = {
 
 	esqueceuPasswordUpdate: [
 		validate(
-			z.object({
-				code: z.string(),
-				password: z.string(),
-			}),
+			z
+				.object({
+					code: z.string(),
+					password: z.string(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

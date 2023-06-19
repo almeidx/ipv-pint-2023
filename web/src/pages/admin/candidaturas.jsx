@@ -27,7 +27,7 @@ export default function Candidaturas() {
 	const [idCandidatura, setIdCandidatura] = useState(null);
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/candidaturas?admin`, fetcher);
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -99,7 +99,7 @@ export default function Candidaturas() {
 		<Container className="py-4">
 			<h2 className="mb-3">Candidaturas</h2>
 
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<CreateReuniaoModal
 				show={showCreateReuniaoModal}

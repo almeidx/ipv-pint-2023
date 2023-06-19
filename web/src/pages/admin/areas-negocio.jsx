@@ -1,22 +1,22 @@
 import { BiTrash } from "@react-icons/all-files/bi/BiTrash";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { Formik } from "formik";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { object, string } from "yup";
 import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
-import { Formik } from "formik";
-import { object, string } from "yup";
 import { formikButtonDisabled } from "../../utils/formikButtonDisabled.js";
 
 const createAreaNegocioSchema = object().shape({
@@ -28,7 +28,7 @@ const createAreaNegocioSchema = object().shape({
 
 export default function Mensagens() {
 	const { isLoading, mutate, data, error } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast, toastType } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide, toastType } = useToast();
 	const [showCreateModal, setShowCreateModal] = useState(false);
 
 	if (error) {
@@ -88,7 +88,7 @@ export default function Mensagens() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} type={toastType} />
+			<Toast hide={hide} show={showToast} message={toastMessage} type={toastType} />
 
 			<CreateAreaNegocioModal show={showCreateModal} onHide={() => setShowCreateModal(false)} onSubmit={handleCreate} />
 

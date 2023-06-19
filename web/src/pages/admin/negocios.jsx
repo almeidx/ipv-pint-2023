@@ -1,6 +1,6 @@
+import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
 import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
-import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -36,7 +36,7 @@ export default function Negocios() {
 	const [idNegocio, setIdNegocio] = useState(null);
 	const [sortMethod, setSortMethod] = useState("titleAsc");
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/negocios?admin`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 
 	const filtered = useMemo(
@@ -82,27 +82,6 @@ export default function Negocios() {
 		}
 	}
 
-	async function handleDelete(id) {
-		try {
-			const response = await fetch(`${API_URL}/negocios/${id}`, {
-				credentials: "include",
-				method: "DELETE",
-			});
-
-			if (!response.ok) {
-				throw new Error("Something went wrong", { cause: response });
-			}
-
-			showToastWithMessage("Mensagem eliminada com sucesso");
-
-			mutate();
-		} catch (error) {
-			console.error(error);
-
-			showToastWithMessage("Ocorreu um erro ao eliminar a mensagem", "error");
-		}
-	}
-
 	async function handleCreateReuniao(data) {
 		try {
 			const response = await fetch(`${API_URL}/reunioes`, {
@@ -128,7 +107,7 @@ export default function Negocios() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Oportunidades</h2>
@@ -286,6 +265,12 @@ export default function Negocios() {
 												</Button>
 											</OverlayTrigger>
 
+											<OverlayTrigger placement="top" overlay={<Tooltip>Notas da reunião</Tooltip>}>
+												<Link to={`/admin/notas/${id}`}>
+													<BiNotepad size={32} color="black" />
+												</Link>
+											</OverlayTrigger>
+
 											<OverlayTrigger placement="top" overlay={<Tooltip>Editar Negócio</Tooltip>}>
 												<Button
 													className="border-0 bg-transparent p-0"
@@ -295,12 +280,6 @@ export default function Negocios() {
 													}}
 												>
 													<RiPencilLine size={32} color="black" />
-												</Button>
-											</OverlayTrigger>
-
-											<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Negócio</Tooltip>}>
-												<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
-													<RiCloseFill size={32} color="red" />
 												</Button>
 											</OverlayTrigger>
 										</div>

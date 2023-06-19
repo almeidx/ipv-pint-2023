@@ -15,12 +15,14 @@ const TipoNotificacaoEnum = require("../utils/TipoNotificacaoEnum.js");
 const { z } = require("zod");
 const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
-const fieldValidations = z.object({
-	duration: z.number().int().nonnegative(),
-	title: z.string().min(1).max(100),
-	description: z.string().min(1).max(100),
-	subject: z.string().min(1).max(100),
-});
+const fieldValidations = z
+	.object({
+		duration: z.number().int().nonnegative(),
+		title: z.string().min(1).max(100),
+		description: z.string().min(1).max(100),
+		subject: z.string().min(1).max(100),
+	})
+	.strict();
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {

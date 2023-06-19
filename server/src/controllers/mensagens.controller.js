@@ -8,11 +8,13 @@ const { z } = require("zod");
 module.exports = {
 	create: [
 		validate(
-			z.object({
-				name: z.string().optional(),
-				email: z.string().email().optional(),
-				content: z.string().min(1).max(1000),
-			}),
+			z
+				.object({
+					name: z.string().optional(),
+					email: z.string().email().optional(),
+					content: z.string().min(1).max(1000),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
