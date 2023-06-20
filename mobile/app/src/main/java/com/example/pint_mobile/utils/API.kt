@@ -28,8 +28,10 @@ import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.pages.admin.AdminMensagensActivity
 import com.example.pint_mobile.pages.admin.AdminNegociosActivity
 import com.example.pint_mobile.pages.admin.AdminReunioesActivity
+import com.example.pint_mobile.pages.admin.AdminTiposProjetoActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
+import com.example.pint_mobile.pages.admin.AreasNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
@@ -90,6 +92,50 @@ fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasAc
                 rawVaga.getInt("status")
             )
             list.add(vaga)
+        }
+        allList.addAll(list)
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+
+fun listaAreas(list: ArrayList<AreaNegocio>, allList: ArrayList<AreaNegocio>, adapter: AreasNegocioActivity.AreasAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/areas-de-negocio", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawArea = response.getJSONObject(i)
+            val area = AreaNegocio(
+                rawArea.getInt("id"),
+                rawArea.getString("name"),
+            )
+            list.add(area)
+        }
+        allList.addAll(list)
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+
+fun listaTipoProjeto(list: ArrayList<TipoProjeto>, allList: ArrayList<TipoProjeto>, adapter: AdminTiposProjetoActivity.ProjetosAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/tipos-projeto", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawTipoProjeto = response.getJSONObject(i)
+            val tipoProjeto = TipoProjeto(
+                rawTipoProjeto.getInt("id"),
+                rawTipoProjeto.getString("name"),
+            )
+            list.add(tipoProjeto)
         }
         allList.addAll(list)
         adapter.notifyDataSetChanged()
@@ -1535,6 +1581,128 @@ fun marcarTodasNotiLidas( ctx: Context) {
         }
     }
 
+    queue.add(request)
+}
+
+fun createAreaNegocio(nome: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("name", nome)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/areas-de-negocio", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Área de Negócio criada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AreasNegocioActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun deleteAreaNegocio(idAreaNegocio: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/areas-de-negocio/$idAreaNegocio", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Área de Negócio apagada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AreasNegocioActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        Toast.makeText(ctx, "Área de Negócio em uso, impossivel de ser apagada!", Toast.LENGTH_LONG).show()
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
+
+fun createTipoProjeto(nome: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("name", nome)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/tipos-projeto", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Tipo de Projeto criado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminTiposProjetoActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
+    queue.add(request)
+}
+
+fun deleteTipoProjeto(idTipoProjeto: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/tipos-projeto/$idTipoProjeto", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Tipo de Projeto apagado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, AdminTiposProjetoActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        Toast.makeText(ctx, "Tipo de Projeto em uso, impossivel de ser apagado!", Toast.LENGTH_LONG).show()
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            return super.parseNetworkResponse(response)
+        }
+    }
     queue.add(request)
 }
 

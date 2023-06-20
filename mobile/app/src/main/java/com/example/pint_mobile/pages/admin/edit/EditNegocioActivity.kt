@@ -198,11 +198,6 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
     fun goToNotaOportunidade(view: View) {
         val intent = android.content.Intent(this, EditarNotaEntrevistaActivity::class.java)
 
-
-        Log.i("idNegocio", idNegocio.toString())
-        Log.i("nome", nome.toString())
-        Log.i("titulo", titulo.toString())
-
         intent.putExtra("Id", idNegocio)
         intent.putExtra("Nome", nome)
         intent.putExtra("Titulo", titulo)
