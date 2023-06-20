@@ -73,4 +73,16 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         overridePendingTransition(0, 0);
 
     }
+
+    fun goToAreasNegocio(_view: android.view.View) {
+        val intent = Intent(this, AreasNegocioActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
+    }
+
+    fun gotoAdminTiposProjeto(_view: android.view.View) {
+        val intent = Intent(this, AdminTiposProjetoActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
+    }
 }

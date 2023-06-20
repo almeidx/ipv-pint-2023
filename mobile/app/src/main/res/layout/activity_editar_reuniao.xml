@@ -185,10 +185,16 @@
 
                     <Button
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:onClick="criarNota"
+                        android:text="Adicionar Nota" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="64dp"
                         android:layout_marginLeft="20dp"
-                        android:background="@drawable/edit_button"
-                        android:backgroundTint="@color/white"
                         android:text="Validar"
                         android:textColor="@color/white"
                         android:onClick="editarReuniao"

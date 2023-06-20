@@ -99,4 +99,6 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
             return reunioes.size
         }
     }
+
+
 }
