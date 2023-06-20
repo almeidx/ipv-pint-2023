@@ -84,7 +84,7 @@ export default function NotasReuniao() {
 
 			<Container className="mb-5">
 				<h2 className="fw-bold mb-4">
-					{isLoading ? <Spinner size="md" /> : isEntrevista ? "Entrevista" : "Oportunidade"}
+					{isLoading ? <Spinner size="md" /> : isEntrevista ? "Notas de Entrevista" : "Notas de Oportunidade"}
 				</h2>
 
 				<div className="d-flex justify-content-between align-items-center mb-4 rounded bg-white px-3 py-2 text-black">
@@ -108,14 +108,7 @@ export default function NotasReuniao() {
 				</div>
 
 				<Form onSubmit={handleCreate}>
-					<Form.Control
-						className="mb-3"
-						name="content"
-						id="content"
-						rows="5"
-						as="textarea"
-						placeholder="Escreva a sua nota"
-					/>
+					<Form.Control className="mb-3" id="content" rows="5" as="textarea" placeholder="Escreva a sua nota" />
 
 					<Button variant="light" type="submit" className="rounded-pill px-5">
 						Guardar

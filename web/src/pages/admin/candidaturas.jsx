@@ -1,4 +1,3 @@
-import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
 import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -7,7 +6,6 @@ import FormSelect from "react-bootstrap/FormSelect";
 import ListGroup from "react-bootstrap/ListGroup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { CreateReuniaoModal } from "../../components/CreateReuniaoModal.jsx";
@@ -16,11 +14,14 @@ import { Spinner } from "../../components/Spinner.jsx";
 import { Toast } from "../../components/Toast.jsx";
 import { HandshakeIcon } from "../../components/icons/HandshakeIcon.jsx";
 import { useToast } from "../../contexts/ToastContext.jsx";
+import { useUser } from "../../contexts/UserContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 
 export default function Candidaturas() {
+	const { user } = useUser();
+
 	const [search, setSearch] = useState("");
 	const [filtro, setFiltro] = useState("1");
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
@@ -28,6 +29,7 @@ export default function Candidaturas() {
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/candidaturas?admin`, fetcher);
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
+	const [candidatoId, setCandidatoId] = useState(null);
 
 	const filtered = useMemo(
 		() =>
@@ -107,6 +109,7 @@ export default function Candidaturas() {
 				onSave={handleCreateReuniao}
 				utilizadores={utilizadores}
 				title="Criar Reunião para candidatura a Vaga"
+				defaultUserIds={[candidatoId, user.id]}
 			/>
 
 			<div className="d-flex w-100 gap-3">
@@ -158,17 +161,12 @@ export default function Candidaturas() {
 									</Button>
 								</OverlayTrigger>
 
-								<OverlayTrigger placement="top" overlay={<Tooltip>Notas da entrevista</Tooltip>}>
-									<Link to={`/admin/notas/${id}`}>
-										<BiNotepad size={40} color="black" />
-									</Link>
-								</OverlayTrigger>
-
 								<OverlayTrigger placement="top" overlay={<Tooltip>Marcar reunião</Tooltip>}>
 									<Button
 										className="border-0 bg-transparent p-0"
 										onClick={() => {
 											setIdCandidatura(id);
+											setCandidatoId(utilizador.id);
 											setShowCreateReuniaoModal(true);
 										}}
 									>

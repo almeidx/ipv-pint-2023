@@ -62,33 +62,32 @@ module.exports = {
 				],
 			],
 			order: [["id", "ASC"]],
+			where: {},
 		};
 
 		if (admin !== undefined) {
 			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
 
 			opts.attributes.push("createdAt");
-		} else if (req.user?.id) {
-			const candidaturas = await Candidatura.findAll({
-				where: {
-					idUser: req.user.id,
-				},
-				attributes: ["idVaga"],
-			});
+		} else {
+			if (req.user?.id) {
+				const candidaturas = await Candidatura.findAll({
+					where: {
+						idUser: req.user.id,
+					},
+					attributes: ["idVaga"],
+				});
 
-			opts.where = {
-				id: {
+				opts.where.id = {
 					[Op.notIn]: candidaturas.map((c) => c.idVaga),
-				},
-			};
+				};
+			}
+
+			opts.where.status = 0;
 		}
 
 		if (!req.user || req.user.tipoUtilizador === TipoUtilizadorEnum.Utilizador) {
-			opts.where = {
-				...opts.where,
-				public: true,
-				status: 0,
-			};
+			opts.where.public = true;
 		}
 
 		res.json(await Vaga.findAll(opts));

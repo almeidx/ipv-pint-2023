@@ -3,12 +3,12 @@ import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible
 import { MdAlternateEmail } from "@react-icons/all-files/md/MdAlternateEmail";
 import { RiLockPasswordLine } from "@react-icons/all-files/ri/RiLockPasswordLine";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Link, useNavigate } from "react-router-dom";
-import { object, string } from "yup";
+import { boolean, object, string } from "yup";
 import { LoginContainer, SocialButtons } from "../components/LoginContainer.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
@@ -18,6 +18,7 @@ import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
 
 const schema = object().shape({
 	email: string().email("Email inválido").required("Email é obrigatório"),
+	rememberMe: boolean(),
 	password: string().required("Password é obrigatória"),
 	// .min(12, "Password deve ter pelo menos 12 caracteres")
 	// .max(128, "Password deve ter no máximo 128 caracteres")
@@ -35,7 +36,7 @@ export default function Login() {
 	/**
 	 * @param {import("yup").InferType<typeof schema>} data
 	 */
-	async function handleSubmit({ email, password }) {
+	async function handleSubmit({ email, password, rememberMe }) {
 		const response = await fetch(`${API_URL}/auth/email`, {
 			credentials: "include",
 			method: "POST",
@@ -48,6 +49,19 @@ export default function Login() {
 
 		if (!response.ok) {
 			if (response.status === 401) {
+				try {
+					const body = await response.json();
+					if (typeof body === "object" && "provider" in body) {
+						const { provider } = body;
+
+						showToastWithMessage(
+							`A sua conta foi criada através do ${provider}. Utilize o botão de login apropriado`,
+							"error",
+						);
+						return;
+					}
+				} catch {}
+
 				showToastWithMessage("Email ou password incorretos", "error");
 			}
 
@@ -57,6 +71,10 @@ export default function Login() {
 		}
 
 		const { user } = await response.json();
+
+		if (rememberMe) {
+			localStorage.setItem("auth-data", btoa(JSON.stringify({ email, password })));
+		}
 
 		setUser(user);
 
@@ -99,9 +117,35 @@ export default function Login() {
 		<LoginContainer handleSubmit={handleSubmit}>
 			<Toast message={toastMessage} show={showToast} hide={hide} type={toastType} />
 
-			<Formik validationSchema={schema} initialValues={{ email: "", password: "" }} onSubmit={handleSubmit}>
-				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => {
+			<Formik
+				validationSchema={schema}
+				initialValues={{ email: "", password: "", rememberMe: false }}
+				onSubmit={handleSubmit}
+			>
+				{({ handleSubmit, handleChange, handleBlur, values, touched, errors, setFieldValue, setFieldTouched }) => {
 					const [showPassword, setShowPassword] = useState(false);
+
+					useEffect(() => {
+						const authData = localStorage.getItem("auth-data");
+						if (!authData) return;
+
+						const { email, password } = JSON.parse(atob(authData));
+
+						(async () => {
+							await setFieldValue("email", email);
+							await setFieldValue("password", password);
+							await setFieldValue("rememberMe", true);
+
+							// formik sucks
+							setTimeout(() => {
+								setFieldTouched("email", true);
+
+								setTimeout(() => {
+									setFieldTouched("password", true);
+								});
+							});
+						})();
+					}, []);
 
 					return (
 						<Form
@@ -159,7 +203,7 @@ export default function Login() {
 								<Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
 							</InputGroup>
 
-							<Form.Group controlId="formBasicCheckbox" className="pb-3">
+							<Form.Group className="pb-3">
 								<Button
 									className="fst-italic text-decoration-none border-0 bg-transparent p-0 text-white"
 									onClick={() => handleEsqueceuPassword(values.email)}
@@ -168,8 +212,14 @@ export default function Login() {
 								</Button>
 							</Form.Group>
 
-							<Form.Group className="mb-3" controlId="lembrar-password">
-								<Form.Check type="checkbox" label="Lembrar Password" />
+							<Form.Group className="mb-3">
+								<Form.Check
+									id="rememberMe"
+									type="checkbox"
+									label="Lembrar Password"
+									onChange={handleChange}
+									value={values.rememberMe}
+								/>
 							</Form.Group>
 
 							<Button
@@ -183,7 +233,7 @@ export default function Login() {
 
 							<SocialButtons />
 
-							<Form.Group controlId="formBasicCheckbox" className="mx-auto">
+							<Form.Group className="mx-auto">
 								<Form.Text className="text-white">
 									Ainda não tem uma conta?{" "}
 									<Link className="text-white" to="/signup">

@@ -16,13 +16,7 @@ const { z } = require("zod");
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		validate(
-			z
-				.object({
-					content: z.string().min(1).max(1000),
-				})
-				.strict(),
-		),
+		validate(z.object({ content: z.string().min(1).max(1_000) }).strict()),
 
 		async (req, res) => {
 			const { id } = req.params;

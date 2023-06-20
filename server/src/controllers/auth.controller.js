@@ -17,6 +17,20 @@ module.exports = {
 	email(req, res, next) {
 		passport.authenticate("local", (err, user, info) => {
 			if (err) {
+				if (typeof err.message === "string") {
+					const registrationType = /Conta (facebook|google)/i.exec(err.message);
+
+					if (registrationType) {
+						res
+							.status(401)
+							.json({
+								message: `A sua conta está registada através de ${registrationType[1]}`,
+								provider: registrationType[1],
+							});
+						return;
+					}
+				}
+
 				return next(err);
 			}
 
@@ -93,7 +107,14 @@ module.exports = {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const confirmCode = randomNumberString(12);
 
-			const user = await Utilizador.create({ name, email, hashedPassword, confirmCode, confirmDateStart: new Date() });
+			const user = await Utilizador.create({
+				name,
+				email,
+				hashedPassword,
+				confirmCode,
+				confirmDateStart: new Date(),
+				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+			});
 
 			await sendEmail(
 				email,

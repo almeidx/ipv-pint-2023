@@ -11,8 +11,9 @@ import { Multiselect } from "./Multiselect.jsx";
  * @param {() => void} props.onHide
  * @param {(data: Object) => void} props.onSave
  * @param {{ id: number; name: string }[]} props.utilizadores
+ * @param {number[]} props.defaultUserIds
  */
-export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }) {
+export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores, defaultUserIds }) {
 	const [reuniaoData, setReuniaoData] = useState({});
 
 	function onHideWrapper() {
@@ -82,6 +83,7 @@ export function CreateReuniaoModal({ title, show, onHide, onSave, utilizadores }
 							placeholder="Pesquise por utilizadores"
 							buttonText="Adicionar utilizadores"
 							withSearch
+							defaultSelectedOptions={defaultUserIds}
 						/>
 					</Form.Group>
 

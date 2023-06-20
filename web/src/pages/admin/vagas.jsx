@@ -290,7 +290,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 						<Form.Control
 							id="amount-slots-edit"
 							placeholder="Quantidade de vagas"
-							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
+							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.valueAsNumber }))}
 							value={vagaData.amountSlots ?? data?.amountSlots ?? ""}
 							required={isCreate}
 							type="number"

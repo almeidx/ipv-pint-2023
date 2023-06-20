@@ -97,25 +97,36 @@ module.exports = {
 				)
 					return;
 
+				const reunioes = await Reuniao.findAll({
+					include: [
+						{
+							model: Candidatura,
+							attributes: ["id"],
+							include: [
+								{
+									model: Vaga,
+									attributes: ["id", "title"],
+								},
+							],
+						},
+						{
+							model: Negocio,
+							attributes: ["id", "title"],
+						},
+						{
+							model: Utilizador,
+							attributes: ["id", "name"],
+						},
+					],
+				});
+
 				res.json(
-					await Reuniao.findAll({
-						include: [
-							{
-								model: Candidatura,
-								attributes: ["id"],
-								include: [
-									{
-										model: Vaga,
-										attributes: ["id", "title"],
-									},
-								],
-							},
-							{
-								model: Negocio,
-								attributes: ["id", "title"],
-							},
-						],
-					}),
+					reunioes
+						.map((reuniao) => reuniao.toJSON())
+						.map(({ utilizadores, ...reuniao }) => ({
+							...reuniao,
+							utilizadores: utilizadores.map(({ id, name }) => ({ id, name })),
+						})),
 				);
 
 				return;
@@ -190,6 +201,8 @@ module.exports = {
 
 			await sequelize.transaction(async (transaction) => {
 				await NotaEntrevista.destroy({ where: { idReuniao: id }, transaction });
+
+				await reuniao.setUtilizadores([], { transaction });
 
 				await reuniao.destroy({ transaction });
 			});

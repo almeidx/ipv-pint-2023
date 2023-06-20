@@ -1,4 +1,3 @@
-import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
 import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
@@ -263,12 +262,6 @@ export default function Negocios() {
 												>
 													<BsCalendarDate size={32} color="black" />
 												</Button>
-											</OverlayTrigger>
-
-											<OverlayTrigger placement="top" overlay={<Tooltip>Notas da reunião</Tooltip>}>
-												<Link to={`/admin/notas/${id}`}>
-													<BiNotepad size={32} color="black" />
-												</Link>
 											</OverlayTrigger>
 
 											<OverlayTrigger placement="top" overlay={<Tooltip>Editar Negócio</Tooltip>}>

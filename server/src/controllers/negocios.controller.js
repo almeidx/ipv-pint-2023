@@ -78,7 +78,7 @@ module.exports = {
 			} catch (error) {
 				console.error(error);
 
-				res.status(500).json({ error: "Erro ao criar o negócio" });
+				res.status(500).json({ message: "Erro ao criar o negócio" });
 			}
 		},
 	],

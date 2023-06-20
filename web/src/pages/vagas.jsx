@@ -137,7 +137,7 @@ export default function Vagas() {
  * @param {(id: number) => void} props.onClickVaga
  * @param {boolean} props.loggedIn
  */
-function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn }) {
+function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn, public: isPublic }) {
 	return (
 		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
@@ -154,7 +154,9 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					{title}
 				</Card.Title>
 
-				<Card.Subtitle>Aberta - {amountSlots - slotsFilled} vagas</Card.Subtitle>
+				<Card.Subtitle>
+					Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
+				</Card.Subtitle>
 
 				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
 					{description}

@@ -338,7 +338,16 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button onClick={handleSave} variant="success">
+				<Button
+					onClick={() => {
+						if (beneficioData.dataValidade && !beneficioData.dataValidade.endsWith(":00.000Z")) {
+							beneficioData.dataValidade += ":00.000Z";
+						}
+
+						handleSave();
+					}}
+					variant="success"
+				>
 					Guardar
 				</Button>
 

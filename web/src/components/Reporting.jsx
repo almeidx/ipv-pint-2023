@@ -83,7 +83,7 @@ export function Reporting() {
 	);
 
 	return (
-		<Container className="">
+		<Container>
 			{isLoading ? (
 				<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
 					<Skeleton />

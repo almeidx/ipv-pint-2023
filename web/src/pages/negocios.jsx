@@ -42,7 +42,10 @@ const createContactoSchema = object().shape({
 		.when("type", {
 			is: "1",
 			then: () =>
-				string().matches(/^(\+351 ?)?(9[1236]\d) ?(\d{3}) ?(\d{3})$/, "O contacto tem de ser um número de telefone"),
+				string().matches(
+					/^(\+351 ?)?(9[1236]\d|232) ?(\d{3}) ?(\d{3})$/,
+					"O contacto tem de ser um número de telefone",
+				),
 		}),
 	type: string().required("O tipo de contacto é obrigatório").oneOf(["0", "1"], "O tipo de contacto é inválido"),
 });
@@ -423,12 +426,6 @@ function CreateOrEditNegocioModal({
 	}, [newClientId]);
 
 	useEffect(() => {
-		if (newContactoId !== null) {
-			setNegocioData((state) => ({ ...state, contactos: [...(state.contactos ?? []), newContactoId] }));
-		}
-	}, [newContactoId]);
-
-	useEffect(() => {
 		if (negocioData.idCliente == null) {
 			return;
 		}
@@ -442,7 +439,7 @@ function CreateOrEditNegocioModal({
 				throw new Error("Erro ao obter contactos", { cause: res });
 			}
 		});
-	}, [negocioData.idCliente]);
+	}, [negocioData.idCliente, newContactoId]);
 
 	const contactoOptions = useMemo(() => contactos.map(({ id, value }) => ({ value: id, label: value })), [contactos]);
 
@@ -471,7 +468,7 @@ function CreateOrEditNegocioModal({
 		}));
 	}
 
-	// TODO: Contactos criados não estão a aparecer na lista (qnd é só 1?)
+	const contactDefaultOpts = useMemo(() => (newContactoId !== null ? [newContactoId] : null), [newContactoId]);
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
@@ -639,6 +636,7 @@ function CreateOrEditNegocioModal({
 										onSelectOption={handleContactosChange}
 										buttonText="Selecionar os contactos do cliente"
 										withSearch={false}
+										defaultSelectedOptions={contactDefaultOpts}
 									/>
 
 									<Button
@@ -659,6 +657,8 @@ function CreateOrEditNegocioModal({
 			<Modal.Footer>
 				<Button
 					onClick={() => {
+						negocioData.necessidades ??= [];
+
 						onSave(negocioData);
 						onHideWrapper();
 					}}

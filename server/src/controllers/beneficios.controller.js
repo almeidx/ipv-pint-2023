@@ -79,7 +79,7 @@ module.exports = {
 
 			const beneficio = await Beneficio.findByPk(id);
 			if (!beneficio) {
-				res.status(404).json({ error: "Beneficio não encontrado" });
+				res.status(404).json({ message: "Beneficio não encontrado" });
 				return;
 			}
 
