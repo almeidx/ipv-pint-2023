@@ -112,7 +112,7 @@ const Utilizador = sequelize.define(
 		},
 		disabled: {
 			type: DataTypes.BOOLEAN,
-			field: "ACTIVE_ACCOUNT",
+			field: "DISABLED",
 			allowNull: false,
 			defaultValue: false,
 		},

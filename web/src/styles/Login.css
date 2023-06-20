@@ -1,11 +1,4 @@
-.login-cnt {
-	background-image: url(/static/login-bg.jpeg);
-	background-size: cover;
-	display: grid;
-	place-items: center;
-}
-
-.form {
+.login-form {
 	border-radius: 2rem;
 	color: white;
 

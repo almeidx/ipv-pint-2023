@@ -1,20 +1,20 @@
 import { BsCalendar2DayFill } from "@react-icons/all-files/bs/BsCalendar2DayFill";
 import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
 import { FaHandHoldingUsd } from "@react-icons/all-files/fa/FaHandHoldingUsd";
-import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiTrophyFill } from "@react-icons/all-files/ri/RiTrophyFill";
 import { TbCheck } from "@react-icons/all-files/tb/TbCheck";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
+import { API_URL } from "../utils/constants.js";
 import { formatDate } from "../utils/formatDate.js";
 import { getRelativeTimeString } from "../utils/getRelativeTimeString.js";
-import { useToast } from "../contexts/ToastContext.jsx";
 import { Toast } from "./Toast.jsx";
 
 export default function Notifications() {
 	const { notifications, mutate } = useNotifications();
-	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, toastType, hide } = useToast();
 
 	/** @param {number} id */
 	async function handleSingleSeen(id) {
@@ -40,7 +40,7 @@ export default function Notifications() {
 
 	return (
 		<>
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} type={toastType} />
+			<Toast hide={hide} show={showToast} message={toastMessage} type={toastType} />
 
 			{notifications?.length ? (
 				<ListGroup>

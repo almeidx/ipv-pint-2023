@@ -1,4 +1,12 @@
-const { NotaEntrevista, Reuniao, Vaga, Candidatura, Utilizador } = require("../database/index.js");
+const {
+	NotaEntrevista,
+	Reuniao,
+	Vaga,
+	Candidatura,
+	Utilizador,
+	Negocio,
+	TipoProjeto,
+} = require("../database/index.js");
 const { requirePermission } = require("../middleware/authentication.js");
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
@@ -8,11 +16,7 @@ const { z } = require("zod");
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
-		validate(
-			z.object({
-				content: z.string().min(1).max(1000),
-			}),
-		),
+		validate(z.object({ content: z.string().min(1).max(1_000) }).strict()),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -50,12 +54,28 @@ module.exports = {
 						include: [
 							{
 								model: Vaga,
-								attributes: ["id", "title"],
+								attributes: ["title"],
 							},
 							{
 								model: Utilizador,
-								attributes: ["id", "name"],
+								attributes: ["name"],
 								as: "utilizador",
+							},
+						],
+					},
+					{
+						model: Negocio,
+						attributes: ["id", "title"],
+						include: [
+							{
+								model: Utilizador,
+								attributes: ["name"],
+								as: "criador",
+							},
+							{
+								model: TipoProjeto,
+								attributes: ["name"],
+								as: "tipoProjeto",
 							},
 						],
 					},

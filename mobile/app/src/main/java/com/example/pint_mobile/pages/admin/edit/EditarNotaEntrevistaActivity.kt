@@ -30,8 +30,11 @@ class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_
         val titulo = intent.getStringExtra("Titulo")
         id = intent.getIntExtra("Id", -1)
 
-        val nomeCandidato = findViewById<TextView>(R.id.tituloCandidaturaEdit)
-        nomeCandidato.setText(nome + " - " + titulo)
+        val nomeCandidato = findViewById<TextView>(R.id.NomeCandidaturaEdit)
+        nomeCandidato.setText(nome)
+
+        val tituloCandidato = findViewById<TextView>(R.id.tituloCandidaturaEdit)
+        tituloCandidato.setText(titulo)
 
         val lista = findViewById<android.widget.ListView>(R.id.listaNotasEntrevista)
 

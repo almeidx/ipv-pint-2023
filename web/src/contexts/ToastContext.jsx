@@ -3,14 +3,11 @@ import { createContext, useContext, useMemo, useRef, useState } from "react";
 export const ToastContext = createContext({
 	toastMessage: "",
 	toastType: "success",
-	/** @param {string} _message */
-	setToastMessage: (_message) => {},
 	showToast: false,
-	/** @param {boolean} _state */
-	toggleToast: (_state) => {},
+	hide: () => {},
 	/**
 	 * @param {string} _message
-	 * @param {"success"|"error"} [_type]
+	 * @param {"success"|"error"} [_type="success"]
 	 */
 	showToastWithMessage: (_message, _type) => {},
 });
@@ -43,6 +40,10 @@ export function ToastProvider({ children }) {
 		}
 	}
 
+	function hide() {
+		setShowToast(false);
+	}
+
 	/**
 	 * @param {string} message
 	 * @param {"success"|"error"} [type]
@@ -54,8 +55,8 @@ export function ToastProvider({ children }) {
 	}
 
 	const value = useMemo(
-		() => ({ toastMessage, setToastMessage, showToast, toggleToast, showToastWithMessage, toastType }),
-		[toastMessage, setToastMessage, showToast, toggleToast, showToastWithMessage, toastType],
+		() => ({ toastMessage, showToast, hide, showToastWithMessage, toastType }),
+		[toastMessage, showToast, hide, showToastWithMessage, toastType],
 	);
 
 	return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;

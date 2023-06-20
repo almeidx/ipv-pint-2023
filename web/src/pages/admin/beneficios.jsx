@@ -26,7 +26,7 @@ export default function Beneficios() {
 	const [beneficioData, setBeneficioData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/beneficios?admin`, fetcher);
-	const { showToastWithMessage, showToast, toggleToast, toastMessage } = useToast();
+	const { showToastWithMessage, showToast, hide, toastMessage } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -119,7 +119,7 @@ export default function Beneficios() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Benefícios</h2>
@@ -272,7 +272,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 						<Form.Control
 							id="short-content-edit"
 							placeholder="Título do benefício"
-							value={beneficioData.shortContent ?? data?.shortContent}
+							value={beneficioData.shortContent ?? data?.shortContent ?? ""}
 							onChange={(e) => setBeneficioData((state) => ({ ...state, shortContent: e.target.value }))}
 							required={isCreate}
 							max={100}
@@ -287,7 +287,7 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 							id="content-edit"
 							placeholder="Descrição do benefício"
 							onChange={(e) => setBeneficioData((state) => ({ ...state, content: e.target.value }))}
-							value={beneficioData.content ?? data?.content}
+							value={beneficioData.content ?? data?.content ?? ""}
 							required={isCreate}
 							as="textarea"
 							maxLength={1_000}
@@ -338,7 +338,16 @@ function CreateOrEditBeneficioModal({ data, show, onHide, onSave, isCreate = fal
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button onClick={handleSave} variant="success">
+				<Button
+					onClick={() => {
+						if (beneficioData.dataValidade && !beneficioData.dataValidade.endsWith(":00.000Z")) {
+							beneficioData.dataValidade += ":00.000Z";
+						}
+
+						handleSave();
+					}}
+					variant="success"
+				>
 					Guardar
 				</Button>
 

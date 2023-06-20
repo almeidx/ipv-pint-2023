@@ -6,12 +6,14 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { z } = require("zod");
 const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
 
-const fieldValidations = z.object({
-	content: z.string().min(1).max(1000),
-	shortContent: z.string().min(1).max(100),
-	iconeBeneficio: z.string().min(1).max(100),
-	dataValidade: z.string().regex(ISO_DATETIME_REGEX),
-});
+const fieldValidations = z
+	.object({
+		content: z.string().min(1).max(1000),
+		shortContent: z.string().min(1).max(100),
+		iconeBeneficio: z.string().min(1).max(100),
+		dataValidade: z.string().regex(ISO_DATETIME_REGEX),
+	})
+	.strict();
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -77,7 +79,7 @@ module.exports = {
 
 			const beneficio = await Beneficio.findByPk(id);
 			if (!beneficio) {
-				res.status(404).json({ error: "Beneficio não encontrado" });
+				res.status(404).json({ message: "Beneficio não encontrado" });
 				return;
 			}
 

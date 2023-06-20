@@ -3,24 +3,14 @@ package com.example.pint_mobile.pages
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
-import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.*
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.getCurrentUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
-    private lateinit var adminlink: ListView
-    private lateinit var adapter: AdminAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
@@ -159,10 +149,14 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
     }
 
     fun gotoAdminAreaNegocio(_view: android.view.View) {
-
+        val intent = Intent(this, AreasNegocioActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminTipoProjeto(_view: android.view.View) {
-
+        val intent = Intent(this, AdminTiposProjetoActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 }

@@ -8,18 +8,12 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 module.exports = {
 	create: [
 		requirePermission(TipoUtilizadorEnum.GestorNegocios),
-		validate(
-			z.object({
-				name: z.string().min(3).max(64),
-			}),
-		),
+		validate(z.object({ name: z.string().min(3).max(64) }).strict()),
 
 		async (req, res) => {
 			const { name } = req.body;
 
-			const areaNegocio = await AreaNegocio.create({
-				name,
-			});
+			const areaNegocio = await AreaNegocio.create({ name });
 
 			res.json(areaNegocio);
 		},
@@ -36,7 +30,7 @@ module.exports = {
 	],
 
 	destroy: [
-		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		requirePermission(TipoUtilizadorEnum.GestorNegocios),
 
 		async (req, res) => {
 			const { id } = req.params;
@@ -52,7 +46,7 @@ module.exports = {
 			});
 
 			if (!areaNegocio) {
-				res.status(404).json({ error: "Área de negócio não encontrada" });
+				res.status(404).json({ message: "Área de negócio não encontrada" });
 				return;
 			}
 

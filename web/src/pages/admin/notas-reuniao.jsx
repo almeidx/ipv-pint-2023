@@ -15,14 +15,16 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
 
-export default function NotasEntrevista() {
+export default function NotasReuniao() {
 	const { id } = useParams();
 	const { data, isLoading, mutate, error } = useSWR(`${API_URL}/reunioes/${id}/notas`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	if (error) {
 		return <AdminPageError error={error} />;
 	}
+
+	const isEntrevista = !!data?.candidatura;
 
 	/** @param {SubmitEvent} event */
 	async function handleCreate(event) {
@@ -78,30 +80,35 @@ export default function NotasEntrevista() {
 
 	return (
 		<Page className="min-h-without-navbar bg-main py-5">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<Container className="mb-5">
-				<h2 className="fw-bold mb-4">Entrevista</h2>
+				<h2 className="fw-bold mb-4">
+					{isLoading ? <Spinner size="md" /> : isEntrevista ? "Notas de Entrevista" : "Notas de Oportunidade"}
+				</h2>
 
 				<div className="d-flex justify-content-between align-items-center mb-4 rounded bg-white px-3 py-2 text-black">
 					<div>
-						<span className="fw-bold">Nome:</span> {isLoading ? <Spinner /> : data.candidatura.utilizador.name}
+						<span className="fw-bold">Nome:</span>{" "}
+						{isLoading ? (
+							<Spinner size="md" />
+						) : isEntrevista ? (
+							data.candidatura.utilizador.name
+						) : (
+							data.negocio.criador.name
+						)}
 					</div>
 
 					<div>
-						<span className="fw-bold">Vaga:</span> {isLoading ? <Spinner /> : data.candidatura.vaga.title}
+						<span className="fw-bold">
+							{isLoading ? <Spinner size="md" /> : isEntrevista ? "Vaga" : data.negocio.tipoProjeto.name}:
+						</span>{" "}
+						{isLoading ? <Spinner size="md" /> : isEntrevista ? data.candidatura.vaga.title : data.negocio.title}
 					</div>
 				</div>
 
 				<Form onSubmit={handleCreate}>
-					<Form.Control
-						className="mb-3"
-						name="content"
-						id="content"
-						rows="8"
-						as="textarea"
-						placeholder="Escreva a sua nota"
-					/>
+					<Form.Control className="mb-3" id="content" rows="5" as="textarea" placeholder="Escreva a sua nota" />
 
 					<Button variant="light" type="submit" className="rounded-pill px-5">
 						Guardar
@@ -114,7 +121,7 @@ export default function NotasEntrevista() {
 
 				{isLoading ? (
 					<Spinner />
-				) : (
+				) : data.notas.length ? (
 					data.notas.map(({ id, content, createdAt }) => (
 						<div className="d-flex justify-content-between mb-3 rounded bg-white px-3 py-2" key={id}>
 							<div className="d-flex justify-content-between flex-column">
@@ -134,6 +141,8 @@ export default function NotasEntrevista() {
 							</div>
 						</div>
 					))
+				) : (
+					<p className="text-muted">Ainda não existem notas guardadas</p>
 				)}
 			</Container>
 		</Page>

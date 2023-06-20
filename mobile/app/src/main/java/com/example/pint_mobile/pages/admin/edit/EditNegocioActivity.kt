@@ -39,11 +39,17 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
     private lateinit var centroTrabalhoAdapter: CentroTrabalhoAdapter
     private var utilizadorId: Int? = null
 
+    private lateinit var nome: String
+    private lateinit var titulo: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val centroTrabalhoName = intent.getStringExtra("centroTrabalho")
         val funcResponsavel = intent.getStringExtra("funcResponsavel")
+
+         nome = intent.getStringExtra("cliente").toString()
+         titulo = intent.getStringExtra("titulo").toString()
 
         val funcionarioResponsavel = findViewById<TextView>(R.id.FuncionarioResponsavelNegocioEdit)
         funcionarioResponsavel.text = funcResponsavel
@@ -187,6 +193,16 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         Log.i("utilizadorId", utilizadorId?.toString() ?: "nada")
 
         editNegocio( idNegocio, juntaArray, centroTrabalhoId, utilizadorId,  this)
+    }
+
+    fun goToNotaOportunidade(view: View) {
+        val intent = android.content.Intent(this, EditarNotaEntrevistaActivity::class.java)
+
+        intent.putExtra("Id", idNegocio)
+        intent.putExtra("Nome", nome)
+        intent.putExtra("Titulo", titulo)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
     }
 
 }

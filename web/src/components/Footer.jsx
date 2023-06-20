@@ -20,19 +20,19 @@ export function Footer() {
 
 			<ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
 				<li className="ms-3">
-					<a href="https://www.facebook.com/Softinsa" target="_blank">
+					<a href="https://www.facebook.com/Softinsa" target="_blank" rel="external noopener noreferrer">
 						<RiFacebookCircleFill color="white" />
 					</a>
 				</li>
 
 				<li className="ms-3">
-					<a href="https://www.instagram.com/softinsa" target="_blank">
+					<a href="https://www.instagram.com/softinsa" target="_blank" rel="external noopener noreferrer">
 						<RiInstagramLine color="white" />
 					</a>
 				</li>
 
 				<li className="ms-3">
-					<a href="https://www.linkedin.com/company/softinsa" target="_blank">
+					<a href="https://www.linkedin.com/company/softinsa" target="_blank" rel="external noopener noreferrer">
 						<RiLinkedinBoxLine color="white" />
 					</a>
 				</li>

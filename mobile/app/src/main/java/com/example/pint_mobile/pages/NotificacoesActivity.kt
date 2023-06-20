@@ -12,7 +12,9 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Notificacao
 import com.example.pint_mobile.utils.formatDate
+import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.listaNotificacoes
+import com.example.pint_mobile.utils.marcarTodasNotiLidas
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -75,5 +77,10 @@ class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notif
                 else -> "Novo evento"
             }
         }
+    }
+
+    fun marcarTodasComoLida(view: View) {
+        marcarTodasNotiLidas(this)
+        notificacaoAdapter.notifyDataSetChanged()
     }
 }

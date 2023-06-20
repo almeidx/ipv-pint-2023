@@ -75,7 +75,8 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
     fun desativarUtilizador(view: View) {
         disable = !disable
         Log.i("disable", disable.toString())
-        desativarUser(id, disable, this)
+        val user = 0
+        desativarUser(id, disable, user,this)
     }
 
     fun editarUser(view: View) {

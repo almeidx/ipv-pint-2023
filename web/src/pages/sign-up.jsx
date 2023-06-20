@@ -34,7 +34,7 @@ const schema = object().shape({
 
 export default function SignUp() {
 	const query = useQuery();
-	const { showToast, showToastWithMessage, toastMessage, toggleToast, toastType } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide, toastType } = useToast();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -89,7 +89,7 @@ export default function SignUp() {
 
 	return (
 		<LoginContainer handleSubmit={handleSubmit}>
-			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} type={toastType} />
+			<Toast message={toastMessage} show={showToast} hide={hide} type={toastType} />
 
 			<Formik
 				validationSchema={schema}
@@ -103,7 +103,7 @@ export default function SignUp() {
 						<Form
 							noValidate
 							onSubmit={handleSubmit}
-							className="col-lg-3 col-sm-7 col-10 col-md-5 form d-flex flex-column"
+							className="col-lg-3 col-sm-7 col-10 col-md-5 login-form d-flex flex-column"
 						>
 							<h1 className="title mb-5 text-white">Sign up</h1>
 

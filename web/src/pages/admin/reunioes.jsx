@@ -1,3 +1,4 @@
+import { BiNotepad } from "@react-icons/all-files/bi/BiNotepad";
 import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
@@ -8,22 +9,23 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { AdminPageError } from "../../components/AdminPageError.jsx";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import { Spinner } from "../../components/Spinner.jsx";
+import { Toast } from "../../components/Toast.jsx";
+import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
-import { useToast } from "../../contexts/ToastContext.jsx";
-import { Toast } from "../../components/Toast.jsx";
 
 export default function Reuniões() {
 	const [search, setSearch] = useState("");
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [editData, setEditData] = useState({});
 	const { isLoading, data, error, mutate } = useSWR(`${API_URL}/reunioes?admin`, fetcher);
-	const { showToastWithMessage, toastType, toastMessage, toggleToast, showToast } = useToast();
+	const { showToastWithMessage, toastType, toastMessage, hide, showToast } = useToast();
 
 	const filtered = useMemo(
 		() =>
@@ -41,8 +43,6 @@ export default function Reuniões() {
 	}
 
 	async function handleEdit(data) {
-		// TODO: Testar todas as coisas
-
 		try {
 			const response = await fetch(`${API_URL}/reunioes/${editData.id}`, {
 				credentials: "include",
@@ -89,7 +89,7 @@ export default function Reuniões() {
 
 	return (
 		<Container className="py-4">
-			<Toast show={showToast} hide={() => toggleToast(false)} type={toastType} message={toastMessage} />
+			<Toast show={showToast} hide={hide} type={toastType} message={toastMessage} />
 
 			<EditReuniaoModal
 				show={showEditModal}
@@ -108,41 +108,69 @@ export default function Reuniões() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, startTime, duration, title, description, subject }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
-							<div>
-								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-									{id} - {title}: <span className="fw-normal">{subject}</span>
-								</span>
+					filtered.map(
+						({ id, startTime, duration, title, description, subject, negocio, candidatura, utilizadores }) => (
+							<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
+								<div>
+									<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
+										{id} - {title}: <span className="fw-normal">{subject}</span>
+									</span>
 
-								<p className="mb-2">{description}</p>
+									<p className="mb-0">
+										{negocio ? (
+											<>
+												<span className="fw-bold">Oportunidade: </span>
+												{negocio.title}
+											</>
+										) : null}
+										{candidatura ? (
+											<>
+												<span className="fw-bold">Candidatura: </span>
+												{candidatura.vaga.title}
+											</>
+										) : null}
+									</p>
 
-								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-									{formatDate(new Date(startTime))} - {duration} minutos
-								</p>
-							</div>
+									<p className="mb-0">
+										<span className="fw-bold">Participantes: </span>
+										{utilizadores.map(({ name }) => name).join(", ")}
+									</p>
 
-							<div className="d-flex justify-content-center align-items-center gap-2">
-								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Reunião</Tooltip>}>
-									<Button
-										className="border-0 bg-transparent p-0"
-										onClick={() => {
-											setEditData({ id, title, description, subject, duration });
-											setShowEditModal(true);
-										}}
-									>
-										<RiPencilLine size={32} color="black" />
-									</Button>
-								</OverlayTrigger>
+									<p className="mb-2">{description}</p>
 
-								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Reunião</Tooltip>}>
-									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
-										<RiCloseFill size={32} color="red" />
-									</Button>
-								</OverlayTrigger>
-							</div>
-						</ListGroup.Item>
-					))
+									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
+										{formatDate(new Date(startTime))} - {duration} minutos
+									</p>
+								</div>
+
+								<div className="d-flex justify-content-center align-items-center gap-2">
+									<OverlayTrigger placement="top" overlay={<Tooltip>Editar Reunião</Tooltip>}>
+										<Button
+											className="border-0 bg-transparent p-0"
+											onClick={() => {
+												setEditData({ id, title, description, subject, duration });
+												setShowEditModal(true);
+											}}
+										>
+											<RiPencilLine size={32} color="black" />
+										</Button>
+									</OverlayTrigger>
+
+									<OverlayTrigger placement="top" overlay={<Tooltip>Notas da reunião</Tooltip>}>
+										<Link to={`/admin/notas/${id}`}>
+											<BiNotepad size={32} color="black" />
+										</Link>
+									</OverlayTrigger>
+
+									<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Reunião</Tooltip>}>
+										<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
+											<RiCloseFill size={32} color="red" />
+										</Button>
+									</OverlayTrigger>
+								</div>
+							</ListGroup.Item>
+						),
+					)
 				) : (
 					<p>{search ? "Não foi encontrada nenhuma reunião" : "Não há nenhuma reunião registada"}</p>
 				)}
@@ -225,7 +253,7 @@ function EditReuniaoModal({ show, onHide, onSave, user, data }) {
 							id="duration-edit"
 							placeholder="Duração da reunião (em minutos)"
 							value={reuniaoData.duration ?? data?.duration ?? ""}
-							onChange={(e) => setReuniaoData((state) => ({ ...state, duration: e.target.value }))}
+							onChange={(e) => setReuniaoData((state) => ({ ...state, duration: e.target.valueAsNumber }))}
 							required
 							type="number"
 							min={1}

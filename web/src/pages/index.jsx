@@ -19,7 +19,7 @@ export default function Home() {
 
 			<Reporting />
 
-			<Container className="col-12 row mx-auto gap-3 pb-5">
+			<Container className="col-12 row mx-auto mt-5 gap-3 pb-5">
 				<h2 className="text-white">Funcionalidades principais do website</h2>
 
 				<PageCard

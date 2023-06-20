@@ -56,6 +56,7 @@ function Beneficio({ iconeBeneficio, shortContent, content }) {
 					width="110px"
 					className="rounded-circle"
 					style={{ width: "110px" }}
+					fetchpriority="high"
 				/>
 
 				<Card.Title className="title my-3" style={{ fontSize: "2rem" }}>

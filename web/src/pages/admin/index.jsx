@@ -14,6 +14,7 @@ const Ideias = lazy(() => import("./ideias.jsx"));
 const Mensagens = lazy(() => import("./mensagens.jsx"));
 const Negocios = lazy(() => import("./negocios.jsx"));
 const Reunioes = lazy(() => import("./reunioes.jsx"));
+const TiposProjeto = lazy(() => import("./tipos-projeto.jsx"));
 const Utilizadores = lazy(() => import("./utilizadores.jsx"));
 const Vagas = lazy(() => import("./vagas.jsx"));
 
@@ -29,6 +30,7 @@ const sections = [
 		link: "reunioes",
 		permission: [TipoUtilizadorEnum.GestorNegocios, TipoUtilizadorEnum.GestorRecursosHumanos],
 	},
+	{ name: "Tipos de Projeto", link: "tipos-projeto", permission: TipoUtilizadorEnum.GestorNegocios },
 	{ name: "Utilizadores", link: "utilizadores", permission: TipoUtilizadorEnum.Administrador },
 	{ name: "Vagas", link: "vagas", permission: TipoUtilizadorEnum.GestorRecursosHumanos },
 ];
@@ -89,22 +91,24 @@ export default function Admin() {
 				<Suspense fallback={<div className="min-h-screen-no-footer flex items-center justify-center p-5"> </div>}>
 					{section === "areas-negocio" ? (
 						<AreasNegocio />
+					) : section === "beneficios" ? (
+						<Beneficios />
 					) : section === "candidaturas" ? (
 						<Candidaturas />
 					) : section === "ideias" ? (
 						<Ideias />
-					) : section === "negocios" ? (
-						<Negocios />
-					) : section === "vagas" ? (
-						<Vagas />
-					) : section === "beneficios" ? (
-						<Beneficios />
-					) : section === "reunioes" ? (
-						<Reunioes />
-					) : section === "utilizadores" ? (
-						<Utilizadores />
 					) : section === "mensagens" ? (
 						<Mensagens />
+					) : section === "negocios" ? (
+						<Negocios />
+					) : section === "reunioes" ? (
+						<Reunioes />
+					) : section === "tipos-projeto" ? (
+						<TiposProjeto />
+					) : section === "utilizadores" ? (
+						<Utilizadores />
+					) : section === "vagas" ? (
+						<Vagas />
 					) : null}
 				</Suspense>
 			</div>

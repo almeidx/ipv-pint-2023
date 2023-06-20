@@ -61,7 +61,12 @@ const Interval = {
 	total: "Total",
 };
 
-const reportingPublicKeys = ["benefícios", "utilizadores", "ideias", "negócios", "vagas"];
+const reportingPublicKeys = {
+	benefícios: "Benefícios existentes",
+	utilizadores: "Utilizadores registados",
+	negócios: "Negócios submetidos",
+	vagas: "Vagas de emprego",
+};
 
 export function Reporting() {
 	const { data: reportingData, isLoading } = useSWR(`${API_URL}/reporting`, fetcher);
@@ -70,7 +75,7 @@ export function Reporting() {
 		() =>
 			reportingData
 				? Object.entries(reportingData)
-						.filter(([key]) => reportingPublicKeys.includes(key))
+						.filter(([key]) => Object.keys(reportingPublicKeys).includes(key))
 						.sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
 						.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 				: null,
@@ -78,12 +83,9 @@ export function Reporting() {
 	);
 
 	return (
-		<Container className="">
+		<Container>
 			{isLoading ? (
 				<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
-					<Skeleton />
-					<Skeleton />
-					<Skeleton />
 					<Skeleton />
 					<Skeleton />
 					<Skeleton />
@@ -98,6 +100,7 @@ export function Reporting() {
 								key={key}
 								title={key}
 								onIntervalChange={(interval) => data[interval]}
+								resolveTitle={(title) => reportingPublicKeys[title]}
 								isLoading={isLoading}
 							/>
 						))}
@@ -126,7 +129,7 @@ export function Reporting() {
 									/>
 								</Col>
 
-								<Col style={{ maxHeight: "19.5rem" }}>
+								<Col style={{ maxHeight: "19.8rem" }}>
 									<VolumeChart
 										data={reportingData.negócios.volumeEstados}
 										label="Número de negócios"
@@ -140,7 +143,7 @@ export function Reporting() {
 									/>
 								</Col>
 
-								<Col style={{ maxHeight: "19.5rem" }}>
+								<Col style={{ maxHeight: "19.8rem" }}>
 									<VolumeChart
 										data={reportingData.negócios.volumeTiposProjeto}
 										label="Número de negócios"
@@ -152,11 +155,16 @@ export function Reporting() {
 					) : null}
 
 					{/* Gestor de Ideias */}
-					{"porMes" in reportingData.ideias ? (
+					{reportingData.ideias && "porMes" in reportingData.ideias ? (
 						<>
 							<h2 className="my-3 text-white">Gestão de ideias</h2>
 
 							<Row className="mx-auto mb-4 ms-2" style={{ gap: "2rem" }}>
+								<ReportingCard
+									title="Ideias criadas"
+									onIntervalChange={(interval) => reportingData.ideias[interval]}
+									isLoading={isLoading}
+								/>
 								<ReportingCard
 									title="Ideias validadas"
 									onIntervalChange={() => reportingData.ideias.validadas}
@@ -174,7 +182,7 @@ export function Reporting() {
 									/>
 								</Col>
 
-								<Col style={{ maxHeight: "19.5rem" }}>
+								<Col style={{ maxHeight: "19.8rem" }}>
 									<VolumeChart
 										data={reportingData.ideias.volumeCategorias}
 										title="Ideias por categoria"
@@ -248,9 +256,10 @@ export function Reporting() {
  * @param {string} props.title
  * @param {(interval: Interval) => number} props.onIntervalChange
  * @param {boolean} props.isLoading
+ * @param {(title: string) => string} [props.resolveTitle]
  * @param {boolean} [props.withButton=true]
  */
-function ReportingCard({ title, onIntervalChange, isLoading, withButton = true }) {
+function ReportingCard({ title, resolveTitle, onIntervalChange, isLoading, withButton = true }) {
 	const [currentInterval, setCurrentInterval] = useState(Interval.Total);
 	const [value, setValue] = useState(onIntervalChange(currentInterval));
 
@@ -264,7 +273,7 @@ function ReportingCard({ title, onIntervalChange, isLoading, withButton = true }
 	return (
 		<Col sm={3} className="rounded-3 bg-white px-4 py-3" style={{ width: "18rem" }}>
 			<span className="d-flex justify-content-between">
-				<p className="fw-bold mb-0">{firstLetterUppercase(title)}</p>
+				<p className="fw-bold mb-0">{resolveTitle?.(title) ?? firstLetterUppercase(title)}</p>
 
 				{withButton ? (
 					<Button variant="secondary" onClick={handleIntervalChange} size="sm">

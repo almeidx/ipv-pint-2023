@@ -3,9 +3,11 @@ package com.example.pint_mobile.pages.admin.edit
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.DatePicker
@@ -21,8 +23,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "Editar Reunião") {
 
-
+    private var nome    : String? = null
+    private var titulo  : String? = null
     private var id = 0
+
+    private var negocio = false
+    private var candidatura = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_reuniao)
@@ -35,6 +41,17 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         val candidaturaReuniao = intent.getStringExtra("candidaturaReuniao")
         val subjectReuniao = intent.getStringExtra("subjectReuniao")
         val duracaoReuniao = intent.getStringExtra("duracaoReuniao")
+
+        if (negocioReuniao != null) {
+            negocio = true
+            Log.i("negocio", negocioReuniao)
+        }
+
+        if (candidaturaReuniao != null) {
+            candidatura = true
+            Log.i("candidatura", candidaturaReuniao)
+        }
+
 
         val data = findViewById<Button>(R.id.DataReuniaoEdit)
         data.text = dataReuniao
@@ -74,4 +91,20 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         editReuniao(id, descricao, nome, subject, duracao, this)
     }
 
+    fun criarNota(view: View) {
+
+        if(candidatura) {
+            val intent = Intent(this, EditarNotaEntrevistaActivity::class.java)
+            intent.putExtra("Nome", nome)
+            intent.putExtra("Titulo", titulo)
+            intent.putExtra("Id", id)
+            startActivity(intent)
+        } else if(negocio){
+            val intent = Intent(this, EditarNotaEntrevistaActivity::class.java)
+            intent.putExtra("Nome", nome)
+            intent.putExtra("Titulo", titulo)
+            intent.putExtra("Id", id)
+            startActivity(intent)
+        }
+    }
 }
