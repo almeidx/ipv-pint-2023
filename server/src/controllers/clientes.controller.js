@@ -8,9 +8,11 @@ module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			z.object({
-				name: z.string().min(1).max(100),
-			}),
+			z
+				.object({
+					name: z.string().min(1).max(100),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

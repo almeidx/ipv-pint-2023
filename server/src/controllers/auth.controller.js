@@ -17,6 +17,20 @@ module.exports = {
 	email(req, res, next) {
 		passport.authenticate("local", (err, user, info) => {
 			if (err) {
+				if (typeof err.message === "string") {
+					const registrationType = /Conta (facebook|google)/i.exec(err.message);
+
+					if (registrationType) {
+						res
+							.status(401)
+							.json({
+								message: `A sua conta está registada através de ${registrationType[1]}`,
+								provider: registrationType[1],
+							});
+						return;
+					}
+				}
+
 				return next(err);
 			}
 
@@ -65,18 +79,20 @@ module.exports = {
 
 	register: [
 		validate(
-			z.object({
-				name: z.string().min(1).max(100),
-				email: z.string().email(),
-				password: z
-					.string()
-					.min(12, "Password deve ter pelo menos 12 caracteres")
-					.max(128, "Password deve ter no máximo 128 caracteres")
-					.regex(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
-					.regex(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
-					.regex(/[0-9]/, "Password deve ter pelo menos um número")
-					.regex(/[^a-z0-9]/i, "Password deve ter pelo menos um caracter especial"),
-			}),
+			z
+				.object({
+					name: z.string().min(1).max(100),
+					email: z.string().email(),
+					password: z
+						.string()
+						.min(12, "Password deve ter pelo menos 12 caracteres")
+						.max(128, "Password deve ter no máximo 128 caracteres")
+						.regex(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
+						.regex(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
+						.regex(/[0-9]/, "Password deve ter pelo menos um número")
+						.regex(/[^a-z0-9]/i, "Password deve ter pelo menos um caracter especial"),
+				})
+				.strict(),
 		),
 
 		async (req, res, next) => {
@@ -91,7 +107,14 @@ module.exports = {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const confirmCode = randomNumberString(12);
 
-			const user = await Utilizador.create({ name, email, hashedPassword, confirmCode, confirmDateStart: new Date() });
+			const user = await Utilizador.create({
+				name,
+				email,
+				hashedPassword,
+				confirmCode,
+				confirmDateStart: new Date(),
+				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+			});
 
 			await sendEmail(
 				email,
@@ -114,10 +137,12 @@ module.exports = {
 
 	validarConta: [
 		validate(
-			z.object({
-				confirmCode: z.string().min(12).max(100),
-				userId: z.number(),
-			}),
+			z
+				.object({
+					confirmCode: z.string().min(12).max(100),
+					userId: z.number(),
+				})
+				.strict(),
 		),
 
 		async (req, res, next) => {
@@ -160,9 +185,11 @@ module.exports = {
 
 	retryValidar: [
 		validate(
-			z.object({
-				userId: z.number(),
-			}),
+			z
+				.object({
+					userId: z.number(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

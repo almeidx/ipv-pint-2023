@@ -11,9 +11,11 @@ module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			z.object({
-				refEmail: z.string().email().optional(),
-			}),
+			z
+				.object({
+					refEmail: z.string().email().optional(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

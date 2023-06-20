@@ -40,7 +40,7 @@ const navLinks = [
 export function NavBar({ page }) {
 	const { user } = useUser();
 	const { notifications, mutate } = useNotifications();
-	const { toastMessage, toastType, toggleToast, showToastWithMessage, showToast } = useToast();
+	const { toastMessage, toastType, hide, showToastWithMessage, showToast } = useToast();
 
 	async function handleMarcarNotificacoesComoLidas() {
 		try {
@@ -63,7 +63,7 @@ export function NavBar({ page }) {
 
 	return (
 		<BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>
-			<Toast hide={() => toggleToast(false)} message={toastMessage} show={showToast} type={toastType} />
+			<Toast hide={hide} message={toastMessage} show={showToast} type={toastType} />
 
 			<Link to="/">
 				<NavbarBrand>

@@ -44,7 +44,7 @@ export default function Profile() {
 	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	const disabledEditing = user?.registrationType !== "email";
 
@@ -142,7 +142,7 @@ export default function Profile() {
 				fetchpriority="high"
 			/>
 
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<CurriculumVitaeModal
 				update={!!user?.cv}
@@ -225,7 +225,7 @@ export default function Profile() {
 											className="btn btn-light"
 											href={`${API_URL}/uploads/${user.cv}`}
 											target="_blank"
-											rel="noreferrer"
+											rel="external noopener noreferrer"
 										>
 											Ver atual
 										</a>

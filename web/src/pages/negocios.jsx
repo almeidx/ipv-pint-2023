@@ -3,6 +3,7 @@ import "../styles/negocios.css";
 import { BsTrash } from "@react-icons/all-files/bs/BsTrash";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { RxPlusCircled } from "@react-icons/all-files/rx/RxPlusCircled";
+import { Formik } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -12,6 +13,7 @@ import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import useSWR from "swr";
+import { object, string } from "yup";
 import { ErrorBase } from "../components/ErrorBase.jsx";
 import { Multiselect } from "../components/Multiselect.jsx";
 import { Page } from "../components/Page.jsx";
@@ -22,10 +24,8 @@ import { useToast } from "../contexts/ToastContext.jsx";
 import { useIsLoggedIn } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { resolveNameOfNextEstado } from "../utils/negocios.js";
-import { Formik } from "formik";
-import { number, object, ref, string } from "yup";
 import { formikButtonDisabled } from "../utils/formikButtonDisabled.js";
+import { resolveNameOfNextEstado } from "../utils/negocios.js";
 
 const createClientSchema = object().shape({
 	name: string().required("O nome é obrigatório").max(100, "Máximo de 100 caracteres"),
@@ -42,7 +42,10 @@ const createContactoSchema = object().shape({
 		.when("type", {
 			is: "1",
 			then: () =>
-				string().matches(/^(\+351 ?)?(9[1236]\d) ?(\d{3}) ?(\d{3})$/, "O contacto tem de ser um número de telefone"),
+				string().matches(
+					/^(\+351 ?)?(9[1236]\d|232) ?(\d{3}) ?(\d{3})$/,
+					"O contacto tem de ser um número de telefone",
+				),
 		}),
 	type: string().required("O tipo de contacto é obrigatório").oneOf(["0", "1"], "O tipo de contacto é inválido"),
 });
@@ -60,7 +63,8 @@ export default function Negocios() {
 	const { isLoading, data, mutate: mutateNegocios } = useSWR(`${API_URL}/negocios`, fetcher);
 	const { data: areasNegocio } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
 	const { data: clientes, mutate: mutateClients } = useSWR(`${API_URL}/clientes`, fetcher);
-	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
+	const { data: tiposProjeto } = useSWR(`${API_URL}/tipos-projeto`, fetcher);
+	const { showToastWithMessage, showToast, toastMessage, hide } = useToast();
 	const isLoggedIn = useIsLoggedIn();
 
 	const filtered = search
@@ -202,6 +206,7 @@ export default function Negocios() {
 				}}
 				areasNegocio={areasNegocio}
 				clientes={clientes}
+				tiposProjeto={tiposProjeto}
 				newClientId={newClientId}
 				openCreateClientModal={() => {
 					setShowCreateClientModal(true);
@@ -236,7 +241,7 @@ export default function Negocios() {
 				onSave={handleCreateContacto}
 			/>
 
-			<Toast message={toastMessage} show={showToast} hide={() => toggleToast(false)} />
+			<Toast message={toastMessage} show={showToast} hide={hide} />
 
 			<Container className="col-11 pt-5">
 				<SearchBar placeholder="Pesquise por oportunidades..." onSearch={(text) => setSearch(text)} />
@@ -307,7 +312,7 @@ function Negocio({ onEditClick, ...negocio }) {
 					{title}
 
 					{estados.length === 0 ? (
-						<OverlayTrigger placement="top" overlay={<Tooltip>Edite a sua Oportunidade</Tooltip>}>
+						<OverlayTrigger placement="top" overlay={<Tooltip>Editar Oportunidade</Tooltip>}>
 							<Button className="border-0 bg-transparent p-0" onClick={() => onEditClick(negocio)}>
 								<RiPencilLine size={24} color="black" />
 							</Button>
@@ -384,6 +389,9 @@ function Negocio({ onEditClick, ...negocio }) {
  * @param {Object[]} props.clientes
  * @param {number} props.clientes.id
  * @param {string} props.clientes.name
+ * @param {Object[]} props.tiposProjeto
+ * @param {number} props.tiposProjeto.id
+ * @param {string} props.tiposProjeto.name
  * @param {() => void} props.openCreateClientModal
  * @param {number|null} props.newClientId
  * @param {() => void} props.openCreateContactModal
@@ -398,6 +406,7 @@ function CreateOrEditNegocioModal({
 	onSave,
 	areasNegocio,
 	clientes,
+	tiposProjeto,
 	openCreateClientModal,
 	newClientId,
 	openCreateContactModal,
@@ -417,12 +426,6 @@ function CreateOrEditNegocioModal({
 	}, [newClientId]);
 
 	useEffect(() => {
-		if (newContactoId !== null) {
-			setNegocioData((state) => ({ ...state, contactos: [...(state.contactos ?? []), newContactoId] }));
-		}
-	}, [newContactoId]);
-
-	useEffect(() => {
 		if (negocioData.idCliente == null) {
 			return;
 		}
@@ -436,7 +439,7 @@ function CreateOrEditNegocioModal({
 				throw new Error("Erro ao obter contactos", { cause: res });
 			}
 		});
-	}, [negocioData.idCliente]);
+	}, [negocioData.idCliente, newContactoId]);
 
 	const contactoOptions = useMemo(() => contactos.map(({ id, value }) => ({ value: id, label: value })), [contactos]);
 
@@ -465,8 +468,7 @@ function CreateOrEditNegocioModal({
 		}));
 	}
 
-	// TODO: Contactos criados não estão a aparecer na lista (qnd é só 1?)
-	// TODO: add tipo projeto
+	const contactDefaultOpts = useMemo(() => (newContactoId !== null ? [newContactoId] : null), [newContactoId]);
 
 	return (
 		<Modal show={show} onHide={onHideWrapper} size="lg" aria-labelledby="manage-negocio-modal" centered>
@@ -480,10 +482,10 @@ function CreateOrEditNegocioModal({
 						<Form.Label htmlFor="negocio-titulo-edit">Titulo</Form.Label>
 						<Form.Control
 							id="negocio-titulo-edit"
-							value={negocioData.title ?? data?.title}
+							value={negocioData.title ?? data?.title ?? ""}
 							onChange={(e) => setNegocioData((state) => ({ ...state, title: e.target.value }))}
 							maxLength={100}
-							placeholder="Titulo da oportunidade "
+							placeholder="Titulo da oportunidade"
 							required={isCreate}
 						/>
 					</Form.Group>
@@ -492,13 +494,35 @@ function CreateOrEditNegocioModal({
 						<Form.Label htmlFor="negocio-descricao-edit">Descrição</Form.Label>
 						<Form.Control
 							id="negocio-descricao-edit"
-							value={negocioData.description ?? data?.description}
+							value={negocioData.description ?? data?.description ?? ""}
 							onChange={(e) => setNegocioData((state) => ({ ...state, description: e.target.value }))}
 							as="textarea"
 							maxLength={1_000}
 							placeholder="Descrição da oportunidade"
 							required={isCreate}
 						/>
+					</Form.Group>
+
+					<Form.Group className="mb-3">
+						<Form.Label htmlFor="negocio-tipo-projeto-edit">Tipo de Projeto</Form.Label>
+						<Form.Select
+							id="negocio-tipo-projeto-edit"
+							value={negocioData.idTipoProjeto ?? data?.tipoProjeto?.id ?? -1}
+							onChange={(e) =>
+								setNegocioData((state) => ({ ...state, idTipoProjeto: Number.parseInt(e.target.value, 10) }))
+							}
+							required={isCreate}
+						>
+							<option value={-1} disabled>
+								Selecione o tipo de projeto
+							</option>
+
+							{(tiposProjeto ?? []).map(({ id, name }) => (
+								<option key={id} value={id}>
+									{name}
+								</option>
+							))}
+						</Form.Select>
 					</Form.Group>
 
 					<Form.Group className="mb-3">
@@ -612,6 +636,7 @@ function CreateOrEditNegocioModal({
 										onSelectOption={handleContactosChange}
 										buttonText="Selecionar os contactos do cliente"
 										withSearch={false}
+										defaultSelectedOptions={contactDefaultOpts}
 									/>
 
 									<Button
@@ -632,6 +657,8 @@ function CreateOrEditNegocioModal({
 			<Modal.Footer>
 				<Button
 					onClick={() => {
+						negocioData.necessidades ??= [];
+
 						onSave(negocioData);
 						onHideWrapper();
 					}}

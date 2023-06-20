@@ -9,10 +9,12 @@ module.exports = {
 	create: [
 		requireLogin(),
 		validate(
-			z.object({
-				content: z.string().min(1).max(1000),
-				categoria: z.enum(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
-			}),
+			z
+				.object({
+					content: z.string().min(1).max(1000),
+					categoria: z.enum(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
@@ -56,9 +58,11 @@ module.exports = {
 	update: [
 		requirePermission(TipoUtilizadorEnum.GestorIdeias),
 		validate(
-			z.object({
-				ideiaValidada: z.boolean(),
-			}),
+			z
+				.object({
+					ideiaValidada: z.boolean(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

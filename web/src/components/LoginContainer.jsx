@@ -8,7 +8,17 @@ import { Google } from "./icons/Google.jsx";
 
 /** @param {import("react").PropsWithChildren} props */
 export function LoginContainer({ children }) {
-	return <div className="login-cnt min-vw-100 min-vh-100">{children}</div>;
+	return (
+		<div className="min-vw-100 min-vh-100 position-relative d-grid" style={{ placeItems: "center" }}>
+			<img
+				src="/static/login-bg.jpeg"
+				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
+				fetchpriority="high"
+			/>
+
+			{children}
+		</div>
+	);
 }
 
 export function SocialButtons() {

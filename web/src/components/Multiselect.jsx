@@ -29,7 +29,8 @@ export function Multiselect({
 
 	useEffect(() => {
 		if (defaultSelectedOptions && defaultSelectedOptions.length > 0) {
-			setSelectedOptions(defaultSelectedOptions);
+			const opts = defaultSelectedOptions.filter((opt) => typeof opt === "number");
+			setSelectedOptions(opts);
 		}
 	}, [defaultSelectedOptions]);
 
@@ -42,7 +43,10 @@ export function Multiselect({
 	}
 
 	const filteredOptions = useMemo(
-		() => options.filter(({ label }) => label.toLowerCase().includes(search.toLowerCase())),
+		() =>
+			options
+				.sort((a, b) => a.label.localeCompare(b.label))
+				.filter(({ label }) => label.toLowerCase().includes(search.toLowerCase())),
 		[options, search],
 	);
 
@@ -98,6 +102,7 @@ export function Multiselect({
 							if (state) handleSelectOption(id);
 							else setSelectedOptions((state) => state.filter((option) => option !== id));
 						}}
+						defaultChecked={selectedOptions.includes(value)}
 					/>
 				))}
 			</div>
@@ -112,9 +117,14 @@ export function Multiselect({
  * @param {number} props.index
  * @param {number} props.lastIndex
  * @param {(id: number, state: boolean) => void} props.onStateChange
+ * @param {boolean} props.defaultChecked
  */
-function Option({ id, name, index, lastIndex, onStateChange }) {
+function Option({ id, name, index, lastIndex, onStateChange, defaultChecked }) {
 	const [checked, setChecked] = useState(false);
+
+	useEffect(() => {
+		setChecked(defaultChecked);
+	}, [defaultChecked]);
 
 	function handleCheckboxClick() {
 		onStateChange(id, !checked);

@@ -20,7 +20,7 @@ import { formatDate } from "../../utils/formatDate.js";
 export default function Mensagens() {
 	const [search, setSearch] = useState("");
 	const { data, isLoading, mutate, error } = useSWR(`${API_URL}/mensagens`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	const filtered = search
 		? (data ?? []).filter(
@@ -56,7 +56,7 @@ export default function Mensagens() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Mensagens</h2>

@@ -24,7 +24,7 @@ export default function Vagas() {
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [vagaData, setVagaData] = useState(null);
 	const [isCreateModal, setIsCreateModal] = useState(false);
-	const { showToast, showToastWithMessage, toastMessage, toggleToast } = useToast();
+	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/vagas?admin`, fetcher);
 
 	const filtered = useMemo(
@@ -110,7 +110,7 @@ export default function Vagas() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Vagas</h2>
@@ -261,7 +261,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 						<Form.Control
 							id="title-edit"
 							placeholder="Título da vaga"
-							value={vagaData.title ?? data?.title}
+							value={vagaData.title ?? data?.title ?? ""}
 							onChange={(e) => setVagaData((state) => ({ ...state, title: e.target.value }))}
 							required={isCreate}
 							maxLength={100}
@@ -276,7 +276,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							id="description-edit"
 							placeholder="Descrição da vaga"
 							onChange={(e) => setVagaData((state) => ({ ...state, description: e.target.value }))}
-							value={vagaData.description ?? data?.description}
+							value={vagaData.description ?? data?.description ?? ""}
 							required={isCreate}
 							as="textarea"
 							maxLength={1_000}
@@ -290,8 +290,8 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 						<Form.Control
 							id="amount-slots-edit"
 							placeholder="Quantidade de vagas"
-							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.value }))}
-							value={vagaData.amountSlots ?? data?.amountSlots}
+							onChange={(e) => setVagaData((state) => ({ ...state, amountSlots: e.target.valueAsNumber }))}
+							value={vagaData.amountSlots ?? data?.amountSlots ?? ""}
 							required={isCreate}
 							type="number"
 							style={{ maxWidth: "18rem" }}

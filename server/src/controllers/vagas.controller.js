@@ -6,14 +6,16 @@ const { requirePermission, checkPermissionStandalone } = require("../middleware/
 const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
-const fieldValidations = z.object({
-	amountSlots: z.number().int(),
-	public: z.boolean(),
-	icon: z.string().min(1).max(100),
-	title: z.string().min(1).max(100),
-	description: z.string().min(1).max(100),
-	status: z.number().int().min(0).max(1),
-});
+const fieldValidations = z
+	.object({
+		amountSlots: z.number().int().nonnegative(),
+		public: z.boolean(),
+		icon: z.string().min(1).max(100),
+		title: z.string().min(1).max(100),
+		description: z.string().min(1).max(100),
+		status: z.number().int().nonnegative().min(0).max(1),
+	})
+	.strict();
 
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
@@ -60,33 +62,32 @@ module.exports = {
 				],
 			],
 			order: [["id", "ASC"]],
+			where: {},
 		};
 
 		if (admin !== undefined) {
 			if (!checkPermissionStandalone(req, res, TipoUtilizadorEnum.GestorRecursosHumanos)) return;
 
 			opts.attributes.push("createdAt");
-		} else if (req.user?.id) {
-			const candidaturas = await Candidatura.findAll({
-				where: {
-					idUser: req.user.id,
-				},
-				attributes: ["idVaga"],
-			});
+		} else {
+			if (req.user?.id) {
+				const candidaturas = await Candidatura.findAll({
+					where: {
+						idUser: req.user.id,
+					},
+					attributes: ["idVaga"],
+				});
 
-			opts.where = {
-				id: {
+				opts.where.id = {
 					[Op.notIn]: candidaturas.map((c) => c.idVaga),
-				},
-			};
+				};
+			}
+
+			opts.where.status = 0;
 		}
 
 		if (!req.user || req.user.tipoUtilizador === TipoUtilizadorEnum.Utilizador) {
-			opts.where = {
-				...opts.where,
-				public: true,
-				status: 0,
-			};
+			opts.where.public = true;
 		}
 
 		res.json(await Vaga.findAll(opts));

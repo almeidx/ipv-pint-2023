@@ -40,8 +40,6 @@ export function UserProvider({ children }) {
 			}
 
 			res.json().then((data) => {
-				console.log(data);
-
 				Cookie.set("connect.sid", data.cookie, {
 					expires: 7,
 				});

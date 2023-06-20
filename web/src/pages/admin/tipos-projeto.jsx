@@ -19,15 +19,15 @@ import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formikButtonDisabled } from "../../utils/formikButtonDisabled.js";
 
-const createAreaNegocioSchema = object().shape({
+const createTipoProjetoSchema = object().shape({
 	name: string()
 		.required("Campo obrigatório")
-		.min(3, "O nome da área de negócio deve ter pelo menos 3 caracteres")
-		.max(64, "O nome da área de negócio deve ter no máximo 64 caracteres"),
+		.min(3, "O nome do tipo de projeto deve ter pelo menos 3 caracteres")
+		.max(64, "O nome do tipo de projeto deve ter no máximo 64 caracteres"),
 });
 
-export default function AreasNegocio() {
-	const { isLoading, mutate, data, error } = useSWR(`${API_URL}/areas-de-negocio`, fetcher);
+export default function TiposProjeto() {
+	const { isLoading, mutate, data, error } = useSWR(`${API_URL}/tipos-projeto`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, hide, toastType } = useToast();
 	const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -38,7 +38,7 @@ export default function AreasNegocio() {
 	/** @param {{ name: string }} data */
 	async function handleCreate(data) {
 		try {
-			const response = await fetch(`${API_URL}/areas-de-negocio`, {
+			const response = await fetch(`${API_URL}/tipos-projeto`, {
 				credentials: "include",
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -49,40 +49,40 @@ export default function AreasNegocio() {
 				throw new Error("Something went wrong", { cause: response });
 			}
 
-			showToastWithMessage("Área de negócio criada com sucesso");
+			showToastWithMessage("Tipo de projeto criado com sucesso");
 
 			mutate();
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao criar a área de negócio", "error");
+			showToastWithMessage("Ocorreu um erro ao criar o tipo de projeto", "error");
 		}
 	}
 
 	/** @param {number} id */
 	async function handleDelete(id) {
 		try {
-			const response = await fetch(`${API_URL}/areas-de-negocio/${id}`, {
+			const response = await fetch(`${API_URL}/tipos-projeto/${id}`, {
 				credentials: "include",
 				method: "DELETE",
 			});
 
 			if (!response.ok) {
 				if (response.status === 403) {
-					showToastWithMessage("Essa área de negócio tem negócios associados, portanto não pode ser apagada", "error");
+					showToastWithMessage("Esse tipo de projeto tem negócios associados, portanto não pode ser apagado", "error");
 					return;
 				}
 
 				throw new Error("Something went wrong", { cause: response });
 			}
 
-			showToastWithMessage("Área de negócio eliminada com sucesso");
+			showToastWithMessage("Tipo de projeto eliminado com sucesso");
 
 			mutate();
 		} catch (error) {
 			console.error(error);
 
-			showToastWithMessage("Ocorreu um erro ao eliminar a área de negócio", "error");
+			showToastWithMessage("Ocorreu um erro ao eliminar o tipo de projeto", "error");
 		}
 	}
 
@@ -90,10 +90,10 @@ export default function AreasNegocio() {
 		<Container className="py-4">
 			<Toast hide={hide} show={showToast} message={toastMessage} type={toastType} />
 
-			<CreateAreaNegocioModal show={showCreateModal} onHide={() => setShowCreateModal(false)} onSubmit={handleCreate} />
+			<CreateTipoProjetoModal show={showCreateModal} onHide={() => setShowCreateModal(false)} onSubmit={handleCreate} />
 
 			<div className="d-flex justify-content-between mb-2">
-				<h2>Áreas de Negócio</h2>
+				<h2>Tipos de Projeto</h2>
 
 				<Button className="border-0 bg-transparent p-0" onClick={() => setShowCreateModal(true)}>
 					<IoMdAdd size={40} color="black" />
@@ -137,14 +137,14 @@ export default function AreasNegocio() {
  * @param {() => void} props.onHide
  * @param {(data: { name: string }) => void} props.onSubmit
  */
-function CreateAreaNegocioModal({ show, onHide, onSubmit }) {
+function CreateTipoProjetoModal({ show, onHide, onSubmit }) {
 	return (
-		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="criar-area-negocio-modal" centered>
+		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="criar-tipo-projeto-modal" centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="criar-area-negocio-modal">Criar Área de Negócio</Modal.Title>
+				<Modal.Title id="criar-tipo-projeto-modal">Criar Tipo de Projeto</Modal.Title>
 			</Modal.Header>
 
-			<Formik validationSchema={createAreaNegocioSchema} initialValues={{ name: "" }} onSubmit={onSubmit}>
+			<Formik validationSchema={createTipoProjetoSchema} initialValues={{ name: "" }} onSubmit={onSubmit}>
 				{({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => (
 					<Form className="mb-3" onSubmit={handleSubmit} noValidate>
 						<Modal.Body>
@@ -154,7 +154,7 @@ function CreateAreaNegocioModal({ show, onHide, onSubmit }) {
 								</Form.Label>
 								<Form.Control
 									id="name"
-									placeholder="Nome da área de negócio"
+									placeholder="Nome do tipo de projeto"
 									value={values.name}
 									onChange={handleChange}
 									onBlur={handleBlur}

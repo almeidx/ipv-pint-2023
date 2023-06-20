@@ -22,9 +22,11 @@ module.exports = {
 	update: [
 		requireLogin(),
 		validate(
-			z.object({
-				seen: z.boolean(),
-			}),
+			z
+				.object({
+					seen: z.boolean(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

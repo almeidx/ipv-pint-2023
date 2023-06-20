@@ -20,7 +20,7 @@ import { formatDate } from "../../utils/formatDate.js";
 
 export default function Ideias() {
 	const [search, setSearch] = useState("");
-	const { showToast, toastMessage, showToastWithMessage, toggleToast } = useToast();
+	const { showToast, toastMessage, showToastWithMessage, hide } = useToast();
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/ideias`, fetcher);
 
 	const filtered = search
@@ -96,7 +96,7 @@ export default function Ideias() {
 
 	return (
 		<Container className="py-4">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<div className="d-flex justify-content-between mb-2">
 				<h2>Ideias</h2>

@@ -4,7 +4,7 @@
 		"fmt": "pnpm format",
 		"format": "prettier -u --write \"**/*\"",
 		"minisite": "pnpm -C minisite",
-		"server": "pnpm -C server",
+		"sv": "pnpm -C server",
 		"web": "pnpm -C web"
 	},
 	"prettier": {

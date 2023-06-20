@@ -1,5 +1,5 @@
 import { FaHistory } from "@react-icons/all-files/fa/FaHistory";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -14,11 +14,11 @@ import useSWR from "swr";
 import { Page } from "../components/Page.jsx";
 import { SearchBar } from "../components/SearchBar.jsx";
 import { Spinner } from "../components/Spinner.jsx";
+import { Toast } from "../components/Toast.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
-import { useToast } from "../contexts/ToastContext.jsx";
-import { Toast } from "../components/Toast.jsx";
 
 export default function Vagas() {
 	const { user } = useUser();
@@ -27,15 +27,8 @@ export default function Vagas() {
 	const [search, setSearch] = useState("");
 	const [clickedVagaData, setClickedVagaData] = useState({});
 	const [showCandidaturaModal, setShowCandidaturaModal] = useState(false);
-	const [hasCv, setHasCv] = useState(!!user?.cv);
 	const { data, isLoading, mutate } = useSWR(`${API_URL}/vagas`, fetcher);
-	const { showToast, showToastWithMessage, toastMessage, toastType, toggleToast } = useToast();
-
-	useEffect(() => {
-		if (user) {
-			setHasCv(!!user.cv);
-		}
-	}, [user]);
+	const { showToast, showToastWithMessage, toastMessage, toastType, hide } = useToast();
 
 	const filteredVagas = useMemo(
 		() =>
@@ -82,13 +75,13 @@ export default function Vagas() {
 
 	return (
 		<Page page="/vagas">
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} type={toastType} />
+			<Toast hide={hide} show={showToast} message={toastMessage} type={toastType} />
 
 			<CandidatarVagaModal
 				show={showCandidaturaModal}
 				onHide={() => setShowCandidaturaModal(false)}
 				data={clickedVagaData}
-				hasCv={hasCv}
+				userCv={user?.cv}
 				onCandidatarVaga={handleCandidatarVaga}
 			/>
 
@@ -144,7 +137,7 @@ export default function Vagas() {
  * @param {(id: number) => void} props.onClickVaga
  * @param {boolean} props.loggedIn
  */
-function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn }) {
+function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn, public: isPublic }) {
 	return (
 		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
@@ -154,13 +147,16 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					width="110px"
 					className="rounded-circle position-absolute"
 					style={{ width: "110px", top: "-3.4rem", left: "7.5rem" }}
+					fetchpriority="high"
 				/>
 
 				<Card.Title className="title my-3 pt-5" style={{ fontSize: "2rem" }}>
 					{title}
 				</Card.Title>
 
-				<Card.Subtitle>Aberta - {amountSlots - slotsFilled} vagas</Card.Subtitle>
+				<Card.Subtitle>
+					Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
+				</Card.Subtitle>
 
 				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
 					{description}
@@ -189,10 +185,10 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
  * @param {boolean} props.show
  * @param {() => void} props.onHide
  * @param {Object} props.data
- * @param {boolean} props.hasCv
+ * @param {string?} props.userCv
  * @param {(id: number) => void} props.onCandidatarVaga
  */
-function CandidatarVagaModal({ show, onHide, data, hasCv, onCandidatarVaga }) {
+function CandidatarVagaModal({ show, onHide, data, userCv, onCandidatarVaga }) {
 	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
 	async function handleCvSubmit(event) {
 		const file = event.target.files[0];
@@ -221,8 +217,6 @@ function CandidatarVagaModal({ show, onHide, data, hasCv, onCandidatarVaga }) {
 		});
 	}
 
-	// TODO: Opção para atualizar / visualizar cv atual?
-
 	return (
 		<Modal show={show} onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
 			<Modal.Header closeButton>
@@ -232,12 +226,21 @@ function CandidatarVagaModal({ show, onHide, data, hasCv, onCandidatarVaga }) {
 			<Modal.Body>
 				<p>Vaga: {data?.title ?? "Desconhecida"}</p>
 
-				{!hasCv ? (
+				{userCv ? (
+					<a
+						className="btn btn-primary"
+						href={`${API_URL}/uploads/${userCv}`}
+						target="_blank"
+						rel="external noreferrer noopener"
+					>
+						Ver CV
+					</a>
+				) : (
 					<>
 						<FormLabel htmlFor="cv">Curriculum Vitae</FormLabel>
 						<FormControl id="cv" type="file" accept="application/pdf" required onChange={handleCvSubmit} />
 					</>
-				) : null}
+				)}
 			</Modal.Body>
 
 			<Modal.Footer>

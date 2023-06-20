@@ -5,6 +5,7 @@
 	4,Gestor de Negócios
 	5,Gestor de Conteúdos
 	6,Administrador
+	7,Colaborador
  */
 
 /**
@@ -18,6 +19,7 @@
  * @property {number} GestorNegocios
  * @property {number} GestorConteudos
  * @property {number} Administrador
+ * @property {number} Colaborador
  */
 const TipoUtilizadorEnum = {
 	Utilizador: 1,
@@ -26,13 +28,15 @@ const TipoUtilizadorEnum = {
 	GestorNegocios: 4,
 	GestorConteudos: 5,
 	Administrador: 6,
+	Colaborador: 7,
 
-	[1]: "Utilizador",
-	[2]: "Gestor de Ideias",
-	[3]: "Gestor de Recursos Humanos",
-	[4]: "Gestor de Negócios",
-	[5]: "Gestor de Conteúdos",
-	[6]: "Administrador",
+	1: "Utilizador",
+	2: "Gestor de Ideias",
+	3: "Gestor de Recursos Humanos",
+	4: "Gestor de Negócios",
+	5: "Gestor de Conteúdos",
+	6: "Administrador",
+	7: "Colaborador",
 };
 
 Object.freeze(TipoUtilizadorEnum);

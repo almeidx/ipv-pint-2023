@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
 const { Op } = require("sequelize");
+const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -41,6 +42,10 @@ module.exports = function (passport) {
 
 				if (!user) {
 					return done(null, false);
+				}
+
+				if (user.registrationType !== "email") {
+					return done(new Error(`Conta ${user.registrationType}`), false);
 				}
 
 				const userObj = user.toJSON();
@@ -97,6 +102,9 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "facebook",
 						hashedPassword: "",
+						idTipoUser: isSoftinsaEmail(profile._json.email)
+							? TipoUtilizadorEnum.Colaborador
+							: TipoUtilizadorEnum.Utilizador,
 					});
 
 					user = await Utilizador.findByPk(user.id, selectOptions);
@@ -130,6 +138,9 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "google",
 						hashedPassword: "",
+						idTipoUser: isSoftinsaEmail(profile._json.email)
+							? TipoUtilizadorEnum.Colaborador
+							: TipoUtilizadorEnum.Utilizador,
 					});
 
 					user = await Utilizador.findByPk(user.id, selectOptions);

@@ -1,5 +1,5 @@
 const { z } = require("zod");
-const { AreaNegocio, Negocio } = require("../database/index.js");
+const { TipoProjeto, Negocio } = require("../database/index.js");
 const { validate } = require("../middleware/validation.js");
 const { requirePermission } = require("../middleware/authentication.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
@@ -13,16 +13,16 @@ module.exports = {
 		async (req, res) => {
 			const { name } = req.body;
 
-			const areaNegocio = await AreaNegocio.create({ name });
+			const tipoProjeto = await TipoProjeto.create({ name });
 
-			res.json(areaNegocio);
+			res.json(tipoProjeto);
 		},
 	],
 
 	read: [
 		async (_req, res) => {
 			res.json(
-				await AreaNegocio.findAll({
+				await TipoProjeto.findAll({
 					order: [["name", "ASC"]],
 				}),
 			);
@@ -35,7 +35,7 @@ module.exports = {
 		async (req, res) => {
 			const { id } = req.params;
 
-			const areaNegocio = await AreaNegocio.findByPk(id, {
+			const tipoProjeto = await TipoProjeto.findByPk(id, {
 				include: [
 					{
 						model: Negocio,
@@ -45,21 +45,21 @@ module.exports = {
 				],
 			});
 
-			if (!areaNegocio) {
-				res.status(404).json({ message: "Área de negócio não encontrada" });
+			if (!tipoProjeto) {
+				res.status(404).json({ message: "Tipo de projeto não encontrado" });
 				return;
 			}
 
-			if (areaNegocio.negocios.length > 0) {
+			if (tipoProjeto.negocios.length > 0) {
 				res.status(403).json({
-					message: "Não é possível apagar uma área de negócio com negócios associados",
+					message: "Não é possível apagar um tipo de projeto com negócios associados",
 				});
 				return;
 			}
 
-			await areaNegocio.destroy();
+			await tipoProjeto.destroy();
 
-			res.json({ message: "Área de negócio apagada" });
+			res.json({ message: "Tipo de projeto apagado" });
 		},
 	],
 };

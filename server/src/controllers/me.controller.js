@@ -9,10 +9,12 @@ module.exports = {
 	update: [
 		requireLogin(),
 		validate(
-			z.object({
-				name: z.string().min(1).max(100).optional(),
-				cv: z.string().min(1).max(100).optional(),
-			}),
+			z
+				.object({
+					name: z.string().min(1).max(100).optional(),
+					cv: z.string().min(1).max(100).optional(),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {
@@ -43,18 +45,20 @@ module.exports = {
 	updatePassword: [
 		requireLogin(),
 		validate(
-			z.object({
-				// TODO: Update min length to 12
-				passwordAtual: z.string().min(1).max(128),
-				newPassword: z
-					.string()
-					.min(12, "Password deve ter pelo menos 12 caracteres")
-					.max(128, "Password deve ter no máximo 128 caracteres")
-					.regex(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
-					.regex(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
-					.regex(/[0-9]/, "Password deve ter pelo menos um número")
-					.regex(/[^a-z0-9]/i, "Password deve ter pelo menos um caracter especial"),
-			}),
+			z
+				.object({
+					// TODO: Update min length to 12
+					passwordAtual: z.string().min(1).max(128),
+					newPassword: z
+						.string()
+						.min(12, "Password deve ter pelo menos 12 caracteres")
+						.max(128, "Password deve ter no máximo 128 caracteres")
+						.regex(/[a-z]/, "Password deve ter pelo menos uma letra minúscula")
+						.regex(/[A-Z]/, "Password deve ter pelo menos uma letra maiúscula")
+						.regex(/[0-9]/, "Password deve ter pelo menos um número")
+						.regex(/[^a-z0-9]/i, "Password deve ter pelo menos um caracter especial"),
+				})
+				.strict(),
 		),
 
 		async (req, res) => {

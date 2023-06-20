@@ -14,10 +14,10 @@ const TipoNotificacaoEnum = {
 	Vaga: 2,
 	Negocio: 3,
 
-	[0]: "Reunião",
-	[1]: "Benefício",
-	[2]: "Vaga",
-	[3]: "Negócio",
+	0: "Reunião",
+	1: "Benefício",
+	2: "Vaga",
+	3: "Negócio",
 };
 
 Object.freeze(TipoNotificacaoEnum);

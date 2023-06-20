@@ -59,7 +59,7 @@ export default function Contacto() {
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [message, setMessage] = useState("");
 	const { buttonRef, disableButton } = useDisableableButton();
-	const { showToastWithMessage, showToast, toastMessage, toggleToast } = useToast();
+	const { showToastWithMessage, showToast, toastMessage, hide } = useToast();
 
 	useEffect(() => {
 		if (user) {
@@ -108,15 +108,16 @@ export default function Contacto() {
 
 	return (
 		<Page
-			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center"
+			className="min-h-without-navbar d-flex justify-content-center align-items-center position-relative flex-row place-items-center overflow-hidden"
 			page="/contacto"
 		>
-			<Toast hide={() => toggleToast(false)} show={showToast} message={toastMessage} />
+			<Toast hide={hide} show={showToast} message={toastMessage} />
 
 			<img
 				src="/static/contacto-bg.png"
-				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 object-cover p-0"
+				className="position-absolute w-100 h-100 inset-0 -z-10 m-0 overflow-hidden object-cover p-0"
 				fetchpriority="high"
+				style={{ filter: "blur(2px)", scale: "1.06" }}
 			/>
 
 			<Container className="row col-6 d-flex justify-content-center align-items-center flex-column">
@@ -190,7 +191,12 @@ function ContactMethod({ title, icon: Icon, links }) {
 				</h4>
 
 				{links.map(({ title, href }, idx) => (
-					<a key={`link-${idx}`} href={href} style={{ color: "lightgray" }}>
+					<a
+						key={`link-${idx}`}
+						className="btn btn-light text-decoration-underline border-0 bg-transparent p-0 text-start"
+						href={href}
+						style={{ color: "lightgray" }}
+					>
 						{title}
 					</a>
 				))}
