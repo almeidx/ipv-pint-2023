@@ -25,6 +25,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         super.onCreate(savedInstanceState)
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
         val user = getCurrentUser(this)
+        adminlink = findViewById(R.id.listaAdmin)
 
         nav.menu.findItem(R.id.mais).isChecked = true
 
@@ -35,70 +36,30 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             startActivity(intent)
             overridePendingTransition(0, 0);
             return
-        }
-        else{
+        } else {
             adapter = AdminAdapter(this, user.tipoUser)
             adminlink.adapter = adapter
         }
 
-        if (user.tipoUser == TipoUtilizadorEnum.GestorNegocios) {
-            adminlink.setOnItemClickListener { _, view, position, _ ->
-                if (view.visibility == View.VISIBLE) {
-                    when (position) {
-                        4 -> {
-                            gotoAdminNegocios(view)
-                        }
-                    }
-                }
-            }
-        }
-        else if (user.tipoUser == TipoUtilizadorEnum.Administrador) {
-            adminlink.setOnItemClickListener { _, view, position, _ ->
-                if (view.visibility == View.VISIBLE) {
-                    when (position) {
-                        0 -> {
-                            gotoAdminBeneficios(view)
-                        }
-
-                        1 -> {
-                            gotoAdminCandidaturas(view)
-                        }
-
-                        2 -> {
-                            gotoAdminIdeias(view)
-                        }
-
-                        3 -> {
-                            gotoAdminMensagens(view)
-                        }
-
-                        4 -> {
-                            gotoAdminNegocios(view)
-                        }
-
-                        5 -> {
-                            gotoAdminReporting(view)
-                        }
-
-                        6 -> {
-                            gotoAdminReunioes(view)
-                        }
-
-                        7 -> {
-                            gotoAdminUtilizadores(view)
-                        }
-
-                        8 -> {
-                            gotoAdminVagas(view)
-                        }
-                    }
-                }
+        adminlink.setOnItemClickListener { _, view, position, _ ->
+            when (adapter.getItem(position)) {
+                "Benefícios" -> gotoAdminBeneficios(view)
+                "Candidaturas" -> gotoAdminCandidaturas(view)
+                "Ideias" -> gotoAdminIdeias(view)
+                "Mensagens" -> gotoAdminMensagens(view)
+                "Oportunidades" -> gotoAdminNegocios(view)
+                "Reporting" -> gotoAdminReporting(view)
+                "Reuniões" -> gotoAdminReunioes(view)
+                "Utilizadores" -> gotoAdminUtilizadores(view)
+                "Vagas" -> gotoAdminVagas(view)
+                "Áreas de Negócio" -> gotoAdminAreaNegocio(view)
+                "Tipos de Projeto" -> gotoAdminTipoProjeto(view)
             }
         }
     }
 
     class AdminAdapter(val context: Context, val user: TipoUtilizadorEnum) : BaseAdapter() {
-        private val buttons = listOf(
+        private val allbuttons = listOf(
             "Benefícios",
             "Candidaturas",
             "Ideias",
@@ -107,36 +68,25 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             "Reporting",
             "Reuniões",
             "Utilizadores",
-            "Vagas"
+            "Vagas",
+            "Áreas de Negócio",
+            "Tipos de Projeto"
         )
+
+        private val buttons = when (user) {
+            TipoUtilizadorEnum.GestorIdeias -> listOf("Ideias")
+            TipoUtilizadorEnum.GestorRecursosHumanos -> listOf("Candidaturas", "Reuniões", "Vagas")
+            TipoUtilizadorEnum.GestorNegocios -> listOf("Oportunidades", "Reuniões")
+            TipoUtilizadorEnum.GestorConteudos -> listOf("Benefícios", "Mensagens")
+            TipoUtilizadorEnum.Administrador -> allbuttons
+            else -> emptyList()
+        }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = convertView ?: LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_admin_links, parent, false)
             val botao = view.findViewById<TextView>(R.id.item_admin_link)
             botao.text = buttons[position]
-
-            when (user) {
-                TipoUtilizadorEnum.GestorNegocios -> {
-                    if (position == 4) {
-                        botao.visibility = View.VISIBLE
-                    } else {
-                        botao.visibility = View.GONE
-                    }
-                }
-
-                TipoUtilizadorEnum.Administrador -> {
-                    if (position == 0 || position == 1 || position == 2 || position == 3 || position == 4 || position == 5 || position == 6 || position == 7 || position == 8) {
-                        botao.visibility = View.VISIBLE
-                    } else {
-                        botao.visibility = View.GONE
-                    }
-                }
-
-                else -> {
-                    botao.visibility = View.GONE
-                }
-            }
             return view
         }
 
@@ -205,6 +155,14 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         val intent = Intent(this, AdminReunioesActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0);
+
+    }
+
+    fun gotoAdminAreaNegocio(_view: android.view.View) {
+
+    }
+
+    fun gotoAdminTipoProjeto(_view: android.view.View) {
 
     }
 }

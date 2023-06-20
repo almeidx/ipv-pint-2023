@@ -1,22 +1,28 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.login
 import com.google.android.material.textfield.TextInputEditText
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 class LoginActivity : ActivityBase(R.layout.activity_login) {
+    companion object {
+        private const val TAG = "LoginActivity"
+    }
+
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 9001
     fun loginBtn(_view: View) {
         val emailInput = findViewById<TextInputEditText>(R.id.email)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
@@ -34,17 +40,50 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             }
         }
         login(email, password, this)
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
     fun loginGoogle(_view: View) {
-
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    fun loginFacebook(_view: View) {
-        val btnface = findViewById<Button>(R.id.loginFacebook)
-        btnface.setOnClickListener {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
         }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            updateUI(account)
+        } catch (e: ApiException) {
+            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            updateUI(null)
+        }
+    }
+
+    private fun updateUI(account: GoogleSignInAccount?) {
+        if (account != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Erro ao fazer login", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    fun loginFacebook(_view: View) {
+
     }
 
     fun esqueceuPassword(_view: View) {

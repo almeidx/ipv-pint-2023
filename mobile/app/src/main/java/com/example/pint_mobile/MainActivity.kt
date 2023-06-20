@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.pint_mobile.pages.*
+
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.getCookieValue
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.getUserInfo
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -60,6 +62,9 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
 
         barChart.data = barData
         barChart.animateY(2000)
+
+        FacebookSdk.sdkInitialize(getApplicationContext())
+        AppEventsLogger.activateApp(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

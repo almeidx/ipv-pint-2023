@@ -236,6 +236,7 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
                     4 -> TipoUtilizadorEnum.GestorNegocios
                     5 -> TipoUtilizadorEnum.GestorConteudos
                     6 -> TipoUtilizadorEnum.Administrador
+                    else -> throw IllegalArgumentException("Invalid id")
                 },
                 rawUser.getBoolean("disabled")
             )
