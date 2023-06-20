@@ -262,8 +262,6 @@ fun listaNegociosUser(
     queue.add(request)
 }
 
-
-
 fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador>, adapter: AdminUtilizadoresActivity.UtilizadorAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/utilizadores", null, { response -> try {
@@ -275,10 +273,16 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
                 rawUser.getString("name"),
                 rawUser.getString("email"),
                 rawUser.getString("lastLoginDate"),
-                TipoUtilizador(
-                    tipoUser.getInt("id"),
-                    tipoUser.getString("name")
-                ),
+                //erro: 'when' expression must be exhaustive, add necessary 'else' branch
+                when (tipoUser.getInt("id")) {
+                    1 -> TipoUtilizadorEnum.Utilizador
+                    2 -> TipoUtilizadorEnum.GestorIdeias
+                    3 -> TipoUtilizadorEnum.GestorRecursosHumanos
+                    4 -> TipoUtilizadorEnum.GestorNegocios
+                    5 -> TipoUtilizadorEnum.GestorConteudos
+                    6 -> TipoUtilizadorEnum.Administrador
+                    else -> throw IllegalArgumentException("Invalid id")
+                },
                 rawUser.getBoolean("disabled")
             )
             list.add(user)
@@ -291,6 +295,7 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
     }, { error -> error.printStackTrace() })
     queue.add(request)
 }
+
 fun listaTipoUtilizador(ctx: Context, callback: (ArrayList<TipoUtilizador>) -> Unit) {
     val queue = Volley.newRequestQueue(ctx)
     val tipoUtilizadores = ArrayList<TipoUtilizador>()

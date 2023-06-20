@@ -14,9 +14,83 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
+        val user = getCurrentUser(this)
+        adminlink = findViewById(R.id.listaAdmin)
 
         nav.menu.findItem(R.id.mais).isChecked = true
 
+        if (user == null) {
+            val intent = Intent(this, MainActivity::class.java)
+            Toast.makeText(this, "Não tem permissão para aceder a esta página", Toast.LENGTH_SHORT)
+                .show()
+            startActivity(intent)
+            overridePendingTransition(0, 0);
+            return
+        } else {
+            adapter = AdminAdapter(this, user.tipoUser)
+            adminlink.adapter = adapter
+        }
+
+        adminlink.setOnItemClickListener { _, view, position, _ ->
+            when (adapter.getItem(position)) {
+                "Benefícios" -> gotoAdminBeneficios(view)
+                "Candidaturas" -> gotoAdminCandidaturas(view)
+                "Ideias" -> gotoAdminIdeias(view)
+                "Mensagens" -> gotoAdminMensagens(view)
+                "Oportunidades" -> gotoAdminNegocios(view)
+                "Reporting" -> gotoAdminReporting(view)
+                "Reuniões" -> gotoAdminReunioes(view)
+                "Utilizadores" -> gotoAdminUtilizadores(view)
+                "Vagas" -> gotoAdminVagas(view)
+                "Áreas de Negócio" -> gotoAdminAreaNegocio(view)
+                "Tipos de Projeto" -> gotoAdminTipoProjeto(view)
+            }
+        }
+    }
+
+    class AdminAdapter(val context: Context, val user: TipoUtilizadorEnum) : BaseAdapter() {
+        private val allbuttons = listOf(
+            "Benefícios",
+            "Candidaturas",
+            "Ideias",
+            "Mensagens",
+            "Oportunidades",
+            "Reporting",
+            "Reuniões",
+            "Utilizadores",
+            "Vagas",
+            "Áreas de Negócio",
+            "Tipos de Projeto"
+        )
+
+        private val buttons = when (user) {
+            TipoUtilizadorEnum.GestorIdeias -> listOf("Ideias")
+            TipoUtilizadorEnum.GestorRecursosHumanos -> listOf("Candidaturas", "Reuniões", "Vagas")
+            TipoUtilizadorEnum.GestorNegocios -> listOf("Oportunidades", "Reuniões")
+            TipoUtilizadorEnum.GestorConteudos -> listOf("Benefícios", "Mensagens")
+            TipoUtilizadorEnum.Administrador -> allbuttons
+            else -> emptyList()
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val view = convertView ?: LayoutInflater.from(parent?.context)
+                .inflate(R.layout.item_admin_links, parent, false)
+            val botao = view.findViewById<TextView>(R.id.item_admin_link)
+            botao.text = buttons[position]
+            return view
+        }
+
+        override fun getCount(): Int {
+            return buttons.size
+        }
+
+        override fun getItem(position: Int): Any {
+            return buttons[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
     }
 
     fun gotoAdminReporting(_view: android.view.View) {
@@ -74,13 +148,13 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
 
     }
 
-    fun goToAreasNegocio(_view: android.view.View) {
+    fun gotoAdminAreaNegocio(_view: android.view.View) {
         val intent = Intent(this, AreasNegocioActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0);
     }
 
-    fun gotoAdminTiposProjeto(_view: android.view.View) {
+    fun gotoAdminTipoProjeto(_view: android.view.View) {
         val intent = Intent(this, AdminTiposProjetoActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0);

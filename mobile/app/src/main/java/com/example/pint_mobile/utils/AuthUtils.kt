@@ -15,10 +15,15 @@ fun getCurrentUser(ctx: Context): Utilizador? {
         json.getString("name"),
         json.getString("email"),
         "", // json.getString("lastLoginDate"),
-        TipoUtilizador(
-            tipoUtilizador.getInt("id"),
-            tipoUtilizador.getString("name")
-        ),
+        when (tipoUtilizador.getInt("id")) {
+            1 -> TipoUtilizadorEnum.Utilizador
+            2 -> TipoUtilizadorEnum.GestorIdeias
+            3 -> TipoUtilizadorEnum.GestorRecursosHumanos
+            4 -> TipoUtilizadorEnum.GestorNegocios
+            5 -> TipoUtilizadorEnum.GestorConteudos
+            6 -> TipoUtilizadorEnum.Administrador
+            else -> throw IllegalArgumentException("Invalid id")
+        },
         false
     )
 }
