@@ -1,6 +1,6 @@
 package com.example.pint_mobile.utils
 
-class Utilizador(val id: Int, val name: String, val email: String, val lastLoginDate: String?, val tipoUser: TipoUtilizadorEnum, val disabled: Boolean ) {
+class Utilizador(val id: Int, val name: String, val email: String, val lastLoginDate: String?, val tipoUser: TipoUtilizadorEnum, val disabled: Boolean, var cv: String? = null) {
     val nome = name
     val dataUltimoLogin = lastLoginDate
     val disable = disabled

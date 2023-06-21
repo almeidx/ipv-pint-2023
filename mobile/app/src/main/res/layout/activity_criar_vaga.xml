@@ -119,6 +119,16 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Button
+                    android:id="@+id/vagaIconPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="Escolha a imagem da vaga"
+                    />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/iconVaga"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -127,14 +137,14 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="Icon da Vaga"
+                    android:hint="Icone da Vaga"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/iconVagaCriar"
+                        android:id="@+id/iconVagaEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -177,6 +187,7 @@
                         android:textSize="10dp" />
 
                     <Button
+                        android:id="@+id/criarVagaBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"

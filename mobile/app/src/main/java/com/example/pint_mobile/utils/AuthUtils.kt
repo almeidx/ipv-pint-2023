@@ -24,7 +24,8 @@ fun getCurrentUser(ctx: Context): Utilizador? {
             6 -> TipoUtilizadorEnum.Administrador
             else -> throw IllegalArgumentException("Invalid id")
         },
-        false
+        false, // json.getBoolean("disabled"),
+        json.getString("cv")
     )
 }
 

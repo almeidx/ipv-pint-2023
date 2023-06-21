@@ -87,7 +87,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="25dp"
-                android:hint="Icon do Beneficio"
+                android:hint="Icone do Beneficio"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="25dp"
-                android:text="data da Reuniao" />
+                android:text="Data de Validade" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dataValidadeBeneficio"
@@ -152,6 +152,7 @@
                     android:textSize="10dp" />
 
                 <Button
+                    android:id="@+id/criarBeneficioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"

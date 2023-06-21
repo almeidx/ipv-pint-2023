@@ -99,6 +99,8 @@ export default function Candidaturas() {
 		}
 	}
 
+	// TODO: adicionar botão para ver cv do candidato
+
 	return (
 		<Container className="py-4">
 			<h2 className="mb-3">Candidaturas</h2>
