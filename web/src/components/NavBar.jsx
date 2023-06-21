@@ -2,7 +2,7 @@ import { BiBell } from "@react-icons/all-files/bi/BiBell";
 import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
 import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
 import { MdOutlinePersonOutline } from "@react-icons/all-files/md/MdOutlinePersonOutline";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -14,13 +14,14 @@ import Popover from "react-bootstrap/Popover";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import { useNotifications } from "../contexts/NotificationsContext.jsx";
+import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { isColaborador } from "../utils/permissions.js";
+import { ConfirmModal } from "./ConfirmModal.jsx";
 import { Spinner } from "./Spinner.jsx";
-import { Softinsa } from "./icons/Softinsa.jsx";
-import { useToast } from "../contexts/ToastContext.jsx";
 import { Toast } from "./Toast.jsx";
+import { Softinsa } from "./icons/Softinsa.jsx";
 
 const Notifications = lazy(() => import("./Notifications.jsx"));
 
@@ -38,9 +39,10 @@ const navLinks = [
  * @param {string} [props.page]
  */
 export function NavBar({ page }) {
-	const { user } = useUser();
+	const { user, setUser } = useUser();
 	const { notifications, mutate } = useNotifications();
 	const { toastMessage, toastType, hide, showToastWithMessage, showToast } = useToast();
+	const [showConfirmModal, setShowConfirmModal] = useState(false);
 
 	async function handleMarcarNotificacoesComoLidas() {
 		try {
@@ -61,9 +63,22 @@ export function NavBar({ page }) {
 		}
 	}
 
+	function handleLogout() {
+		window.open(`${API_URL}/auth/logout`, "_self");
+		setUser(null);
+	}
+
 	return (
 		<BootstrapNavbar bg="primary" variant="dark" style={{ height: "5rem" }}>
 			<Toast hide={hide} message={toastMessage} show={showToast} type={toastType} />
+
+			<ConfirmModal
+				onConfirm={handleLogout}
+				onHide={() => setShowConfirmModal(false)}
+				show={showConfirmModal}
+				title="Terminar sessão"
+				text="Pretende terminar a sua sessão?"
+			/>
 
 			<Link to="/">
 				<NavbarBrand>
@@ -189,9 +204,7 @@ export function NavBar({ page }) {
 								) : null}
 
 								<li>
-									<Dropdown.Item onClick={() => window.open(`${API_URL}/auth/logout`, "_self")}>
-										Terminar sessão
-									</Dropdown.Item>
+									<Dropdown.Item onClick={() => setShowConfirmModal(true)}>Terminar sessão</Dropdown.Item>
 								</li>
 							</Dropdown.Menu>
 						</Dropdown>

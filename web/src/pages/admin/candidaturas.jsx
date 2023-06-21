@@ -46,6 +46,8 @@ export default function Candidaturas() {
 		[data, search, filtro],
 	);
 
+	const createReuniaoDefaultUserIds = useMemo(() => [candidatoId, user.id], [candidatoId, user.id]);
+
 	if (error) {
 		return <AdminPageError error={error} />;
 	}
@@ -109,7 +111,7 @@ export default function Candidaturas() {
 				onSave={handleCreateReuniao}
 				utilizadores={utilizadores}
 				title="Criar Reunião para candidatura a Vaga"
-				defaultUserIds={[candidatoId, user.id]}
+				defaultUserIds={createReuniaoDefaultUserIds}
 			/>
 
 			<div className="d-flex w-100 gap-3">

@@ -7,7 +7,11 @@ export function isAdmin(user) {
 
 /** @param {import("../contexts/UserContext.jsx").User} user */
 export function isColaborador(user) {
-	return Boolean(user) && user.tipoUtilizador.id > TipoUtilizadorEnum.Utilizador;
+	return (
+		Boolean(user) &&
+		user.tipoUtilizador.id !== TipoUtilizadorEnum.Utilizador &&
+		user.tipoUtilizador.id !== TipoUtilizadorEnum.Colaborador
+	);
 }
 
 /**

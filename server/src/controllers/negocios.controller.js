@@ -146,7 +146,7 @@ module.exports = {
 					{
 						model: Utilizador,
 						as: "criador",
-						attributes: ["name", "email"],
+						attributes: ["id", "name", "email"],
 					},
 					{
 						model: Utilizador,
