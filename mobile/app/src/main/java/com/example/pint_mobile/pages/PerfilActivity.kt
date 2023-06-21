@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.deleteCurrentUser
 import com.example.pint_mobile.utils.desativarUser
 import com.example.pint_mobile.utils.getCurrentUser
@@ -28,7 +29,7 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
         val password = findViewById<TextView>(R.id.password)
         id = getCurrentUser(this)?.id ?: -1
 
-        if(user?.tipoUser?.nome == "Administrador"){
+        if(user != null && user.tipoUser != TipoUtilizadorEnum.Utilizador && user.tipoUser != TipoUtilizadorEnum.Colaborador) {
             pag_admin.visibility = View.VISIBLE
             pag_admin.setOnClickListener{
                 val intent = Intent(this, AdminActivity::class.java)

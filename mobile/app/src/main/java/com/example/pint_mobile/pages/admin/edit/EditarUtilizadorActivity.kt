@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.Spinner
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.TipoUtilizador
+import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.desativarUser
 import com.example.pint_mobile.utils.editUser
 import com.example.pint_mobile.utils.listaTipoUtilizador
@@ -21,7 +21,7 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
     var disable by Delegates.notNull<Boolean>()
     private var id by Delegates.notNull<Int>()
 
-    private lateinit var tiposUser: ArrayList<TipoUtilizador>
+    private lateinit var tiposUser: ArrayList<TipoUtilizadorEnum>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,7 +84,7 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
 
         val cargoId =  tiposUser.find {
             it.nome == cargo
-        }!!.id
+        }!!.Id
 
         editUser(id, cargoId, this)
     }

@@ -3,13 +3,24 @@ package com.example.pint_mobile.pages
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
+import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.*
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.getCurrentUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
+    private lateinit var adminlink: ListView
+    private lateinit var adapter: AdminAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

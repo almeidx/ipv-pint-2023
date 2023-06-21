@@ -273,16 +273,7 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
                 rawUser.getString("name"),
                 rawUser.getString("email"),
                 rawUser.getString("lastLoginDate"),
-                //erro: 'when' expression must be exhaustive, add necessary 'else' branch
-                when (tipoUser.getInt("id")) {
-                    1 -> TipoUtilizadorEnum.Utilizador
-                    2 -> TipoUtilizadorEnum.GestorIdeias
-                    3 -> TipoUtilizadorEnum.GestorRecursosHumanos
-                    4 -> TipoUtilizadorEnum.GestorNegocios
-                    5 -> TipoUtilizadorEnum.GestorConteudos
-                    6 -> TipoUtilizadorEnum.Administrador
-                    else -> throw IllegalArgumentException("Invalid id")
-                },
+                GetTipoUser(tipoUser.getInt("id")),
                 rawUser.getBoolean("disabled")
             )
             list.add(user)
@@ -296,15 +287,28 @@ fun listaUtilizadores(list: ArrayList<Utilizador>, allList: ArrayList<Utilizador
     queue.add(request)
 }
 
-fun listaTipoUtilizador(ctx: Context, callback: (ArrayList<TipoUtilizador>) -> Unit) {
+fun GetTipoUser(id: Int) : TipoUtilizadorEnum{
+    return when (id) {
+        1 -> TipoUtilizadorEnum.Utilizador
+        2 -> TipoUtilizadorEnum.GestorIdeias
+        3 -> TipoUtilizadorEnum.GestorRecursosHumanos
+        4 -> TipoUtilizadorEnum.GestorNegocios
+        5 -> TipoUtilizadorEnum.GestorConteudos
+        6 -> TipoUtilizadorEnum.Administrador
+        7 -> TipoUtilizadorEnum.Colaborador
+        else -> throw IllegalArgumentException("Invalid id")
+    }
+}
+
+fun listaTipoUtilizador(ctx: Context, callback: (ArrayList<TipoUtilizadorEnum>) -> Unit) {
     val queue = Volley.newRequestQueue(ctx)
-    val tipoUtilizadores = ArrayList<TipoUtilizador>()
+    val tipoUtilizadores = ArrayList<TipoUtilizadorEnum>()
     val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/tipos-utilizador", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawTipo = response.getJSONObject(i)
             val id = rawTipo.getInt("id")
             val nome = rawTipo.getString("name")
-            tipoUtilizadores.add(TipoUtilizador(id, nome))
+            tipoUtilizadores.add(GetTipoUser(id))
         }
         callback(tipoUtilizadores)
     } catch (e: JSONException) {

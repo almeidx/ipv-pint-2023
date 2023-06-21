@@ -7,7 +7,21 @@
     android:background="@color/bg"
     tools:context=".pages.AdminActivity">
 
-    <ScrollView
+    <ListView
+        android:id="@+id/listaAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="67dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -250,7 +264,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Utilizador" />
             </LinearLayout>
-        </ScrollView>
+        </ScrollView>-->
 
     <include
         android:id="@+id/include"
