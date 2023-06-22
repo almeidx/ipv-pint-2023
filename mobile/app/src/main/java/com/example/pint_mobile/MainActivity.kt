@@ -64,7 +64,8 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         barChart.animateY(2000)
 
         FacebookSdk.sdkInitialize(getApplicationContext())
-        AppEventsLogger.activateApp(this)
+          AppEventsLogger.activateApp(this)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

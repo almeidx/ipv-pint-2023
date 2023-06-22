@@ -1,6 +1,7 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,15 +24,20 @@ class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_
 
     private var id = -1
 
+    private lateinit var utilizadores: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val nome = intent.getStringExtra("Nome")
         val titulo = intent.getStringExtra("Titulo")
         id = intent.getIntExtra("Id", -1)
+        utilizadores = intent.getStringArrayListExtra("utilizadores") as ArrayList<String>
+
+        Log.i("utilizadores", utilizadores.toString())
+        Log.i("id", id.toString())
+        Log.i("titulo", titulo.toString())
 
         val nomeCandidato = findViewById<TextView>(R.id.NomeCandidaturaEdit)
-        nomeCandidato.setText(nome)
+        nomeCandidato.setText(utilizadores.toString())
 
         val tituloCandidato = findViewById<TextView>(R.id.tituloCandidaturaEdit)
         tituloCandidato.setText(titulo)

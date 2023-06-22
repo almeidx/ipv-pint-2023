@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages.admin.edit
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -73,10 +74,8 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
     }
 
     fun desativarUtilizador(view: View) {
-        disable = !disable
-        Log.i("disable", disable.toString())
-        val user = 0
-        desativarUser(id, disable, user,this)
+        Log.d("disable", disable.toString())
+        showConfirmationDialog()
     }
 
     fun editarUser(view: View) {
@@ -87,5 +86,28 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
         }!!.Id
 
         editUser(id, cargoId, this)
+    }
+
+    fun showConfirmationDialog() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confimação")
+        if(disable)
+                builder.setMessage("Tem a certeza que pretende ativar este utilizador?")
+        else
+            builder.setMessage("Tem a certeza que pretende desativar este utilizador?")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            disable = !disable
+            val user = 0
+            desativarUser(id, disable, user,this){
+                finish()
+            }
+        }
+        builder.setNegativeButton("Não") { dialog, which ->
+
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 }

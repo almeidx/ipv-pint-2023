@@ -142,18 +142,6 @@
                         android:layout_marginBottom="67dp"
                         android:background="@drawable/edit_button"
                         android:backgroundTint="@color/white"
-                        android:onClick="goToNotaOportunidade"
-                        android:text="Nota Oportunidade"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginBottom="67dp"
-                        android:background="@drawable/edit_button"
-                        android:backgroundTint="@color/white"
                         android:onClick="editarNegocioX"
                         android:text="Guardar"
                         android:textColor="@color/white"

@@ -81,6 +81,8 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
                 intent.putExtra("candidaturaReuniao", reuniao.candidatura)
                 intent.putExtra("subjectReuniao", reuniao.subject)
                 intent.putExtra("duracaoReuniao", reuniao.duration)
+                intent.putExtra("utilizadores", reuniao.utilizadores)
+                intent.putExtra("tituloReuniao", reuniao.title)
 
                 view.context.startActivity(intent)
             }
