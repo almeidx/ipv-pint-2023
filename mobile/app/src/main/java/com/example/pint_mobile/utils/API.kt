@@ -517,6 +517,13 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
             val candidatura = rawReuniao.optJSONObject("candidatura")
             val negocio = rawReuniao.optJSONObject("negocio")
 
+            val utilizadoresArray = rawReuniao.getJSONArray("utilizadores")
+            val utilizadoresList = ArrayList<String>()
+            for (j in 0 until utilizadoresArray.length()) {
+                val utilizadoresObj = utilizadoresArray.getJSONObject(j)
+                val utilizador = utilizadoresObj.getString("name")
+                utilizadoresList.add(utilizador)
+            }
 
             val reuniao = Reuniao(
                 rawReuniao.getString("title"),
@@ -527,6 +534,7 @@ fun listaReunioes(list: ArrayList<Reuniao>, allList: ArrayList<Reuniao>, adapter
                 rawReuniao.getInt("id"),
                 candidatura?.getJSONObject("vaga")?.getString("title"),
                 negocio?.getString("title"),
+                utilizadoresList
             )
             list.add(reuniao)
         }
@@ -1378,7 +1386,7 @@ fun createNotaReuniao(idCandidatura: Int, nota:String, ctx: Context) {
     queue.add(request)
 }
 
-fun desativarUser(idUser: Int, disabled: Boolean, user: Int?,  ctx: Context) {
+fun desativarUser(idUser: Int, disabled: Boolean, user: Int?,   ctx: Context, callback: () -> Unit ) {
     val queue = Volley.newRequestQueue(ctx)
 
     val body = JSONObject()
@@ -1386,18 +1394,12 @@ fun desativarUser(idUser: Int, disabled: Boolean, user: Int?,  ctx: Context) {
 
     Log.i("body", body.toString())
 
-    if (user == 1) {
-        deleteCurrentUser(ctx)
-
-        val intent = Intent(ctx, LoginActivity::class.java)
-        ctx.startActivity(intent)
-    }
-
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/$idUser/disable", body, Response.Listener { response ->
         Toast.makeText(ctx, "Utilizador desativado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, AdminUtilizadoresActivity::class.java)
         ctx.startActivity(intent)
+        callback.invoke()
     }, Response.ErrorListener { error ->
         error.printStackTrace()
     }) {

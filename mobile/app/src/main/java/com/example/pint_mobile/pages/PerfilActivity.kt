@@ -1,5 +1,6 @@
 package com.example.pint_mobile.pages
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -49,16 +50,45 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
     }
 
     fun terminarSessao(_view: View) {
-        deleteCurrentUser(this)
-
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
+        val sessao = 0
+        confirmarDesativarConta(sessao)
     }
 
     fun inativarConta(_view: View) {
-            disable = true
-            val user = 1
-            desativarUser(id, disable, user, this)
+        val conta = 1
+        confirmarDesativarConta(conta)
+    }
+
+    fun confirmarDesativarConta( tipo: Int) {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confimação")
+        if (tipo == 0) {
+            builder.setMessage("Tem a certeza que pretende terminar a sessão?")
+            builder.setPositiveButton("Sim") { dialog, which ->
+                deleteCurrentUser(this)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(0, 0);
+            }
+        }
+        else{
+            builder.setMessage("Tem a certeza que pretende desativar a sua conta?")
+            builder.setPositiveButton("Sim") { dialog, which ->
+                disable = true
+                val user = 1
+                desativarUser(id, disable, user, this) { // Pass a callback function
+                    deleteCurrentUser(this)
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
+                    }
+            }
+        }
+        builder.setNegativeButton("Não") { dialog, which ->
+
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 }

@@ -78,18 +78,11 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="67dp"
                 android:orientation="horizontal"
+                android:layout_gravity="end"
+                android:gravity="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <Button
-                    android:id="@+id/NotaEntrevista"
-                    android:layout_width="wrap_content"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:onClick="goToNotaEntrevista"
-                    android:text="Nota Entrevista" />
 
                 <Button
                     android:id="@+id/MarcarReuniao"

@@ -29,6 +29,8 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
 
     private var negocio = false
     private var candidatura = false
+    private lateinit var utilizadores: ArrayList<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_reuniao)
@@ -41,6 +43,11 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
         val candidaturaReuniao = intent.getStringExtra("candidaturaReuniao")
         val subjectReuniao = intent.getStringExtra("subjectReuniao")
         val duracaoReuniao = intent.getStringExtra("duracaoReuniao")
+        titulo = intent.getStringExtra("tituloReuniao")
+
+        utilizadores = intent.getStringArrayListExtra("utilizadores") as ArrayList<String>
+
+        Log.i("utilizadores", utilizadores.toString())
 
         if (negocioReuniao != null) {
             negocio = true
@@ -95,13 +102,13 @@ class EditarReuniaoActivity :  ActivityBase(R.layout.activity_editar_reuniao, "E
 
         if(candidatura) {
             val intent = Intent(this, EditarNotaEntrevistaActivity::class.java)
-            intent.putExtra("Nome", nome)
+            intent.putExtra("utilizadores", utilizadores)
             intent.putExtra("Titulo", titulo)
             intent.putExtra("Id", id)
             startActivity(intent)
         } else if(negocio){
             val intent = Intent(this, EditarNotaEntrevistaActivity::class.java)
-            intent.putExtra("Nome", nome)
+            intent.putExtra("utilizadores", utilizadores)
             intent.putExtra("Titulo", titulo)
             intent.putExtra("Id", id)
             startActivity(intent)

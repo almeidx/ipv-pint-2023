@@ -195,14 +195,4 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         editNegocio( idNegocio, juntaArray, centroTrabalhoId, utilizadorId,  this)
     }
 
-    fun goToNotaOportunidade(view: View) {
-        val intent = android.content.Intent(this, EditarNotaEntrevistaActivity::class.java)
-
-        intent.putExtra("Id", idNegocio)
-        intent.putExtra("Nome", nome)
-        intent.putExtra("Titulo", titulo)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
-    }
-
 }
