@@ -1,4 +1,5 @@
 import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -45,6 +46,8 @@ export default function Candidaturas() {
 			}),
 		[data, search, filtro],
 	);
+
+	const createReuniaoDefaultUserIds = useMemo(() => [candidatoId, user.id], [candidatoId, user.id]);
 
 	if (error) {
 		return <AdminPageError error={error} />;
@@ -109,7 +112,7 @@ export default function Candidaturas() {
 				onSave={handleCreateReuniao}
 				utilizadores={utilizadores}
 				title="Criar Reunião para candidatura a Vaga"
-				defaultUserIds={[candidatoId, user.id]}
+				defaultUserIds={createReuniaoDefaultUserIds}
 			/>
 
 			<div className="d-flex w-100 gap-3">
@@ -159,6 +162,17 @@ export default function Candidaturas() {
 									>
 										<HandshakeIcon />
 									</Button>
+								</OverlayTrigger>
+
+								<OverlayTrigger placement="top" overlay={<Tooltip>Ver CV</Tooltip>}>
+									<a
+										href={utilizador.cv ? `${API_URL}/uploads/${utilizador.cv}` : "#"}
+										className="btn border-0 bg-transparent p-0"
+										target="_blank"
+										rel="external noopener noreferrer"
+									>
+										<BsFillFileEarmarkPersonFill size={32} color="black" />
+									</a>
 								</OverlayTrigger>
 
 								<OverlayTrigger placement="top" overlay={<Tooltip>Marcar reunião</Tooltip>}>

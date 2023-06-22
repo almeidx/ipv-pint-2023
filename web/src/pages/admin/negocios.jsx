@@ -34,6 +34,7 @@ export default function Negocios() {
 	const [showCreateReuniaoModal, setShowCreateReuniaoModal] = useState(false);
 	const [idNegocio, setIdNegocio] = useState(null);
 	const [sortMethod, setSortMethod] = useState("titleAsc");
+	const [negocioCreatorId, setNegocioCreatorId] = useState(null);
 	const { isLoading, data, mutate, error } = useSWR(`${API_URL}/negocios?admin`, fetcher);
 	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 	const { data: utilizadores } = useSWR(`${API_URL}/utilizadores`, fetcher);
@@ -53,6 +54,8 @@ export default function Negocios() {
 				.sort(sortWrapper(sortMethod)),
 		[data, search, sortMethod],
 	);
+
+	const createReuniaoDefaultUserIds = useMemo(() => [negocioCreatorId, user.id], [negocioCreatorId, user.id]);
 
 	if (error) {
 		return <AdminPageError error={error} />;
@@ -122,6 +125,7 @@ export default function Negocios() {
 				onSave={handleCreateReuniao}
 				utilizadores={utilizadores}
 				title="Criar Reunião para Negócio"
+				defaultUserIds={createReuniaoDefaultUserIds}
 			/>
 
 			<EditNegocioModal
@@ -257,6 +261,7 @@ export default function Negocios() {
 													className="border-0 bg-transparent p-0 pe-2"
 													onClick={() => {
 														setIdNegocio(id);
+														setNegocioCreatorId(criador.id);
 														setShowCreateReuniaoModal(true);
 													}}
 												>

@@ -33,9 +33,7 @@ export default function Login() {
 	const navigate = useNavigate();
 	const { showToast, toastMessage, hide, showToastWithMessage, toastType } = useToast();
 
-	/**
-	 * @param {import("yup").InferType<typeof schema>} data
-	 */
+	/** @param {import("yup").InferType<typeof schema>} data */
 	async function handleSubmit({ email, password, rememberMe }) {
 		const response = await fetch(`${API_URL}/auth/email`, {
 			credentials: "include",
@@ -74,6 +72,8 @@ export default function Login() {
 
 		if (rememberMe) {
 			localStorage.setItem("auth-data", btoa(JSON.stringify({ email, password })));
+		} else {
+			localStorage.removeItem("auth-data");
 		}
 
 		setUser(user);
@@ -142,6 +142,10 @@ export default function Login() {
 
 								setTimeout(() => {
 									setFieldTouched("password", true);
+
+									setTimeout(() => {
+										setFieldTouched("rememberMe", true);
+									});
 								});
 							});
 						})();
@@ -219,6 +223,7 @@ export default function Login() {
 									label="Lembrar Password"
 									onChange={handleChange}
 									value={values.rememberMe}
+									onBlur={handleBlur}
 								/>
 							</Form.Group>
 

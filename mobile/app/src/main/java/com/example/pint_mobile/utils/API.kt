@@ -2,6 +2,9 @@ package com.example.pint_mobile.utils
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.CalendarView
 import android.widget.Toast
@@ -39,11 +42,18 @@ import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarReuniaoActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.Calendar
+import javax.security.auth.callback.Callback
 
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
@@ -753,7 +763,7 @@ fun criarBeneficio(titulo: String, descricao: String, icon: String, data:String,
     body.put("shortContent", titulo)
     body.put("content", descricao)
     body.put("iconeBeneficio", icon)
-    body.put("dataValidade", data)
+    body.put("dataValidade", "$data.000Z")
 
     Log.i("body", body.toString())
 
@@ -1102,12 +1112,11 @@ fun createReunion(titulo:String, descricao:String, data:String, duracao:Int, use
     body.put("subject", subject)
     body.put("utilizadores", JSONArray(userIds))
 
-    if(negocioId != null && negocioId != -1)
-    {
+    if (negocioId != -1) {
         body.put("idNegocio", negocioId)
     }
 
-    if (idCandidatura != -1 && idCandidatura != null) {
+    if (idCandidatura != -1) {
         body.put("idCandidatura", idCandidatura)
     }
 
@@ -1715,6 +1724,95 @@ fun deleteTipoProjeto(idTipoProjeto: Int, ctx: Context) {
         }
     }
     queue.add(request)
+}
+
+fun uploadFile(ctx: Context, imageUri: Uri, image: Boolean, callback: (String?) -> Unit) {
+    val client = OkHttpClient()
+
+    val path = if (image) getPathFromUri(ctx, imageUri) else getPathFromUriPdf(ctx, imageUri)
+    val file = File(path)
+    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+    val requestBody = MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
+        .addFormDataPart("file", file.name, requestFile)
+        .build()
+
+    val cookie = getCookie(ctx)
+
+    val request = okhttp3.Request.Builder()
+        .url("$API_URL/uploads")
+        .addHeader("Cookie", cookie!!)
+        .post(requestBody)
+        .build()
+
+    client.newCall(request).enqueue(object : Callback, okhttp3.Callback {
+        override fun onFailure(call: okhttp3.Call, e: IOException) {
+            Log.i("Upload", "Failed to upload image")
+            Log.i("Upload", e.message.toString())
+            callback(null)
+        }
+
+        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            if (response.isSuccessful) {
+                val body = response.body!!.string()
+                val jsonObject = JSONObject(body)
+
+                val fileName = jsonObject.getString("fileName")
+                callback(fileName)
+            } else {
+                callback(null)
+            }
+        }
+    })
+}
+
+fun getPathFromUri(ctx: Context, uri: Uri): String {
+    val projection = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = ctx.contentResolver.query(uri, projection, null, null, null)
+    cursor?.use {
+        if (it.moveToFirst()) {
+            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            return it.getString(columnIndex)
+        }
+    }
+    return ""
+}
+
+fun getPathFromUriPdf(context: Context, uri: Uri): String {
+    var filePath: String? = null
+    val scheme = uri.scheme
+
+    if (scheme == "content") {
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (columnIndex != -1) {
+                    val fileName = it.getString(columnIndex)
+                    val cacheDir = context.externalCacheDir
+                    if (cacheDir != null) {
+                        val file = File(cacheDir, fileName)
+                        val inputStream = context.contentResolver.openInputStream(uri)
+                        if (inputStream != null) {
+                            FileOutputStream(file).use { outputStream ->
+                                val buffer = ByteArray(4 * 1024) // Adjust buffer size as needed
+                                var bytesRead: Int
+                                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                                    outputStream.write(buffer, 0, bytesRead)
+                                }
+                                filePath = file.absolutePath
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else if (scheme == "file") {
+        filePath = uri.path
+    }
+
+    return filePath ?: ""
 }
 
 fun resolveIcon(path: String): String {

@@ -121,7 +121,19 @@ module.exports = {
 					},
 				),
 				getDataPerMonth("candidaturas", "DATA_SUBMISSAO", "candidaturas"),
-				getDataPerMonth("reunioes", "DATA_INICIO", "reuniões"),
+				getVolumeData(
+					oneLine`
+						SELECT vagas."ID_VAGA", vagas."TITULO_VAGA" as label, CAST(COUNT(*) AS INT) as data
+						FROM vagas
+						INNER JOIN candidaturas
+							ON vagas."ID_VAGA" = candidaturas."ID_VAGA"
+						GROUP BY vagas."ID_VAGA"
+						ORDER BY data DESC
+						LIMIT 5
+					`,
+					"vagas",
+					"maisCandidaturas",
+				),
 			);
 		}
 

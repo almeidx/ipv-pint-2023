@@ -1,21 +1,27 @@
 package com.example.pint_mobile.pages.admin.edit
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.telecom.Call
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.API_URL
@@ -28,10 +34,13 @@ import java.io.File
 import java.io.IOException
 import com.android.volley.Request
 import com.android.volley.Response
+import com.example.pint_mobile.utils.getCookie
+import com.example.pint_mobile.utils.uploadFile
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
 import javax.security.auth.callback.Callback
 
 
@@ -50,8 +59,10 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
     var savedMinute = 0
 
     private var dataReuniao: String? = null
+    private var icone: String? = null
 
     private val PICK_IMAGE_REQUEST = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,13 +74,9 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
 
         val btnIcon = findViewById<Button>(R.id.imagePickerX)
         btnIcon.setOnClickListener {
-            pickImageFromGallery()
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
-    }
-
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -77,29 +84,27 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             val imageUri = data.data
+
             val icon = findViewById<TextInputEditText>(R.id.iconBeneficioEdit)
-            icon.setText(imageUri.toString())
+            icon.setText("A carregar...")
 
-            if (imageUri != null) {
-                uploadFile(imageUri)
+            val criarBtn = findViewById<Button>(R.id.criarBeneficioBtn)
+            criarBtn.isEnabled = false
+
+            uploadFile(this, imageUri!!, true) {
+                runOnUiThread {
+                    if (it != null) {
+                        icone = it
+                        icon.setText("Icon carregado")
+                    } else {
+                        Toast.makeText(this, "Erro ao carregar icone", Toast.LENGTH_SHORT).show()
+                        icon.setText("")
+                    }
+
+                    criarBtn.isEnabled = true
+                }
             }
         }
-    }
-
-    private fun uploadFile(imageUri: Uri) {
-
-    }
-
-    private fun getRealPathFromURI(uri: Uri): String {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return it.getString(columnIndex)
-            }
-        }
-        return ""
     }
 
     private fun getDateTimeCalendar() {
@@ -107,11 +112,12 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
-        hour = cal.get(Calendar.HOUR_OF_DAY)  // Use HOUR_OF_DAY instead of HOUR
+        hour = cal.get(Calendar.HOUR_OF_DAY)
         minute = cal.get(Calendar.MINUTE)
 
         dataReuniao = "$year-${pad(month + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00"
     }
+
     private fun pickDate() {
         val btn_timePicker = findViewById<Button>(R.id.btn_timePicker2)
         btn_timePicker.setOnClickListener {
@@ -131,36 +137,30 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-        val tv_textTime = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.dataValidadeBeneficioEdit)
+        val tv_textTime = findViewById<TextInputEditText>(R.id.dataValidadeBeneficioEdit)
         val formattedDateTime = String.format("%04d-%02d-%02dT%02d:%02d:00", savedYear, savedMonth + 1, savedDay, savedHour, savedMinute)
         tv_textTime.setText(formattedDateTime)
     }
-
 
     fun criarBeneficio10(_view: View) {
         val titulo = findViewById<TextInputEditText>(R.id.tituloBeneficioEdit).text.toString()
         val descricao = findViewById<TextInputEditText>(R.id.descricaoBeneficioEdit).text.toString()
         val data = findViewById<TextInputEditText>(R.id.dataValidadeBeneficioEdit).text.toString()
-        val icon = findViewById<TextInputEditText>(R.id.iconBeneficioEdit).text.toString()
 
         var errorMsg: String? = null
 
         if (titulo.isEmpty()) {
-            val titulo = findViewById<EditText>(R.id.tituloBeneficioEdit)
-            titulo.setBackgroundResource(R.drawable.edittext_red_border)
-            errorMsg = "Título não pode ser vazio"
+            findViewById<EditText>(R.id.tituloBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "Título não pode estar vazio"
         } else if (descricao.isEmpty()) {
-            val descricao = findViewById<EditText>(R.id.descricaoBeneficioEdit)
-            descricao.setBackgroundResource(R.drawable.edittext_red_border)
-            errorMsg = "Descrição não pode ser vazia"
-        } else if (icon.isEmpty()) {
-            val icon = findViewById<EditText>(R.id.iconBeneficioEdit)
-            icon.setBackgroundResource(R.drawable.edittext_red_border)
-            errorMsg = "Icon não pode ser vazio"
+            findViewById<EditText>(R.id.descricaoBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "Descrição não pode estar vazia"
+        } else if (icone == null) {
+            findViewById<EditText>(R.id.iconBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "Icone não pode estar vazio"
         } else if (data.isEmpty()) {
-            val data = findViewById<EditText>(R.id.dataValidadeBeneficioEdit)
-            data.setBackgroundResource(R.drawable.edittext_red_border)
-            errorMsg = "Data não pode ser vazia"
+            findViewById<EditText>(R.id.dataValidadeBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
+            errorMsg = "Data não pode estar vazia"
         }
 
         if (errorMsg != null) {
@@ -168,13 +168,12 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
             return
         }
 
-        criarBeneficio(titulo, descricao,icon, data, this) {
-            Toast.makeText(this, "Benefício criar com sucesso", Toast.LENGTH_LONG).show()
+        criarBeneficio(titulo, descricao, icone!!, data, this) {
+            Toast.makeText(this, "Benefício criado com sucesso", Toast.LENGTH_LONG).show()
             val intent = Intent(this, AdminBeneficiosActivity::class.java)
             startActivity(intent)
             overridePendingTransition(0, 0);
         }
-
     }
 
     fun cancelarBeneficio10(_view: View) {

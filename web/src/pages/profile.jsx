@@ -14,6 +14,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { object, ref, string } from "yup";
+import { ConfirmModal } from "../components/ConfirmModal.jsx";
 import { Page } from "../components/Page.jsx";
 import { Toast } from "../components/Toast.jsx";
 import { useToast } from "../contexts/ToastContext.jsx";
@@ -44,6 +45,7 @@ export default function Profile() {
 	const [showCvEditModal, setShowCvEditModal] = useState(false);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
+	const [showConfirmModal, setShowConfirmModal] = useState(false);
 	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	const disabledEditing = user?.registrationType !== "email";
@@ -111,6 +113,11 @@ export default function Profile() {
 		}
 	}
 
+	function handleLogout() {
+		window.open(`${API_URL}/auth/logout`, "_self");
+		setUser(null);
+	}
+
 	async function handleDisableAccount() {
 		try {
 			const response = await fetch(`${API_URL}/utilizadores/${user.id}/disable`, {
@@ -155,6 +162,14 @@ export default function Profile() {
 				show={showPasswordChangeModal}
 				onHide={() => setShowPasswordChangeModal(false)}
 				showToastWithMessage={showToastWithMessage}
+			/>
+
+			<ConfirmModal
+				onConfirm={handleLogout}
+				onHide={() => setShowConfirmModal(false)}
+				show={showConfirmModal}
+				title="Terminar sessão"
+				text="Pretende terminar a sua sessão?"
 			/>
 
 			{user ? (
@@ -250,13 +265,7 @@ export default function Profile() {
 							<p>Desativar a sua conta significa que pode recuperá-la a qualquer momento após realizar esta ação.</p>
 
 							<div className="d-flex gap-2">
-								<Button
-									variant="light"
-									onClick={() => {
-										window.open(`${API_URL}/auth/logout`, "_self");
-										setUser(null);
-									}}
-								>
+								<Button variant="light" onClick={() => setShowConfirmModal(true)}>
 									<MdOutlineLogout size={18} className="mb-1 me-2" />
 									Terminar sessão
 								</Button>
