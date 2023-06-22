@@ -220,11 +220,11 @@ export function Reporting() {
 									/>
 								</Col>
 
-								<Col>
-									<PorMesChart
-										data={reportingData.reuniões.porMes}
-										title="Reuniões por mês"
-										label="Número de reuniões"
+								<Col style={{ maxHeight: "19.8rem" }}>
+									<VolumeChart
+										data={reportingData.vagas.maisCandidaturas}
+										title="Vagas com mais candidaturas"
+										label="Número de candidaturas"
 									/>
 								</Col>
 							</Row>

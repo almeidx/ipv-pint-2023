@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.CalendarView
 import android.widget.Toast
@@ -49,6 +50,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Calendar
 import javax.security.auth.callback.Callback
@@ -1776,16 +1778,39 @@ fun getPathFromUri(ctx: Context, uri: Uri): String {
 }
 
 fun getPathFromUriPdf(context: Context, uri: Uri): String {
-    val projection = arrayOf(MediaStore.Images.Media.DATA)
-    context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-            if (columnIndex != -1) {
-                return cursor.getString(columnIndex)
+    var filePath: String? = null
+    val scheme = uri.scheme
+
+    if (scheme == "content") {
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (columnIndex != -1) {
+                    val fileName = it.getString(columnIndex)
+                    val cacheDir = context.externalCacheDir
+                    if (cacheDir != null) {
+                        val file = File(cacheDir, fileName)
+                        val inputStream = context.contentResolver.openInputStream(uri)
+                        if (inputStream != null) {
+                            FileOutputStream(file).use { outputStream ->
+                                val buffer = ByteArray(4 * 1024) // Adjust buffer size as needed
+                                var bytesRead: Int
+                                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                                    outputStream.write(buffer, 0, bytesRead)
+                                }
+                                filePath = file.absolutePath
+                            }
+                        }
+                    }
+                }
             }
         }
+    } else if (scheme == "file") {
+        filePath = uri.path
     }
-    return ""
+
+    return filePath ?: ""
 }
 
 fun resolveIcon(path: String): String {

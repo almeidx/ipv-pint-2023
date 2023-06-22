@@ -53,7 +53,7 @@ module.exports = {
 							{
 								model: Utilizador,
 								as: "utilizador",
-								attributes: ["id", "name"],
+								attributes: ["id", "name", "cv"],
 							},
 							{
 								model: Vaga,

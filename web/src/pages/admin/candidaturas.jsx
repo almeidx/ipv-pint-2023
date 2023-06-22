@@ -1,4 +1,5 @@
 import { BsCalendarDate } from "@react-icons/all-files/bs/BsCalendarDate";
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -99,8 +100,6 @@ export default function Candidaturas() {
 		}
 	}
 
-	// TODO: adicionar botão para ver cv do candidato
-
 	return (
 		<Container className="py-4">
 			<h2 className="mb-3">Candidaturas</h2>
@@ -163,6 +162,17 @@ export default function Candidaturas() {
 									>
 										<HandshakeIcon />
 									</Button>
+								</OverlayTrigger>
+
+								<OverlayTrigger placement="top" overlay={<Tooltip>Ver CV</Tooltip>}>
+									<a
+										href={utilizador.cv ? `${API_URL}/uploads/${utilizador.cv}` : "#"}
+										className="btn border-0 bg-transparent p-0"
+										target="_blank"
+										rel="external noopener noreferrer"
+									>
+										<BsFillFileEarmarkPersonFill size={32} color="black" />
+									</a>
 								</OverlayTrigger>
 
 								<OverlayTrigger placement="top" overlay={<Tooltip>Marcar reunião</Tooltip>}>

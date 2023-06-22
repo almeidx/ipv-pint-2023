@@ -91,8 +91,6 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "application/pdf"
 
-        // todo: fix
-
         startActivityForResult(intent, PICK_PDF_REQUEST)
     }
 
