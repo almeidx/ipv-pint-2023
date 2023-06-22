@@ -6,7 +6,7 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function uploadToCloudinary(file, folder, res) {
+async function uploadToCloudinary(file, folder) {
 	const result = await cloudinary.uploader.upload(file.path, { folder });
 	return result.asset_id;
 }
@@ -16,7 +16,12 @@ async function getCloudinaryImage(assetId) {
 	return data.resources[0].secure_url;
 }
 
+async function deleteCloudinaryImage(assetId) {
+	await cloudinary.uploader.destroy(assetId);
+}
+
 module.exports = {
 	uploadToCloudinary,
 	getCloudinaryImage,
+	deleteCloudinaryImage,
 };

@@ -5,6 +5,7 @@ const { validate } = require("../middleware/validation.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { z } = require("zod");
 const { ISO_DATETIME_REGEX } = require("../utils/constants.js");
+const { deleteCloudinaryImage } = require("../services/cloudinary.js");
 
 const fieldValidations = z
 	.object({
@@ -105,7 +106,20 @@ module.exports = {
 		async (req, res) => {
 			const { id } = req.params;
 
-			await Beneficio.destroy({ where: { id } });
+			const beneficio = await Beneficio.findByPk(id);
+			if (!beneficio) {
+				res.status(404).json({ message: "Beneficio não encontrado" });
+				return;
+			}
+
+			const promises = [beneficio.destroy()];
+
+			// benefícios antigos utilizavam imagens estáticas
+			if (!beneficio.iconeBeneficio.startsWith("/")) {
+				promises.push(deleteCloudinaryImage(beneficio.iconeBeneficio));
+			}
+
+			await Promise.all(promises);
 
 			res.status(200).json({ message: "Beneficio apagado" });
 		},

@@ -1,5 +1,4 @@
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
-import { RiCloseFill } from "@react-icons/all-files/ri/RiCloseFill";
 import { RiPencilLine } from "@react-icons/all-files/ri/RiPencilLine";
 import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -87,27 +86,6 @@ export default function Vagas() {
 		}
 	}
 
-	async function handleDelete(id) {
-		try {
-			const response = await fetch(`${API_URL}/vagas/${id}`, {
-				credentials: "include",
-				method: "DELETE",
-			});
-
-			if (!response.ok) {
-				throw new Error("Something went wrong", { cause: response });
-			}
-
-			showToastWithMessage("Vaga eliminada com sucesso");
-
-			mutate();
-		} catch (error) {
-			console.error(error);
-
-			showToastWithMessage("Ocorreu um erro ao eliminar a vaga", "error");
-		}
-	}
-
 	return (
 		<Container className="py-4">
 			<Toast hide={hide} show={showToast} message={toastMessage} />
@@ -141,10 +119,16 @@ export default function Vagas() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots }) => (
+					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots }, idx) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`vaga-${id}`}>
 							<div className="d-flex gap-2">
-								<img src={resolveIcon(icon)} height="64" width="64" className="me-1" />
+								<img
+									src={resolveIcon(icon)}
+									height="64"
+									width="64"
+									className="rounded-circle me-1"
+									fetchpriority={idx > 10 ? "low" : "high"}
+								/>
 
 								<div>
 									<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
@@ -170,11 +154,6 @@ export default function Vagas() {
 										}}
 									>
 										<RiPencilLine size={32} color="black" />
-									</Button>
-								</OverlayTrigger>
-								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Vaga</Tooltip>}>
-									<Button className="border-0 bg-transparent p-0" onClick={() => handleDelete(id)}>
-										<RiCloseFill size={40} color="red" />
 									</Button>
 								</OverlayTrigger>
 							</div>
@@ -308,7 +287,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 							onChange={(e) =>
 								setVagaData((state) => ({
 									...state,
-									public: state.public !== undefined ? !state.public : e.target.value,
+									public: state.public !== undefined ? !state.public : e.target.checked,
 								}))
 							}
 							checked={vagaData.public ?? data?.public}
@@ -324,7 +303,7 @@ function CreateOrEditVagaModal({ show, onHide, data, onSave, isCreate, showToast
 						<Form.Select
 							id="status-edit"
 							placeholder="Estado da vaga"
-							onChange={(e) => setVagaData((state) => ({ ...state, status: e.target.value }))}
+							onChange={(e) => setVagaData((state) => ({ ...state, status: Number.parseInt(e.target.value, 10) }))}
 							value={vagaData.status ?? data?.status ?? -1}
 							required={isCreate}
 							style={{ maxWidth: "18rem" }}

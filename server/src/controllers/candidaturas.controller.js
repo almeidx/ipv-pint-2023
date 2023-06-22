@@ -10,13 +10,7 @@ const { z } = require("zod");
 module.exports = {
 	create: [
 		requireLogin(),
-		validate(
-			z
-				.object({
-					refEmail: z.string().email().optional(),
-				})
-				.strict(),
-		),
+		validate(z.object({ refEmail: z.string().email().or(z.null()) }).strict()),
 
 		async (req, res) => {
 			const { refEmail } = req.body;

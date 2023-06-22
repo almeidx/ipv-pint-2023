@@ -464,7 +464,7 @@ function CreateOrEditNegocioModal({
 	function handleRemoveNecessidade(index) {
 		setNegocioData((state) => ({
 			...state,
-			necessidades: state.necessidades.filter((_, i) => i !== index),
+			necessidades: (state.necessidades ?? []).filter((_, i) => i !== index),
 		}));
 	}
 

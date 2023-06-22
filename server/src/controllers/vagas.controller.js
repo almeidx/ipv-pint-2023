@@ -124,22 +124,4 @@ module.exports = {
 			res.json(await vaga.update(update));
 		},
 	],
-
-	destroy: [
-		requirePermission(TipoUtilizadorEnum.GestorConteudos),
-
-		async (req, res) => {
-			const { id } = req.params;
-
-			const vaga = await Vaga.findByPk(id);
-			if (!vaga) {
-				res.status(404).json({ message: "Vaga não encontrada" });
-				return;
-			}
-
-			await vaga.destroy();
-
-			res.status(200).json({ message: "Vaga eliminada" });
-		},
-	],
 };

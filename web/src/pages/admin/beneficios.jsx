@@ -48,6 +48,8 @@ export default function Beneficios() {
 			const clone = { ...data };
 
 			if ("dataValidade" in clone && clone.dataValidade) {
+				console.log(clone.dataValidade);
+
 				clone.dataValidade = new Date(clone.dataValidade + ":00").toISOString();
 			}
 
@@ -151,10 +153,16 @@ export default function Beneficios() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, dataValidade, content, shortContent, iconeBeneficio, utilizador }) => (
+					filtered.map(({ id, dataValidade, content, shortContent, iconeBeneficio, utilizador }, idx) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div className="d-flex gap-2">
-								<img src={resolveIcon(iconeBeneficio)} height="65" width="65" className="rounded-circle me-2" />
+								<img
+									src={resolveIcon(iconeBeneficio)}
+									height="65"
+									width="65"
+									className="rounded-circle me-2"
+									fetchpriority={idx > 10 ? "low" : "high"}
+								/>
 
 								<div>
 									<span className="fw-bold" style={{ fontSize: "1.1rem" }}>

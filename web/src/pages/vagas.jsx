@@ -3,8 +3,7 @@ import { useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import FormControl from "react-bootstrap/FormControl";
-import FormLabel from "react-bootstrap/FormLabel";
+import Form from "react-bootstrap/Form";
 import FormSelect from "react-bootstrap/FormSelect";
 import Modal from "react-bootstrap/Modal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -50,12 +49,17 @@ export default function Vagas() {
 		setShowCandidaturaModal(true);
 	}
 
-	/** @param {number} id */
-	async function handleCandidatarVaga(id) {
+	/**
+	 * @param {number} id
+	 * @param {string?} refEmail
+	 */
+	async function handleCandidatarVaga(id, refEmail) {
 		try {
 			const response = await fetch(`${API_URL}/vagas/${id}/candidatar`, {
 				credentials: "include",
 				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ refEmail }),
 			});
 
 			if (!response.ok) {
@@ -187,9 +191,11 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
  * @param {() => void} props.onHide
  * @param {Object} props.data
  * @param {string?} props.userCv
- * @param {(id: number) => void} props.onCandidatarVaga
+ * @param {(id: number, refEmail: string | null) => void} props.onCandidatarVaga
  */
 function CandidatarVagaModal({ show, onHide, data, userCv, onCandidatarVaga }) {
+	const [refEmail, setRefEmail] = useState(null);
+
 	/** @param {import("react").ChangeEvent<HTMLInputElement>} */
 	async function handleCvSubmit(event) {
 		const file = event.target.files[0];
@@ -225,29 +231,45 @@ function CandidatarVagaModal({ show, onHide, data, userCv, onCandidatarVaga }) {
 			</Modal.Header>
 
 			<Modal.Body>
-				<p>Vaga: {data?.title ?? "Desconhecida"}</p>
+				<p className="mb-2">Vaga: {data?.title ?? "Desconhecida"}</p>
 
-				{userCv ? (
-					<a
-						className="btn btn-primary"
-						href={`${API_URL}/uploads/${userCv}`}
-						target="_blank"
-						rel="external noreferrer noopener"
-					>
-						Ver CV
-					</a>
-				) : (
-					<>
-						<FormLabel htmlFor="cv">Curriculum Vitae</FormLabel>
-						<FormControl id="cv" type="file" accept="application/pdf" required onChange={handleCvSubmit} />
-					</>
-				)}
+				<Form>
+					{userCv ? (
+						<a
+							className="btn btn-primary mb-2"
+							href={`${API_URL}/uploads/${userCv}`}
+							target="_blank"
+							rel="external noreferrer noopener"
+						>
+							Ver CV
+						</a>
+					) : (
+						<Form.Group className="mb-3">
+							<Form.Label htmlFor="cv">Curriculum Vitae</Form.Label>
+							<Form.Control id="cv" type="file" accept="application/pdf" required onChange={handleCvSubmit} />
+						</Form.Group>
+					)}
+
+					<Form.Group className="mb-3">
+						<Form.Label className="text-black" htmlFor="title-edit">
+							Email de Referência
+						</Form.Label>
+						<Form.Control
+							id="title-edit"
+							placeholder="Email de quem o recomendou"
+							max={100}
+							type="email"
+							value={refEmail}
+							onChange={(e) => setRefEmail(e.target.value)}
+						/>
+					</Form.Group>
+				</Form>
 			</Modal.Body>
 
 			<Modal.Footer>
 				<Button
 					onClick={() => {
-						onCandidatarVaga(data.id);
+						onCandidatarVaga(data.id, refEmail);
 						onHide();
 					}}
 					variant="success"

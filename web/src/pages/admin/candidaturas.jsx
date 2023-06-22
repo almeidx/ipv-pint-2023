@@ -140,15 +140,22 @@ export default function Candidaturas() {
 								</span>
 
 								<p className="mb-0">
-									{formatDate(new Date(submissionDate))} - {vaga.title}
+									<span className="fw-bold">Vaga</span>: {vaga.title}
 								</p>
 
-								{refEmail || conclusionAt ? (
+								<p className="mb-0">
+									<span className="fw-bold">Submetida a</span>: {formatDate(new Date(submissionDate))}
+								</p>
+
+								{refEmail ? (
 									<p className="mb-0">
-										{conclusionAt
-											? `Concluída a: ${formatDate(new Date(conclusionAt), true)}${refEmail ? " | " : ""}`
-											: ""}
-										{refEmail ? `Referência: ${refEmail}` : ""}
+										<span className="fw-bold">Referido por</span>: {refEmail}
+									</p>
+								) : null}
+
+								{conclusionAt ? (
+									<p className="mb-0">
+										<span className="fw-bold">Concluída a</span>: {formatDate(new Date(conclusionAt), true)}
 									</p>
 								) : null}
 							</div>
@@ -165,14 +172,20 @@ export default function Candidaturas() {
 								</OverlayTrigger>
 
 								<OverlayTrigger placement="top" overlay={<Tooltip>Ver CV</Tooltip>}>
-									<a
-										href={utilizador.cv ? `${API_URL}/uploads/${utilizador.cv}` : "#"}
-										className="btn border-0 bg-transparent p-0"
-										target="_blank"
-										rel="external noopener noreferrer"
-									>
-										<BsFillFileEarmarkPersonFill size={32} color="black" />
-									</a>
+									{utilizador.cv ? (
+										<a
+											href={`${API_URL}/uploads/${utilizador.cv}`}
+											className="btn border-0 bg-transparent p-0"
+											target="_blank"
+											rel="external noopener noreferrer"
+										>
+											<BsFillFileEarmarkPersonFill size={32} color="black" />
+										</a>
+									) : (
+										<Button disabled className="border-0 bg-transparent p-0">
+											<BsFillFileEarmarkPersonFill size={32} color="black" />
+										</Button>
+									)}
 								</OverlayTrigger>
 
 								<OverlayTrigger placement="top" overlay={<Tooltip>Marcar reunião</Tooltip>}>

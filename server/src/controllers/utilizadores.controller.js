@@ -18,7 +18,17 @@ module.exports = {
 		async (_req, res) => {
 			res.json(
 				await Utilizador.findAll({
-					attributes: ["id", "name", "email", "lastLoginDate", "disabled", "disabledAt", "disabledBy"],
+					attributes: [
+						"id",
+						"name",
+						"email",
+						"lastLoginDate",
+						"disabled",
+						"disabledAt",
+						"disabledBy",
+						"createdAt",
+						"cv",
+					],
 					include: [
 						{
 							model: TipoUtilizador,
@@ -37,7 +47,7 @@ module.exports = {
 		validate(
 			z
 				.object({
-					idTipoUser: z.number().int().nonnegative().min(1).max(6),
+					idTipoUser: z.number().int().nonnegative().min(1).max(7),
 				})
 				.strict(),
 		),

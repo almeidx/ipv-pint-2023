@@ -105,7 +105,7 @@ export default function TiposProjeto() {
 					<Spinner />
 				) : (
 					(data ?? []).map(({ id, name }) => (
-						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`area-${id}`}>
+						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`tipo-projeto-${id}`}>
 							<div>
 								<span className="fw-bold text-wrap" style={{ fontSize: "1.1rem" }}>
 									{name}
@@ -117,7 +117,7 @@ export default function TiposProjeto() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center gap-2">
-								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Área</Tooltip>}>
+								<OverlayTrigger placement="top" overlay={<Tooltip>Apagar Tipo de Projeto</Tooltip>}>
 									<Button onClick={() => handleDelete(id)} className="border-0 bg-transparent p-0">
 										<BiTrash size={32} color="red" />
 									</Button>

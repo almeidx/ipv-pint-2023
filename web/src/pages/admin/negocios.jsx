@@ -353,8 +353,10 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 
 					<FormSelect
 						id="centro-de-trabalho-edit"
-						value={negocioData.centroTrabalho?.id ?? data?.centroTrabalho?.id ?? ""}
-						onChange={(e) => setNegocioData((state) => ({ ...state, centroTrabalho: { id: e.target.value } }))}
+						value={negocioData.idCentroTrabalho ?? data?.centroTrabalho?.id ?? ""}
+						onChange={(e) =>
+							setNegocioData((state) => ({ ...state, idCentroTrabalho: Number.parseInt(e.target.value, 10) }))
+						}
 					>
 						{(centrosDeTrabalho ?? []).map(({ id, name }) => (
 							<option key={id} value={id}>
@@ -367,23 +369,22 @@ function EditNegocioModal({ data, show, onHide, onSave, user }) {
 				<FormGroup className="d-flex flex-column">
 					<FormLabel className="text-black" htmlFor="content-edit">
 						Funcionário Responsável
-						{negocioData.funcionarioResponsavel ?? data?.funcionarioResponsavel ? (
+						{negocioData.idFuncionarioResponsavel ?? data?.funcionarioResponsavel ? (
 							<>
 								:{" "}
 								<span className="fw-bold">
-									{negocioData.funcionarioResponsavel?.name ?? data.funcionarioResponsavel.name}
+									{negocioData.idFuncionarioResponsavel != null ? user.name : data.funcionarioResponsavel.name}
 								</span>
 							</>
 						) : null}
 					</FormLabel>
 
-					{negocioData.funcionarioResponsavel ?? data?.funcionarioResponsavel ? null : (
+					{negocioData.idFuncionarioResponsavel ?? data?.funcionarioResponsavel ? null : (
 						<Button
-							className="w-fit"
+							className="mb-3 w-fit"
 							onClick={() => {
 								setNegocioData((state) => ({
 									...state,
-									funcionarioResponsavel: { id: user.id, name: user.name },
 									idFuncionarioResponsavel: user.id,
 								}));
 							}}

@@ -19,6 +19,7 @@ import { useToast } from "../../contexts/ToastContext.jsx";
 import { API_URL } from "../../utils/constants.js";
 import { fetcher } from "../../utils/fetcher.js";
 import { formatDate } from "../../utils/formatDate.js";
+import { BsFillFileEarmarkPersonFill } from "@react-icons/all-files/bs/BsFillFileEarmarkPersonFill.js";
 
 export default function Utilizadores() {
 	const [search, setSearch] = useState("");
@@ -115,29 +116,33 @@ export default function Utilizadores() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate, disabled }) => (
+					filtered.map(({ id, tipoUtilizador, name, email, lastLoginDate, disabled, createdAt, cv }) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={id}>
 							<div>
 								<span className="fw-bold" style={{ fontSize: "1.1rem" }}>
-									{id} - {name}
+									{name}
 								</span>
 
-								<p className="mb-0" style={{ fontSize: "1rem" }}>
-									{email}
+								<p className="mb-0">
+									<span className="fw-bold">Email</span>: {email}
 								</p>
 
-								<p className="mb-0" style={{ fontSize: "0.90rem" }}>
-									Tipo de utilizador: <span className="fw-bold">{tipoUtilizador.name}</span>
+								<p className="mb-0">
+									<span className="fw-bold">Tipo de utilizador</span>: {tipoUtilizador.name}
 								</p>
 
 								{lastLoginDate ? (
-									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-										Ultimo login: {formatDate(new Date(lastLoginDate))}
+									<p className="mb-0">
+										<span className="fw-bold">Último início de sessão</span>: {formatDate(new Date(lastLoginDate))}
 									</p>
 								) : null}
+
+								<p className="mb-0" style={{ fontSize: "0.85rem" }}>
+									ID: {id} • Conta criada em: {formatDate(new Date(createdAt))}
+								</p>
 							</div>
 
-							<div className="d-flex justify-content-center align-items-center gap-3">
+							<div className="d-flex justify-content-center align-items-center gap-2">
 								<OverlayTrigger placement="top" overlay={<Tooltip>Editar Utilizador</Tooltip>}>
 									<Button
 										onClick={() => {
@@ -148,6 +153,23 @@ export default function Utilizadores() {
 									>
 										<RiPencilLine size={32} color="black" />
 									</Button>
+								</OverlayTrigger>
+
+								<OverlayTrigger placement="top" overlay={<Tooltip>Ver CV</Tooltip>}>
+									{cv ? (
+										<a
+											href={`${API_URL}/uploads/${cv}`}
+											className="btn border-0 bg-transparent p-0"
+											target="_blank"
+											rel="external noopener noreferrer"
+										>
+											<BsFillFileEarmarkPersonFill size={32} color="black" />
+										</a>
+									) : (
+										<Button disabled className="border-0 bg-transparent p-0">
+											<BsFillFileEarmarkPersonFill size={32} color="black" />
+										</Button>
+									)}
 								</OverlayTrigger>
 
 								<OverlayTrigger
