@@ -19,6 +19,7 @@ import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.deleteCurrentUser
 import com.example.pint_mobile.utils.desativarUser
+import com.example.pint_mobile.utils.editarUtilizador
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.uploadFile
 import com.google.android.material.textfield.TextInputEditText
@@ -29,6 +30,7 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
     private var id by Delegates.notNull<Int>()
     var disable by Delegates.notNull<Boolean>()
     private var user: Utilizador? = null
+
 
     private val PICK_PDF_REQUEST = 1
 
@@ -41,6 +43,14 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
         val pag_admin = findViewById<TextView>(R.id.admin)
         val password = findViewById<TextView>(R.id.password)
         id = user?.id ?: -1
+
+        Log.i("cv", user?.cv ?: "")
+
+        if(user?.cv == "null" || user?.cv == null) {
+            Log.i("cv", user?.cv ?: "")
+            val verCvBtn = findViewById<TextView>(R.id.verCv)
+            verCvBtn.visibility = View.GONE
+        }
 
         if(user != null && user!!.tipoUser != TipoUtilizadorEnum.Utilizador && user!!.tipoUser != TipoUtilizadorEnum.Colaborador) {
             pag_admin.visibility = View.VISIBLE
@@ -135,7 +145,10 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
                 runOnUiThread {
                     if (it != null) {
                         user!!.cv = it
+                        editarUtilizador(it, this)
                         Toast.makeText(this, "CV carregado com sucesso", Toast.LENGTH_SHORT).show()
+                        val verCvBtn = findViewById<TextView>(R.id.verCv)
+                        verCvBtn.visibility = View.VISIBLE
                     } else {
                         Toast.makeText(this, "Erro ao carregar o seu CV", Toast.LENGTH_SHORT).show()
                     }

@@ -56,13 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailUser" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/cv"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <TextView
         android:id="@+id/verCv"
@@ -82,14 +75,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/cv"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
-
     <TextView
         android:id="@+id/cv"
         android:layout_width="match_parent"
@@ -106,14 +91,6 @@
         android:onClick="enviarCv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verCv" />
-
-    <View
-        android:id="@+id/divide3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/inativar_conta"
         app:layout_constraintTop_toBottomOf="@+id/verCv" />
 
     <TextView

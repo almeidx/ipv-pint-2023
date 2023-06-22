@@ -25,6 +25,7 @@ import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.PerfilActivity
 import com.example.pint_mobile.pages.VagasActivity
+import com.example.pint_mobile.pages.VagasCandidatadasActivity
 import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
 import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
@@ -78,6 +79,31 @@ fun listaBeneficios(list: ArrayList<Beneficio>, allList: ArrayList<Beneficio>, a
 
         allList.addAll(list)
 
+        adapter.notifyDataSetChanged()
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+    }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+fun listarVagasUser(list: ArrayList<vagaCandidatada>, allList: ArrayList<vagaCandidatada>, adapter: VagasCandidatadasActivity.VagaCandidatadaAdapter, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/candidaturas", null, { response -> try {
+        for (i in 0 until response.length()) {
+            val rawVaga = response.getJSONObject(i)
+            val vaga = vagaCandidatada(
+                rawVaga.getString("submissionDate"),
+                rawVaga.getJSONObject("vaga").getString("title"),
+                rawVaga.getJSONObject("vaga").getString("description"),
+                rawVaga.getJSONObject("vaga").getInt("amountSlots"),
+                rawVaga.getJSONObject("vaga").getInt("id"),
+                rawVaga.getJSONObject("vaga").getInt("status"),
+            )
+            list.add(vaga)
+        }
+        allList.addAll(list)
         adapter.notifyDataSetChanged()
     } catch (e: JSONException) {
         e.printStackTrace()
@@ -1813,6 +1839,46 @@ fun getPathFromUriPdf(context: Context, uri: Uri): String {
     }
 
     return filePath ?: ""
+}
+
+fun editarUtilizador(cv: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("cv", cv)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/@me", body, Response.Listener { response ->
+
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+    }
+    queue.add(request)
+}
+
+fun candidatarVaga(idVaga: Int, refEmail:String?, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+
+
+    body.put("refEmail", refEmail)
+
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/vagas/$idVaga/candidatar", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Candidatura efetuada com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, VagasActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+    }
+    queue.add(request)
 }
 
 fun resolveIcon(path: String): String {

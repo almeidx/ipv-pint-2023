@@ -103,17 +103,6 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/EnviarCV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:text="Enviar CV"
-                        android:textColor="@color/white"
-                        android:background="@drawable/button_vaga2"
-                        android:textSize="12sp"
-                        />
-
-                    <Button
                         android:id="@+id/VagaInscricao"
                         style="@style/Widget.Material3.Button"
                         android:layout_width="wrap_content"
@@ -121,6 +110,7 @@
                         android:background="@drawable/button_vaga2"
                         android:text="Inscrever"
                         android:textColor="@color/white"
+                        android:onClick="goToRef"
                         android:textSize="16sp" />
                 </LinearLayout>
 

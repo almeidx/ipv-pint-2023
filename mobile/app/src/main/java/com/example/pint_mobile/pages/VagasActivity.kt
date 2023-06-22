@@ -89,6 +89,7 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
                     intent.putExtra("publico", publicText)
                     intent.putExtra("slots", vaga.slots.toString())
                     intent.putExtra("status", vaga.status)
+                    intent.putExtra("id", vaga.id)
 
                     view.context.startActivity(intent)
                 }
@@ -107,5 +108,10 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
         override fun getCount(): Int {
             return vagas.size
         }
+    }
+
+    fun goToVagasCandidatadas(view: View) {
+        val intent = Intent(this, VagasCandidatadasActivity::class.java)
+        startActivity(intent)
     }
 }
