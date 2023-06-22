@@ -10,7 +10,7 @@ const { z } = require("zod");
 module.exports = {
 	create: [
 		requireLogin(),
-		validate(z.object({ refEmail: z.string().email().or(z.null()) }).strict()),
+		validate(z.object({ refEmail: z.string().email().or(z.null()).optional() }).strict()),
 
 		async (req, res) => {
 			const { refEmail } = req.body;
@@ -25,7 +25,7 @@ module.exports = {
 			const candidatura = await Candidatura.create({
 				idUser: req.user.id,
 				idVaga: id,
-				refEmail,
+				refEmail: refEmail || null,
 			});
 
 			res.json(candidatura);
