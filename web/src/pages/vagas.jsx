@@ -19,6 +19,7 @@ import { useToast } from "../contexts/ToastContext.jsx";
 import { useUser } from "../contexts/UserContext.jsx";
 import { API_URL } from "../utils/constants.js";
 import { fetcher } from "../utils/fetcher.js";
+import { resolveIcon } from "../utils/resolve-icon.js";
 
 export default function Vagas() {
 	const { user } = useUser();
@@ -142,7 +143,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
 				<Card.Img
-					src={icon}
+					src={resolveIcon(icon)}
 					height="110px"
 					width="110px"
 					className="rounded-circle position-absolute"
