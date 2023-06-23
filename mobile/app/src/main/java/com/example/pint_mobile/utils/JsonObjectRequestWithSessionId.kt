@@ -15,13 +15,19 @@ open class JsonObjectRequestWithSessionId(
         url: String?,
         jsonRequest: JSONObject?,
         listener: Response.Listener<JSONObject>,
-        errorListener: Response.ErrorListener
+        errorListener: Response.ErrorListener,
+        val validateResponse: (NetworkResponse) -> Boolean = { _ -> true }
     ) : JsonObjectRequest(method, url, jsonRequest, listener, errorListener) {
     companion object {
         private const val PROTOCOL_CHARSET = "utf-8"
     }
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+
+        if (!validateResponse(response!!)) {
+            return Response.error(ParseError(response))
+        }
+
         try {
             val jsonString = String(response!!.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET)))
 

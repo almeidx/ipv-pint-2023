@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.forgetPassword
 import com.example.pint_mobile.utils.login
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -39,7 +40,12 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
                 passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
             }
         }
-        login(email, password, this)
+        login(email, password, this){
+            emailInput.setBackgroundResource(R.drawable.edittext_red_border)
+            passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
+
+            Toast.makeText(this, "Email ou password incorretos", Toast.LENGTH_SHORT).show()
+        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -87,9 +93,17 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     }
 
     fun esqueceuPassword(_view: View) {
-        val intent = Intent(this, EsqueceuPasswordActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
+
+        val email = findViewById<TextInputEditText>(R.id.email)
+        val emailText = email.text.toString()
+
+        if (emailText.isEmpty()) {
+            Toast.makeText(this, "Preencha o campo email", Toast.LENGTH_SHORT).show()
+            email.setBackgroundResource(R.drawable.edittext_red_border)
+            return
+        }
+
+        forgetPassword(emailText, this)
     }
 
     fun aindaNaoTemConta(_view: View) {

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
@@ -14,10 +15,13 @@ import com.android.volley.Response
 import com.android.volley.ServerError
 import com.android.volley.toolbox.Volley
 import com.example.pint_mobile.MainActivity
+import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.AdminActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.CalendarioActivity
+import com.example.pint_mobile.pages.ConfirmarContaActivity
 import com.example.pint_mobile.pages.IdeiasActivity
+import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
@@ -666,7 +670,7 @@ fun listaEventos(list: ArrayList<Evento>, allList: ArrayList<Evento>, adapter: C
     queue.add(request)
 }
 
-fun login(email: String, password: String, ctx: Context) {
+fun login(email: String, password: String, ctx: Context, onError : () -> Unit   ) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -685,6 +689,7 @@ fun login(email: String, password: String, ctx: Context) {
             ctx.startActivity(intent)
         },
         { error ->
+            onError()
             error.printStackTrace()
         })
 
@@ -701,14 +706,15 @@ fun signup(nome: String, email: String, password: String, ctx: Context) {
 
     val request = object : JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/register", body,
         { response ->
-            val cookie = response.getString("cookie")
+            Toast.makeText(ctx, "Codigo de verificação enviado!", Toast.LENGTH_LONG).show()
+
             val data = response.getJSONObject("data")
-            val user = data.getJSONObject("user")
+            val user = data.getInt("userId")
 
-            saveCurrentUser(ctx, user, cookie)
-
-            val intent = Intent(ctx, MainActivity::class.java)
+            val intent = Intent(ctx, ConfirmarContaActivity::class.java)
+            intent.putExtra("userId", user)
             ctx.startActivity(intent)
+
         },
         { error ->
             error.printStackTrace()
@@ -1890,6 +1896,73 @@ fun getReporting(ctx: Context, callback: (JSONObject) -> Unit) {
             error.printStackTrace()
         })
 
+    queue.add(request)
+}
+
+fun forgetPassword(email: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("email", email)
+
+    Log.i("body", body.toString())
+
+    val request = JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/utilizadores/esqueceu-password", body,
+        { response ->
+            Toast.makeText(ctx, "Email enviado com sucesso!", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(ctx, LoginActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
+            error.printStackTrace()
+        })
+
+    queue.add(request)
+}
+
+fun enviarCodigoConfirmacao(userID:Int, email: String, ctx: Context, onError: () -> Unit) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("confirmCode", email)
+    body.put("userId", userID)
+
+    Log.i("body", body.toString())
+
+    val request = JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/validate", body,
+        { response ->
+            val cookie = response.getString("cookie")
+            val data = response.getJSONObject("data")
+            val user = data.getJSONObject("user")
+
+            saveCurrentUser(ctx, user, cookie)
+
+            val intent = Intent(ctx, PerfilActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
+            onError()
+            error.printStackTrace()
+        })
+    queue.add(request)
+}
+
+fun reenviarCodigoConfirmacao(userID:Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("userId", userID)
+
+    Log.i("body", body.toString())
+
+    val request = JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/validate/retry", body,
+        { response ->
+            Toast.makeText(ctx, "Email enviado com sucesso!", Toast.LENGTH_LONG).show()
+        },
+        { error ->
+            error.printStackTrace()
+        })
     queue.add(request)
 }
 

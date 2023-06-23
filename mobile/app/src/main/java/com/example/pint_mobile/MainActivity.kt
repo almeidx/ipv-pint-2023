@@ -37,6 +37,10 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         window.statusBarColor = getColor(R.color.tudo)
         window.navigationBarColor = getColor(R.color.tudo)
 
+        val pieChart = findViewById<PieChart>(R.id.pieChart)
+
+        pieChart.visibility = PieChart.INVISIBLE
+
         val cookie = getCookieValue(this)
         if (cookie != null) {
             getUserInfo(cookie, this)
@@ -56,7 +60,7 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         AppEventsLogger.activateApp(this)
 
         getReporting(this) { data ->
-            reportingCard(data, "benefícios", R.id.beneficios, R.id.beneficiosBtn, "Benefícios: ")
+            reportingCard(data, "benefícios", R.id.beneficiosX, R.id.beneficiosBtn, "Benefícios: ")
 
             reportingCard(data, "negócios", R.id.negocios, R.id.negociosBtn, "Negócios: ")
 
@@ -65,6 +69,8 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
             reportingCard(data,"vagas", R.id.vagas, R.id.vagasBtn, "Vagas: ")
 
             val vagaData = data.getJSONObject("vagas")
+
+
 
             if (vagaData.has("maisCandidaturas")) {
                 val maisCandidaturas = vagaData.getJSONObject("maisCandidaturas")
@@ -87,7 +93,7 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
 
                 val pieData = PieData(pieDataSet)
 
-                val pieChart = findViewById<PieChart>(R.id.pieChart)
+                pieChart.visibility = PieChart.VISIBLE
                 pieChart.data = pieData
                 pieChart.description.text = "Vagas com mais candidaturas"
                 pieChart.animateY(750)

@@ -66,6 +66,7 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
         }
 
         signup("$nome $apelido", email, password, this)
+
     }
 
     fun criarGoogle(_view: View) {
