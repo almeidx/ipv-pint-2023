@@ -6,7 +6,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import android.widget.CalendarView
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
@@ -19,7 +18,6 @@ import com.example.pint_mobile.pages.AdminActivity
 import com.example.pint_mobile.pages.BeneficiosActivity
 import com.example.pint_mobile.pages.CalendarioActivity
 import com.example.pint_mobile.pages.IdeiasActivity
-import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.pages.NegocioUtilizadorActivity
 import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
@@ -39,7 +37,6 @@ import com.example.pint_mobile.pages.admin.AreasNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
-import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarNotaEntrevistaActivity
 import com.example.pint_mobile.pages.admin.edit.EditarReuniaoActivity
 import com.example.pint_mobile.pages.admin.edit.SelectContactoClienteNegocioActivity
@@ -1841,7 +1838,7 @@ fun getPathFromUriPdf(context: Context, uri: Uri): String {
     return filePath ?: ""
 }
 
-fun editarUtilizador(cv: String, ctx: Context) {
+fun editarUtilizadorAtual(cv: String, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -1849,12 +1846,14 @@ fun editarUtilizador(cv: String, ctx: Context) {
 
     Log.i("body", body.toString())
 
-    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/@me", body, Response.Listener { response ->
+    val request = JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/utilizadores/@me", body,
+        { response ->
 
-    }, Response.ErrorListener { error ->
-        error.printStackTrace()
-    }) {
-    }
+        },
+        { error ->
+            error.printStackTrace()
+        })
+
     queue.add(request)
 }
 
@@ -1862,22 +1861,35 @@ fun candidatarVaga(idVaga: Int, refEmail:String?, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
-
-
     body.put("refEmail", refEmail)
-
 
     Log.i("body", body.toString())
 
-    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/vagas/$idVaga/candidatar", body, Response.Listener { response ->
-        Toast.makeText(ctx, "Candidatura efetuada com sucesso!", Toast.LENGTH_LONG).show()
+    val request = JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/vagas/$idVaga/candidatar", body,
+        { response ->
+            Toast.makeText(ctx, "Candidatura efetuada com sucesso!", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(ctx, VagasActivity::class.java)
-        ctx.startActivity(intent)
-    }, Response.ErrorListener { error ->
-        error.printStackTrace()
-    }) {
-    }
+            val intent = Intent(ctx, VagasActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
+            error.printStackTrace()
+        })
+
+    queue.add(request)
+}
+
+fun getReporting(ctx: Context, callback: (JSONObject) -> Unit) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val request = JsonObjectRequestWithCookie(ctx, Request.Method.GET, "$API_URL/reporting", null,
+        { response ->
+            callback(response)
+        },
+        { error ->
+            error.printStackTrace()
+        })
+
     queue.add(request)
 }
 

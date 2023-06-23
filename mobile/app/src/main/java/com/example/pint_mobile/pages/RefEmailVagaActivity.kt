@@ -3,7 +3,6 @@ package com.example.pint_mobile.pages
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -14,7 +13,7 @@ import com.example.pint_mobile.utils.API_URL
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.candidatarVaga
-import com.example.pint_mobile.utils.editarUtilizador
+import com.example.pint_mobile.utils.editarUtilizadorAtual
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.uploadFile
 import kotlin.properties.Delegates
@@ -71,7 +70,7 @@ class RefEmailVagaActivity : ActivityBase(R.layout.activity_ref_email_vaga, "Ref
                 runOnUiThread {
                     if (it != null) {
                         user!!.cv = it
-                        editarUtilizador(it, this)
+                        editarUtilizadorAtual(it, this)
                         Toast.makeText(this, "CV carregado com sucesso", Toast.LENGTH_SHORT).show()
                         val verCvBtn = findViewById<Button>(R.id.btnVerCV)
                         verCvBtn.visibility = View.VISIBLE

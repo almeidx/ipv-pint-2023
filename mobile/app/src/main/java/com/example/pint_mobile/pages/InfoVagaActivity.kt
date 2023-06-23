@@ -1,19 +1,14 @@
 package com.example.pint_mobile.pages
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.Utilizador
-import com.example.pint_mobile.utils.editarUtilizador
 import com.example.pint_mobile.utils.getCurrentUser
-import com.example.pint_mobile.utils.uploadFile
 import kotlin.properties.Delegates
 
 class InfoVagaActivity : ActivityBase(R.layout.activity_info_vaga, "Informação da Vaga") {

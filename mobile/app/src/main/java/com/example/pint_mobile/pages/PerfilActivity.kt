@@ -5,10 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.MainActivity
@@ -19,10 +17,9 @@ import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.deleteCurrentUser
 import com.example.pint_mobile.utils.desativarUser
-import com.example.pint_mobile.utils.editarUtilizador
+import com.example.pint_mobile.utils.editarUtilizadorAtual
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.uploadFile
-import com.google.android.material.textfield.TextInputEditText
 import kotlin.properties.Delegates
 
 class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
@@ -145,7 +142,7 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
                 runOnUiThread {
                     if (it != null) {
                         user!!.cv = it
-                        editarUtilizador(it, this)
+                        editarUtilizadorAtual(it, this)
                         Toast.makeText(this, "CV carregado com sucesso", Toast.LENGTH_SHORT).show()
                         val verCvBtn = findViewById<TextView>(R.id.verCv)
                         verCvBtn.visibility = View.VISIBLE
