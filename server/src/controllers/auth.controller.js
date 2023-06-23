@@ -8,6 +8,7 @@ const { sendEmail } = require("../services/email.js");
 const { stripIndents } = require("common-tags");
 const { z } = require("zod");
 const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
+const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
