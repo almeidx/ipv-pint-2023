@@ -57,19 +57,13 @@ export default function SignUp() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ name: `${nome} ${apelido}`, email, password, confirmPassword }),
+				body: JSON.stringify({ name: `${nome} ${apelido}`, email, password }),
 			});
 
 			if (!response.ok) {
 				if (response.status === 409) {
 					showToastWithMessage("O email introduzido já está em uso", "error");
 					return;
-				}
-
-				if (response.status === 400) {
-					const data = await response.json();
-
-					alert(data.message);
 				}
 
 				throw new Error("Something went wrong", { cause: response });
