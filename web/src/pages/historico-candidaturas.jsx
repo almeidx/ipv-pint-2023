@@ -35,7 +35,13 @@ export default function HistoricoCandidaturas() {
 function Candidatura({ submissionDate, refEmail, conclusionAt, vaga }) {
 	return (
 		<div className="d-flex align-items-center w-fit gap-2 rounded bg-white px-3 py-3" style={{ minWidth: "25rem" }}>
-			<img src={resolveIcon(vaga.icon)} alt="" height={128} className="ratio-1x1 rounded-circle" />
+			<img
+				src={resolveIcon(vaga.icon)}
+				alt=""
+				height={128}
+				className="rounded-circle"
+				style={{ aspectRatio: "1 / 1" }}
+			/>
 
 			<div>
 				<span className="fw-bold" style={{ fontSize: "1.1rem" }}>

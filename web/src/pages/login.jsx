@@ -155,7 +155,8 @@ export default function Login() {
 						<Form
 							noValidate
 							onSubmit={handleSubmit}
-							className="col-lg-3 col-sm-7 col-10 col-md-5 login-form d-flex flex-column"
+							className="col-lg-5 col-xl-4 col-xxl-3 col-sm-8 col-11 col-md-7 d-flex flex-column px-md-5 rounded-5 px-4 py-4 text-white"
+							style={{ backgroundColor: "rgba(8, 37, 139, 0.52)" }}
 						>
 							<h1 className="title mb-5 text-white">Login</h1>
 

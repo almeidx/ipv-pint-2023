@@ -1,5 +1,3 @@
-import "../styles/Login.css";
-
 import Button from "react-bootstrap/Button";
 import { API_URL } from "../utils/constants.js";
 import { OrSeparator } from "./OrSeparator.jsx";
