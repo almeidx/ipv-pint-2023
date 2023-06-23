@@ -15,9 +15,9 @@
     <!--</ScrollView>-->
 
     <TextView
-        android:id="@+id/beneficios"
+        android:id="@+id/beneficiosX"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:text="Benefícios: "
@@ -38,12 +38,13 @@
     <TextView
         android:id="@+id/negocios"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="96dp"
         android:text="Negócios: "
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/beneficiosX"/>
 
     <Button
         android:id="@+id/negociosBtn"
@@ -58,9 +59,9 @@
     <TextView
         android:id="@+id/utilizadores"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="29dp"
         android:text="Utilizadores: "
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/negociosBtn" />
@@ -78,9 +79,9 @@
     <TextView
         android:id="@+id/vagas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="29dp"
         android:text="Vagas: "
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/utilizadoresBtn" />
