@@ -7,6 +7,7 @@ const { randomNumberString } = require("../utils/randomNumberString.js");
 const { sendEmail } = require("../services/email.js");
 const { stripIndents } = require("common-tags");
 const { z } = require("zod");
+const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -21,12 +22,10 @@ module.exports = {
 					const registrationType = /Conta (facebook|google)/i.exec(err.message);
 
 					if (registrationType) {
-						res
-							.status(401)
-							.json({
-								message: `A sua conta está registada através de ${registrationType[1]}`,
-								provider: registrationType[1],
-							});
+						res.status(401).json({
+							message: `A sua conta está registada através de ${registrationType[1]}`,
+							provider: registrationType[1],
+						});
 						return;
 					}
 				}

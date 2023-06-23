@@ -5,6 +5,7 @@ const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
 
 module.exports = function (passport) {
 	passport.serializeUser(function (user, done) {

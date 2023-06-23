@@ -2,3 +2,7 @@
 function isSoftinsaEmail(email) {
 	return /@.*(?:(?:softinsa\.pt)|(?:pt\.softinsa\.com))$/.test(email);
 }
+
+module.exports = {
+	isSoftinsaEmail,
+};
