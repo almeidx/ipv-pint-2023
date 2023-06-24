@@ -73,6 +73,7 @@
     <string name="selecionar_utilizadores">Selecionar Utilizadores</string>
     <string name="painel_admin">Painel de Admin</string>
     <string name="facebook_app_id">1234</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
     <string name="Oportunidades">Oportunidades</string>
     <string name="Calendário">Calendário</string>

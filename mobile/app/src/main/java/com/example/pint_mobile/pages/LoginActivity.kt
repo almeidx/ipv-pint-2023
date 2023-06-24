@@ -8,13 +8,18 @@ import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.login
-import com.google.android.material.textfield.TextInputEditText
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : ActivityBase(R.layout.activity_login) {
     companion object {
@@ -81,10 +86,27 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         }
     }
 
+    val callbackManager = CallbackManager.Factory.create();
 
     fun loginFacebook(_view: View) {
+        val loginButton = findViewById<LoginButton>(R.id.login_button)
+        loginButton.setPermissions("email", "public_profile")
+        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+            override fun onSuccess(loginResult: LoginResult?) {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
 
-    }
+            override fun onCancel() {
+                Toast.makeText(this@LoginActivity, "Login cancelado", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onError(exception: FacebookException) {
+                Toast.makeText(this@LoginActivity, "Erro ao fazer login", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+    }    
 
     fun esqueceuPassword(_view: View) {
         val intent = Intent(this, EsqueceuPasswordActivity::class.java)
