@@ -9,6 +9,7 @@ const { stripIndents } = require("common-tags");
 const { z } = require("zod");
 const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
+const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN } = require("../utils/constants.js");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -161,7 +162,7 @@ module.exports = {
 
 			await utilizador.update({ confirmCode: null, confirmDateStart: null, hasConfirmed: true });
 
-			req.body = { email: utilizador.email, password: process.env.PASSWORD_BYPASS_TOKEN };
+			req.body = { email: utilizador.email, password: PASSWORD_RESET_TOKEN };
 
 			passport.authenticate("local", function (err, user) {
 				if (err) {
@@ -238,6 +239,60 @@ module.exports = {
 		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
 		(_req, res) => {
 			res.redirect(process.env.WEB_URL);
+		},
+	],
+	googleCallbackMobile: [
+		validate(
+			z.object({
+				id: z.string(),
+				email: z.string().email(),
+				name: z.string(),
+			}),
+		),
+
+		async (req, res) => {
+			const { id, email, name } = req.body;
+
+			let account = await Utilizador.findOne({
+				where: { email },
+			});
+
+			if (account && account.registrationType !== "google") {
+				res.status(401).json({
+					message: `A sua conta está registada através de ${account.registrationType}.`,
+					provider: account.registrationType,
+				});
+				return;
+			}
+
+			account ??= await Utilizador.create({
+				name,
+				email,
+				socialUserId: id,
+				registrationType: "google",
+				hashedPassword: "",
+				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+			});
+
+			req.body = { email, password: MOBILE_GOOGLE_AUTH_TOKEN };
+
+			passport.authenticate("local", function (err, user) {
+				if (err) {
+					return next(err);
+				}
+
+				if (!user) {
+					return res.redirect("/auth/user");
+				}
+
+				req.logIn(user, function (err) {
+					if (err) {
+						return next(err);
+					}
+
+					return res.json({ user: req.user });
+				});
+			});
 		},
 	],
 

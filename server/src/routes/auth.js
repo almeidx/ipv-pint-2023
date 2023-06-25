@@ -9,6 +9,7 @@ const {
 	email,
 	google,
 	googleCallback,
+	googleCallbackMobile,
 	facebook,
 	facebookCallback,
 } = require("../controllers/auth.controller.js");
@@ -27,6 +28,7 @@ const authRouter = Router()
 	.get("/facebook/callback", facebookCallback)
 
 	.get("/google", google)
-	.get("/google/callback", googleCallback);
+	.get("/google/callback", googleCallback)
+	.post("/google/callback/mobile", googleCallbackMobile);
 
 module.exports = authRouter;
