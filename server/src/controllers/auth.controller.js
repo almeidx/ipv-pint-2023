@@ -250,7 +250,7 @@ module.exports = {
 			}),
 		),
 
-		async (req, res) => {
+		async (req, res, next) => {
 			const { id, email, name } = req.body;
 
 			let account = await Utilizador.findOne({
@@ -296,7 +296,7 @@ module.exports = {
 
 					return res.json({ user: req.user });
 				});
-			});
+			})(req, res, next);
 		},
 	],
 
