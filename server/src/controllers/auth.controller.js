@@ -9,7 +9,7 @@ const { stripIndents } = require("common-tags");
 const { z } = require("zod");
 const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
 const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
-const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN } = require("../utils/constants.js");
+const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN, MOBILE_FACEBOOK_AUTH_TOKEN } = require("../utils/constants.js");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -305,6 +305,60 @@ module.exports = {
 		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
 		(_req, res) => {
 			res.redirect(process.env.WEB_URL);
+		},
+	],
+	facebookCallbackMobile: [
+		validate(
+			z.object({
+				id: z.string(),
+				email: z.string().email(),
+				name: z.string(),
+			}),
+		),
+
+		async (req, res, next) => {
+			const { id, email, name } = req.body;
+
+			let account = await Utilizador.findOne({
+				where: { email },
+			});
+
+			if (account && account.registrationType !== "facebook") {
+				res.status(401).json({
+					message: `A sua conta está registada através de ${account.registrationType}.`,
+					provider: account.registrationType,
+				});
+				return;
+			}
+
+			account ??= await Utilizador.create({
+				name,
+				email,
+				socialUserId: id,
+				registrationType: "facebook",
+				hashedPassword: "",
+				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+			});
+
+			req.body = { email, password: MOBILE_FACEBOOK_AUTH_TOKEN };
+
+			passport.authenticate("local", function (err, user) {
+				if (err) {
+					return next(err);
+				}
+
+				if (!user) {
+					return res.redirect("/auth/user");
+				}
+
+				req.logIn(user, function (err) {
+					if (err) {
+						return next(err);
+					}
+
+					return res.json({ user: req.user });
+				});
+			})(req, res, next);
 		},
 	],
 };

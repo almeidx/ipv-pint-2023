@@ -12,6 +12,7 @@ const {
 	googleCallbackMobile,
 	facebook,
 	facebookCallback,
+	facebookCallbackMobile,
 } = require("../controllers/auth.controller.js");
 
 const authRouter = Router()
@@ -26,6 +27,7 @@ const authRouter = Router()
 
 	.get("/facebook", facebook)
 	.get("/facebook/callback", facebookCallback)
+	.post("/facebook/callback/mobile", facebookCallbackMobile)
 
 	.get("/google", google)
 	.get("/google/callback", googleCallback)

@@ -6,7 +6,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
-const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN } = require("../utils/constants.js");
+const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN, MOBILE_FACEBOOK_AUTH_TOKEN } = require("../utils/constants.js");
 
 module.exports = function (passport) {
 	passport.serializeUser(function (user, done) {
@@ -52,7 +52,11 @@ module.exports = function (passport) {
 					return done(null, false);
 				}
 
-				if (user.registrationType !== "email" && password !== MOBILE_GOOGLE_AUTH_TOKEN) {
+				if (
+					user.registrationType !== "email" &&
+					password !== MOBILE_GOOGLE_AUTH_TOKEN &&
+					password !== MOBILE_FACEBOOK_AUTH_TOKEN
+				) {
 					return done(new Error(`Conta ${user.registrationType}`), false);
 				}
 
@@ -60,7 +64,12 @@ module.exports = function (passport) {
 
 				const passwordMatches = await bcrypt.compare(password, userObj.hashedPassword);
 
-				if (passwordMatches || password === PASSWORD_RESET_TOKEN || password === MOBILE_GOOGLE_AUTH_TOKEN) {
+				if (
+					passwordMatches ||
+					password === PASSWORD_RESET_TOKEN ||
+					password === MOBILE_GOOGLE_AUTH_TOKEN ||
+					password === MOBILE_FACEBOOK_AUTH_TOKEN
+				) {
 					const { hashedPassword, ...userWithoutPassword } = userObj;
 
 					await Utilizador.update({ lastLoginDate: new Date() }, { where: { id: userWithoutPassword.id } });
