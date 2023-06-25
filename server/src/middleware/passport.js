@@ -46,6 +46,12 @@ module.exports = function (passport) {
 					return done(null, false);
 				}
 
+				console.log({
+					email: username,
+					registrationType: user.registrationType,
+					isMobileAuthToken: password === MOBILE_GOOGLE_AUTH_TOKEN,
+				});
+
 				if (user.registrationType !== "email" && password !== MOBILE_GOOGLE_AUTH_TOKEN) {
 					return done(new Error(`Conta ${user.registrationType}`), false);
 				}

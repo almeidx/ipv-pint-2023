@@ -670,7 +670,7 @@ fun listaEventos(list: ArrayList<Evento>, allList: ArrayList<Evento>, adapter: C
     queue.add(request)
 }
 
-fun login(email: String, password: String, ctx: Context, onError : () -> Unit   ) {
+fun login(email: String, password: String, ctx: Context, onError: () -> Unit) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -690,6 +690,32 @@ fun login(email: String, password: String, ctx: Context, onError : () -> Unit   
         },
         { error ->
             onError()
+            error.printStackTrace()
+        })
+
+    queue.add(request)
+}
+
+fun googleLogin(email: String, id: String, name: String, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("email", email)
+    body.put("id", id)
+    body.put("name", name)
+
+    val request = JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/google/callback/mobile", body,
+        { response ->
+            val cookie = response.getString("cookie")
+            val data = response.getJSONObject("data")
+            val user = data.getJSONObject("user")
+
+            saveCurrentUser(ctx, user, cookie)
+
+            val intent = Intent(ctx, MainActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
             error.printStackTrace()
         })
 

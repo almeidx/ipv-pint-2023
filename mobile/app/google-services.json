@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "437063943284",
+    "project_id": "pint-mobile",
+    "storage_bucket": "pint-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437063943284:android:242ee14bf77ebaefd6fd21",
+        "android_client_info": {
+          "package_name": "com.example.pint_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437063943284-8k4s714mmu3nod5193emso9np1pjbt8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAozkcw9WLIF7Pv0Y-qSKsoaZR63GTTQPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437063943284-8k4s714mmu3nod5193emso9np1pjbt8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,20 +1,21 @@
 package com.example.pint_mobile.pages
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.forgetPassword
+import com.example.pint_mobile.utils.googleLogin
 import com.example.pint_mobile.utils.login
+import com.google.android.gms.auth.api.Auth
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
 
 class LoginActivity : ActivityBase(R.layout.activity_login) {
@@ -22,8 +23,26 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         private const val TAG = "LoginActivity"
     }
 
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 9001
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .build()
+
+        googleApiClient = GoogleApiClient.Builder(this)
+            .enableAutoManage(this) {}
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+
+        val googleBtn = findViewById<View>(R.id.loginGoogle)
+        googleBtn.setOnClickListener { loginGoogle() }
+    }
+
     fun loginBtn(_view: View) {
         val emailInput = findViewById<TextInputEditText>(R.id.email)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
@@ -40,53 +59,43 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
                 passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
             }
         }
+
         login(email, password, this){
             emailInput.setBackgroundResource(R.drawable.edittext_red_border)
             passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
 
             Toast.makeText(this, "Email ou password incorretos", Toast.LENGTH_SHORT).show()
         }
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
-    fun loginGoogle(_view: View) {
-        val signInIntent = mGoogleSignInClient.signInIntent
+    private fun loginGoogle() {
+        Log.i("Acc", "loginGoogle")
+
+        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+            val result = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(result)
         }
     }
 
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-            updateUI(account)
-        } catch (e: ApiException) {
-            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
-            updateUI(null)
-        }
-    }
+    private fun handleSignInResult(result: Task<GoogleSignInAccount>) {
+        if (result.isSuccessful) {
+            val account = result.result.account
+            val id = result.result.id
+            val name = result.result.displayName
 
-    private fun updateUI(account: GoogleSignInAccount?) {
-        if (account != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            googleLogin(account!!.name, id!!, name!!, this)
         } else {
-            Toast.makeText(this, "Erro ao fazer login", Toast.LENGTH_SHORT).show()
+            result.exception?.printStackTrace()
+
+            Toast.makeText(this, "Não foi possível fazer login com Google. Tente novamente", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     fun loginFacebook(_view: View) {
 
@@ -110,6 +119,5 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0);
-
     }
 }
