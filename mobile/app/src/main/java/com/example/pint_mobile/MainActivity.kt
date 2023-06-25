@@ -57,7 +57,7 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         FacebookSdk.sdkInitialize(applicationContext)
-        AppEventsLogger.activateApp(this)
+        AppEventsLogger.activateApp(application)
 
         getReporting(this) { data ->
             reportingCard(data, "benefícios", R.id.beneficiosX, R.id.beneficiosBtn, "Benefícios: ")

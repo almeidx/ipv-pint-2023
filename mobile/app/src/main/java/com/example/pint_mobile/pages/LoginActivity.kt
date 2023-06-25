@@ -4,27 +4,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.facebookLogin
 import com.example.pint_mobile.utils.forgetPassword
 import com.example.pint_mobile.utils.googleLogin
 import com.example.pint_mobile.utils.login
+import com.facebook.CallbackManager.Factory.create
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputEditText
+
 
 class LoginActivity : ActivityBase(R.layout.activity_login) {
-    companion object {
-        private const val TAG = "LoginActivity"
-    }
-
     private lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 9001
+
+    private var callbackManager = create();
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +46,40 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
             .build()
 
-        val googleBtn = findViewById<View>(R.id.loginGoogle)
-        googleBtn.setOnClickListener { loginGoogle() }
+        callbackManager = create()
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                val request = GraphRequest.newMeRequest(result.accessToken) { jsonObject, _ ->
+                    if (jsonObject == null) {
+                        Log.i("fbLog", "jsonObject is null")
+                        return@newMeRequest
+                    }
+
+                    val name = jsonObject.getString("name")
+                    val email = jsonObject.getString("email")
+                    val id = jsonObject.getString("id")
+
+                    facebookLogin(email, id, name, this@LoginActivity) {
+                        Toast.makeText(this@LoginActivity, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                val parameters = Bundle()
+                parameters.putString("fields", "name,email")
+                request.parameters = parameters
+                request.executeAsync()
+            }
+
+            override fun onCancel() {
+                Log.i("fbLog", "facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException) {
+                error.printStackTrace()
+
+                Toast.makeText(this@LoginActivity, "Não foi possível fazer login com Facebook. Tente novamente", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun loginBtn(_view: View) {
@@ -68,9 +107,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         }
     }
 
-    private fun loginGoogle() {
-        Log.i("Acc", "loginGoogle")
-
+    fun loginGoogle(_view: View) {
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -79,17 +116,21 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             val result = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(result)
+            handleGoogleLogin(result)
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private fun handleSignInResult(result: Task<GoogleSignInAccount>) {
+    private fun handleGoogleLogin(result: Task<GoogleSignInAccount>) {
         if (result.isSuccessful) {
             val account = result.result.account
             val id = result.result.id
             val name = result.result.displayName
 
-            googleLogin(account!!.name, id!!, name!!, this)
+            googleLogin(account!!.name, id!!, name!!, this) {
+                Toast.makeText(this, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
+            }
         } else {
             result.exception?.printStackTrace()
 
@@ -98,7 +139,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     }
 
     fun loginFacebook(_view: View) {
-
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("public_profile", "email"))
     }
 
     fun esqueceuPassword(_view: View) {

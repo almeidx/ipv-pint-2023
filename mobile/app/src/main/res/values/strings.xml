@@ -72,10 +72,11 @@
     <string name="pesquise_por_reunioes">Pesquise por Reuniões</string>
     <string name="selecionar_utilizadores">Selecionar Utilizadores</string>
     <string name="painel_admin">Painel de Admin</string>
-    <string name="facebook_app_id">1234</string>
-    <string name="facebook_client_token">56789</string>
     <string name="Oportunidades">Oportunidades</string>
     <string name="Calendário">Calendário</string>
     <string name="pesquise_por_oportunidades">pesquise por oportunidades</string>
 
+    <string name="facebook_app_id">1269497040310756</string>
+    <string name="fb_login_protocol_scheme">fb1269497040310756</string>
+    <string name="facebook_client_token">12eb78355ec74f7a84e3dd996a96c1f1</string>
 </resources>

@@ -29,7 +29,7 @@ open class JsonObjectRequestWithSessionId(
         }
 
         try {
-            val jsonString = String(response!!.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET)))
+            val jsonString = String(response.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET)))
 
             val cookies = response.headers?.get("Set-Cookie")
 

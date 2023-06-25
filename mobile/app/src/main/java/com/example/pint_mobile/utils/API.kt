@@ -696,7 +696,7 @@ fun login(email: String, password: String, ctx: Context, onError: () -> Unit) {
     queue.add(request)
 }
 
-fun googleLogin(email: String, id: String, name: String, ctx: Context) {
+fun googleLogin(email: String, id: String, name: String, ctx: Context, onError: () -> Unit) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -716,6 +716,34 @@ fun googleLogin(email: String, id: String, name: String, ctx: Context) {
             ctx.startActivity(intent)
         },
         { error ->
+            onError()
+            error.printStackTrace()
+        })
+
+    queue.add(request)
+}
+
+fun facebookLogin(email: String, id: String, name: String, ctx: Context, onError: () -> Unit) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("email", email)
+    body.put("id", id)
+    body.put("name", name)
+
+    val request = JsonObjectRequestWithSessionId(Request.Method.POST, "$API_URL/auth/facebook/callback/mobile", body,
+        { response ->
+            val cookie = response.getString("cookie")
+            val data = response.getJSONObject("data")
+            val user = data.getJSONObject("user")
+
+            saveCurrentUser(ctx, user, cookie)
+
+            val intent = Intent(ctx, MainActivity::class.java)
+            ctx.startActivity(intent)
+        },
+        { error ->
+            onError()
             error.printStackTrace()
         })
 
