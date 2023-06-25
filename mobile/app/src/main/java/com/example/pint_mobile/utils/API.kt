@@ -1757,8 +1757,6 @@ fun deleteAreaNegocio(idAreaNegocio: Int, ctx: Context) {
 
     val body = JSONObject()
 
-    Log.i("body", body.toString())
-
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/areas-de-negocio/$idAreaNegocio", body, Response.Listener { response ->
         Toast.makeText(ctx, "Área de Negócio apagada com sucesso!", Toast.LENGTH_LONG).show()
 
@@ -1839,11 +1837,7 @@ fun deleteTipoProjeto(idTipoProjeto: Int, ctx: Context) {
 fun deleteCentroTrabalho(idCentroTrabalho: Int, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
-    val body = JSONObject()
-
-    Log.i("body", body.toString())
-
-    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/centros-de-trabalho/$idCentroTrabalho", body, Response.Listener { response ->
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/centros-de-trabalho/$idCentroTrabalho", null, Response.Listener { response ->
         Toast.makeText(ctx, "Centro de Trabalho apagado com sucesso!", Toast.LENGTH_LONG).show()
 
         val intent = Intent(ctx, CentroTrabalhoActivity::class.java)
