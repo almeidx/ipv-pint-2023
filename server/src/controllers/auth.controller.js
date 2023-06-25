@@ -281,6 +281,10 @@ module.exports = {
 					return next(err);
 				}
 
+				console.log({
+					user,
+				});
+
 				if (!user) {
 					return res.redirect("/auth/user");
 				}

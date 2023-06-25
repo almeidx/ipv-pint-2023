@@ -42,15 +42,15 @@ module.exports = function (passport) {
 					attributes: [...selectOptions.attributes, "hashedPassword"],
 				});
 
-				if (!user) {
-					return done(null, false);
-				}
-
 				console.log({
 					email: username,
 					registrationType: user.registrationType,
 					isMobileAuthToken: password === MOBILE_GOOGLE_AUTH_TOKEN,
 				});
+
+				if (!user) {
+					return done(null, false);
+				}
 
 				if (user.registrationType !== "email" && password !== MOBILE_GOOGLE_AUTH_TOKEN) {
 					return done(new Error(`Conta ${user.registrationType}`), false);
