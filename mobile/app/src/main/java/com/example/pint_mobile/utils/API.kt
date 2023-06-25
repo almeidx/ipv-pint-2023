@@ -38,6 +38,7 @@ import com.example.pint_mobile.pages.admin.AdminTiposProjetoActivity
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.pages.admin.AreasNegocioActivity
+import com.example.pint_mobile.pages.admin.CentroTrabalhoActivity
 import com.example.pint_mobile.pages.admin.edit.AdicionarClienteNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.EditNegocioActivity
@@ -117,7 +118,7 @@ fun listarVagasUser(list: ArrayList<vagaCandidatada>, allList: ArrayList<vagaCan
 fun listaVagas(list: ArrayList<Vaga>, allList: ArrayList<Vaga>, adapter: VagasActivity.VagaAdapter, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx)
 
-    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/vagas", null, { response -> try {
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/vagas?admin", null, { response -> try {
         for (i in 0 until response.length()) {
             val rawVaga = response.getJSONObject(i)
             val vaga = Vaga(
@@ -455,6 +456,9 @@ fun listarCentroTrabalho(list: ArrayList<CentroTrabalho>, adapter: EditNegocioAc
             val centro = CentroTrabalho(
                 rawCentro.getInt("id"),
                 rawCentro.getString("name"),
+                rawCentro.getString("address"),
+                rawCentro.getString("location"),
+                rawCentro.getString("postalCode"),
             )
             list.add(centro)
         }
@@ -602,6 +606,29 @@ fun listaNotificacoes(list: ArrayList<Notificacao>, adapter: NotificacoesActivit
                 list.add(notificacao)
             }
 
+            adapter.notifyDataSetChanged()
+        }, { error -> error.printStackTrace() })
+
+    queue.add(request)
+}
+
+fun listarCentrosTrabalho(list: ArrayList<CentroTrabalho>,allList: ArrayList<CentroTrabalho>, adapter: CentroTrabalhoActivity.CentroTrabalhoAdapterX, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx)
+
+    val request = JsonArrayRequestWithCookie(ctx, Request.Method.GET, "$API_URL/centros-de-trabalho", null,
+        { response ->
+            for (i in 0 until response.length()) {
+                val rawCentroTrabalho = response.getJSONObject(i)
+                val centroTrabalho = CentroTrabalho(
+                    rawCentroTrabalho.getInt("id"),
+                    rawCentroTrabalho.getString("name"),
+                    rawCentroTrabalho.getString("address"),
+                    rawCentroTrabalho.getString("location"),
+                    rawCentroTrabalho.getString("postalCode"),
+                )
+                list.add(centroTrabalho)
+            }
+            allList.addAll(list)
             adapter.notifyDataSetChanged()
         }, { error -> error.printStackTrace() })
 
@@ -1326,7 +1353,7 @@ fun editNegocio( idNegocio: Int,  estado: JSONArray, centroTrabalhoId:Int, utili
     val body = JSONObject()
     body.put("estados", estado)
     body.put("idCentroTrabalho", centroTrabalhoId)
-    body.put("idUtilizador", utilizadorId)
+    body.put("idFuncionarioResponsavel", utilizadorId)
 
     Log.i("body", body.toString())
 
@@ -1806,6 +1833,70 @@ fun deleteTipoProjeto(idTipoProjeto: Int, ctx: Context) {
             return super.parseNetworkResponse(response)
         }
     }
+    queue.add(request)
+}
+
+fun deleteCentroTrabalho(idCentroTrabalho: Int, ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.DELETE, "$API_URL/centros-de-trabalho/$idCentroTrabalho", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Centro de Trabalho apagado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, CentroTrabalhoActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        Toast.makeText(ctx, "Centro de Trabalho em uso, impossivel de ser apagado!", Toast.LENGTH_LONG).show()
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            return super.parseNetworkResponse(response)
+        }
+    }
+    queue.add(request)
+}
+
+fun createCentroTrabalho(nome: String, location:String, address:String, postalCode:String , ctx: Context) {
+    val queue = Volley.newRequestQueue(ctx);
+
+    val body = JSONObject()
+    body.put("name", nome)
+    body.put("location", location)
+    body.put("address", address)
+    body.put("postalCode", postalCode)
+
+    Log.i("body", body.toString())
+
+    val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.POST, "$API_URL/centros-de-trabalho", body, Response.Listener { response ->
+        Toast.makeText(ctx, "Centro de Trabalho criado com sucesso!", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(ctx, CentroTrabalhoActivity::class.java)
+        ctx.startActivity(intent)
+    }, Response.ErrorListener { error ->
+        error.printStackTrace()
+    }) {
+        override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
+            val statusCode = response?.statusCode ?: 0
+            if (statusCode == 400) {
+                val json = JSONObject(String(response?.data ?: ByteArray(0)))
+
+                Log.i("Erro: ", json.toString())
+
+                if (json.has("message")) {
+                    val message = json.getString("message")
+                    Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+                }
+
+                throw ServerError()
+            }
+
+            return super.parseNetworkResponse(response)
+        }
+    }
+
     queue.add(request)
 }
 

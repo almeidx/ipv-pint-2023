@@ -46,6 +46,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             when (adapter.getItem(position)) {
                 "Benefícios" -> gotoAdminBeneficios(view)
                 "Candidaturas" -> gotoAdminCandidaturas(view)
+                "Centros de Trabalho" -> gotoAdminCentroTrabalho(view)
                 "Ideias" -> gotoAdminIdeias(view)
                 "Mensagens" -> gotoAdminMensagens(view)
                 "Oportunidades" -> gotoAdminNegocios(view)
@@ -63,6 +64,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         private val allbuttons = listOf(
             "Benefícios",
             "Candidaturas",
+            "Centros de Trabalho",
             "Ideias",
             "Mensagens",
             "Oportunidades",
@@ -167,6 +169,12 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
 
     fun gotoAdminTipoProjeto(_view: android.view.View) {
         val intent = Intent(this, AdminTiposProjetoActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0);
+    }
+
+    fun gotoAdminCentroTrabalho(_view: android.view.View) {
+        val intent = Intent(this, CentroTrabalhoActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0);
     }
