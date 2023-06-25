@@ -15,7 +15,7 @@ class CriarAreaNegocioActivity :  ActivityBase(R.layout.activity_criar_area_nego
     }
 
     fun criarAreaNegocio(view: View){
-        val nome = findViewById<android.widget.EditText>(R.id.tituloTipoProjetoEditText)
+        val nome = findViewById<android.widget.EditText>(R.id.tituloAreaNegocioCriar)
 
         val nomeString = nome.text.toString()
 
