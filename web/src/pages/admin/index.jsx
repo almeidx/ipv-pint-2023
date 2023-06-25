@@ -10,6 +10,7 @@ import { hasPermission, isColaborador } from "../../utils/permissions.js";
 const AreasNegocio = lazy(() => import("./areas-negocio.jsx"));
 const Beneficios = lazy(() => import("./beneficios.jsx"));
 const Candidaturas = lazy(() => import("./candidaturas.jsx"));
+const CentroTrabalho = lazy(() => import("./centros-trabalho.jsx"));
 const Ideias = lazy(() => import("./ideias.jsx"));
 const Mensagens = lazy(() => import("./mensagens.jsx"));
 const Negocios = lazy(() => import("./negocios.jsx"));
@@ -22,9 +23,10 @@ const sections = [
 	{ name: "Áreas de Negócio", link: "areas-negocio", permission: TipoUtilizadorEnum.GestorNegocios },
 	{ name: "Benefícios", link: "beneficios", permission: TipoUtilizadorEnum.GestorConteudos },
 	{ name: "Candidaturas", link: "candidaturas", permission: TipoUtilizadorEnum.GestorRecursosHumanos },
+	{ name: "Centros de Trabalho", link: "centros-trabalho", permission: TipoUtilizadorEnum.Administrador },
 	{ name: "Ideias", link: "ideias", permission: TipoUtilizadorEnum.GestorIdeias },
 	{ name: "Mensagens", link: "mensagens", permission: TipoUtilizadorEnum.GestorConteudos },
-	{ name: "Oportunidades", link: "negocios", permission: TipoUtilizadorEnum.GestorNegocios },
+	{ name: "Oportunidades", link: "oportunidades", permission: TipoUtilizadorEnum.GestorNegocios },
 	{
 		name: "Reuniões",
 		link: "reunioes",
@@ -41,14 +43,13 @@ export default function Admin() {
 	const [section, setSection] = useState(sections[0].link);
 
 	useEffect(() => {
-		const paramSection = searchParams.get("p");
-		if (paramSection && isValidSection(paramSection)) {
-			setSection(paramSection);
-		}
-	}, []);
-
-	useEffect(() => {
 		if (user) {
+			const paramSection = searchParams.get("p");
+			if (paramSection && isValidSection(paramSection) && hasPermission(user, paramSection)) {
+				setSection(paramSection);
+				return;
+			}
+
 			const section = sections.find(({ permission }) => hasPermission(user, permission));
 			if (section) {
 				history.pushState(null, null, `/admin?p=${section.link}`);
@@ -95,11 +96,13 @@ export default function Admin() {
 						<Beneficios />
 					) : section === "candidaturas" ? (
 						<Candidaturas />
+					) : section === "centros-trabalho" ? (
+						<CentroTrabalho />
 					) : section === "ideias" ? (
 						<Ideias />
 					) : section === "mensagens" ? (
 						<Mensagens />
-					) : section === "negocios" ? (
+					) : section === "oportunidades" ? (
 						<Negocios />
 					) : section === "reunioes" ? (
 						<Reunioes />

@@ -25,7 +25,6 @@ create table NEGOCIOS (
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
-const CentroTrabalho = require("./CentroTrabalho.js");
 const Cliente = require("./Cliente.js");
 const Utilizador = require("./Utilizador.js");
 
@@ -88,7 +87,6 @@ const Negocio = sequelize.define(
 );
 
 Negocio.belongsTo(Cliente, { foreignKey: "idCliente", as: "cliente" });
-Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id", as: "centroTrabalho" });
 
 Negocio.hasOne(Utilizador, { sourceKey: "idUser", foreignKey: "id", as: "criador" });
 Negocio.hasOne(Utilizador, { sourceKey: "idFuncionarioResponsavel", foreignKey: "id", as: "funcionarioResponsavel" });

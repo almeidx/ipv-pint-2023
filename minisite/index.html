@@ -16,71 +16,149 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 	</head>
 
-	<body
-		class="flex min-h-screen flex-col items-center justify-center scroll-smooth bg-[#c5cae9] text-black antialiased"
-	>
-		<div id="top" class="invisible h-0 w-0"></div>
+	<body class="flex min-h-screen flex-col items-center justify-center scroll-smooth text-black antialiased">
+		<main class="bg-[url('assets/background.jpg')] bg-cover">
+			<div class="mt-6 flex h-[calc(100vh-1.5rem)] backdrop-brightness-50">
+				<div class="flex flex-col gap-9 pl-10 pt-28">
+					<div class="-ml-4 h-24 pt-16">
+						<img src="assets/logo.svg" alt="" />
+					</div>
 
-		<nav
-			class="fixed inset-x-0 top-0 z-10 flex items-center justify-between bg-[#3f51b5] px-5 py-3 text-2xl text-white"
-		>
-			<a href="#top">
-				<img src="logo.svg" alt="" />
-			</a>
+					<div class="flex flex-col gap-6 text-slate-50">
+						<p class="pe-20 tracking-wider">
+							Apresentamos nossa solução integrada para o engajamento empresarial, que visa aproximar empresas de seus
+							clientes e colaboradores de forma colaborativa.
+						</p>
+						<p class="pe-20 tracking-wider">
+							Com recursos que abrangem informações básicas da empresa, oportunidades de negócios, gestão de
+							relacionamento com clientes, ofertas de emprego, benefícios para colaboradores e um canal de ideias, a
+							nossa solução promove a evolução contínua da empresa, crescimento das equipas e conexões sólidas com a sua
+							rede de colaboradores e clientes.
+						</p>
+						<p class="pe-20 tracking-wider">
+							Simplificamos processos e proporcionamos uma abordagem ágil para impulsionar o sucesso organizacional.
+						</p>
+					</div>
 
-			<ul class="flex gap-6">
-				<li><a class="hover:text-blue-200" href="#top">Home</a></li>
-				<li><a class="hover:text-blue-200" href="#video">Video</a></li>
-				<li><a class="hover:text-blue-200" href="#">Sobre</a></li>
-			</ul>
-		</nav>
+					<div>
+						<a
+							class="cursor-pointer text-white underline hover:text-blue-400"
+							target="_blank"
+							rel="external noopener noreferrer"
+							href="https://softinsa.almeidx.dev"
+						>
+							Visite o nosso site!
+						</a>
+					</div>
 
-		<div
-			class="mt-6 flex h-[calc(100vh-1.5rem)] bg-[url('https://static.vecteezy.com/system/resources/previews/006/430/145/original/technology-background-concept-circuit-board-electronic-system-futuristic-hi-tech-light-on-dark-blue-free-vector.jpg')]"
-		>
-			<div class="flex flex-col gap-9 ps-10 pt-28 backdrop-brightness-50">
-				<h2 class="pt-16 font-mono text-4xl font-bold text-white subpixel-antialiased">SOFTINSA APP</h2>
-
-				<div class="flex flex-col gap-6 text-slate-50">
-					<p class="pe-20 tracking-wider">
-						Apresentamos nossa solução integrada para o engajamento empresarial, que visa aproximar empresas de seus
-						clientes e colaboradores de forma colaborativa.
-					</p>
-					<p class="pe-20 tracking-wider">
-						Com recursos que abrangem informações básicas da empresa, oportunidades de negócios, gestão de
-						relacionamento com clientes, ofertas de emprego, benefícios para colaboradores e um canal de ideias, nossa
-						solução promove a evolução contínua da empresa, crescimento das equipes e conexões sólidas com sua rede de
-						colaboradores e clientes.
-					</p>
-					<p class="pe-20 tracking-wider">
-						Simplificamos processos e proporcionamos uma abordagem ágil para impulsionar o sucesso organizacional.
-					</p>
+					<div>
+						<p class="mb-6 pr-20 tracking-wider text-white">
+							Faça o download da aplicação para o seu dispositivo móvel e aceda a todas as funcionalidades da nossa app.
+						</p>
+						<a
+							class="cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-white hover:bg-blue-400"
+							href="globals.css"
+							download
+						>
+							Download
+						</a>
+					</div>
 				</div>
 
-				<div class="">
+				<div class="flex flex-col items-center justify-center pr-10">
+					<iframe
+						class="mx-auto aspect-video"
+						width="1128"
+						src="https://www.youtube.com/embed/B7IZMb7VOtU"
+						title="IVANDRO - Chakras ft. Julinho KSD"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					></iframe>
+				</div>
+			</div>
+
+			<div class="grid min-w-full grid-cols-4 place-items-center gap-1 py-10 backdrop-brightness-50">
+				<div class="items flex h-[27rem] w-96 flex-col rounded-2xl bg-white text-center">
+					<div class="flex items-center justify-center py-4 pt-6">
+						<img src="assets/oportunidade.svg" width="100px" height="100px" alt="oportunidades" />
+					</div>
+
+					<h2 class="text-4xl font-bold text-black">Oportunidades</h2>
+
+					<div class="mx-4 flex flex-col items-center justify-center gap-6 pt-6">
+						<p class="font-bold">Transforme a sua visão em realidade com a Softinsa.</p>
+						<p>A Softinsa está aberta a novas possibilidades de negócios, parcerias e investimentos.</p>
+						<p>Vamos construir um futuro de sucesso juntos!</p>
+					</div>
+				</div>
+
+				<div class="items flex h-[27rem] w-96 flex-col rounded-2xl bg-white text-center">
+					<div class="flex items-center justify-center py-4 pt-6">
+						<img src="assets/ideia.svg" width="100px" height="100px" alt="oportunidades" />
+					</div>
+
+					<h2 class="text-4xl font-bold text-black">Vagas</h2>
+
+					<div class="mx-4 flex flex-col items-center justify-center gap-6 pt-6">
+						<p class="font-bold">Explore as nossas vagas e leve sua carreira a novos patamares.</p>
+						<p class="">A Softinsa está em constante crescimento e busca por profissionais motivados e talentosos.</p>
+						<p class="">Faça parte de uma cultura colaborativa e inovadora!</p>
+					</div>
+				</div>
+
+				<div class="items flex h-[27rem] w-96 flex-col rounded-2xl bg-white text-center">
+					<div class="flex items-center justify-center py-4 pt-6">
+						<img src="assets/beneficio.svg" width="100px" height="100px" alt="oportunidades" />
+					</div>
+
+					<h2 class="text-4xl font-bold text-black">Benefícios</h2>
+
+					<div class="mx-4 flex flex-col items-center justify-center gap-6 pt-6">
+						<p class="font-bold">Veja os benefícios que temos para si.</p>
+						<p>Na Softinsa, reconhecemos o desempenho excecional e recompensamos nossos colaboradores.</p>
+						<p>Vamos construir um futuro de sucesso juntos!</p>
+					</div>
+				</div>
+
+				<div class="items flex h-[27rem] w-96 flex-col rounded-2xl bg-white text-center">
+					<div class="flex items-center justify-center py-4 pt-6">
+						<img src="assets/ideia.svg" width="100px" height="100px" alt="oportunidades" />
+					</div>
+
+					<h2 class="text-4xl font-bold text-black">Ideias</h2>
+
+					<div class="mx-4 flex flex-col items-center justify-center gap-6 pt-6">
+						<p class="font-bold">Partilhe as suas ideias</p>
+						<p>
+							Na Softinsa, acreditamos no poder das ideias, é o lugar onde as grandes ideias se transformam em
+							realidade.
+						</p>
+						<p>Transforme a sua visão em realidade!</p>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<footer class="flex min-w-full items-center justify-center bg-[#0a4275] text-center text-white">
+			<div class="flex min-w-full items-center justify-center bg-black/20 p-4 text-center">
+				© 2023 Copyright:&nbsp;
+				<a class="mr-4 text-white" href="https://softinsa.almeidx.dev">Softinsa</a>
+
+				<p class="">
+					<span class="mr-4">Visite o nosso site!</span>
 					<a
-						class="rounded-lg bg-red-500 px-3 py-2 text-white"
-						href="https://softinsa.almeidx.de	v/login"
+						class="inline-block rounded-full border-2 border-neutral-50 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 active:text-neutral-200 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+						href="https://softinsa.almeidx.dev"
 						target="_blank"
 						rel="external noopener noreferrer"
 					>
 						Login
 					</a>
-				</div>
+				</p>
 			</div>
+		</footer>
 
-			<div class="flex flex-col items-center justify-center pe-10 backdrop-brightness-50">
-				<iframe
-					class="mx-auto aspect-video"
-					width="1240"
-					src="https://www.youtube.com/embed/B7IZMb7VOtU"
-					title="IVANDRO - Chakras ft. Julinho KSD"
-					frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowfullscreen
-				></iframe>
-			</div>
-		</div>
 		<script type="module" src="/main.js"></script>
 	</body>
 </html>

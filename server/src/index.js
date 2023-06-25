@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
-const { sequelize } = require("./database/index.js");
+const { sequelize, TipoUtilizador } = require("./database/index.js");
 const areasDeNegocioRouter = require("./routes/areas-de-negocio.js");
 const authRouter = require("./routes/auth.js");
 const beneficiosRouter = require("./routes/beneficios.js");
@@ -25,6 +25,7 @@ const tiposUtilizadorRouter = require("./routes/tipos-utilizador.js");
 const utilizadoresRouter = require("./routes/utilizadores.js");
 const uploadsRouter = require("./routes/uploads.js");
 const vagasRouter = require("./routes/vagas.js");
+const TipoUtilizadorEnum = require("./utils/TipoUtilizadorEnum.js");
 
 require("./middleware/passport.js")(passport);
 
@@ -91,9 +92,42 @@ app
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	// await sequelize.sync();
+	await sequelize.sync();
 
-	const PORT = process.env.PORT || 3333;
+	const qntTiposUtilizador = await TipoUtilizador.count();
+	if (qntTiposUtilizador === 0) {
+		await TipoUtilizador.bulkCreate([
+			{ name: TipoUtilizadorEnum.Utilizador },
+			{ name: TipoUtilizadorEnum.GestorIdeias },
+			{ name: TipoUtilizadorEnum.GestorRecursosHumanos },
+			{ name: TipoUtilizadorEnum.GestorNegocios },
+			{ name: TipoUtilizadorEnum.GestorConteudos },
+			{ name: TipoUtilizadorEnum.Administrador },
+			{ name: TipoUtilizadorEnum.Colaborador },
+		]);
+	}
 
-	app.listen(PORT, "127.0.0.1", () => console.log(`Server listening to http://localhost:${PORT}`));
+	const exists = await sequelize
+		.query("SELECT * FROM session LIMIT 1;")
+		.then(() => true)
+		.catch(() => false);
+
+	if (!exists) {
+		await sequelize.query(`
+			CREATE TABLE "session" (
+				"sid" varchar NOT NULL COLLATE "default",
+				"sess" json NOT NULL,
+				"expire" timestamp(6) NOT NULL
+			)
+			WITH (OIDS=FALSE);
+
+			ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+			CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+		`);
+	}
+
+	const port = process.env.PORT || 3333;
+
+	app.listen(port, "127.0.0.1", () => console.log(`Server listening to http://localhost:${port}`));
 })();

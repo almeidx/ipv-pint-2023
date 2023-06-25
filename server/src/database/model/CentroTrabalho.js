@@ -43,11 +43,6 @@ const CentroTrabalho = sequelize.define(
 			field: "ENDERECO_CENTRO",
 			allowNull: false,
 		},
-		googleMapsId: {
-			type: DataTypes.STRING,
-			field: "ID_CENTRO_GOOGLE_MAPS",
-			allowNull: false,
-		},
 	},
 	{ timestamps: false },
 );

@@ -15,7 +15,6 @@ const Negocio = require("./model/Negocio.js");
 const NotaEntrevista = require("./model/NotaEntrevista.js");
 const Notificacao = require("./model/Notificacao.js");
 const Reuniao = require("./model/Reuniao.js");
-const TipoNotificacao = require("./model/TipoNotificacao.js");
 const TipoProjeto = require("./model/TipoProjeto.js");
 const TipoUtilizador = require("./model/TipoUtilizador.js");
 const Utilizador = require("./model/Utilizador.js");
@@ -33,6 +32,9 @@ AreaNegocio.hasMany(Negocio, { sourceKey: "id", foreignKey: "idAreaNegocio", as:
 
 Negocio.hasOne(TipoProjeto, { sourceKey: "idTipoProjeto", foreignKey: "id", as: "tipoProjeto" });
 TipoProjeto.hasMany(Negocio, { sourceKey: "id", foreignKey: "idTipoProjeto", as: "negocios" });
+
+Negocio.hasOne(CentroTrabalho, { sourceKey: "idCentroTrabalho", foreignKey: "id", as: "centroTrabalho" });
+CentroTrabalho.hasMany(Negocio, { sourceKey: "id", foreignKey: "idCentroTrabalho", as: "negocios" });
 
 Mensagem.hasOne(Utilizador, { sourceKey: "idCriador", foreignKey: "id", as: "criador", constraints: false });
 Utilizador.hasMany(Mensagem, { sourceKey: "id", foreignKey: "idCriador", as: "mensagens" });
@@ -70,7 +72,6 @@ module.exports = {
 	NotaEntrevista,
 	Notificacao,
 	Reuniao,
-	TipoNotificacao,
 	TipoProjeto,
 	TipoUtilizador,
 	Utilizador,
