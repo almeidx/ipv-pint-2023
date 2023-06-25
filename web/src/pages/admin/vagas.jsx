@@ -119,7 +119,7 @@ export default function Vagas() {
 				{isLoading ? (
 					<Spinner />
 				) : filtered.length ? (
-					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots }, idx) => (
+					filtered.map(({ id, title, description, status, icon, public: public_, amountSlots, slotsFilled }, idx) => (
 						<ListGroup.Item className="d-flex justify-content-between align-items-center" key={`vaga-${id}`}>
 							<div className="d-flex gap-2">
 								<img
@@ -138,7 +138,8 @@ export default function Vagas() {
 									<p className="mb-0">{description || "Descrição"}</p>
 
 									<p className="mb-0" style={{ fontSize: "0.85rem" }}>
-										{statusToText(status)} - {public_ ? "Publica" : "Só para colaboradores"} - {amountSlots} vagas
+										{statusToText(status)} - {public_ ? "Publica" : "Só para colaboradores"} - {slotsFilled}/
+										{amountSlots} vagas ocupadas
 									</p>
 								</div>
 							</div>
