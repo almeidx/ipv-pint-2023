@@ -39,7 +39,8 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnKeyListener { _, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                (keyCode == KeyEvent.KEYCODE_ENTER)
+            ) {
 
                 negociosList.clear()
 
@@ -59,12 +60,17 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class NegocioAdapter(private val negocios: ArrayList<Negocio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
+    class NegocioAdapter(
+        private val negocios: ArrayList<Negocio>,
+        private val item: Int,
+        private val attachListener: Boolean = false
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val negocio = negocios[position]
 
-            val tituloNegocio  = view.findViewById<TextView>(R.id.titulo_negocio)
+            val tituloNegocio = view.findViewById<TextView>(R.id.titulo_negocio)
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
@@ -112,6 +118,7 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
 
             return view
         }
+
         override fun getItem(position: Int): Negocio {
             return negocios[position]
         }
@@ -136,9 +143,9 @@ class NegociosActivity : ActivityBase(R.layout.activity_negocios, "Negócios") {
         }
     }
 
-    fun CriarNegocio(view: android.view.View) {
+    fun CriarNegocio(view: View) {
         val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

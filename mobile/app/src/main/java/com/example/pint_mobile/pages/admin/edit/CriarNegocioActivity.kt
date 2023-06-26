@@ -2,11 +2,8 @@ package com.example.pint_mobile.pages.admin.edit
 
 import android.content.Context
 import android.content.Intent
-import android.hardware.Camera
-import android.hardware.Camera.Area
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +15,10 @@ import android.widget.ListView
 import android.widget.Spinner
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
-import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.TipoProjeto
 import com.example.pint_mobile.utils.createNegocio
-import com.example.pint_mobile.utils.listaIdeias
 import com.example.pint_mobile.utils.listarAreasNegocio
 import com.example.pint_mobile.utils.listarTiposProjeto
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -82,11 +76,16 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             areasList,
             areasAdapter,
             this
-        ){
+        ) {
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position) as AreaNegocio
                 areaNegocioId = selectedItem.id
             }
@@ -108,11 +107,16 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
             tiposProjetoList,
             tiposProjetoAdapter,
             this
-        ){
+        ) {
         }
 
         spinnerProjeto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position) as TipoProjeto
                 tipoProjetoId = selectedItem.id
             }
@@ -127,7 +131,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         Log.i("contactoNames", contactoNames.toString())
 
         val clienteDoNegocio = findViewById<EditText>(R.id.clienteNegocioCriar)
-        if(clientNames.size == 1){
+        if (clientNames.size == 1) {
             clienteDoNegocio.setText(clientNames[0])
         }
 
@@ -161,7 +165,11 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val rowView = inflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false)
+            val rowView = inflater.inflate(
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                parent,
+                false
+            )
 
             val areaNegocio = getItem(position) as AreaNegocio
 
@@ -193,7 +201,11 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val rowView = inflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false)
+            val rowView = inflater.inflate(
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                parent,
+                false
+            )
 
             val tipoProjeto = getItem(position) as TipoProjeto
 
@@ -210,7 +222,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         intent.putExtra("clienteNome", clientNames)
         intent.putExtra("clienteIds", clienteIds)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
     fun AdicionarContactoNegocio(view: View) {
@@ -221,7 +233,7 @@ class CriarNegocioActivity : ActivityBase(R.layout.activity_criar_negocio, "Cria
         intent.putExtra("contactoNames", contactoNames)
         intent.putExtra("necessidades", necessidades)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
     fun criarNota(view: View) {

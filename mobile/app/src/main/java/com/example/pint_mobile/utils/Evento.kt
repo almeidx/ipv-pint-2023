@@ -1,6 +1,13 @@
 package com.example.pint_mobile.utils
 
-class Evento (Id: Int, startTime:String,  duration:Int, title: String, description:String, subject: String) {
+class Evento(
+    Id: Int,
+    startTime: String,
+    duration: Int,
+    title: String,
+    description: String,
+    subject: String
+) {
 
     val id = Id
     val startTime = startTime

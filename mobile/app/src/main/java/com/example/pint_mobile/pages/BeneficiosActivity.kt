@@ -1,15 +1,15 @@
 package com.example.pint_mobile.pages
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
 import com.example.pint_mobile.utils.ActivityBase
@@ -58,9 +58,14 @@ class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefíci
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class BeneficioAdapter(private val beneficios: ArrayList<Beneficio>, private val item: Int, private val attachListener: Boolean = false) : BaseAdapter() {
+    class BeneficioAdapter(
+        private val beneficios: ArrayList<Beneficio>,
+        private val item: Int,
+        private val attachListener: Boolean = false
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val beneficio = beneficios[position]
 
             val tituloBeneficio = view.findViewById<TextView>(R.id.titulo_beneficio)

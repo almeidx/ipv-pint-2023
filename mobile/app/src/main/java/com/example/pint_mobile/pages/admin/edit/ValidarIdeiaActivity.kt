@@ -1,13 +1,9 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Toast
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
-import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteIdeia
 import com.example.pint_mobile.utils.editIdeia
@@ -58,7 +54,7 @@ class ValidarIdeiaActivity : ActivityBase(R.layout.activity_validar_ideia, "Vali
 
         val validacao = findViewById<CheckBox>(R.id.checkBoxIdeia).isChecked
 
-        editIdeia( id, validacao, this)
+        editIdeia(id, validacao, this)
     }
 
 }

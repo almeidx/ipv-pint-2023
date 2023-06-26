@@ -34,10 +34,10 @@ class RefEmailVagaActivity : ActivityBase(R.layout.activity_ref_email_vaga, "Ref
         user = getCurrentUser(this)
         id = user?.id ?: -1
 
-        if(user?.cv == "null") {
+        if (user?.cv == "null") {
             val verCvBtn = findViewById<Button>(R.id.btnVerCV)
             verCvBtn.visibility = View.GONE
-        }else{
+        } else {
             val enviarCvBtn = findViewById<Button>(R.id.btnEnviarCV)
             enviarCvBtn.visibility = View.GONE
         }
@@ -89,7 +89,7 @@ class RefEmailVagaActivity : ActivityBase(R.layout.activity_ref_email_vaga, "Ref
 
         if (emailRef.isEmpty()) {
             candidatarVaga(idVaga, null, this)
-        }else{
+        } else {
             candidatarVaga(idVaga, emailRef, this)
         }
     }

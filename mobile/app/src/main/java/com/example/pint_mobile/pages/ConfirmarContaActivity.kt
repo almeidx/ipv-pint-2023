@@ -1,8 +1,6 @@
 package com.example.pint_mobile.pages
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
@@ -32,14 +30,14 @@ class ConfirmarContaActivity : ActivityBase(R.layout.activity_confirmar_conta, "
 
         val codigoText = codigo.text.toString()
 
-        if (codigoText.isEmpty()){
+        if (codigoText.isEmpty()) {
             Toast.makeText(this, "Preencha o campo código", Toast.LENGTH_SHORT).show()
             codigo.setBackgroundResource(R.drawable.edittext_red_border)
 
             return
         }
 
-        enviarCodigoConfirmacao(userId, codigoText,  this ){
+        enviarCodigoConfirmacao(userId, codigoText, this) {
             codigo.setBackgroundResource(R.drawable.edittext_red_border)
             Toast.makeText(this, "Codigo invalido", Toast.LENGTH_SHORT).show()
         }

@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -57,6 +56,6 @@ class AdminVagasActivity : ActivityBase(R.layout.activity_admin_vagas, "Administ
     fun CriarVaga(view: View) {
         val intent = Intent(this, CriarVagaActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

@@ -1,7 +1,7 @@
 package com.example.pint_mobile.pages
 
-import android.app.AlertDialog
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -43,28 +43,28 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
 
         Log.i("cv", user?.cv ?: "")
 
-        if(user?.cv == "null" || user?.cv == null) {
+        if (user?.cv == "null" || user?.cv == null) {
             Log.i("cv", user?.cv ?: "")
             val verCvBtn = findViewById<TextView>(R.id.verCv)
             verCvBtn.visibility = View.GONE
         }
 
-        if(user != null && user!!.tipoUser != TipoUtilizadorEnum.Utilizador && user!!.tipoUser != TipoUtilizadorEnum.Colaborador) {
+        if (user != null && user!!.tipoUser != TipoUtilizadorEnum.Utilizador && user!!.tipoUser != TipoUtilizadorEnum.Colaborador) {
             pag_admin.visibility = View.VISIBLE
-            pag_admin.setOnClickListener{
+            pag_admin.setOnClickListener {
                 val intent = Intent(this, AdminActivity::class.java)
                 startActivity(intent)
-                overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0)
             }
         }
 
         val verCvBtn = findViewById<TextView>(R.id.verCv)
         verCvBtn.isEnabled = user != null && user!!.cv != null
 
-        password.setOnClickListener{
+        password.setOnClickListener {
             val intent = Intent(this, MudarPasswordActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(0, 0);
+            overridePendingTransition(0, 0)
         }
 
         nome.text = user?.name ?: ""
@@ -81,7 +81,7 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
         confirmarDesativarConta(conta)
     }
 
-    fun confirmarDesativarConta( tipo: Int) {
+    fun confirmarDesativarConta(tipo: Int) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Confimação")
 
@@ -91,7 +91,7 @@ class PerfilActivity : ActivityBase(R.layout.activity_perfil, "Perfil") {
                 deleteCurrentUser(this)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-                overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0)
             }
         } else {
             builder.setMessage("Tem a certeza que pretende desativar a sua conta?")

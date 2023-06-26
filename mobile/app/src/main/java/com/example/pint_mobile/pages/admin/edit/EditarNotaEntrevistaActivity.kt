@@ -9,14 +9,14 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.NotaReuniao
 import com.example.pint_mobile.utils.createNotaReuniao
 import com.example.pint_mobile.utils.listarNotasReuniao
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
-class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_entrevista, "Notas Entrevista") {
+class EditarNotaEntrevistaActivity :
+    ActivityBase(R.layout.activity_editar_nota_entrevista, "Notas Entrevista") {
 
     private val notasEntrevistaList = ArrayList<NotaReuniao>()
     private val allNotasEntrevistaList = ArrayList<NotaReuniao>()
@@ -37,10 +37,10 @@ class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_
         Log.i("titulo", titulo.toString())
 
         val nomeCandidato = findViewById<TextView>(R.id.NomeCandidaturaEdit)
-        nomeCandidato.setText(utilizadores.toString())
+        nomeCandidato.text = utilizadores.toString()
 
         val tituloCandidato = findViewById<TextView>(R.id.tituloCandidaturaEdit)
-        tituloCandidato.setText(titulo)
+        tituloCandidato.text = titulo
 
         val lista = findViewById<android.widget.ListView>(R.id.listaNotasEntrevista)
 
@@ -48,14 +48,21 @@ class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_
 
         lista.adapter = notasEntrevistaAdapter
 
-        listarNotasReuniao(notasEntrevistaList, allNotasEntrevistaList, notasEntrevistaAdapter,id, this)
+        listarNotasReuniao(
+            notasEntrevistaList,
+            allNotasEntrevistaList,
+            notasEntrevistaAdapter,
+            id,
+            this
+        )
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class NotaReuniaoAdapter(private val notas: ArrayList<NotaReuniao>, private val item: Int) : BaseAdapter() {
+    class NotaReuniaoAdapter(private val notas: ArrayList<NotaReuniao>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view =
                 convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
@@ -86,6 +93,6 @@ class EditarNotaEntrevistaActivity : ActivityBase(R.layout.activity_editar_nota_
     fun criarNota(view: View) {
         val nota = findViewById<TextInputEditText>(R.id.nota).text.toString()
 
-        createNotaReuniao(id, nota,this)
+        createNotaReuniao(id, nota, this)
     }
 }

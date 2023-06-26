@@ -28,7 +28,7 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
     private lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 9001
 
-    private var callbackManager = CallbackManager.Factory.create();
+    private var callbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,11 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
                     val id = jsonObject.getString("id")
 
                     facebookLogin(email, id, name, this@SignUpActivity) {
-                        Toast.makeText(this@SignUpActivity, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            "O email que introduziu já se encontra registado",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
@@ -75,7 +79,11 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
             override fun onError(error: FacebookException) {
                 error.printStackTrace()
 
-                Toast.makeText(this@SignUpActivity, "Não foi possível fazer login com Facebook. Tente novamente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@SignUpActivity,
+                    "Não foi possível fazer login com Facebook. Tente novamente",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -90,25 +98,25 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
         if (nome.isEmpty()) {
             val nomeInput = findViewById<EditText>(R.id.nome)
             nomeInput.setBackgroundResource(R.drawable.edittext_red_border)
-            return;
+            return
         }
         if (apelido.isEmpty()) {
             val apelidoInput = findViewById<EditText>(R.id.apelido)
             apelidoInput.setBackgroundResource(R.drawable.edittext_red_border)
-            return;
+            return
         }
 
         if (email.isEmpty()) {
             val emailInput = findViewById<EditText>(R.id.email)
             emailInput.setBackgroundResource(R.drawable.edittext_red_border)
-            return;
+            return
         }
 
         var errorMsg: String? = null
 
         if (password.isEmpty()) {
             errorMsg = "Campo obrigatório"
-        } else if (password.length < 8 ) {
+        } else if (password.length < 8) {
             errorMsg = "A password tem de ter pelo menos 8 caracteres"
         } else if (password.length > 128) {
             errorMsg = "A password tem de ter menos de 128 caracteres"
@@ -126,14 +134,14 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
             Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
             val confirmPasswordInput = findViewById<EditText>(R.id.password)
             confirmPasswordInput.setBackgroundResource(R.drawable.edittext_red_border)
-            return;
+            return
         }
 
         if (password != confirmPassword) {
             Toast.makeText(this, "As passwords não coincidem", Toast.LENGTH_SHORT).show()
             val confirmPasswordInput = findViewById<EditText>(R.id.confirmPassword)
             confirmPasswordInput.setBackgroundResource(R.drawable.edittext_red_border)
-            return;
+            return
         }
 
         signup("$nome $apelido", email, password, this)
@@ -146,7 +154,7 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
             val result = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleLogin(result)
         } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -157,12 +165,20 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
             val name = result.result.displayName
 
             googleLogin(account!!.name, id!!, name!!, this) {
-                Toast.makeText(this, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "O email que introduziu já se encontra registado",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else {
             result.exception?.printStackTrace()
 
-            Toast.makeText(this, "Não foi possível fazer login com Google. Tente novamente", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Não foi possível fazer login com Google. Tente novamente",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -178,6 +194,6 @@ class SignUpActivity : ActivityBase(R.layout.activity_sign_up) {
     fun jaTemConta(_view: View) {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

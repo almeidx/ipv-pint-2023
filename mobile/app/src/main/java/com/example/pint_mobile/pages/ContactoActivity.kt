@@ -54,23 +54,20 @@ class ContactoActivity : ActivityBase(R.layout.activity_contacto, "Contacto") {
         val assuntoText = assunto.text.toString()
 
         //check if fields are empty
-        if (nomeText.isEmpty())
-        {
+        if (nomeText.isEmpty()) {
             nome.background = getDrawable(R.drawable.edittext_red_border)
             Toast.makeText(this, "Nome não pode ser vazio", Toast.LENGTH_SHORT).show()
             return
-        } else if (emailText.isEmpty())
-        {
+        } else if (emailText.isEmpty()) {
             email.background = getDrawable(R.drawable.edittext_red_border)
             Toast.makeText(this, "Email não pode ser vazio", Toast.LENGTH_SHORT).show()
             return
-        } else if (assuntoText.isEmpty())
-        {
+        } else if (assuntoText.isEmpty()) {
             assunto.background = getDrawable(R.drawable.edittext_red_border)
             Toast.makeText(this, "Mensagem não pode ser vazia", Toast.LENGTH_SHORT).show()
             return
         }
 
-        criarMensagem(nomeText,assuntoText, emailText, this)
+        criarMensagem(nomeText, assuntoText, emailText, this)
     }
 }

@@ -32,6 +32,7 @@ fun getCurrentUser(ctx: Context): Utilizador? {
 fun getCookie(cookie: String): String {
     return "connect.sid=$cookie"
 }
+
 fun getCookie(ctx: Context): String? {
     val cookie = getCookieValue(ctx) ?: return null
     return "connect.sid=$cookie"

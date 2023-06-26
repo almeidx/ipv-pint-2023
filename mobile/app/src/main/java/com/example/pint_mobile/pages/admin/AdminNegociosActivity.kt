@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -18,7 +17,8 @@ import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.listaNegocios
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Administração de Oportunidades") {
+class AdminNegociosActivity :
+    ActivityBase(R.layout.activity_admin_negocios, "Administração de Oportunidades") {
     private val negociosList = ArrayList<Negocio>()
     private val allNegociosList = ArrayList<Negocio>()
     private lateinit var negociosAdapter: NegociosActivity.NegocioAdapter
@@ -28,7 +28,14 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val items = arrayOf("Titulo(Ascendente)", "Titulo(Descendente)", "Data(Ascendente)", "Data(Descendente)", "Area de negócio", "Estado")
+        val items = arrayOf(
+            "Titulo(Ascendente)",
+            "Titulo(Descendente)",
+            "Data(Ascendente)",
+            "Data(Descendente)",
+            "Area de negócio",
+            "Estado"
+        )
         val spinner = findViewById<Spinner>(R.id.ordenar)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
@@ -36,17 +43,24 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 categoria = selectedItem
 
                 ordenarListaPorCategoria(categoria)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         val lista = findViewById<ListView>(R.id.listaNegocios)
-        negociosAdapter = NegociosActivity.NegocioAdapter(negociosList, R.layout.item_negocio_admin, true)
+        negociosAdapter =
+            NegociosActivity.NegocioAdapter(negociosList, R.layout.item_negocio_admin, true)
 
         lista.adapter = negociosAdapter
 
@@ -79,9 +93,9 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
     fun ordenarListaPorCategoria(categoria: String) {
 
         when (categoria) {
-            "Titulo(Ascendente)" -> negociosList.sortBy { it.titulo  }  // Ordena por título em ordem ascendente
+            "Titulo(Ascendente)" -> negociosList.sortBy { it.titulo }  // Ordena por título em ordem ascendente
             "Titulo(Descendente)" -> negociosList.sortByDescending { it.titulo } // Ordena por título em ordem descendente
-            "Data(Ascendente)" -> negociosList.sortBy { it.dataCriacao} // Ordena por data em ordem ascendente
+            "Data(Ascendente)" -> negociosList.sortBy { it.dataCriacao } // Ordena por data em ordem ascendente
             "Data(Descendente)" -> negociosList.sortByDescending { it.dataCriacao } // Ordena por data em ordem descendente
             "Area de negócio" -> negociosList.sortBy { it.areaNegocio } // Ordena por área de negócio
             "Estado" -> negociosList.sortBy { if (it.estado.isNotEmpty()) it.estado.last() else 0 } // Ordena por estado
@@ -90,9 +104,9 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
         negociosAdapter.notifyDataSetChanged()
     }
 
-    fun CriarNegocio(view: android.view.View) {
+    fun CriarNegocio(view: View) {
         val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

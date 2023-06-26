@@ -5,7 +5,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 
-open class JsonObjectRequestWithCookie (
+open class JsonObjectRequestWithCookie(
     private val ctx: Context,
     method: Int,
     url: String,

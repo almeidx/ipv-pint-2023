@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,8 @@ import com.example.pint_mobile.utils.Mensagem
 import com.example.pint_mobile.utils.listaMensagens
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "Administração de Mensagens") {
+class AdminMensagensActivity :
+    ActivityBase(R.layout.activity_admin_mensagens, "Administração de Mensagens") {
     private val mensagensList = ArrayList<Mensagem>()
     private val allMensagensList = ArrayList<Mensagem>()
     private lateinit var mensagensAdapter: MensagemAdapter
@@ -58,18 +58,21 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class MensagemAdapter(private val mensagens: ArrayList<Mensagem>, private val item: Int) : BaseAdapter() {
+    class MensagemAdapter(private val mensagens: ArrayList<Mensagem>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val mensagem = mensagens[position]
 
             val nomeMensagem = view.findViewById<TextView>(R.id.nome_mensagem)
-            val infoMensagem  = view.findViewById<TextView>(R.id.info_mensagem)
-            val conteudoMensagem  = view.findViewById<TextView>(R.id.conteudo_mensagem)
+            val infoMensagem = view.findViewById<TextView>(R.id.info_mensagem)
+            val conteudoMensagem = view.findViewById<TextView>(R.id.conteudo_mensagem)
 
             nomeMensagem.text = mensagem.nome
             conteudoMensagem.text = mensagem.conteudo
-            infoMensagem.text = "${if(mensagem.registado) "Utilizador Registado -" else "Utilizador Não Registado -"}   ${mensagem.data} "
+            infoMensagem.text =
+                "${if (mensagem.registado) "Utilizador Registado -" else "Utilizador Não Registado -"}   ${mensagem.data} "
 
             view.setOnClickListener {
                 val intent = Intent(view.context, MensagemValidarActivity::class.java)
@@ -102,6 +105,6 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
     fun CriarNovaMensagem(view: View) {
         val intent = Intent(this, ContactoActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

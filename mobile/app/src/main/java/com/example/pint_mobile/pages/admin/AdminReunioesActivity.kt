@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,14 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
 import com.example.pint_mobile.pages.admin.edit.EditarReuniaoActivity
-import com.example.pint_mobile.pages.admin.edit.EditarUtilizadorActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Reuniao
 import com.example.pint_mobile.utils.listaReunioes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Administração de Reuniões") {
+class AdminReunioesActivity :
+    ActivityBase(R.layout.activity_admin_reunioes, "Administração de Reuniões") {
     private val reunioesList = ArrayList<Reuniao>()
     private val allReunioesList = ArrayList<Reuniao>()
     private lateinit var reunioesAdapter: ReuniaoAdapter
@@ -59,21 +57,23 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ReuniaoAdapter(private val reunioes: ArrayList<Reuniao>, private val item: Int) : BaseAdapter() {
+    class ReuniaoAdapter(private val reunioes: ArrayList<Reuniao>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val reuniao = reunioes[position]
 
             val nomeReuniao = view.findViewById<TextView>(R.id.title_reuniao)
             val conteudoReuniao = view.findViewById<TextView>(R.id.conteudo_reuniao)
-            val infoReuniao  = view.findViewById<TextView>(R.id.info_reuniao)
+            val infoReuniao = view.findViewById<TextView>(R.id.info_reuniao)
 
             nomeReuniao.text = reuniao.title
             conteudoReuniao.text = reuniao.description
             infoReuniao.text = reuniao.date + " - " + reuniao.duration + ":minutos"
 
             view.setOnClickListener {
-                    val intent = Intent(view.context, EditarReuniaoActivity::class.java)
+                val intent = Intent(view.context, EditarReuniaoActivity::class.java)
 
                 intent.putExtra("dataReuniao", reuniao.date)
                 intent.putExtra("idReuniao", reuniao.id)

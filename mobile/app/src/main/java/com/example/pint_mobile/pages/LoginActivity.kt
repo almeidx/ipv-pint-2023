@@ -33,7 +33,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     private lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 9001
 
-    private var callbackManager = create();
+    private var callbackManager = create()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,39 +55,48 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             .build()
 
         callbackManager = create()
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-                val request = GraphRequest.newMeRequest(result.accessToken) { jsonObject, _ ->
-                    if (jsonObject == null) {
-                        Log.i("fbLog", "jsonObject is null")
-                        return@newMeRequest
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    val request = GraphRequest.newMeRequest(result.accessToken) { jsonObject, _ ->
+                        if (jsonObject == null) {
+                            Log.i("fbLog", "jsonObject is null")
+                            return@newMeRequest
+                        }
+
+                        val name = jsonObject.getString("name")
+                        val email = jsonObject.getString("email")
+                        val id = jsonObject.getString("id")
+
+                        facebookLogin(email, id, name, this@LoginActivity) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "O email que introduziu já se encontra registado",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
 
-                    val name = jsonObject.getString("name")
-                    val email = jsonObject.getString("email")
-                    val id = jsonObject.getString("id")
-
-                    facebookLogin(email, id, name, this@LoginActivity) {
-                        Toast.makeText(this@LoginActivity, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
-                    }
+                    val parameters = Bundle()
+                    parameters.putString("fields", "name,email")
+                    request.parameters = parameters
+                    request.executeAsync()
                 }
 
-                val parameters = Bundle()
-                parameters.putString("fields", "name,email")
-                request.parameters = parameters
-                request.executeAsync()
-            }
+                override fun onCancel() {
+                    Log.i("fbLog", "facebook:onCancel")
+                }
 
-            override fun onCancel() {
-                Log.i("fbLog", "facebook:onCancel")
-            }
+                override fun onError(error: FacebookException) {
+                    error.printStackTrace()
 
-            override fun onError(error: FacebookException) {
-                error.printStackTrace()
-
-                Toast.makeText(this@LoginActivity, "Não foi possível fazer login com Facebook. Tente novamente", Toast.LENGTH_SHORT).show()
-            }
-        })
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Não foi possível fazer login com Facebook. Tente novamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     fun loginBtn(_view: View) {
@@ -117,7 +126,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             } else {
                 deleteAuthData(this)
             }
-        })  {
+        }) {
             emailInput.setBackgroundResource(R.drawable.edittext_red_border)
             passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
         }
@@ -134,7 +143,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             val result = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleLogin(result)
         } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -145,12 +154,20 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
             val name = result.result.displayName
 
             googleLogin(account!!.name, id!!, name!!, this) {
-                Toast.makeText(this, "O email que introduziu já se encontra registado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "O email que introduziu já se encontra registado",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else {
             result.exception?.printStackTrace()
 
-            Toast.makeText(this, "Não foi possível fazer login com Google. Tente novamente", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Não foi possível fazer login com Google. Tente novamente",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -175,6 +192,6 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     fun aindaNaoTemConta(_view: View) {
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

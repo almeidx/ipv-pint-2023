@@ -17,7 +17,8 @@ import com.example.pint_mobile.utils.listaTipoUtilizador
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.properties.Delegates
 
-class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizador, "Editar Utilizador") {
+class EditarUtilizadorActivity :
+    ActivityBase(R.layout.activity_editar_utilizador, "Editar Utilizador") {
     lateinit var cargo: String
     var disable by Delegates.notNull<Boolean>()
     private var id by Delegates.notNull<Int>()
@@ -33,10 +34,12 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
         disable = intent.getBooleanExtra("disable", false)
 
 
-        val nomeEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.NomeUtilizadorEdit)
+        val nomeEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.NomeUtilizadorEdit)
         nomeEdit.setText(nome)
 
-        val emailEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.EmailUtilizadorEdit)
+        val emailEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.EmailUtilizadorEdit)
         emailEdit.setText(email)
 
         val disableEdit = findViewById<Button>(R.id.DesativarUtilizador)
@@ -60,7 +63,12 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 cargo = selectedItem
             }
@@ -81,7 +89,7 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
     fun editarUser(view: View) {
         val spinner = findViewById<Spinner>(R.id.cargos)
 
-        val cargoId =  tiposUser.find {
+        val cargoId = tiposUser.find {
             it.nome == cargo
         }!!.Id
 
@@ -92,15 +100,15 @@ class EditarUtilizadorActivity : ActivityBase(R.layout.activity_editar_utilizado
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Confimação")
-        if(disable)
-                builder.setMessage("Tem a certeza que pretende ativar este utilizador?")
+        if (disable)
+            builder.setMessage("Tem a certeza que pretende ativar este utilizador?")
         else
             builder.setMessage("Tem a certeza que pretende desativar este utilizador?")
 
         builder.setPositiveButton("Sim") { dialog, which ->
             disable = !disable
             val user = 0
-            desativarUser(id, disable, user,this){
+            desativarUser(id, disable, user, this) {
                 finish()
             }
         }

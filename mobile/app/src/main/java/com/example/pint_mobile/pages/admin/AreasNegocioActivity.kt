@@ -10,14 +10,14 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarAreaNegocioActivity
-import com.example.pint_mobile.pages.admin.edit.VagasEditActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.deleteAreaNegocio
 import com.example.pint_mobile.utils.listaAreas
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AreasNegocioActivity : ActivityBase(R.layout.activity_areas_negocio, "Administração Areas Negócio"){
+class AreasNegocioActivity :
+    ActivityBase(R.layout.activity_areas_negocio, "Administração Areas Negócio") {
 
     private val areasList = ArrayList<AreaNegocio>()
     private val allAreasList = ArrayList<AreaNegocio>()
@@ -38,20 +38,22 @@ class AreasNegocioActivity : ActivityBase(R.layout.activity_areas_negocio, "Admi
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class AreasAdapter(private val areas: ArrayList<AreaNegocio>, private val item: Int) : BaseAdapter() {
+    class AreasAdapter(private val areas: ArrayList<AreaNegocio>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val area = areas[position]
 
-            val tituloVaga  = view.findViewById<TextView>(R.id.titulo_area)
+            val tituloVaga = view.findViewById<TextView>(R.id.titulo_area)
             val informacoesVaga = view.findViewById<TextView>(R.id.id_area)
 
             tituloVaga.text = area.nome
             informacoesVaga.text = area.id.toString()
 
             view.setOnClickListener {
-                   deleteAreaNegocio(area.id, view.context)
-                }
+                deleteAreaNegocio(area.id, view.context)
+            }
 
             return view
         }

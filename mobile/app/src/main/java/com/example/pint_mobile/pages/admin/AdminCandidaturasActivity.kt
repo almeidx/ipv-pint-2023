@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +14,11 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.EditarCandidaturaActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Candidatura
-import com.example.pint_mobile.utils.formatDateComHoras
-import com.example.pint_mobile.utils.formatDateSemHoras
 import com.example.pint_mobile.utils.listaCandidaturas
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidaturas, "Administração de Candidaturas") {
+class AdminCandidaturasActivity :
+    ActivityBase(R.layout.activity_admin_candidaturas, "Administração de Candidaturas") {
     private val candidaturasList = ArrayList<Candidatura>()
     private val allCandidaturasList = ArrayList<Candidatura>()
     private lateinit var candidaturasAdapter: CandidaturaAdapter
@@ -60,9 +58,13 @@ class AdminCandidaturasActivity : ActivityBase(R.layout.activity_admin_candidatu
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class CandidaturaAdapter(private val candidaturas: ArrayList<Candidatura>, private val item: Int) : BaseAdapter() {
+    class CandidaturaAdapter(
+        private val candidaturas: ArrayList<Candidatura>,
+        private val item: Int
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val candidatura = candidaturas[position]
 
             val nomeCandidatura = view.findViewById<TextView>(R.id.nome_candidatura)

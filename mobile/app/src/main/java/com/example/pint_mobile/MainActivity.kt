@@ -4,12 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.getCookieValue
-import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.getReporting
 import com.example.pint_mobile.utils.getUserInfo
 import com.facebook.FacebookSdk
@@ -51,9 +48,15 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
 
             reportingCard(data, "negócios", R.id.negocios, R.id.negociosBtn, "Negócios: ")
 
-            reportingCard(data, "utilizadores", R.id.utilizadores, R.id.utilizadoresBtn, "Utilizadores: ")
+            reportingCard(
+                data,
+                "utilizadores",
+                R.id.utilizadores,
+                R.id.utilizadoresBtn,
+                "Utilizadores: "
+            )
 
-            reportingCard(data,"vagas", R.id.vagas, R.id.vagasBtn, "Vagas: ")
+            reportingCard(data, "vagas", R.id.vagas, R.id.vagasBtn, "Vagas: ")
 
             val vagaData = data.getJSONObject("vagas")
             val negociosData = data.getJSONObject("negócios")
@@ -69,14 +72,18 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
                 for (i in 0 until labelsArray.length()) {
                     val label = labelsArray.getString(i)
                     val data_ = dataArray.getInt(i).toFloat()
-                    pieEntries.add(PieEntry(data_, when (label) {
-                        "0" -> "Em espera"
-                        "1" -> "A validar"
-                        "2" -> "Em desenvolvimento"
-                        "3" -> "Em conclusão"
-                        "4" -> "Concluído"
-                        else -> "Cancelado"
-                    }))
+                    pieEntries.add(
+                        PieEntry(
+                            data_, when (label) {
+                                "0" -> "Em espera"
+                                "1" -> "A validar"
+                                "2" -> "Em desenvolvimento"
+                                "3" -> "Em conclusão"
+                                "4" -> "Concluído"
+                                else -> "Cancelado"
+                            }
+                        )
+                    )
                 }
 
                 val pieDataSet = PieDataSet(pieEntries, "Negócios")
@@ -126,7 +133,13 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun reportingCard(data: JSONObject, key: String, viewId: Int, btnId: Int, prefix: String) {
+    private fun reportingCard(
+        data: JSONObject,
+        key: String,
+        viewId: Int,
+        btnId: Int,
+        prefix: String
+    ) {
         val reportingData = data.getJSONObject(key)
         val view = findViewById<TextView>(viewId)
         val btn = findViewById<TextView>(btnId)
@@ -142,14 +155,17 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
                     view.text = prefix + reportingData.getInt("total").toString()
                     btn.text = "Total"
                 }
+
                 1 -> {
                     view.text = prefix + reportingData.getInt("today").toString()
                     btn.text = "Hoje"
                 }
+
                 2 -> {
                     view.text = prefix + reportingData.getInt("lastWeek").toString()
                     btn.text = "Semanal"
                 }
+
                 3 -> {
                     view.text = prefix + reportingData.getInt("lastMonth").toString()
                     btn.text = "Mensal"

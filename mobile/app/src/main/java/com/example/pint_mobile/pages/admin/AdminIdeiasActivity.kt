@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,8 @@ import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.listaIdeias
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Administração de Ideias") {
+class AdminIdeiasActivity :
+    ActivityBase(R.layout.activity_admin_ideias, "Administração de Ideias") {
     private val ideiasList = ArrayList<Ideia>()
     private val allIdeiasList = ArrayList<Ideia>()
     private lateinit var ideiasAdapter: IdeiaAdapter
@@ -58,12 +58,14 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class IdeiaAdapter(private val ideias: ArrayList<Ideia>, private val item: Int) : BaseAdapter() {
+    class IdeiaAdapter(private val ideias: ArrayList<Ideia>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val ideia = ideias[position]
 
-            val nomeIdeia  = view.findViewById<TextView>(R.id.titulo_ideia)
+            val nomeIdeia = view.findViewById<TextView>(R.id.titulo_ideia)
             val categoriaIdeia = view.findViewById<TextView>(R.id.categoria)
             val criadorIdeia = view.findViewById<TextView>(R.id.criador)
             val dataIdeia = view.findViewById<TextView>(R.id.data_criacao)
@@ -105,6 +107,6 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
     fun CriarIdeia(view: View) {
         val intent = Intent(this, IdeiasActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

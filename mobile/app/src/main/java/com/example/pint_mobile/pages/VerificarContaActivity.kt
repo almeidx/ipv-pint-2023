@@ -10,7 +10,7 @@ class VerificarContaActivity : ActivityBase(R.layout.activity_verificar_conta) {
     fun submeterCodigo(_view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
     fun reenviarCodigo() {

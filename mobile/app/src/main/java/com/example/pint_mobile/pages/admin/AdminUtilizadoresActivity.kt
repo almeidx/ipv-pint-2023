@@ -3,12 +3,10 @@ package com.example.pint_mobile.pages.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -21,7 +19,8 @@ import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.listaUtilizadores
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizadores, "Administração de Utilizadores") {
+class AdminUtilizadoresActivity :
+    ActivityBase(R.layout.activity_admin_utilizadores, "Administração de Utilizadores") {
     private val utilizadoresList = ArrayList<Utilizador>()
     private val allUtilizadoresList = ArrayList<Utilizador>()
     private lateinit var utilizadoresAdapter: UtilizadorAdapter
@@ -60,12 +59,22 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class UtilizadorAdapter(private val utilizadores: ArrayList<Utilizador>, private val item: Int, private val fromReuniao: Boolean = false, private val users: ArrayList<String> = ArrayList(), private val userIds: ArrayList<Int> = ArrayList(), private val negocioId: ArrayList<Int> = ArrayList(), private val candidaturaId: ArrayList<Int> = ArrayList(), private val data: ArrayList<String> = ArrayList()) : BaseAdapter() {
+    class UtilizadorAdapter(
+        private val utilizadores: ArrayList<Utilizador>,
+        private val item: Int,
+        private val fromReuniao: Boolean = false,
+        private val users: ArrayList<String> = ArrayList(),
+        private val userIds: ArrayList<Int> = ArrayList(),
+        private val negocioId: ArrayList<Int> = ArrayList(),
+        private val candidaturaId: ArrayList<Int> = ArrayList(),
+        private val data: ArrayList<String> = ArrayList()
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val utilizador = utilizadores[position]
 
-            val nomeUtilizador  = view.findViewById<TextView>(R.id.nome_utilizador)
+            val nomeUtilizador = view.findViewById<TextView>(R.id.nome_utilizador)
             val emailUtilizador = view.findViewById<TextView>(R.id.email_utilizador)
             val tipoUtilizador = view.findViewById<TextView>(R.id.tipoUtilizador)
 
@@ -75,14 +84,14 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
 
             Log.i("negocioId", negocioId.toString())
 
-            if(fromReuniao) {
+            if (fromReuniao) {
                 view.setOnClickListener {
                     val intent = Intent(view.context, CriarReuniaoActivity::class.java)
 
                     users.add(utilizador.nome)
                     userIds.add(utilizador.id)
 
-                    intent.putExtra("users",  users)
+                    intent.putExtra("users", users)
                     intent.putExtra("userIds", userIds)
                     intent.putExtra("negocioId", negocioId)
                     intent.putExtra("candidaturaId", candidaturaId)
@@ -90,7 +99,7 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
 
                     view.context.startActivity(intent)
                 }
-            }else {
+            } else {
 
                 view.setOnClickListener {
                     val intent = Intent(view.context, EditarUtilizadorActivity::class.java)

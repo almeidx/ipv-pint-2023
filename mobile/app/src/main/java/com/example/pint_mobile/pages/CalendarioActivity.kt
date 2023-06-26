@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Evento
 import com.example.pint_mobile.utils.formatDateComHoras
-import com.example.pint_mobile.utils.formatDateSemHoras
 import com.example.pint_mobile.utils.listaEventos
 import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.Calendar
 
 class CalendarioActivity : ActivityBase(R.layout.activity_calendario, "Calendario") {
 

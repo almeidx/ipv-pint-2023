@@ -1,6 +1,6 @@
 package com.example.pint_mobile.utils
 
-class Mensagem ( name: String, content: String, date: String, registed: Boolean, Id: Int){
+class Mensagem(name: String, content: String, date: String, registed: Boolean, Id: Int) {
 
     val nome = name
     val conteudo = content

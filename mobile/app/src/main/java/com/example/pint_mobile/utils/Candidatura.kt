@@ -1,6 +1,6 @@
 package com.example.pint_mobile.utils
 
-class Candidatura (id:Int, nome: String, title: String, date: String) {
+class Candidatura(id: Int, nome: String, title: String, date: String) {
     val nome = nome
     val titulo = title
     val data = date

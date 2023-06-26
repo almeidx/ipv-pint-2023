@@ -7,23 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.CentroTrabalho
 import com.example.pint_mobile.utils.editNegocio
 import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.listarCentroTrabalho
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.Date
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import kotlin.properties.Delegates
 
@@ -48,8 +45,8 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         val centroTrabalhoName = intent.getStringExtra("centroTrabalho")
         val funcResponsavel = intent.getStringExtra("funcResponsavel")
 
-         nome = intent.getStringExtra("cliente").toString()
-         titulo = intent.getStringExtra("titulo").toString()
+        nome = intent.getStringExtra("cliente").toString()
+        titulo = intent.getStringExtra("titulo").toString()
 
         val funcionarioResponsavel = findViewById<TextView>(R.id.FuncionarioResponsavelNegocioEdit)
         funcionarioResponsavel.text = funcResponsavel
@@ -75,10 +72,16 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position) as CentroTrabalho
                 centroTrabalhoId = selectedItem.id
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
@@ -88,14 +91,15 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
             utilizadorId = user?.id!!
 
 
-            funcionarioResponsavel.text = user?.name
+            funcionarioResponsavel.text = user.name
         }
 
         getEstado = intent.getIntegerArrayListExtra("estado")!!
         getData = intent.getStringArrayListExtra("data")!!
 
         getEstado.sort()
-        val outputDateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val outputDateTimeFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
         val currentDate = Date()
 
         Log.i("estado", getEstado.toString())
@@ -111,17 +115,17 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
 
         idNegocio = intent.getIntExtra("id", -1)
 
-        val estado = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
+        val estado =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.estadoDoNegocioEdit)
         estado.setText(items[if (getEstado.size == 0) 0 else getEstado.size - 1])
 
         val setNextState = findViewById<Button>(R.id.setNextStatex)
         setNextState.setOnClickListener {
             val atual = if (getEstado.size == 0) 0 else getEstado.size
 
-            if (atual == 5){
+            if (atual == 5) {
                 return@setOnClickListener
-            }else
-            {
+            } else {
                 getEstado.add(atual)
             }
 
@@ -158,7 +162,11 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val rowView = inflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false)
+            val rowView = inflater.inflate(
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                parent,
+                false
+            )
 
             val centroTrabalho = getItem(position) as CentroTrabalho
 
@@ -171,10 +179,13 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
     }
 
     fun goToCriarReuniao(view: View) {
-        val intent = android.content.Intent(this, com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity::class.java)
+        val intent = android.content.Intent(
+            this,
+            CriarReuniaoActivity::class.java
+        )
         intent.putExtra("idNegocio", idNegocio)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
     fun editarNegocioX(view: View) {
@@ -192,7 +203,7 @@ class EditNegocioActivity : ActivityBase(R.layout.activity_edit_negocio, "Editar
         Log.i("centroTrabalhoId", centroTrabalhoId.toString())
         Log.i("utilizadorId", utilizadorId?.toString() ?: "nada")
 
-        editNegocio( idNegocio, juntaArray, centroTrabalhoId, utilizadorId,  this)
+        editNegocio(idNegocio, juntaArray, centroTrabalhoId, utilizadorId, this)
     }
 
 }

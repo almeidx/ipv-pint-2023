@@ -1,10 +1,8 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +12,13 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Cliente
-import com.example.pint_mobile.utils.Ideia
 import com.example.pint_mobile.utils.listaClientes
-import com.example.pint_mobile.utils.listaIdeias
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar_cliente_negocio, "Adicionar Cliente") {
+class AdicionarClienteNegocioActivity :
+    ActivityBase(R.layout.activity_adicionar_cliente_negocio, "Adicionar Cliente") {
     private val clientesList = ArrayList<Cliente>()
     private val allClientesList = ArrayList<Cliente>()
     private lateinit var clientesAdapter: ClienteAdapter
@@ -67,12 +63,18 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ClienteAdapter(private val clientes: ArrayList<Cliente>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList()) : BaseAdapter() {
+    class ClienteAdapter(
+        private val clientes: ArrayList<Cliente>,
+        private val item: Int,
+        private val clienteNome: ArrayList<String> = ArrayList(),
+        private val clienteIds: ArrayList<Int> = ArrayList()
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val cliente = clientes[position]
 
-            val nomeCliente  = view.findViewById<TextView>(R.id.NomeCliente)
+            val nomeCliente = view.findViewById<TextView>(R.id.NomeCliente)
             val idCliente = view.findViewById<TextView>(R.id.idCliente)
 
             nomeCliente.text = cliente.nome
@@ -122,7 +124,7 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
         intent.putExtra("clienteIds", intent.getIntegerArrayListExtra("clienteIds"))
 
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
 }

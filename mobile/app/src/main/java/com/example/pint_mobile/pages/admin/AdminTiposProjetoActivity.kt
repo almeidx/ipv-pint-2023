@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +9,15 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.edit.CriarAreaNegocioActivity
 import com.example.pint_mobile.pages.admin.edit.CriarTiposProjetoActivity
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.AreaNegocio
 import com.example.pint_mobile.utils.TipoProjeto
-import com.example.pint_mobile.utils.deleteAreaNegocio
 import com.example.pint_mobile.utils.deleteTipoProjeto
-import com.example.pint_mobile.utils.listaAreas
 import com.example.pint_mobile.utils.listaTipoProjeto
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminTiposProjetoActivity : ActivityBase(R.layout.activity_admin_tipos_projeto, "Administração Tipos de Projeto")  {
+class AdminTiposProjetoActivity :
+    ActivityBase(R.layout.activity_admin_tipos_projeto, "Administração Tipos de Projeto") {
 
     private val projetosList = ArrayList<TipoProjeto>()
     private val allProjetosList = ArrayList<TipoProjeto>()
@@ -42,12 +38,14 @@ class AdminTiposProjetoActivity : ActivityBase(R.layout.activity_admin_tipos_pro
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ProjetosAdapter(private val projetos: ArrayList<TipoProjeto>, private val item: Int) : BaseAdapter() {
+    class ProjetosAdapter(private val projetos: ArrayList<TipoProjeto>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val projeto = projetos[position]
 
-            val tituloVaga  = view.findViewById<TextView>(R.id.titulo_projeto)
+            val tituloVaga = view.findViewById<TextView>(R.id.titulo_projeto)
             val informacoesVaga = view.findViewById<TextView>(R.id.id_projeto)
 
             tituloVaga.text = projeto.nome

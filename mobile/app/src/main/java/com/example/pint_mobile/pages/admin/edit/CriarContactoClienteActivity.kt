@@ -1,19 +1,16 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.createClient
 import com.example.pint_mobile.utils.createContactoClient
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class CriarContactoClienteActivity : ActivityBase(R.layout.activity_criar_negocio, "Criar Contacto") {
+class CriarContactoClienteActivity :
+    ActivityBase(R.layout.activity_criar_negocio, "Criar Contacto") {
 
     private lateinit var clientNames: ArrayList<String>
     private lateinit var clienteIds: ArrayList<Int>
@@ -42,7 +39,16 @@ class CriarContactoClienteActivity : ActivityBase(R.layout.activity_criar_negoci
 
         val type = if (EmailcheckBox.isChecked) 0 else 1
 
-        createContactoClient(clienteID , type, contacto, clientNames, clienteIds, contactoIds, contactoNames,this)
+        createContactoClient(
+            clienteID,
+            type,
+            contacto,
+            clientNames,
+            clienteIds,
+            contactoIds,
+            contactoNames,
+            this
+        )
     }
 
 }

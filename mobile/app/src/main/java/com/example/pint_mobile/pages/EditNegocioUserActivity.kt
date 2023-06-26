@@ -13,12 +13,12 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.AreaNegocio
-import com.example.pint_mobile.utils.CentroTrabalho
 import com.example.pint_mobile.utils.editNegocioUser
 import com.example.pint_mobile.utils.listarAreasNegocio
 import kotlin.properties.Delegates
 
-class EditNegocioUserActivity : ActivityBase(R.layout.activity_edit_negocio_user, "Editar Negócio") {
+class EditNegocioUserActivity :
+    ActivityBase(R.layout.activity_edit_negocio_user, "Editar Negócio") {
 
     var areaNegocioId by Delegates.notNull<Int>()
 
@@ -91,7 +91,7 @@ class EditNegocioUserActivity : ActivityBase(R.layout.activity_edit_negocio_user
 
         } else
 
-        Log.i("estadosList", estadosList.toString())
+            Log.i("estadosList", estadosList.toString())
         Log.i("idNegocio", idNegocio.toString())
         Log.i("titulo", titulo.toString())
         Log.i("descricao", descricao.toString())
@@ -125,10 +125,16 @@ class EditNegocioUserActivity : ActivityBase(R.layout.activity_edit_negocio_user
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position) as AreaNegocio
                 areaNegocioId = selectedItem.id
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
@@ -149,22 +155,22 @@ class EditNegocioUserActivity : ActivityBase(R.layout.activity_edit_negocio_user
         adapter.notifyDataSetChanged()
     }
 
-   fun editarNegocioUser(view: View) {
-       val tituloEdit = findViewById<EditText>(R.id.tituloDoNegocioEdit)
-       val descricaoEdit = findViewById<EditText>(R.id.descricaoDoNegocioEdit)
+    fun editarNegocioUser(view: View) {
+        val tituloEdit = findViewById<EditText>(R.id.tituloDoNegocioEdit)
+        val descricaoEdit = findViewById<EditText>(R.id.descricaoDoNegocioEdit)
 
-       val titulo = tituloEdit.text.toString()
-       val descricao = descricaoEdit.text.toString()
+        val titulo = tituloEdit.text.toString()
+        val descricao = descricaoEdit.text.toString()
 
-       editNegocioUser(
-           idNegocio,
-           titulo,
-           descricao,
-           areaNegocioId,
-           necessidades,
-           this
-       )
-   }
+        editNegocioUser(
+            idNegocio,
+            titulo,
+            descricao,
+            areaNegocioId,
+            necessidades,
+            this
+        )
+    }
 
 
 }

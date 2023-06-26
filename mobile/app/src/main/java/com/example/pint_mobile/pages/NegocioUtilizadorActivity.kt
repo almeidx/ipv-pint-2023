@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,12 @@ import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.CriarNegocioActivity
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.Negocio
 import com.example.pint_mobile.utils.NegocioUser
 import com.example.pint_mobile.utils.listaNegociosUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utilizador, "Oportunidades") {
+class NegocioUtilizadorActivity :
+    ActivityBase(R.layout.activity_negocio_utilizador, "Oportunidades") {
     private val negociosList = ArrayList<NegocioUser>()
     private val allNegociosList = ArrayList<NegocioUser>()
     private lateinit var negociosAdapter: NegocioAdapter
@@ -60,34 +59,37 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class NegocioAdapter(private val negocios: ArrayList<NegocioUser>, private val item: Int) : BaseAdapter() {
+    class NegocioAdapter(private val negocios: ArrayList<NegocioUser>, private val item: Int) :
+        BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val negocio = negocios[position]
 
-            val tituloNegocio  = view.findViewById<TextView>(R.id.titulo_negocio)
+            val tituloNegocio = view.findViewById<TextView>(R.id.titulo_negocio)
             val descricaoNegocio = view.findViewById<TextView>(R.id.descricao_negocio)
             val clienteNegocio = view.findViewById<TextView>(R.id.cliente_negocio)
 
             tituloNegocio.text = negocio.titulo
-            descricaoNegocio.text = negocio.areaNegocio + ": " +  negocio.descricao
+            descricaoNegocio.text = negocio.areaNegocio + ": " + negocio.descricao
             clienteNegocio.text = negocio.cliente
 
             view.setOnClickListener {
-                    val intent = Intent(view.context, EditNegocioUserActivity::class.java)
+                val intent = Intent(view.context, EditNegocioUserActivity::class.java)
 
 
-                    intent.putExtra("idNegocio", negocio.id)
-                    intent.putExtra("titulo", negocio.titulo)
-                    intent.putExtra("descricao", negocio.descricao)
-                    intent.putExtra("areaNegocio", negocio.areaNegocio)
-                    intent.putExtra("estadosList", negocio.estados)
-                    intent.putExtra("necessidades", negocio.necessidades)
+                intent.putExtra("idNegocio", negocio.id)
+                intent.putExtra("titulo", negocio.titulo)
+                intent.putExtra("descricao", negocio.descricao)
+                intent.putExtra("areaNegocio", negocio.areaNegocio)
+                intent.putExtra("estadosList", negocio.estados)
+                intent.putExtra("necessidades", negocio.necessidades)
 
-                    view.context.startActivity(intent)
-                }
+                view.context.startActivity(intent)
+            }
             return view
         }
+
         override fun getItem(position: Int): NegocioUser {
             return negocios[position]
         }
@@ -113,8 +115,7 @@ class NegocioUtilizadorActivity : ActivityBase(R.layout.activity_negocio_utiliza
     }
 
 
-
-    fun CriarNegocio(view: android.view.View) {
+    fun CriarNegocio(view: View) {
         val intent = Intent(this, CriarNegocioActivity::class.java)
         startActivity(intent)
     }

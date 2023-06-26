@@ -12,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
-import com.example.pint_mobile.utils.deleteVaga
 import com.example.pint_mobile.utils.editVaga
 import com.example.pint_mobile.utils.uploadFile
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -103,7 +102,8 @@ class VagasEditActivity : ActivityBase(R.layout.activity_vagas_edit, "Editar Vag
     fun editarVaga(view: View) {
         val titulo = findViewById<TextInputEditText>(R.id.tituloVagaEdit).text.toString()
         val descricao = findViewById<TextInputEditText>(R.id.descricaoVagaEdit).text.toString()
-        val numeroVagas = findViewById<TextInputEditText>(R.id.numeroVagasEdit).text.toString().toInt()
+        val numeroVagas =
+            findViewById<TextInputEditText>(R.id.numeroVagasEdit).text.toString().toInt()
         val publico = findViewById<CheckBox>(R.id.checkBoxVaga).isChecked.not()
         val toggleButton = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton2)
 

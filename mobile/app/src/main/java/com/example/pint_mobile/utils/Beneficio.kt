@@ -1,6 +1,12 @@
 package com.example.pint_mobile.utils
 
-class Beneficio(shortContent: String, content: String, val id: Int, dataValidade: String, Icon: String) {
+class Beneficio(
+    shortContent: String,
+    content: String,
+    val id: Int,
+    dataValidade: String,
+    Icon: String
+) {
     val titulo = shortContent
     val descricao = content
     val dataValidade = dataValidade

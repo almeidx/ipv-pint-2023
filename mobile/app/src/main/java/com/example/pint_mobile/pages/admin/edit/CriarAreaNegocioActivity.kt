@@ -1,6 +1,5 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,13 +7,10 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createAreaNegocio
 
-class CriarAreaNegocioActivity :  ActivityBase(R.layout.activity_criar_area_negocio, "Criar Area Negócio") {
+class CriarAreaNegocioActivity :
+    ActivityBase(R.layout.activity_criar_area_negocio, "Criar Area Negócio") {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    fun criarAreaNegocio(view: View){
+    fun criarAreaNegocio(view: View) {
         val nome = findViewById<android.widget.EditText>(R.id.tituloAreaNegocioCriar)
 
         val nomeString = nome.text.toString()

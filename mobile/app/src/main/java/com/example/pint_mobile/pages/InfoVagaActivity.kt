@@ -47,13 +47,12 @@ class InfoVagaActivity : ActivityBase(R.layout.activity_info_vaga, "Informação
 
 
         VagaInscricao.setOnClickListener {
-            if ( user == null ){
+            if (user == null) {
                 Toast.makeText(this, "Inicie sessão para se candidatar.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                overridePendingTransition(0, 0);
-            }
-            else{
+                overridePendingTransition(0, 0)
+            } else {
                 val intent = Intent(this, RefEmailVagaActivity::class.java)
                 intent.putExtra("idVaga", idVaga)
                 startActivity(intent)

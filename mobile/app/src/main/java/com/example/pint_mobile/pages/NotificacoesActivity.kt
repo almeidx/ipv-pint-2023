@@ -1,6 +1,5 @@
 package com.example.pint_mobile.pages
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.Notificacao
 import com.example.pint_mobile.utils.formatDate
-import com.example.pint_mobile.utils.getCurrentUser
 import com.example.pint_mobile.utils.listaNotificacoes
 import com.example.pint_mobile.utils.marcarTodasNotiLidas
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,9 +38,13 @@ class NotificacoesActivity : ActivityBase(R.layout.activity_notificacoes, "Notif
         nav.menu.findItem(R.id.notificacoes).isChecked = true
     }
 
-    class NotificacaoAdapter(private val notificacoes: ArrayList<Notificacao>, private val item: Int) : BaseAdapter() {
+    class NotificacaoAdapter(
+        private val notificacoes: ArrayList<Notificacao>,
+        private val item: Int
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val notificacao = notificacoes[position]
 
             val tituloNotificacao = view.findViewById<TextView>(R.id.titulo_notificacao)

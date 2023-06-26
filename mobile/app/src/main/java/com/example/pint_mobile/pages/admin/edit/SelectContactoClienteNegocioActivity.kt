@@ -1,10 +1,8 @@
 package com.example.pint_mobile.pages.admin.edit
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,8 @@ import com.example.pint_mobile.utils.listaContactosCliente
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.properties.Delegates
 
-class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_select_contacto_cliente_negocio, "Selecionar Contacto") {
+class SelectContactoClienteNegocioActivity :
+    ActivityBase(R.layout.activity_select_contacto_cliente_negocio, "Selecionar Contacto") {
 
     private val contactosList = ArrayList<Contacto>()
     private val allContactosList = ArrayList<Contacto>()
@@ -60,14 +59,13 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
             intent.getStringArrayListExtra("necessidades")!!,
         )
 
-        if (clienteIds.isEmpty())
-        {
+        if (clienteIds.isEmpty()) {
             val intent = Intent(this, CriarNegocioActivity::class.java)
             Toast.makeText(this, "Selecione um cliente primeiro", Toast.LENGTH_SHORT).show()
             startActivity(intent)
-            overridePendingTransition(0, 0);
+            overridePendingTransition(0, 0)
         } else {
-            idCliente  = clienteIds[0]
+            idCliente = clienteIds[0]
         }
 
 
@@ -76,7 +74,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
 
         lista.adapter = contactosAdapter
 
-        listaContactosCliente(contactosList, allContactosList, contactosAdapter,this, idCliente)
+        listaContactosCliente(contactosList, allContactosList, contactosAdapter, this, idCliente)
 
         val search = findViewById<EditText>(R.id.pesquisa)
         search.setOnEditorActionListener { _, actionId, event ->
@@ -102,9 +100,18 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         nav.menu.findItem(R.id.mais).isChecked = true
     }
 
-    class ContactosAdapter(private val contactos: ArrayList<Contacto>, private val item: Int, private val clienteNome: ArrayList<String> = ArrayList(), private val clienteIds: ArrayList<Int> = ArrayList(), private val contactoIds: ArrayList<Int> = ArrayList(),  private val contactoNames: ArrayList<String> = ArrayList(),private val necessidades: ArrayList<String> = ArrayList() ) : BaseAdapter(){
+    class ContactosAdapter(
+        private val contactos: ArrayList<Contacto>,
+        private val item: Int,
+        private val clienteNome: ArrayList<String> = ArrayList(),
+        private val clienteIds: ArrayList<Int> = ArrayList(),
+        private val contactoIds: ArrayList<Int> = ArrayList(),
+        private val contactoNames: ArrayList<String> = ArrayList(),
+        private val necessidades: ArrayList<String> = ArrayList()
+    ) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
+            val view =
+                convertView ?: LayoutInflater.from(parent?.context).inflate(item, parent, false)
             val contacto = contactos[position]
 
             val idClienteContacto = view.findViewById<TextView>(R.id.idCliente)
@@ -165,7 +172,7 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         intent.putExtra("contactoNames", contactoNames)
 
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
 }

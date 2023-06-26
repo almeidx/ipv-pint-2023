@@ -1,18 +1,9 @@
 package com.example.pint_mobile.pages.admin.edit
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
 import com.example.pint_mobile.utils.ActivityBase

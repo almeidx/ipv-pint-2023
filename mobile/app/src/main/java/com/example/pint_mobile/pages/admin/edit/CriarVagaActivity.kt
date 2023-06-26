@@ -7,10 +7,8 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.Toast
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.AdminVagasActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.createVaga
 import com.example.pint_mobile.utils.uploadFile
@@ -69,7 +67,8 @@ class CriarVagaActivity : ActivityBase(R.layout.activity_criar_vaga, "Criar Vaga
         val descricao = findViewById<TextInputEditText>(R.id.descricaoVagaCriar)
         val numeroVagas = findViewById<TextInputEditText>(R.id.numeroVagasCriar)
         val publico = !findViewById<CheckBox>(R.id.checkBoxVaga2).isChecked
-        val status = findViewById<MaterialButtonToggleGroup>(R.id.toggleButton).checkedButtonId == R.id.aberta
+        val status =
+            findViewById<MaterialButtonToggleGroup>(R.id.toggleButton).checkedButtonId == R.id.aberta
 
         val statusInt = if (status) 0 else 1
 
@@ -81,7 +80,9 @@ class CriarVagaActivity : ActivityBase(R.layout.activity_criar_vaga, "Criar Vaga
         } else if (descricao.text.toString().isEmpty()) {
             descricao.setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "Descrição não pode estar vazia"
-        } else if (numeroVagas.text.toString().isEmpty() || numeroVagas.text.toString().toInt() <= 0) {
+        } else if (numeroVagas.text.toString().isEmpty() || numeroVagas.text.toString()
+                .toInt() <= 0
+        ) {
             numeroVagas.setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "Número de vagas não pode estar vazio e tem de ser maior que 0"
         } else if (icone == null) {
@@ -95,7 +96,15 @@ class CriarVagaActivity : ActivityBase(R.layout.activity_criar_vaga, "Criar Vaga
             return
         }
 
-        createVaga(titulo.text.toString(), descricao.text.toString(), numeroVagas.text.toString().toInt(), publico, statusInt, icone!!, this)
+        createVaga(
+            titulo.text.toString(),
+            descricao.text.toString(),
+            numeroVagas.text.toString().toInt(),
+            publico,
+            statusInt,
+            icone!!,
+            this
+        )
     }
 
     fun cancelarVaga(_view: View) {

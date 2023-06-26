@@ -4,14 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.BeneficiosActivity
-import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.deleteBeneficio
 import com.example.pint_mobile.utils.editBeneficio
@@ -65,7 +62,6 @@ class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "
             val imageUri = data.data
 
 
-
             val criarBtn = findViewById<Button>(R.id.EditarBeneficio)
             criarBtn.isEnabled = false
 
@@ -84,11 +80,11 @@ class BeneficiosEditActivity : ActivityBase(R.layout.activity_beneficios_edit, "
         }
     }
 
-    fun removerBeneficio(_view: View){
+    fun removerBeneficio(_view: View) {
         deleteBeneficio(id, this)
     }
 
-    fun editarBeneficio(_view: View){
+    fun editarBeneficio(_view: View) {
         val tituloTextView = findViewById<TextInputEditText>(R.id.tituloBeneficioEdit)
         val descricaoTextView = findViewById<TextInputEditText>(R.id.descricaoBeneficioEdit)
         val dataValidadeTextView = findViewById<TextInputEditText>(R.id.dataValidadeBeneficioEdit)

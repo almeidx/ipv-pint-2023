@@ -17,15 +17,14 @@ import com.example.pint_mobile.pages.ContactoActivity
 import com.example.pint_mobile.pages.IdeiasActivity
 import com.example.pint_mobile.pages.LoginActivity
 import com.example.pint_mobile.pages.NegocioUtilizadorActivity
-import com.example.pint_mobile.pages.NegociosActivity
 import com.example.pint_mobile.pages.NotificacoesActivity
 import com.example.pint_mobile.pages.PerfilActivity
 import com.example.pint_mobile.pages.VagasActivity
-import com.example.pint_mobile.pages.admin.edit.CriarReuniaoActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-open class ActivityBase(private val layout: Int, private val title: String? = null) : AppCompatActivity() {
+open class ActivityBase(private val layout: Int, private val title: String? = null) :
+    AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout)
@@ -48,18 +47,21 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                 R.id.inicio -> {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    overridePendingTransition(0, 0);
+                    overridePendingTransition(0, 0)
                     true
                 }
+
                 R.id.notificacoes -> {
                     val intent = Intent(this, NotificacoesActivity::class.java)
                     startActivity(intent)
-                    overridePendingTransition(0, 0);
+                    overridePendingTransition(0, 0)
                     true
                 }
+
                 R.id.mais -> {
                     val bottomSheetDialog = BottomSheetDialog(this)
-                    val bottomSheetView = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_dialog, null)
+                    val bottomSheetView =
+                        LayoutInflater.from(this).inflate(R.layout.bottom_sheet_dialog, null)
                     val icon1 = bottomSheetView.findViewById<LinearLayout>(R.id.beneficio)
                     val icon2 = bottomSheetView.findViewById<LinearLayout>(R.id.vagas)
                     val icon3 = bottomSheetView.findViewById<LinearLayout>(R.id.negocio)
@@ -72,57 +74,64 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
                     icon1.setOnClickListener {
                         val intent = Intent(this, BeneficiosActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(0, 0);
+                        overridePendingTransition(0, 0)
                     }
                     icon2.setOnClickListener {
                         val intent = Intent(this, VagasActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(0, 0);
+                        overridePendingTransition(0, 0)
                     }
-                    if(user != null){
+                    if (user != null) {
                         icon3.setOnClickListener {
                             val intent = Intent(this, NegocioUtilizadorActivity::class.java)
                             startActivity(intent)
-                            overridePendingTransition(0, 0);
+                            overridePendingTransition(0, 0)
                         }
-                    }
-                    else{
+                    } else {
                         icon3.setOnClickListener {
-                            Toast.makeText(this, "Inicie sessão para ver as suas Oportunidades.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Inicie sessão para ver as suas Oportunidades.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
-                            overridePendingTransition(0, 0);
+                            overridePendingTransition(0, 0)
                         }
                     }
                     icon4.setOnClickListener {
                         val intent = Intent(this, ContactoActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(0, 0);
+                        overridePendingTransition(0, 0)
                     }
-                    if(user != null){
+                    if (user != null) {
                         icon5.setOnClickListener {
                             val intent = Intent(this, IdeiasActivity::class.java)
                             startActivity(intent)
-                            overridePendingTransition(0, 0);
+                            overridePendingTransition(0, 0)
                         }
-                    }
-                    else{
+                    } else {
                         icon5.setOnClickListener {
-                            Toast.makeText(this, "Inicie sessão para ver as suas Ideias.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Inicie sessão para ver as suas Ideias.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
-                            overridePendingTransition(0, 0);
+                            overridePendingTransition(0, 0)
                         }
                     }
                     icon6.setOnClickListener {
                         val intent = Intent(this, CalendarioActivity::class.java)
                         startActivity(intent)
-                        overridePendingTransition(0, 0);
+                        overridePendingTransition(0, 0)
                     }
                     bottomSheetDialog.setContentView(bottomSheetView)
                     bottomSheetDialog.show()
                     true
                 }
+
                 else -> false
             }
         }
@@ -144,15 +153,14 @@ open class ActivityBase(private val layout: Int, private val title: String? = nu
         when (item.itemId) {
             R.id.profile2 -> {
                 val user = getCurrentUser(this)
-                if(user != null){
+                if (user != null) {
                     val intent = Intent(this, PerfilActivity::class.java)
                     startActivity(intent)
-                    overridePendingTransition(0, 0);
-                }
-                else{
+                    overridePendingTransition(0, 0)
+                } else {
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
-                    overridePendingTransition(0, 0);
+                    overridePendingTransition(0, 0)
                 }
             }
         }

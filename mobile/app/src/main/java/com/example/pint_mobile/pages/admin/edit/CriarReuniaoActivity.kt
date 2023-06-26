@@ -20,7 +20,8 @@ import com.example.pint_mobile.utils.createReunion
 import com.example.pint_mobile.utils.pad
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Criar Reunião"), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Criar Reunião"),
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     var month = 0
     var day = 0
@@ -60,11 +61,11 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         candidaturaId = intent.getIntegerArrayListExtra("candidaturaId") ?: ArrayList()
         data = intent.getStringArrayListExtra("data") ?: ArrayList()
 
-        if(getidNegocio != -1){
+        if (getidNegocio != -1) {
             negocioId.add(getidNegocio)
         }
 
-        if (getidCandidatura != -1){
+        if (getidCandidatura != -1) {
             candidaturaId.add(getidCandidatura)
         }
 
@@ -74,7 +75,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         Log.i("users", userNames.toString())
         Log.i("users", userIds.toString())
 
-        if( data.size > 1) {
+        if (data.size > 1) {
             data.last().let {
                 dataReuniao = it
             }
@@ -82,8 +83,8 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
         val setUser = findViewById<TextView>(R.id.usersReuniaoEditText)
 
-            val usersText = userNames.joinToString(", ")
-            setUser.text =  usersText
+        val usersText = userNames.joinToString(", ")
+        setUser.text = usersText
 
         pickDate()
 
@@ -95,6 +96,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         if (dataReuniao != null) tv_textTime.setText(dataReuniao)
         else tv_textTime.setText("Data e Hora")
     }
+
     private fun getDateTimeCalendar() {
         val cal: Calendar = Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
@@ -127,7 +129,14 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         savedHour = hourOfDay
         savedMinute = minute
         val tv_textTime = findViewById<EditText>(R.id.tv_textTime)
-        val formattedDateTime = String.format("%04d-%02d-%02dT%02d:%02d:00", savedYear, savedMonth + 1, savedDay, savedHour, savedMinute)
+        val formattedDateTime = String.format(
+            "%04d-%02d-%02dT%02d:%02d:00",
+            savedYear,
+            savedMonth + 1,
+            savedDay,
+            savedHour,
+            savedMinute
+        )
         tv_textTime.setText(formattedDateTime)
 
         dataReuniao = formattedDateTime
@@ -143,12 +152,12 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
         intent.putExtra("candidaturaId", candidaturaId)
         intent.putExtra("data", data)
 
-       Log.i("negocioId", negocioId.toString())
-       Log.i("candidaturaId", candidaturaId.toString())
-       Log.i("data", data.toString())
+        Log.i("negocioId", negocioId.toString())
+        Log.i("candidaturaId", candidaturaId.toString())
+        Log.i("data", data.toString())
 
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
     fun criarReuniao(_view: View) {
@@ -161,11 +170,11 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
         var errorMsg: String? = null
 
-        if (data.isEmpty()){
+        if (data.isEmpty()) {
             val data2 = findViewById<EditText>(R.id.tv_textTime)
             data2.setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "A data não pode estar vazia"
-        }else if(userIds.isEmpty()){
+        } else if (userIds.isEmpty()) {
             val users = findViewById<TextView>(R.id.usersReuniaoEditText)
             users.setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "Tem de selecionar pelo menos um utilizador"
@@ -197,16 +206,16 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
             var idNegocio = 0
 
             if (negocioId.isEmpty()) {
-                 idNegocio = -1
-            }else{
-                 idNegocio = negocioId[0]
+                idNegocio = -1
+            } else {
+                idNegocio = negocioId[0]
             }
 
             var idCandidatura = 0
 
             if (candidaturaId.isEmpty()) {
                 idCandidatura = -1
-            }else{
+            } else {
                 idCandidatura = candidaturaId[0]
             }
 

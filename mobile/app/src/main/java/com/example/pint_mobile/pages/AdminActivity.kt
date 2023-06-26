@@ -12,7 +12,17 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.pint_mobile.MainActivity
 import com.example.pint_mobile.R
-import com.example.pint_mobile.pages.admin.*
+import com.example.pint_mobile.pages.admin.AdminBeneficiosActivity
+import com.example.pint_mobile.pages.admin.AdminCandidaturasActivity
+import com.example.pint_mobile.pages.admin.AdminIdeiasActivity
+import com.example.pint_mobile.pages.admin.AdminMensagensActivity
+import com.example.pint_mobile.pages.admin.AdminNegociosActivity
+import com.example.pint_mobile.pages.admin.AdminReunioesActivity
+import com.example.pint_mobile.pages.admin.AdminTiposProjetoActivity
+import com.example.pint_mobile.pages.admin.AdminUtilizadoresActivity
+import com.example.pint_mobile.pages.admin.AdminVagasActivity
+import com.example.pint_mobile.pages.admin.AreasNegocioActivity
+import com.example.pint_mobile.pages.admin.CentroTrabalhoActivity
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.TipoUtilizadorEnum
 import com.example.pint_mobile.utils.getCurrentUser
@@ -35,7 +45,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             Toast.makeText(this, "Não tem permissão para aceder a esta página", Toast.LENGTH_SHORT)
                 .show()
             startActivity(intent)
-            overridePendingTransition(0, 0);
+            overridePendingTransition(0, 0)
             return
         } else {
             adapter = AdminAdapter(this, user.tipoUser)
@@ -104,70 +114,70 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         }
     }
 
-    fun gotoAdminCandidaturas(_view: android.view.View) {
+    fun gotoAdminCandidaturas(_view: View) {
         val intent = Intent(this, AdminCandidaturasActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminUtilizadores(_view: android.view.View) {
+    fun gotoAdminUtilizadores(_view: View) {
         val intent = Intent(this, AdminUtilizadoresActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminVagas(_view: android.view.View) {
+    fun gotoAdminVagas(_view: View) {
         val intent = Intent(this, AdminVagasActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminNegocios(_view: android.view.View) {
+    fun gotoAdminNegocios(_view: View) {
         val intent = Intent(this, AdminNegociosActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminBeneficios(_view: android.view.View) {
+    fun gotoAdminBeneficios(_view: View) {
         val intent = Intent(this, AdminBeneficiosActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminIdeias(_view: android.view.View) {
+    fun gotoAdminIdeias(_view: View) {
         val intent = Intent(this, AdminIdeiasActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminMensagens(_view: android.view.View) {
+    fun gotoAdminMensagens(_view: View) {
         val intent = Intent(this, AdminMensagensActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminReunioes(_view: android.view.View) {
+    fun gotoAdminReunioes(_view: View) {
         val intent = Intent(this, AdminReunioesActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
 
     }
 
-    fun gotoAdminAreaNegocio(_view: android.view.View) {
+    fun gotoAdminAreaNegocio(_view: View) {
         val intent = Intent(this, AreasNegocioActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminTipoProjeto(_view: android.view.View) {
+    fun gotoAdminTipoProjeto(_view: View) {
         val intent = Intent(this, AdminTiposProjetoActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
-    fun gotoAdminCentroTrabalho(_view: android.view.View) {
+    fun gotoAdminCentroTrabalho(_view: View) {
         val intent = Intent(this, CentroTrabalhoActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

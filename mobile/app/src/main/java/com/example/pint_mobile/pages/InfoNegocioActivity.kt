@@ -1,7 +1,6 @@
 package com.example.pint_mobile.pages
 
 import android.os.Bundle
-import android.widget.TextView
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 

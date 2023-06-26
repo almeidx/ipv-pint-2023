@@ -2,7 +2,6 @@ package com.example.pint_mobile.pages.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -15,7 +14,8 @@ import com.example.pint_mobile.utils.Beneficio
 import com.example.pint_mobile.utils.listaBeneficios
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios, "Administraçao de Benefícios") {
+class AdminBeneficiosActivity :
+    ActivityBase(R.layout.activity_admin_beneficios, "Administraçao de Benefícios") {
     private val beneficiosList = ArrayList<Beneficio>()
     private val allBeneficiosList = ArrayList<Beneficio>()
     private lateinit var beneficiosAdapter: BeneficiosActivity.BeneficioAdapter
@@ -24,7 +24,8 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
         super.onCreate(savedInstanceState)
 
         val lista = findViewById<ListView>(R.id.listaBeneficios)
-        beneficiosAdapter = BeneficiosActivity.BeneficioAdapter(beneficiosList, R.layout.item_beneficio_admin, true)
+        beneficiosAdapter =
+            BeneficiosActivity.BeneficioAdapter(beneficiosList, R.layout.item_beneficio_admin, true)
 
         lista.adapter = beneficiosAdapter
 
@@ -57,6 +58,6 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
     fun criarBeneficio(view: View) {
         val intent = Intent(this, CriarBeneficioActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 }

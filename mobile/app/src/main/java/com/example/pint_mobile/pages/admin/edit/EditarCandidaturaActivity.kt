@@ -6,13 +6,13 @@ import android.view.View
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.formatDateComHoras
-import com.example.pint_mobile.utils.formatDateSemHoras
 
-class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidatura, "Dados Candidatura") {
+class EditarCandidaturaActivity :
+    ActivityBase(R.layout.activity_editar_candidatura, "Dados Candidatura") {
 
-    private var nome    : String? = null
-    private var titulo  : String? = null
-    private var id      : Int? = null
+    private var nome: String? = null
+    private var titulo: String? = null
+    private var id: Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,21 +26,21 @@ class EditarCandidaturaActivity : ActivityBase(R.layout.activity_editar_candidat
         Log.i("EditarCandidaturaActivity", id.toString())
 
         val nomeCandidato = findViewById<android.widget.TextView>(R.id.nomeCandidatoX)
-        nomeCandidato.setText(nome)
+        nomeCandidato.text = nome
 
         val tituloCandidatura = findViewById<android.widget.TextView>(R.id.tituloCandidaturaEdit)
-        tituloCandidatura.setText(titulo)
+        tituloCandidatura.text = titulo
 
         val data2 = data?.let { formatDateComHoras(it) }
         val dataCandidatura = findViewById<android.widget.TextView>(R.id.dataCandidaturaEdit)
-        dataCandidatura.setText(data2)
+        dataCandidatura.text = data2
     }
 
     fun goToMarcarReuniao(view: View) {
         val intent = android.content.Intent(this, CriarReuniaoActivity::class.java)
         intent.putExtra("idCandidatura", id)
         startActivity(intent)
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0)
     }
 
 }

@@ -11,13 +11,13 @@ import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 
 open class JsonObjectRequestWithSessionId(
-        method: Int,
-        url: String?,
-        jsonRequest: JSONObject?,
-        listener: Response.Listener<JSONObject>,
-        errorListener: Response.ErrorListener,
-        val validateResponse: (NetworkResponse) -> Boolean = { _ -> true }
-    ) : JsonObjectRequest(method, url, jsonRequest, listener, errorListener) {
+    method: Int,
+    url: String?,
+    jsonRequest: JSONObject?,
+    listener: Response.Listener<JSONObject>,
+    errorListener: Response.ErrorListener,
+    val validateResponse: (NetworkResponse) -> Boolean = { _ -> true }
+) : JsonObjectRequest(method, url, jsonRequest, listener, errorListener) {
     companion object {
         private const val PROTOCOL_CHARSET = "utf-8"
     }
@@ -29,7 +29,10 @@ open class JsonObjectRequestWithSessionId(
         }
 
         try {
-            val jsonString = String(response.data, Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET)))
+            val jsonString = String(
+                response.data,
+                Charset.forName(HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET))
+            )
 
             val cookies = response.headers?.get("Set-Cookie")
 

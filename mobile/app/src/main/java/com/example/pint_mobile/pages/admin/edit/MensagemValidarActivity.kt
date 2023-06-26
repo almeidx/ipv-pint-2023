@@ -7,7 +7,8 @@ import com.example.pint_mobile.utils.ActivityBase
 import com.example.pint_mobile.utils.apagarMensagem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar, "Validar Mensagem") {
+class MensagemValidarActivity :
+    ActivityBase(R.layout.activity_mensagem_validar, "Validar Mensagem") {
 
     private var id = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,18 +20,22 @@ class MensagemValidarActivity : ActivityBase(R.layout.activity_mensagem_validar,
         val registo = intent.getBooleanExtra("registo", false)
         id = intent.getIntExtra("id", 0)
 
-        val setRegisto = if(registo) "Utilizador Registado" else "Utilizador Não Registado"
+        val setRegisto = if (registo) "Utilizador Registado" else "Utilizador Não Registado"
 
-        val tituloMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.tituloMensagemEdit)
+        val tituloMensagemEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.tituloMensagemEdit)
         tituloMensagemEdit.setText(titulo)
 
-        val descricaoMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.descricaoMensagemEdit)
+        val descricaoMensagemEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.descricaoMensagemEdit)
         descricaoMensagemEdit.setText(descricao)
 
-        val dataMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.dataMensagemEdit)
+        val dataMensagemEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.dataMensagemEdit)
         dataMensagemEdit.setText(data)
 
-        val registoMensagemEdit = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.utilizadorRegistadoEdit)
+        val registoMensagemEdit =
+            findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.utilizadorRegistadoEdit)
         registoMensagemEdit.setText(setRegisto)
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
