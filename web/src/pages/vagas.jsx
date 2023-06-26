@@ -161,7 +161,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					fetchpriority="high"
 				/>
 
-				<Card.Title className="title my-3 pt-5" style={{ fontSize: "2rem" }}>
+				<Card.Title className="title my-3 pt-5" style={{ fontSize: "1.8rem" }}>
 					{title}
 				</Card.Title>
 
