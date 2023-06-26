@@ -118,6 +118,7 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
 
     private fun pickDate() {
         val btn_timePicker = findViewById<Button>(R.id.btn_timePicker2)
+        getDateTimeCalendar()
         btn_timePicker.setOnClickListener {
             DatePickerDialog(this, this, year, month, day).show()
         }
