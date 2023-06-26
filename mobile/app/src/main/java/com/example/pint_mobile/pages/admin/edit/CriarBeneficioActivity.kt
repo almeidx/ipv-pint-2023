@@ -85,8 +85,7 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             val imageUri = data.data
 
-            val icon = findViewById<TextInputEditText>(R.id.iconBeneficioEdit)
-            icon.setText("A carregar...")
+
 
             val criarBtn = findViewById<Button>(R.id.criarBeneficioBtn)
             criarBtn.isEnabled = false
@@ -95,10 +94,9 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
                 runOnUiThread {
                     if (it != null) {
                         icone = it
-                        icon.setText("Icon carregado")
+
                     } else {
                         Toast.makeText(this, "Erro ao carregar icone", Toast.LENGTH_SHORT).show()
-                        icon.setText("")
                     }
 
                     criarBtn.isEnabled = true
@@ -155,9 +153,6 @@ class CriarBeneficioActivity : ActivityBase(R.layout.activity_criar_beneficio, "
         } else if (descricao.isEmpty()) {
             findViewById<EditText>(R.id.descricaoBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "Descrição não pode estar vazia"
-        } else if (icone == null) {
-            findViewById<EditText>(R.id.iconBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
-            errorMsg = "Icone não pode estar vazio"
         } else if (data.isEmpty()) {
             findViewById<EditText>(R.id.dataValidadeBeneficioEdit).setBackgroundResource(R.drawable.edittext_red_border)
             errorMsg = "Data não pode estar vazia"

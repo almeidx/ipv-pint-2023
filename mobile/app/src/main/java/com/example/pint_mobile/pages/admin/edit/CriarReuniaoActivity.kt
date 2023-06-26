@@ -108,6 +108,7 @@ class CriarReuniaoActivity : ActivityBase(R.layout.activity_criar_reuniao, "Cria
 
     private fun pickDate() {
         val btn_timePicker = findViewById<Button>(R.id.btn_timePicker)
+        getDateTimeCalendar()
         btn_timePicker.setOnClickListener {
             DatePickerDialog(this, this, year, month, day).show()
         }
