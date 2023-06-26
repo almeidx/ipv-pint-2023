@@ -30,10 +30,14 @@ export default function Beneficios() {
 			<Container className="col-11 row mx-auto gap-5 pt-3">
 				{isLoading ? (
 					<Spinner />
-				) : filteredBeneficios.length ? (
-					filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
+				) : (data ?? []).length ? (
+					filteredBeneficios.length ? (
+						filteredBeneficios.map(({ id, ...beneficio }) => <Beneficio key={id} {...beneficio} />)
+					) : (
+						<p>Não foi encontrado nenhum benefício</p>
+					)
 				) : (
-					<p>Não encontrado</p>
+					<p>Não há nenhum benefício registado</p>
 				)}
 			</Container>
 		</Page>

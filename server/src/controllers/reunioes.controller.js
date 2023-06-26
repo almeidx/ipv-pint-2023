@@ -118,6 +118,7 @@ module.exports = {
 							attributes: ["id", "name"],
 						},
 					],
+					order: [["startTime", "ASC"]],
 				});
 
 				res.json(

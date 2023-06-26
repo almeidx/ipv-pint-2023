@@ -26,6 +26,7 @@ const utilizadoresRouter = require("./routes/utilizadores.js");
 const uploadsRouter = require("./routes/uploads.js");
 const vagasRouter = require("./routes/vagas.js");
 const TipoUtilizadorEnum = require("./utils/TipoUtilizadorEnum.js");
+const { stripIndents } = require("common-tags");
 
 require("./middleware/passport.js")(passport);
 
@@ -61,6 +62,7 @@ app
 					connectionString: process.env.DATABASE_URL,
 					ssl: true,
 				},
+				createTableIfMissing: true,
 			}),
 		}),
 	)
@@ -92,40 +94,22 @@ app
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	// await sequelize.sync();
+	await sequelize.sync();
 
 	const qntTiposUtilizador = await TipoUtilizador.count();
 	if (qntTiposUtilizador === 0) {
 		await TipoUtilizador.bulkCreate([
-			{ name: TipoUtilizadorEnum.Utilizador },
-			{ name: TipoUtilizadorEnum.GestorIdeias },
-			{ name: TipoUtilizadorEnum.GestorRecursosHumanos },
-			{ name: TipoUtilizadorEnum.GestorNegocios },
-			{ name: TipoUtilizadorEnum.GestorConteudos },
-			{ name: TipoUtilizadorEnum.Administrador },
-			{ name: TipoUtilizadorEnum.Colaborador },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.Utilizador] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.GestorIdeias] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.GestorRecursosHumanos] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.GestorNegocios] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.GestorConteudos] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.Administrador] },
+			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.Colaborador] },
 		]);
 	}
 
-	const exists = await sequelize
-		.query("SELECT * FROM session LIMIT 1;")
-		.then(() => true)
-		.catch(() => false);
-
-	if (!exists) {
-		await sequelize.query(`
-			CREATE TABLE "session" (
-				"sid" varchar NOT NULL COLLATE "default",
-				"sess" json NOT NULL,
-				"expire" timestamp(6) NOT NULL
-			)
-			WITH (OIDS=FALSE);
-
-			ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-			CREATE INDEX "IDX_session_expire" ON "session" ("expire");
-		`);
-	}
+	require("./jobs/reunioes.js");
 
 	const port = process.env.PORT || 3333;
 

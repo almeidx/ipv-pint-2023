@@ -1,9 +1,9 @@
 export const estadosNames = [
-	{ color: "rgba(255, 0, 0, 0.1)", name: "Em espera" },
-	{ color: "rgba(255, 0, 0, 0.25)", name: "A validar" },
-	{ color: "rgba(255, 0, 0, 0.5)", name: "Em desenvolvimento" },
-	{ color: "rgba(255, 0, 0, 0.75)", name: "A finalizar" },
-	{ color: "rgba(255, 0, 0, 1)", name: "Finalizado" },
+	{ color: "#afcdea", name: "Em espera" },
+	{ color: "#98c3ed", name: "A validar" },
+	{ color: "#6aa9e9", name: "Em desenvolvimento" },
+	{ color: "#4a9ae9", name: "A finalizar" },
+	{ color: "#318ce7", name: "Finalizado" },
 ];
 
 /** @param {{ estado: number } | undefined} estadoAtual */

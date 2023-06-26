@@ -44,6 +44,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
 
         adminlink.setOnItemClickListener { _, view, position, _ ->
             when (adapter.getItem(position)) {
+                "Áreas de Negócio" -> gotoAdminAreaNegocio(view)
                 "Benefícios" -> gotoAdminBeneficios(view)
                 "Candidaturas" -> gotoAdminCandidaturas(view)
                 "Centros de Trabalho" -> gotoAdminCentroTrabalho(view)
@@ -51,16 +52,16 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
                 "Mensagens" -> gotoAdminMensagens(view)
                 "Oportunidades" -> gotoAdminNegocios(view)
                 "Reuniões" -> gotoAdminReunioes(view)
+                "Tipos de Projeto" -> gotoAdminTipoProjeto(view)
                 "Utilizadores" -> gotoAdminUtilizadores(view)
                 "Vagas" -> gotoAdminVagas(view)
-                "Áreas de Negócio" -> gotoAdminAreaNegocio(view)
-                "Tipos de Projeto" -> gotoAdminTipoProjeto(view)
             }
         }
     }
 
     class AdminAdapter(val context: Context, val user: TipoUtilizadorEnum) : BaseAdapter() {
         private val allbuttons = listOf(
+            "Áreas de Negócio",
             "Benefícios",
             "Candidaturas",
             "Centros de Trabalho",
@@ -68,10 +69,9 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             "Mensagens",
             "Oportunidades",
             "Reuniões",
+            "Tipos de Projeto",
             "Utilizadores",
-            "Vagas",
-            "Áreas de Negócio",
-            "Tipos de Projeto"
+            "Vagas"
         )
 
         private val buttons = when (user) {

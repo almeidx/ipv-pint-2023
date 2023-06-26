@@ -119,10 +119,16 @@ export default function Vagas() {
 			<Container className="col-12 row d-flex mx-auto gap-5 pt-4">
 				{isLoading ? (
 					<Spinner />
+				) : (data ?? []).length ? (
+					filteredVagas.length ? (
+						filteredVagas.map((vaga) => (
+							<Vaga key={vaga.id} {...vaga} onClickVaga={onClickVaga} loggedIn={user !== null} />
+						))
+					) : (
+						<p>Não foi encontrado nenhuma vaga</p>
+					)
 				) : (
-					filteredVagas.map((vaga) => (
-						<Vaga key={vaga.id} {...vaga} onClickVaga={onClickVaga} loggedIn={user !== null} />
-					))
+					<p>Não há nenhuma vaga registada</p>
 				)}
 			</Container>
 		</Page>
@@ -144,7 +150,7 @@ export default function Vagas() {
  */
 function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn, public: isPublic }) {
 	return (
-		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
+		<Card style={{ width: "22rem", height: "20rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
 				<Card.Img
 					src={resolveIcon(icon)}
@@ -155,7 +161,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					fetchpriority="high"
 				/>
 
-				<Card.Title className="title my-3 pt-5" style={{ fontSize: "2rem" }}>
+				<Card.Title className="title my-3 pt-5" style={{ fontSize: "1.8rem" }}>
 					{title}
 				</Card.Title>
 
@@ -163,7 +169,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
 				</Card.Subtitle>
 
-				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
+				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "4.8rem" }}>
 					{description}
 				</Card.Text>
 

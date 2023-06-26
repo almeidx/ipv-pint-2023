@@ -1,126 +1,129 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login"
-    tools:context=".pages.ConfirmarContaActivity">
+<?xml version="1.0" encoding="utf-8" ?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/login"
+	tools:context=".pages.ConfirmarContaActivity"
+>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/container2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+			android:id="@+id/container2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingBottom="25dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.0"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintVertical_bias="0.0"
+		>
 
         <TextView
-            android:id="@+id/textinho"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="25dp"
-            android:text="Foi enviado um código de confirmação para o seu email. Insira o código abaixo para confirmar a sua conta."
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+				android:id="@+id/textinho"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="18dp"
+				android:layout_marginEnd="25dp"
+				android:text="Foi enviado um código de confirmação para o seu email. Insira o código abaixo para confirmar a sua conta."
+				android:textColor="@color/white"
+				android:textStyle="italic"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+			/>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/CodigoConfirmacaoEdit"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:hint="Codigo confirmacao"
-        android:orientation="horizontal"
-        app:boxBackgroundColor="@color/white"
-        app:boxStrokeColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/CodigoConfirmacaoEdit"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Codigo confirmacao"
+				android:orientation="horizontal"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/CodigoConfirmacaoText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="number" />
+					android:id="@+id/CodigoConfirmacaoText"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:inputType="number"
+				/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/textinho2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="25dp"
-            android:text="O código de confirmação é válido por 5 minutos. Caso não tenha recebido o código, clique no botão abaixo."
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+				android:id="@+id/textinho2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="18dp"
+				android:layout_marginEnd="25dp"
+				android:text="O código de confirmação é válido por 5 minutos. Caso não tenha recebido o código, clique no botão abaixo."
+				android:textColor="@color/white"
+				android:textStyle="italic"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+			/>
 
         <TextView
-            android:id="@+id/textinho3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="25dp"
-            android:text="Reenviar código de confirmação"
-            android:onClick="reenviarCodigo"
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+				android:id="@+id/textinho3"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="18dp"
+				android:layout_marginEnd="25dp"
+				android:text="Reenviar código de confirmação"
+				android:onClick="reenviarCodigo"
+				android:textColor="@color/white"
+				android:textStyle="italic"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+			/>
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="67dp"
-            android:orientation="horizontal">
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginLeft="80dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:layout_marginBottom="67dp"
+				android:orientation="horizontal"
+			>
 
             <Button
-                android:id="@+id/enviarBtn"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="100dp"
-                android:backgroundTint="@color/white"
-                android:onClick="enviarCodigo"
-                android:text="Confirmar"
-                android:layout_gravity="start"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+					android:id="@+id/enviarBtn"
+					style="@style/Widget.Material3.Button"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="100dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginEnd="100dp"
+					android:backgroundTint="@color/white"
+					android:onClick="enviarCodigo"
+					android:text="Confirmar"
+					android:layout_gravity="start"
+					android:textColor="@color/black"
+					android:textSize="16sp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintStart_toStartOf="parent"
+				/>
 
 
         </LinearLayout>

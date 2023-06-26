@@ -7,107 +7,104 @@
     android:background="@color/bg"
     tools:context=".MainActivity">
 
-    <!--<ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/mudar_password"
-        app:layout_constraintBottom_toTopOf="@+id/bottombar">-->
-
-    <!--</ScrollView>-->
-
     <TextView
-        android:id="@+id/beneficiosX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:text="Benefícios: "
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		android:id="@+id/beneficiosX"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="30dp"
+		android:layout_marginTop="30dp"
+		android:text="Benefícios: "
+		app:layout_constraintStart_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+	/>
 
     <Button
-        android:id="@+id/beneficiosBtn"
-        android:layout_width="110dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:text="Total"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+		android:id="@+id/beneficiosBtn"
+		android:layout_width="110dp"
+		android:layout_height="50dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="30dp"
+		android:text="Total"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+	/>
 
     <TextView
-        android:id="@+id/negocios"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="96dp"
-        android:text="Negócios: "
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/beneficiosX"/>
+		android:id="@+id/negocios"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="30dp"
+		android:layout_marginTop="96dp"
+		android:text="Negócios: "
+		app:layout_constraintStart_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/beneficiosX"
+	/>
 
     <Button
-        android:id="@+id/negociosBtn"
-        android:layout_width="110dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:text="Total"
-        app:layout_constraintTop_toBottomOf="@id/beneficiosBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+		android:id="@+id/negociosBtn"
+		android:layout_width="110dp"
+		android:layout_height="50dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="30dp"
+		android:text="Total"
+		app:layout_constraintTop_toBottomOf="@id/beneficiosBtn"
+		app:layout_constraintEnd_toEndOf="parent"
+	/>
 
     <TextView
-        android:id="@+id/utilizadores"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="29dp"
-        android:text="Utilizadores: "
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/negociosBtn" />
+		android:id="@+id/utilizadores"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="30dp"
+		android:layout_marginTop="29dp"
+		android:text="Utilizadores: "
+		app:layout_constraintStart_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/negociosBtn"
+	/>
 
     <Button
-        android:id="@+id/utilizadoresBtn"
-        android:layout_width="110dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:text="Total"
-        app:layout_constraintTop_toBottomOf="@id/negociosBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+		android:id="@+id/utilizadoresBtn"
+		android:layout_width="110dp"
+		android:layout_height="50dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="30dp"
+		android:text="Total"
+		app:layout_constraintTop_toBottomOf="@id/negociosBtn"
+		app:layout_constraintEnd_toEndOf="parent"
+	/>
 
     <TextView
-        android:id="@+id/vagas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="29dp"
-        android:text="Vagas: "
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/utilizadoresBtn" />
+		android:id="@+id/vagas"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="30dp"
+		android:layout_marginTop="29dp"
+		android:text="Vagas: "
+		app:layout_constraintStart_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/utilizadoresBtn"
+	/>
 
     <Button
-        android:id="@+id/vagasBtn"
-        android:layout_width="110dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:text="Total"
-        app:layout_constraintTop_toBottomOf="@id/utilizadoresBtn"
-        app:layout_constraintEnd_toEndOf="parent" />
+		android:id="@+id/vagasBtn"
+		android:layout_width="110dp"
+		android:layout_height="50dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="30dp"
+		android:text="Total"
+		app:layout_constraintTop_toBottomOf="@id/utilizadoresBtn"
+		app:layout_constraintEnd_toEndOf="parent"
+	/>
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/include2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+		android:id="@+id/pieChart"
+		android:layout_width="match_parent"
+		android:layout_height="300dp"
+		android:layout_marginBottom="100dp"
+		app:layout_constraintBottom_toBottomOf="@+id/include2"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+	/>
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/bottombar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <include android:id="@+id/include2" layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

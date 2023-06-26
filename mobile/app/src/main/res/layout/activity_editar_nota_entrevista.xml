@@ -1,133 +1,144 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".pages.admin.edit.EditarNotaEntrevistaActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".pages.admin.edit.EditarNotaEntrevistaActivity"
+>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottombar">
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_constraintBottom_toTopOf="@+id/bottombar"
+	>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+		>
 
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tituloCandidaturaEditTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Titulo da Reuniao"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+				android:id="@+id/tituloCandidaturaEditTextInputLayout"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Titulo da Reuniao"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tituloCandidaturaEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top" />
+					android:id="@+id/tituloCandidaturaEdit"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="top"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/NomeCandidaturaEditTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Utilizadores Presentes"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+				android:id="@+id/NomeCandidaturaEditTextInputLayout"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Utilizadores Presentes"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/NomeCandidaturaEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top" />
+					android:id="@+id/NomeCandidaturaEdit"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="top"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/notaInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Nota Entrevista"
-                android:paddingTop="-142dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent">
+				android:id="@+id/notaInput"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="150dp"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Nota Entrevista"
+				android:paddingTop="-142dp"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.0"
+				app:layout_constraintStart_toStartOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nota"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top" />
+					android:id="@+id/nota"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="top"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/linearLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="25dp"
+				android:orientation="horizontal"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:onClick="criarNota"
-                    android:text="Adicionar Nota" />
+					android:layout_width="wrap_content"
+					android:layout_height="64dp"
+					android:layout_marginStart="25dp"
+					android:layout_marginEnd="25dp"
+					android:onClick="criarNota"
+					android:text="Adicionar Nota"
+				/>
             </LinearLayout>
 
             <ListView
-                android:id="@+id/listaNotasEntrevista"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="67dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearPesquisa"
-                app:layout_constraintVertical_bias="0.0" />
+				android:id="@+id/listaNotasEntrevista"
+				android:layout_width="match_parent"
+				android:layout_height="300dp"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:layout_marginBottom="67dp"
+				android:divider="@android:color/transparent"
+				android:dividerHeight="20dp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="@id/cardView"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/linearPesquisa"
+				app:layout_constraintVertical_bias="0.0"
+			/>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <include
-        layout="@layout/bottombar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
