@@ -20,7 +20,7 @@ const fieldValidations = z
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	create: [
-		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
 		validate(fieldValidations),
 
 		async (req, res) => {
@@ -94,7 +94,7 @@ module.exports = {
 	},
 
 	update: [
-		requirePermission(TipoUtilizadorEnum.GestorConteudos),
+		requirePermission(TipoUtilizadorEnum.GestorRecursosHumanos),
 		validate(fieldValidations.partial()),
 
 		async (req, res) => {
