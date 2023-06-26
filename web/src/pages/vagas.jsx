@@ -119,10 +119,16 @@ export default function Vagas() {
 			<Container className="col-12 row d-flex mx-auto gap-5 pt-4">
 				{isLoading ? (
 					<Spinner />
+				) : (data ?? []).length ? (
+					filteredVagas.length ? (
+						filteredVagas.map((vaga) => (
+							<Vaga key={vaga.id} {...vaga} onClickVaga={onClickVaga} loggedIn={user !== null} />
+						))
+					) : (
+						<p>Não foi encontrado nenhuma vaga</p>
+					)
 				) : (
-					filteredVagas.map((vaga) => (
-						<Vaga key={vaga.id} {...vaga} onClickVaga={onClickVaga} loggedIn={user !== null} />
-					))
+					<p>Não há nenhuma vaga registada</p>
 				)}
 			</Container>
 		</Page>

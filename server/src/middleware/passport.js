@@ -1,12 +1,11 @@
 const bcrypt = require("bcrypt");
 const { Utilizador, TipoUtilizador } = require("../database/index.js");
 const { Op } = require("sequelize");
-const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
 const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN, MOBILE_FACEBOOK_AUTH_TOKEN } = require("../utils/constants.js");
+const { resolveIdTipoUserInicial } = require("../utils/resolveIdTipoUserInicial.js");
 
 module.exports = function (passport) {
 	passport.serializeUser(function (user, done) {
@@ -121,9 +120,7 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "facebook",
 						hashedPassword: "",
-						idTipoUser: isSoftinsaEmail(profile._json.email)
-							? TipoUtilizadorEnum.Colaborador
-							: TipoUtilizadorEnum.Utilizador,
+						idTipoUser: await resolveIdTipoUserInicial(profile._json.email),
 					});
 
 					user = await Utilizador.findByPk(user.id, selectOptions);
@@ -174,9 +171,7 @@ module.exports = function (passport) {
 						socialUserId: profile.id,
 						registrationType: "google",
 						hashedPassword: "",
-						idTipoUser: isSoftinsaEmail(profile._json.email)
-							? TipoUtilizadorEnum.Colaborador
-							: TipoUtilizadorEnum.Utilizador,
+						idTipoUser: await resolveIdTipoUserInicial(profile._json.email),
 					});
 
 					user = await Utilizador.findByPk(user.id, selectOptions);

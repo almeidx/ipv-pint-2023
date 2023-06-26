@@ -7,9 +7,8 @@ const { randomNumberString } = require("../utils/randomNumberString.js");
 const { sendEmail } = require("../services/email.js");
 const { stripIndents } = require("common-tags");
 const { z } = require("zod");
-const { isSoftinsaEmail } = require("../utils/isSoftinsaEmail.js");
-const TipoUtilizadorEnum = require("../utils/TipoUtilizadorEnum.js");
 const { PASSWORD_RESET_TOKEN, MOBILE_GOOGLE_AUTH_TOKEN, MOBILE_FACEBOOK_AUTH_TOKEN } = require("../utils/constants.js");
+const { resolveIdTipoUserInicial } = require("../utils/resolveIdTipoUserInicial.js");
 
 /**
  * @type {Record<string, ((req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void)|[...(import("express").RequestHandler), (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<void> | void]>}
@@ -117,7 +116,7 @@ module.exports = {
 				hashedPassword,
 				confirmCode,
 				confirmDateStart: new Date(),
-				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+				idTipoUser: await resolveIdTipoUserInicial(email),
 			});
 
 			await sendEmail(
@@ -297,7 +296,7 @@ module.exports = {
 				socialUserId: id,
 				registrationType: "google",
 				hashedPassword: "",
-				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+				idTipoUser: await resolveIdTipoUserInicial(email),
 			});
 
 			req.body = { email, password: MOBILE_GOOGLE_AUTH_TOKEN };
@@ -371,7 +370,6 @@ module.exports = {
 				return;
 			}
 
-
 			if (account && account.disabled && account.disabledBy) {
 				res.status(403).json({ message: "Conta desativada por um administrador" });
 				return;
@@ -383,7 +381,7 @@ module.exports = {
 				socialUserId: id,
 				registrationType: "facebook",
 				hashedPassword: "",
-				idTipoUser: isSoftinsaEmail(email) ? TipoUtilizadorEnum.Colaborador : TipoUtilizadorEnum.Utilizador,
+				idTipoUser: await resolveIdTipoUserInicial(email),
 			});
 
 			req.body = { email, password: MOBILE_FACEBOOK_AUTH_TOKEN };
