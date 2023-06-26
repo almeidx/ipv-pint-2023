@@ -720,8 +720,13 @@ fun login(email: String, password: String, ctx: Context, onSuccess: () -> Unit, 
             ctx.startActivity(intent)
         },
         { error ->
-            onError()
-            error.printStackTrace()
+            if (error.networkResponse?.statusCode == 403) {
+                Toast.makeText(ctx, "Conta desativada por um administrador", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(ctx, "Credenciais inválidas", Toast.LENGTH_SHORT).show()
+                onError()
+                error.printStackTrace()
+            }
         })
 
     queue.add(request)

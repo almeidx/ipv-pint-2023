@@ -120,8 +120,6 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
         })  {
             emailInput.setBackgroundResource(R.drawable.edittext_red_border)
             passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
-
-            Toast.makeText(this, "Email ou password incorretos", Toast.LENGTH_SHORT).show()
         }
     }
 
