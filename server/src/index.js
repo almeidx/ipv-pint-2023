@@ -62,6 +62,7 @@ app
 					connectionString: process.env.DATABASE_URL,
 					ssl: true,
 				},
+				createTableIfMissing: true,
 			}),
 		}),
 	)
@@ -106,26 +107,6 @@ app
 			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.Administrador] },
 			{ name: TipoUtilizadorEnum[TipoUtilizadorEnum.Colaborador] },
 		]);
-	}
-
-	const exists = await sequelize
-		.query("SELECT * FROM session LIMIT 1;")
-		.then(() => true)
-		.catch(() => false);
-
-	if (!exists) {
-		await sequelize.query(stripIndents`
-			CREATE TABLE "session" (
-				"sid" varchar NOT NULL COLLATE "default",
-				"sess" json NOT NULL,
-				"expire" timestamp(6) NOT NULL
-			)
-			WITH (OIDS=FALSE);
-
-			ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-			CREATE INDEX "IDX_session_expire" ON "session" ("expire");
-		`);
 	}
 
 	require("./jobs/reunioes.js");
