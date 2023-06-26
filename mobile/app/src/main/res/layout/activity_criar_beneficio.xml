@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    tools:context=".pages.admin.edit.CriarBeneficioActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/bg"
+	tools:context=".pages.admin.edit.CriarBeneficioActivity"
+>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottombar">
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_constraintBottom_toTopOf="@+id/bottombar"
+	>
 
         <LinearLayout
-            android:id="@+id/container2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingBottom="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+			android:id="@+id/container2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:orientation="vertical"
+			android:paddingBottom="25dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.0"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintVertical_bias="0.0"
+		>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tituloBeneficio"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Titulo do beneficio"
-                android:orientation="horizontal"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/tituloBeneficio"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Titulo do beneficio"
+				android:orientation="horizontal"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tituloBeneficioEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+					android:id="@+id/tituloBeneficioEdit"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/descricaoBeneficio"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Descrição do beneficio"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/descricaoBeneficio"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Descrição do beneficio"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/descricaoBeneficioEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+					android:id="@+id/descricaoBeneficioEdit"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,70 +85,76 @@
 				android:layout_marginTop="25dp"
 				android:layout_marginEnd="25dp"
 				android:text="Escolha a imagem do beneficio"
-				/>
+			/>
 
             <Button
-                android:id="@+id/btn_timePicker2"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:text="Data de Validade" />
+				android:id="@+id/btn_timePicker2"
+				android:layout_width="match_parent"
+				android:layout_height="64dp"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:text="Data de Validade"
+			/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dataValidadeBeneficio"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Data do Beneficio"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/dataValidadeBeneficio"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Data do Beneficio"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dataValidadeBeneficioEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+					android:id="@+id/dataValidadeBeneficioEdit"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="67dp"
-                android:gravity="end"
-                android:orientation="horizontal">
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginLeft="80dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:layout_marginBottom="67dp"
+				android:gravity="end"
+				android:orientation="horizontal"
+			>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_button"
-                    android:backgroundTint="@color/white"
-                    android:text="Cancelar"
-                    android:textColor="@color/white"
-                    android:onClick="cancelarBeneficio10"
-                    android:textSize="10dp" />
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/edit_button"
+					android:backgroundTint="@color/white"
+					android:text="Cancelar"
+					android:textColor="@color/white"
+					android:onClick="cancelarBeneficio10"
+					android:textSize="10dp"
+				/>
 
                 <Button
-                    android:id="@+id/criarBeneficioBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/edit_button"
-                    android:backgroundTint="@color/white"
-                    android:onClick="criarBeneficio10"
-                    android:text="Criar"
-                    android:textColor="@color/white"
-                    android:textSize="10dp" />
+					android:id="@+id/criarBeneficioBtn"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:background="@drawable/edit_button"
+					android:backgroundTint="@color/white"
+					android:onClick="criarBeneficio10"
+					android:text="Criar"
+					android:textColor="@color/white"
+					android:textSize="10dp"
+				/>
             </LinearLayout>
 
         </LinearLayout>
@@ -148,7 +162,5 @@
     </ScrollView>
 
 
-    <include
-        layout="@layout/bottombar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

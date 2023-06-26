@@ -1,106 +1,115 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".pages.admin.edit.EditarCandidaturaActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".pages.admin.edit.EditarCandidaturaActivity"
+>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottombar">
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_constraintBottom_toTopOf="@+id/bottombar"
+	>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+		>
 
             <TextView
-                android:id="@+id/nomeCandidatoX"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:text="Editar Candidatura"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+				android:id="@+id/nomeCandidatoX"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:text="Editar Candidatura"
+				android:textSize="30sp"
+				android:textStyle="bold"
+			/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tituloCandidaturaTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Duração da Reuniao"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
+				android:id="@+id/tituloCandidaturaTextInputLayout"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Duração da Reuniao"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tituloCandidaturaEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+					android:id="@+id/tituloCandidaturaEdit"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dataCandidaturaTextInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Data da Candidatura"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
+				android:id="@+id/dataCandidaturaTextInputLayout"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Data da Candidatura"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+			>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dataCandidaturaEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+					android:id="@+id/dataCandidaturaEdit"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+				/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="67dp"
-                android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:gravity="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+				android:id="@+id/linearLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="25dp"
+				android:layout_marginBottom="67dp"
+				android:orientation="horizontal"
+				android:layout_gravity="end"
+				android:gravity="end"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+			>
 
                 <Button
-                    android:id="@+id/MarcarReuniao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:onClick="goToMarcarReuniao"
-                    android:text="Marcar Reuniao" />
+					android:id="@+id/MarcarReuniao"
+					android:layout_width="wrap_content"
+					android:layout_height="64dp"
+					android:layout_marginStart="15dp"
+					android:layout_marginTop="25dp"
+					android:layout_marginEnd="25dp"
+					android:onClick="goToMarcarReuniao"
+					android:text="Marcar Reuniao"
+				/>
 
             </LinearLayout>
         </LinearLayout>
 
     </ScrollView>
 
-    <include
-        layout="@layout/bottombar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <include layout="@layout/bottombar" app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
