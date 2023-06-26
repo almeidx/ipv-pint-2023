@@ -46,11 +46,7 @@ fun deleteCurrentUser(ctx: Context) {
     ctx.deleteSharedPreferences(AUTH_PREFERENCE_NAME)
 }
 
-fun saveCurrentUser(
-    ctx: Context,
-    user: JSONObject,
-    cookie: String
-) {
+fun saveCurrentUser(ctx: Context, user: JSONObject, cookie: String) {
     val sharedPreferences =
         ctx.getSharedPreferences(AUTH_PREFERENCE_NAME, Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
@@ -59,4 +55,31 @@ fun saveCurrentUser(
     editor.putString("user", user.toString())
 
     editor.apply()
+}
+
+fun getAuthData(ctx: Context, callback: (email: String, password: String) -> Unit) {
+    val sharedPreferences =
+        ctx.getSharedPreferences(REMEMBER_ME_PREFERENCE_NAME, Context.MODE_PRIVATE)
+
+    val email = sharedPreferences.getString("email", null)
+    val password = sharedPreferences.getString("password", null)
+
+    if (email != null && password != null) {
+        callback(email, password)
+    }
+}
+
+fun saveAuthData(ctx: Context, email: String, password: String) {
+    val sharedPreferences =
+        ctx.getSharedPreferences(REMEMBER_ME_PREFERENCE_NAME, Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+
+    editor.putString("email", email)
+    editor.putString("password", password)
+
+    editor.apply()
+}
+
+fun deleteAuthData(ctx: Context) {
+    ctx.deleteSharedPreferences(REMEMBER_ME_PREFERENCE_NAME)
 }

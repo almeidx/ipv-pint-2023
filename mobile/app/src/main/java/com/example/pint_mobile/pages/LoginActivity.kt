@@ -4,14 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
+import android.widget.CheckBox
 import android.widget.Toast
 import com.example.pint_mobile.R
 import com.example.pint_mobile.utils.ActivityBase
+import com.example.pint_mobile.utils.deleteAuthData
 import com.example.pint_mobile.utils.facebookLogin
 import com.example.pint_mobile.utils.forgetPassword
+import com.example.pint_mobile.utils.getAuthData
 import com.example.pint_mobile.utils.googleLogin
 import com.example.pint_mobile.utils.login
+import com.example.pint_mobile.utils.saveAuthData
 import com.facebook.CallbackManager.Factory.create
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -26,7 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 
-
 class LoginActivity : ActivityBase(R.layout.activity_login) {
     private lateinit var googleApiClient: GoogleApiClient
     private val RC_SIGN_IN = 9001
@@ -35,6 +37,12 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getAuthData(this) { email, password ->
+            findViewById<TextInputEditText>(R.id.email).setText(email)
+            findViewById<TextInputEditText>(R.id.password).setText(password)
+            findViewById<CheckBox>(R.id.lembrarPwd).isChecked = true
+        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -85,6 +93,7 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
     fun loginBtn(_view: View) {
         val emailInput = findViewById<TextInputEditText>(R.id.email)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
+        val lembrarPwd = findViewById<CheckBox>(R.id.lembrarPwd)
 
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
@@ -94,12 +103,21 @@ class LoginActivity : ActivityBase(R.layout.activity_login) {
 
             if (email.isEmpty()) {
                 emailInput.setBackgroundResource(R.drawable.edittext_red_border)
-            } else if (password.isEmpty()) {
+            }
+            if (password.isEmpty()) {
                 passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
             }
+
+            return
         }
 
-        login(email, password, this){
+        login(email, password, this, {
+            if (lembrarPwd.isChecked) {
+                saveAuthData(this, email, password)
+            } else {
+                deleteAuthData(this)
+            }
+        })  {
             emailInput.setBackgroundResource(R.drawable.edittext_red_border)
             passwordInput.setBackgroundResource(R.drawable.edittext_red_border)
 

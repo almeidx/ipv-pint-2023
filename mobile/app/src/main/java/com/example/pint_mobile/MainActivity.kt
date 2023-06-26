@@ -2,7 +2,6 @@ package com.example.pint_mobile
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -15,11 +14,7 @@ import com.example.pint_mobile.utils.getReporting
 import com.example.pint_mobile.utils.getUserInfo
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -69,10 +64,41 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
             reportingCard(data,"vagas", R.id.vagas, R.id.vagasBtn, "Vagas: ")
 
             val vagaData = data.getJSONObject("vagas")
+            val negociosData = data.getJSONObject("negócios")
 
+            if (negociosData.has("volumeEstados")) {
+                val volumeEstados = negociosData.getJSONObject("volumeEstados")
 
+                val labelsArray = volumeEstados.getJSONArray("labels")
+                val dataArray = volumeEstados.getJSONArray("data")
 
-            if (vagaData.has("maisCandidaturas")) {
+                val pieEntries = ArrayList<PieEntry>()
+
+                for (i in 0 until labelsArray.length()) {
+                    val label = labelsArray.getString(i)
+                    val data_ = dataArray.getInt(i).toFloat()
+                    pieEntries.add(PieEntry(data_, when (label) {
+                        "0" -> "Em espera"
+                        "1" -> "A validar"
+                        "2" -> "Em desenvolvimento"
+                        "3" -> "Em conclusão"
+                        "4" -> "Concluído"
+                        else -> "Cancelado"
+                    }))
+                }
+
+                val pieDataSet = PieDataSet(pieEntries, "Negócios")
+                pieDataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
+                pieDataSet.valueTextColor = Color.BLACK
+                pieDataSet.valueTextSize = 16f
+
+                val pieData = PieData(pieDataSet)
+
+                pieChart.visibility = PieChart.VISIBLE
+                pieChart.data = pieData
+                pieChart.description.text = "Negócios por estado"
+                pieChart.animateY(750)
+            } else if (vagaData.has("maisCandidaturas")) {
                 val maisCandidaturas = vagaData.getJSONObject("maisCandidaturas")
 
                 val labelsArray = maisCandidaturas.getJSONArray("labels")

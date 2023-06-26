@@ -61,6 +61,7 @@ import javax.security.auth.callback.Callback
 // const val API_URL = "http://10.0.2.2:3333"
 const val API_URL = "https://pint-api.almeidx.dev"
 const val AUTH_PREFERENCE_NAME = "sharedPrefs"
+const val REMEMBER_ME_PREFERENCE_NAME = "rememberMe"
 
 fun listaBeneficios(list: ArrayList<Beneficio>, allList: ArrayList<Beneficio>, adapter: BeneficiosActivity.BeneficioAdapter, ctx: Context, admin: Boolean = false) {
     val queue = Volley.newRequestQueue(ctx)
@@ -697,7 +698,7 @@ fun listaEventos(list: ArrayList<Evento>, allList: ArrayList<Evento>, adapter: C
     queue.add(request)
 }
 
-fun login(email: String, password: String, ctx: Context, onError: () -> Unit) {
+fun login(email: String, password: String, ctx: Context, onSuccess: () -> Unit, onError: () -> Unit) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -711,6 +712,8 @@ fun login(email: String, password: String, ctx: Context, onError: () -> Unit) {
             val user = data.getJSONObject("user")
 
             saveCurrentUser(ctx, user, cookie)
+
+            onSuccess()
 
             val intent = Intent(ctx, MainActivity::class.java)
             ctx.startActivity(intent)
