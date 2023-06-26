@@ -286,6 +286,11 @@ module.exports = {
 				return;
 			}
 
+			if (account && account.disabled && account.disabledBy) {
+				res.status(403).json({ message: "Conta desativada por um administrador" });
+				return;
+			}
+
 			account ??= await Utilizador.create({
 				name,
 				email,
@@ -363,6 +368,12 @@ module.exports = {
 					message: `A sua conta está registada através de ${account.registrationType}.`,
 					provider: account.registrationType,
 				});
+				return;
+			}
+
+
+			if (account && account.disabled && account.disabledBy) {
+				res.status(403).json({ message: "Conta desativada por um administrador" });
 				return;
 			}
 
