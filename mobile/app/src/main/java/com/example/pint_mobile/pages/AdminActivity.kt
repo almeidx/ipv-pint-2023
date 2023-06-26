@@ -50,7 +50,6 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
                 "Ideias" -> gotoAdminIdeias(view)
                 "Mensagens" -> gotoAdminMensagens(view)
                 "Oportunidades" -> gotoAdminNegocios(view)
-                "Reporting" -> gotoAdminReporting(view)
                 "Reuniões" -> gotoAdminReunioes(view)
                 "Utilizadores" -> gotoAdminUtilizadores(view)
                 "Vagas" -> gotoAdminVagas(view)
@@ -68,7 +67,6 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
             "Ideias",
             "Mensagens",
             "Oportunidades",
-            "Reporting",
             "Reuniões",
             "Utilizadores",
             "Vagas",
@@ -104,12 +102,6 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         override fun getItemId(position: Int): Long {
             return position.toLong()
         }
-    }
-
-    fun gotoAdminReporting(_view: android.view.View) {
-        val intent = Intent(this, AdminReportingActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0);
     }
 
     fun gotoAdminCandidaturas(_view: android.view.View) {
