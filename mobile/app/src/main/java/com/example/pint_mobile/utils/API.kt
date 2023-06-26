@@ -237,7 +237,8 @@ fun listaNegocios(
                         centroTrabalho?.getString("postalCode") ?: "Sem centro de trabalho",
                         centroTrabalho?.getString("address") ?: "Sem centro de trabalho",
                         estadoList,
-                        dataList
+                        dataList,
+                        rawNegocio.getString("createdAt")
                     )
                     list.add(negocio)
                 }
