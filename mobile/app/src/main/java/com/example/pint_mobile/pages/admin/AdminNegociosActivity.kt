@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -52,9 +53,8 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
         listaNegocios(negociosList, allNegociosList, negociosAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 negociosList.clear()
 
@@ -63,7 +63,9 @@ class AdminNegociosActivity : ActivityBase(R.layout.activity_admin_negocios, "Ad
                         negociosList.add(negocio)
                     }
                 }
+
                 negociosAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

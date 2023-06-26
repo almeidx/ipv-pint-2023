@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -78,18 +79,19 @@ class SelectContactoClienteNegocioActivity : ActivityBase(R.layout.activity_sele
         listaContactosCliente(contactosList, allContactosList, contactosAdapter,this, idCliente)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 contactosList.clear()
 
-                for (negocio in allContactosList) {
-                    if (negocio.compareToString(search.text.toString())) {
-                        contactosList.add(negocio)
+                for (contacto in allContactosList) {
+                    if (contacto.compareToString(search.text.toString())) {
+                        contactosList.add(contacto)
                     }
                 }
+
                 contactosAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

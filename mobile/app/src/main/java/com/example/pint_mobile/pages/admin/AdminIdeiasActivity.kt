@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -34,18 +35,19 @@ class AdminIdeiasActivity : ActivityBase(R.layout.activity_admin_ideias, "Admini
         listaIdeias(ideiasList, allIdeiasList, ideiasAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 ideiasList.clear()
 
-                for (negocio in allIdeiasList) {
-                    if (negocio.compareToString(search.text.toString())) {
-                        ideiasList.add(negocio)
+                for (ideia in allIdeiasList) {
+                    if (ideia.compareToString(search.text.toString())) {
+                        ideiasList.add(ideia)
                     }
                 }
+
                 ideiasAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

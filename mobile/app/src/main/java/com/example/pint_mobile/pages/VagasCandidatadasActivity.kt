@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -38,15 +39,14 @@ class VagasCandidatadasActivity :  ActivityBase(R.layout.activity_vagas_candidat
         listarVagasUser(vagasCandidatadasList, allVagasCandidatadasList, vagasCandidatadasAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 vagasCandidatadasList.clear()
 
-                for (vaga in allVagasCandidatadasList) {
-                    if (vaga.compareToString(search.text.toString())) {
-                        vagasCandidatadasList.add(vaga)
+                for (vagasCandidatadas in allVagasCandidatadasList) {
+                    if (vagasCandidatadas.compareToString(search.text.toString())) {
+                        vagasCandidatadasList.add(vagasCandidatadas)
                     }
                 }
 

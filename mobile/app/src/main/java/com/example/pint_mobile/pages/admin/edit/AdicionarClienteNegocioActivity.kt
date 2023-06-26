@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -42,18 +43,19 @@ class AdicionarClienteNegocioActivity : ActivityBase(R.layout.activity_adicionar
         listaClientes(clientesList, allClientesList, clientesAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 clientesList.clear()
 
-                for (negocio in allClientesList) {
-                    if (negocio.compareToString(search.text.toString())) {
-                        clientesList.add(negocio)
+                for (cliente in allClientesList) {
+                    if (cliente.compareToString(search.text.toString())) {
+                        clientesList.add(cliente)
                     }
                 }
+
                 clientesAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

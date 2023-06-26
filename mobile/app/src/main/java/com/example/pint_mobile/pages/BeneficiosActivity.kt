@@ -1,11 +1,14 @@
 package com.example.pint_mobile.pages
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.BeneficiosEditActivity
@@ -30,9 +33,8 @@ class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefíci
         listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 beneficiosList.clear()
 
@@ -48,7 +50,8 @@ class BeneficiosActivity : ActivityBase(R.layout.activity_beneficios, "Benefíci
             } else {
                 false
             }
-         }
+        }
+
 
         val nav = findViewById<BottomNavigationView>(R.id.bottombar)
 
