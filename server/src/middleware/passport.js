@@ -18,7 +18,7 @@ module.exports = function (passport) {
 	});
 
 	const selectOptions = {
-		attributes: ["id", "name", "cv", "email", "registrationType"],
+		attributes: ["id", "name", "cv", "email", "registrationType", "disabled", "disabledBy"],
 		include: [
 			{
 				model: TipoUtilizador,
@@ -42,14 +42,12 @@ module.exports = function (passport) {
 					attributes: [...selectOptions.attributes, "hashedPassword"],
 				});
 
-				console.log({
-					email: username,
-					registrationType: user.registrationType,
-					isMobileAuthToken: password === MOBILE_GOOGLE_AUTH_TOKEN,
-				});
-
 				if (!user) {
 					return done(null, false);
+				}
+
+				if (user.disabled && user.disabledBy) {
+					return done(new Error("Admin disabled"), false);
 				}
 
 				if (
@@ -112,6 +110,10 @@ module.exports = function (passport) {
 					...selectOptions,
 				});
 
+				if (user && user.disabled && user.disabledBy) {
+					return cb(new Error("Admin disabled"), false);
+				}
+
 				if (!user) {
 					user = await Utilizador.create({
 						name: profile._json.first_name + " " + profile._json.last_name,
@@ -140,6 +142,19 @@ module.exports = function (passport) {
 				callbackURL: process.env.GOOGLE_APP_CALLBACK_URL,
 			},
 			async function (_accessToken, _refreshToken, profile, cb) {
+				const email = profile._json.email;
+				const existingUserWithEmail = await Utilizador.findOne({
+					where: {
+						email,
+						socialUserId: { [Op.ne]: profile.id },
+						registrationType: { [Op.ne]: "google" },
+					},
+				});
+
+				if (existingUserWithEmail) {
+					return cb(null, false, { message: "Email already in use" });
+				}
+
 				let user = await Utilizador.findOne({
 					where: {
 						socialUserId: profile.id,
@@ -147,6 +162,10 @@ module.exports = function (passport) {
 					},
 					...selectOptions,
 				});
+
+				if (user && user.disabled && user.disabledBy) {
+					return cb(new Error("Admin disabled"), false);
+				}
 
 				if (!user) {
 					user = await Utilizador.create({

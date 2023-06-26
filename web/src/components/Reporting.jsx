@@ -95,19 +95,21 @@ export function Reporting() {
 				<>
 					{/* Global */}
 					<Row className="mx-auto px-3 pb-2 pt-5" style={{ gap: "2rem" }}>
-						{Object.entries(publicSorted).map(([key, data]) => (
-							<ReportingCard
-								key={key}
-								title={key}
-								onIntervalChange={(interval) => data[interval]}
-								resolveTitle={(title) => reportingPublicKeys[title]}
-								isLoading={isLoading}
-							/>
-						))}
+						{publicSorted
+							? Object.entries(publicSorted).map(([key, data]) => (
+									<ReportingCard
+										key={key}
+										title={key}
+										onIntervalChange={(interval) => data[interval]}
+										resolveTitle={(title) => reportingPublicKeys[title]}
+										isLoading={isLoading}
+									/>
+							  ))
+							: null}
 					</Row>
 
 					{/* Gestor de Negócios */}
-					{"porMes" in reportingData.negócios ? (
+					{reportingData && "porMes" in reportingData.negócios ? (
 						<>
 							<h2 className="my-3 text-white">Gestão de negócios</h2>
 
@@ -155,7 +157,7 @@ export function Reporting() {
 					) : null}
 
 					{/* Gestor de Ideias */}
-					{reportingData.ideias && "porMes" in reportingData.ideias ? (
+					{reportingData?.ideias && "porMes" in reportingData.ideias ? (
 						<>
 							<h2 className="my-3 text-white">Gestão de ideias</h2>
 
@@ -194,7 +196,7 @@ export function Reporting() {
 					) : null}
 
 					{/* Gestor de Recursos Humanos */}
-					{"candidaturas" in reportingData ? (
+					{reportingData && "candidaturas" in reportingData ? (
 						<>
 							<h2 className="my-3 text-white">Gestão de recursos humanos</h2>
 
@@ -232,7 +234,7 @@ export function Reporting() {
 					) : null}
 
 					{/* Gestor de Conteúdos */}
-					{"mensagens" in reportingData ? (
+					{reportingData && "mensagens" in reportingData ? (
 						<>
 							<h2 className="my-3 text-white">Gestão de conteúdos</h2>
 

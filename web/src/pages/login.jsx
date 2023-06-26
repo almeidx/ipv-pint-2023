@@ -61,6 +61,10 @@ export default function Login() {
 				} catch {}
 
 				showToastWithMessage("Email ou password incorretos", "error");
+				return;
+			} else if (response.status === 403) {
+				showToastWithMessage("A sua conta foi desativada por um administrador.", "error");
+				return;
 			}
 
 			console.error(response);

@@ -92,7 +92,7 @@ app
 	await sequelize.authenticate();
 	console.timeEnd("Connection time");
 
-	await sequelize.sync();
+	// await sequelize.sync();
 
 	const qntTiposUtilizador = await TipoUtilizador.count();
 	if (qntTiposUtilizador === 0) {

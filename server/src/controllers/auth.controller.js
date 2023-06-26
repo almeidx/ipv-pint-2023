@@ -29,6 +29,9 @@ module.exports = {
 							provider: registrationType[1],
 						});
 						return;
+					} else if (err.message === "Admin disabled") {
+						res.status(403).json({ message: "Conta desativada por um administrador" });
+						return;
 					}
 				}
 
@@ -235,12 +238,30 @@ module.exports = {
 	],
 
 	google: [passport.authenticate("google", { scope: ["profile", "email"] })],
-	googleCallback: [
-		passport.authenticate("google", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
-		(_req, res) => {
-			res.redirect(process.env.WEB_URL);
-		},
-	],
+	googleCallback: (req, res, next) => {
+		passport.authenticate("google", function (err, user) {
+			if (err) {
+				if (typeof err.message === "string" && err.message === "Admin disabled") {
+					res.status(403).send("Conta desativada por um administrador");
+					return;
+				}
+
+				return next(err);
+			}
+
+			if (!user) {
+				return res.redirect(process.env.WEB_URL + "/signup?disabled");
+			}
+
+			req.logIn(user, function (err) {
+				if (err) {
+					return next(err);
+				}
+
+				return res.json({ user: req.user });
+			});
+		})(req, res, next);
+	},
 	googleCallbackMobile: [
 		validate(
 			z.object({
@@ -281,10 +302,6 @@ module.exports = {
 					return next(err);
 				}
 
-				console.log({
-					user,
-				});
-
 				if (!user) {
 					return res.redirect("/auth/user");
 				}
@@ -301,12 +318,30 @@ module.exports = {
 	],
 
 	facebook: [passport.authenticate("facebook", { scope: ["email"] })],
-	facebookCallback: [
-		passport.authenticate("facebook", { failureRedirect: process.env.WEB_URL + "/signup?fail" }),
-		(_req, res) => {
-			res.redirect(process.env.WEB_URL);
-		},
-	],
+	facebookCallback: (req, res, next) => {
+		passport.authenticate("facebook", function (err, user) {
+			if (err) {
+				if (typeof err.message === "string" && err.message === "Admin disabled") {
+					res.status(403).send("Conta desativada por um administrador");
+					return;
+				}
+
+				return next(err);
+			}
+
+			if (!user) {
+				return res.redirect(process.env.WEB_URL + "/signup?disabled");
+			}
+
+			req.logIn(user, function (err) {
+				if (err) {
+					return next(err);
+				}
+
+				return res.json({ user: req.user });
+			});
+		})(req, res, next);
+	},
 	facebookCallbackMobile: [
 		validate(
 			z.object({
