@@ -42,10 +42,7 @@ const createContactoSchema = object().shape({
 		.when("type", {
 			is: "1",
 			then: () =>
-				string().matches(
-					/^(\+351 ?)?(9[1236]\d|232) ?(\d{3}) ?(\d{3})$/,
-					"O contacto tem de ser um número de telefone",
-				),
+				string().matches(/^(\+351 ?)?(\d{3}) ?(\d{3}) ?(\d{3})$/, "O contacto tem de ser um número de telefone"),
 		}),
 	type: string().required("O tipo de contacto é obrigatório").oneOf(["0", "1"], "O tipo de contacto é inválido"),
 });
@@ -764,7 +761,7 @@ function CreateClientModal({ show, onHide, onSave }) {
 function CreateContactoModal({ idCliente, show, onHide, onSave }) {
 	/** @param {import("yup").InferType<typeof createContactoSchema>} */
 	function handleSubmit({ type, value }) {
-		onSave(idCliente, { value, type: Number.parseInt(type, 10) });
+		onSave(idCliente, { value: value.replace(/^351 ?/, ""), type: Number.parseInt(type, 10) });
 		onHide();
 	}
 
