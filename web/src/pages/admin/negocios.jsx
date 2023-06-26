@@ -477,9 +477,9 @@ function sortWrapper(method) {
 		case "titleDesc":
 			return (a, b) => b.title.localeCompare(a.title);
 		case "dataCriacaoAsc":
-			return (a, b) => new Date(a.dataCriacao) - new Date(b.dataCriacao);
+			return (a, b) => new Date(a.createdAt) - new Date(b.createdAt);
 		case "dataCriacaoDesc":
-			return (a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao);
+			return (a, b) => new Date(b.createdAt) - new Date(a.createdAt);
 		default:
 			return () => 0;
 	}
