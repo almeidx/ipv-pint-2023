@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -35,18 +36,19 @@ class AdminReunioesActivity : ActivityBase(R.layout.activity_admin_reunioes, "Ad
         listaReunioes(reunioesList, allReunioesList, reunioesAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 reunioesList.clear()
 
-                for (mensagem in allReunioesList) {
-                    if (mensagem.compareToString(search.text.toString())) {
-                        reunioesList.add(mensagem)
+                for (reuniao in allReunioesList) {
+                    if (reuniao.compareToString(search.text.toString())) {
+                        reunioesList.add(reuniao)
                     }
                 }
+
                 reunioesAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

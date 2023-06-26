@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ListView
 import com.example.pint_mobile.R
@@ -30,9 +31,8 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
         listaBeneficios(beneficiosList, allBeneficiosList, beneficiosAdapter, this, true)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 beneficiosList.clear()
 
@@ -41,7 +41,9 @@ class AdminBeneficiosActivity : ActivityBase(R.layout.activity_admin_beneficios,
                         beneficiosList.add(beneficio)
                     }
                 }
+
                 beneficiosAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.example.pint_mobile.R
 import com.example.pint_mobile.pages.admin.edit.VagasEditActivity
@@ -30,9 +31,8 @@ class VagasActivity : ActivityBase(R.layout.activity_vagas, "Vagas") {
         listaVagas(vagasList, allVagasList, vagasAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 vagasList.clear()
 

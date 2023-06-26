@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -34,9 +35,8 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
         listaMensagens(mensagensList, allMensagensList, mensagensAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 mensagensList.clear()
 
@@ -45,7 +45,9 @@ class AdminMensagensActivity : ActivityBase(R.layout.activity_admin_mensagens, "
                         mensagensList.add(mensagem)
                     }
                 }
+
                 mensagensAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

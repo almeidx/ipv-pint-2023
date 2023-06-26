@@ -35,6 +35,8 @@
                 android:id="@+id/pesquisa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:drawableStart="@drawable/search"
                 android:drawablePadding="2dp" />
         </com.google.android.material.textfield.TextInputLayout>

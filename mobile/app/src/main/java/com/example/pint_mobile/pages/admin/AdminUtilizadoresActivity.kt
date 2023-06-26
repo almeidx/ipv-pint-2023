@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.EditText
@@ -36,18 +37,19 @@ class AdminUtilizadoresActivity : ActivityBase(R.layout.activity_admin_utilizado
         listaUtilizadores(utilizadoresList, allUtilizadoresList, utilizadoresAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 utilizadoresList.clear()
 
-                for (negocio in allUtilizadoresList) {
-                    if (negocio.compareToString(search.text.toString())) {
-                        utilizadoresList.add(negocio)
+                for (utilizador in allUtilizadoresList) {
+                    if (utilizador.compareToString(search.text.toString())) {
+                        utilizadoresList.add(utilizador)
                     }
                 }
+
                 utilizadoresAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false

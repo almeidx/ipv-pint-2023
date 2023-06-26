@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.ListView
@@ -19,7 +20,7 @@ import com.example.pint_mobile.utils.Utilizador
 import com.example.pint_mobile.utils.listaUtilizadores
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Escolher Utilizadores") {
+class SelectUserActivity : ActivityBase(R.layout.activity_select_user, "Escolher Utilizadores") {
 
     private val utilizadoresList = ArrayList<Utilizador>()
     private val allUtilizadoresList = ArrayList<Utilizador>()
@@ -27,7 +28,6 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_user)
 
         val lista = findViewById<ListView>(R.id.listaUtilizador2)
         utilizadoresAdapter = AdminUtilizadoresActivity.UtilizadorAdapter(
@@ -47,18 +47,19 @@ class SelectUserActivity : ActivityBase(R.layout.activity_mensagem_validar, "Esc
         listaUtilizadores(utilizadoresList, allUtilizadoresList, utilizadoresAdapter, this)
 
         val search = findViewById<EditText>(R.id.pesquisa2)
-        search.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        search.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                 utilizadoresList.clear()
 
-                for (negocio in allUtilizadoresList) {
-                    if (negocio.compareToString(search.text.toString())) {
-                        utilizadoresList.add(negocio)
+                for (user in allUtilizadoresList) {
+                    if (user.compareToString(search.text.toString())) {
+                        utilizadoresList.add(user)
                     }
                 }
+
                 utilizadoresAdapter.notifyDataSetChanged()
+
                 true
             } else {
                 false
