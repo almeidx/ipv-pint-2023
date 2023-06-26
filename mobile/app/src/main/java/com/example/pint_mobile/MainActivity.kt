@@ -41,14 +41,6 @@ class MainActivity : ActivityBase(R.layout.activity_main) {
             getUserInfo(cookie, this)
         }
 
-        val user = getCurrentUser(this)
-
-        Toast.makeText(
-            this,
-            user?.name ?: "Não tem sessão iniciada",
-            Toast.LENGTH_LONG
-        ).show()
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         FacebookSdk.sdkInitialize(applicationContext)

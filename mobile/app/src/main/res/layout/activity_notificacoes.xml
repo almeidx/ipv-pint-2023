@@ -50,7 +50,7 @@
 				android:layout_gravity="bottom|center"
 				android:background="@android:color/white"
 				android:onClick="marcarTodasComoLida"
-				android:text="Apagar todas"
+				android:text="Marcar todas como lidas"
 				android:layout_marginTop="50dp"
 				android:textColor="@color/white"
 				android:textSize="16sp"
