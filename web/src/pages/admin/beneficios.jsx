@@ -45,19 +45,11 @@ export default function Beneficios() {
 
 	async function handleCreate(data) {
 		try {
-			const clone = { ...data };
-
-			if ("dataValidade" in clone && clone.dataValidade) {
-				console.log(clone.dataValidade);
-
-				clone.dataValidade = new Date(clone.dataValidade + ":00").toISOString();
-			}
-
 			const response = await fetch(`${API_URL}/beneficios`, {
 				credentials: "include",
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(clone),
+				body: JSON.stringify(data),
 			});
 
 			if (!response.ok) {
