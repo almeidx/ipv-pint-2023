@@ -1139,7 +1139,7 @@ fun deleteVaga(id: Int, ctx: Context) {
     queue.add(request)
 }
 
-fun editVaga(id: Int, titulo:String, descricao:String, numeroVagas:Int, publico:Boolean, statusInt:Int, ctx: Context) {
+fun editVaga(id: Int, titulo:String, descricao:String, numeroVagas:Int, publico:Boolean, statusInt:Int, icone:String, ctx: Context) {
     val queue = Volley.newRequestQueue(ctx);
 
     val body = JSONObject()
@@ -1148,6 +1148,7 @@ fun editVaga(id: Int, titulo:String, descricao:String, numeroVagas:Int, publico:
     body.put("amountSlots", numeroVagas)
     body.put("public", publico)
     body.put("status", statusInt)
+    body.put("icon", icone)
 
     Log.i("body", body.toString())
     val request = object : JsonObjectRequestWithCookie(ctx, Request.Method.PATCH, "$API_URL/vagas/$id", body, Response.Listener { response ->

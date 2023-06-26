@@ -148,6 +148,16 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Button
+                    android:id="@+id/imagePickerX3"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="Escolha a imagem do beneficio"
+                    />
+
                 <CheckBox
                     android:id="@+id/checkBoxVaga"
                     android:layout_width="match_parent"
@@ -174,6 +184,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/editarVagaX3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
