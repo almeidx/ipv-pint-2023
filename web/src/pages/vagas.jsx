@@ -150,7 +150,7 @@ export default function Vagas() {
  */
 function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickVaga, loggedIn, public: isPublic }) {
 	return (
-		<Card style={{ width: "22rem", height: "18rem", borderRadius: "1rem", marginTop: "4rem" }}>
+		<Card style={{ width: "22rem", height: "20rem", borderRadius: "1rem", marginTop: "4rem" }}>
 			<Card.Body>
 				<Card.Img
 					src={resolveIcon(icon)}
@@ -169,7 +169,7 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
 				</Card.Subtitle>
 
-				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "3rem" }}>
+				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "4.8rem" }}>
 					{description}
 				</Card.Text>
 
