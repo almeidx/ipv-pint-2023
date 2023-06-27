@@ -303,7 +303,10 @@ function Negocio({ onEditClick, ...negocio }) {
 	const estadoAtual = resolveNameOfNextEstado(estado);
 
 	return (
-		<Card className="negocio-card" style={{ width: "25rem", height: "23rem", borderRadius: "1rem" }}>
+		<Card
+			className="negocio-card hide-scrollbar"
+			style={{ width: "25rem", height: "23rem", borderRadius: "1rem", overflowY: "scroll" }}
+		>
 			<Card.Body>
 				<Card.Title className="title d-flex justify-content-between" style={{ fontSize: "1.4rem" }}>
 					{title}
@@ -654,7 +657,9 @@ function CreateOrEditNegocioModal({
 			<Modal.Footer>
 				<Button
 					onClick={() => {
-						negocioData.necessidades ??= [];
+						if (isCreate) {
+							negocioData.necessidades ??= [];
+						}
 
 						onSave(negocioData);
 						onHideWrapper();

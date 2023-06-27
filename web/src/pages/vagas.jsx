@@ -161,21 +161,23 @@ function Vaga({ id, icon, title, description, amountSlots, slotsFilled, onClickV
 					fetchpriority="high"
 				/>
 
-				<Card.Title className="title my-3 pt-5" style={{ fontSize: "1.8rem" }}>
-					{title}
-				</Card.Title>
+				<div className="hide-scrollbar" style={{ height: "15rem", overflowY: "scroll" }}>
+					<Card.Title className="title my-3 pt-5" style={{ fontSize: "1.8rem" }}>
+						{title}
+					</Card.Title>
 
-				<Card.Subtitle>
-					Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
-				</Card.Subtitle>
+					<Card.Subtitle>
+						Aberta - {amountSlots - slotsFilled} vagas{isPublic ? "" : " - Só colaboradores"}
+					</Card.Subtitle>
 
-				<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "4.8rem" }}>
-					{description}
-				</Card.Text>
+					<Card.Text className="d-flex pt-2" style={{ fontSize: "1.1rem", height: "4.8rem" }}>
+						{description}
+					</Card.Text>
+				</div>
 
 				<Card.Footer className="d-flex align-items-center bg-white">
 					{loggedIn ? (
-						<Button className="mx-auto mt-2" onClick={() => onClickVaga(id)}>
+						<Button className="mx-auto mt-1" onClick={() => onClickVaga(id)}>
 							Candidatar
 						</Button>
 					) : (

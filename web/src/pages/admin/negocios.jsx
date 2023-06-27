@@ -433,7 +433,7 @@ function Progresso({ estados }) {
 	function hasState(estado) {
 		if (!obj.size && estado === 0) return true;
 		if (obj.has(estado)) return true;
-		if (estado === (lastEstado?.estado ?? 0) + 1) return true;
+		if (estado === (lastEstado ? lastEstado.estado + 1 : 0)) return true;
 
 		return false;
 	}

@@ -52,7 +52,10 @@ export default function Beneficios() {
  */
 function Beneficio({ iconeBeneficio, shortContent, content }) {
 	return (
-		<Card style={{ width: "18rem", height: "20rem", borderRadius: "1rem" }}>
+		<Card
+			className="hide-scrollbar"
+			style={{ width: "18rem", height: "20rem", borderRadius: "1rem", overflowY: "scroll" }}
+		>
 			<Card.Body className="d-flex justify-content-center align-items-center flex-column">
 				<Card.Img
 					src={resolveIcon(iconeBeneficio)}
