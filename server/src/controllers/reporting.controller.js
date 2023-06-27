@@ -154,12 +154,21 @@ module.exports = {
 				getDataPerMonth("negocios", "DATA_CRIACAO", "negócios"),
 				getVolumeData(
 					oneLine`
-						SELECT "ESTADO" as label, CAST(COUNT(*) AS INT) AS data
-						FROM estados_negocios
-						INNER JOIN negocios
-							ON negocios."ID_OPORTUNIDADE" = estados_negocios."ID_OPORTUNIDADE"
-						GROUP BY label
-						ORDER BY label ASC
+						SELECT subquery.label, COUNT(*) AS data
+						FROM (
+							SELECT n."ID_OPORTUNIDADE", e."ESTADO" as label
+							FROM estados_negocios e
+							INNER JOIN (
+								SELECT "ID_OPORTUNIDADE", MAX("DATA_FINALIZACAO") AS max_data
+								FROM estados_negocios
+								GROUP BY "ID_OPORTUNIDADE"
+							) latest
+							ON e."ID_OPORTUNIDADE" = latest."ID_OPORTUNIDADE" AND e."DATA_FINALIZACAO" = latest.max_data
+							INNER JOIN negocios n
+							ON n."ID_OPORTUNIDADE" = e."ID_OPORTUNIDADE"
+						) subquery
+						GROUP BY subquery.label
+						ORDER BY subquery.label ASC
 					`,
 					"negócios",
 					"volumeEstados",
