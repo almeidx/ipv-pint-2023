@@ -1,16 +1,3 @@
-/*
-create table VAGAS (
-   ID_VAGA              int                  not null,
-   QUANTIDADE_VAGAS     int                  not null,
-   PUBLICA              bit                  not null,
-   ICONE_VAGA           text                 not null,
-   TITULO_VAGA          text                 not null,
-   DESCRICAO_VAGA       text                 not null,
-   ESTADO_VAGA          int                  not null,
-   constraint PK_VAGAS primary key (ID_VAGA)
-)
-*/
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 

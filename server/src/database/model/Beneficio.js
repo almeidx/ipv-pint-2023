@@ -1,17 +1,3 @@
-/*
-create table BENEFICIOS (
-   ID_BENEFICIO         int                  not null,
-   ID_USER              int                  not null,
-   DATA_VALIDADE        datetime             null,
-   CONTEUDO_BENEFICIO   text                 not null,
-   DESCRICAO_PEQUENA    text                 not null,
-   ICONE_BENEFICIO      text                 not null,
-   constraint PK_BENEFICIOS primary key (ID_BENEFICIO),
-   constraint FK_BENEFICI_BENEFICIO_UTILIZAD foreign key (ID_USER)
-      references UTILIZADORES (ID_USER)
-)
-*/
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const Utilizador = require("./Utilizador.js");
@@ -29,10 +15,6 @@ const Beneficio = sequelize.define(
 		idCriador: {
 			type: DataTypes.INTEGER,
 			field: "ID_USER",
-			// references: {
-			// 	model: "utilizadores",
-			// 	key: "id",
-			// },
 			allowNull: false,
 		},
 		dataValidade: {

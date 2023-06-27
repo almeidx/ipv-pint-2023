@@ -13,7 +13,11 @@ const PASSWORD_CHANGE_EXPIRATION_TIME = 15 * 60 * 1_000; // 15m
 /** @type {import("../database/index.js").Controller} */
 module.exports = {
 	read: [
-		requirePermission(TipoUtilizadorEnum.Administrador),
+		requirePermission([
+			TipoUtilizadorEnum.GestorRecursosHumanos,
+			TipoUtilizadorEnum.GestorNegocios,
+			TipoUtilizadorEnum.Administrador,
+		]),
 
 		async (_req, res) => {
 			res.json(

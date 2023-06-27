@@ -34,18 +34,10 @@ const Reuniao = sequelize.define(
 		idNegocio: {
 			type: DataTypes.INTEGER,
 			field: "ID_OPORTUNIDADE",
-			// references: {
-			// 	model: "negocios",
-			// 	key: "id",
-			// },
 		},
 		idCandidatura: {
 			type: DataTypes.INTEGER,
 			field: "ID_CANDIDATURA",
-			// references: {
-			// 	model: "candidaturas",
-			// 	key: "id",
-			// },
 		},
 		startTime: {
 			type: DataTypes.DATE,

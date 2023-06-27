@@ -14,10 +14,6 @@ const Mensagem = sequelize.define(
 		idCriador: {
 			type: DataTypes.INTEGER,
 			field: "ID_USER",
-			// references: {
-			// 	model: "utilizadores",
-			// 	key: "id",
-			// },
 		},
 		name: {
 			type: DataTypes.STRING,

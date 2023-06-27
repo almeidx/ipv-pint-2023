@@ -1,11 +1,3 @@
-/*
-create table AREA_DE_NEGOCIO (
-   ID_AREA_NEGOCIO      int                  not null,
-   NOME_AREA            text                 not null,
-   constraint PK_AREA_DE_NEGOCIO primary key (ID_AREA_NEGOCIO)
-)
- */
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 

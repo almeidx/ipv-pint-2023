@@ -22,7 +22,7 @@ module.exports = {
 
 			const contacto = await Contacto.create({
 				idCliente: id,
-				value,
+				value: value.replaceAll(" ", ""),
 				type,
 			});
 

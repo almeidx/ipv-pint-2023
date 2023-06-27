@@ -1,24 +1,3 @@
-/*
-create table UTILIZADORES (
-   ID_USER              int                  not null,
-   ID_TIPO_USER         int                  not null,
-   NOME_USER            text                 not null,
-   EMAIL                text                 not null,
-   PASSWORD             text                 not null,
-   HAS_CONFIRMED        bit                  not null,
-   CV                   text                 null,
-   NOVA_PASSWORD_CODE   text                 null,
-   NOVA_PASSWORD_DATA   datetime             null,
-   CONFIRM_CODE         text                 null,
-   CONFIRM_DATE_START   datetime             null,
-   ULTIMA_DATA_LOGIN    datetime             null,
-	 ACTIVE_ACCOUNT       bit                  not null,
-   constraint PK_UTILIZADORES primary key (ID_USER),
-   constraint FK_UTILIZAD_UTILIZADO_TIPOS_DE foreign key (ID_TIPO_USER)
-      references TIPOS_DE_UTILIZADOR (ID_TIPO_USER)
-)
-*/
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const TipoUtilizador = require("./TipoUtilizador.js");
@@ -38,10 +17,6 @@ const Utilizador = sequelize.define(
 			field: "ID_TIPO_USER",
 			allowNull: false,
 			defaultValue: 1,
-			// references: {
-			// 	model: "tipos_de_utilizador",
-			// 	key: "id",
-			// },
 		},
 		name: {
 			type: DataTypes.STRING,
