@@ -87,7 +87,7 @@ class AdminActivity : ActivityBase(R.layout.activity_admin, "Administração") {
         private val buttons = when (user) {
             TipoUtilizadorEnum.GestorIdeias -> listOf("Ideias")
             TipoUtilizadorEnum.GestorRecursosHumanos -> listOf("Candidaturas", "Reuniões", "Vagas")
-            TipoUtilizadorEnum.GestorNegocios -> listOf("Oportunidades", "Reuniões")
+            TipoUtilizadorEnum.GestorNegocios -> listOf("Áreas de Negócio", "Oportunidades", "Reuniões", "Tipos de Projeto")
             TipoUtilizadorEnum.GestorConteudos -> listOf("Benefícios", "Mensagens")
             TipoUtilizadorEnum.Administrador -> allbuttons
             else -> emptyList()
