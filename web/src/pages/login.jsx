@@ -235,7 +235,7 @@ export default function Login() {
 							<Button
 								variant="light"
 								type="submit"
-								className="col-8 rounded-5 mx-auto p-2"
+								className="col-8 col-xxl-9 rounded-5 mx-auto p-2"
 								disabled={formikButtonDisabled(errors, touched)}
 							>
 								Login

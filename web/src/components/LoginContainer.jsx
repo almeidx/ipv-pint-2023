@@ -27,7 +27,7 @@ export function SocialButtons() {
 			<Button
 				variant="light"
 				type="button"
-				className="col-8 rounded-5 d-flex justify-content-center align-items-center mx-auto mt-4 gap-2 p-2"
+				className="col-8 col-xxl-9 rounded-5 d-flex justify-content-center align-items-center mx-auto mt-4 gap-2 p-2"
 				onClick={() => {
 					window.open(`${API_URL}/auth/google`, "_self");
 				}}
@@ -38,7 +38,7 @@ export function SocialButtons() {
 			<Button
 				variant="light"
 				type="button"
-				className="col-8 rounded-5 d-flex justify-content-center align-items-center mx-auto mb-2 mt-3 gap-2 p-2"
+				className="col-8 col-xxl-9 rounded-5 d-flex justify-content-center align-items-center mx-auto mb-2 mt-3 gap-2 p-2"
 				onClick={() => {
 					window.open(`${API_URL}/auth/facebook`, "_self");
 				}}

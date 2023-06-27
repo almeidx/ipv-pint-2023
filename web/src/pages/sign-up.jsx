@@ -216,7 +216,7 @@ export default function SignUp() {
 							<Button
 								variant="light"
 								type="submit"
-								className="col-8 rounded-5 mx-auto mt-4 p-2"
+								className="col-8 col-xxl-9 rounded-5 mx-auto mt-4 p-2"
 								disabled={formikButtonDisabled(errors, touched)}
 							>
 								Criar conta
