@@ -46,6 +46,7 @@ export default function Profile() {
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
 	const [showConfirmModal, setShowConfirmModal] = useState(false);
+	const [showDisableConfirmModal, setShowDisableConfirmModal] = useState(false);
 	const { showToast, showToastWithMessage, toastMessage, hide } = useToast();
 
 	const disabledEditing = user?.registrationType !== "email";
@@ -172,6 +173,14 @@ export default function Profile() {
 				text="Pretende terminar a sua sessão?"
 			/>
 
+			<ConfirmModal
+				onConfirm={handleDisableAccount}
+				onHide={() => setShowDisableConfirmModal(false)}
+				show={showDisableConfirmModal}
+				title="Desativar conta"
+				text="Tem a certeza que pretende desativar a sua conta? Pode reativá-la a qualquer momento."
+			/>
+
 			{user ? (
 				<>
 					{showSaveButton ? (
@@ -270,7 +279,7 @@ export default function Profile() {
 									Terminar sessão
 								</Button>
 
-								<Button variant="danger" onClick={handleDisableAccount}>
+								<Button variant="danger" onClick={() => setShowDisableConfirmModal(true)}>
 									<BsTrash size={18} className="mb-1 me-2" />
 									Desativar conta
 								</Button>
