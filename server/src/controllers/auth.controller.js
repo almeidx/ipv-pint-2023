@@ -257,7 +257,7 @@ module.exports = {
 					return next(err);
 				}
 
-				return res.json({ user: req.user });
+				return res.redirect(process.env.WEB_URL);
 			});
 		})(req, res, next);
 	},
@@ -342,7 +342,7 @@ module.exports = {
 					return next(err);
 				}
 
-				return res.json({ user: req.user });
+				return res.redirect(process.env.WEB_URL);
 			});
 		})(req, res, next);
 	},

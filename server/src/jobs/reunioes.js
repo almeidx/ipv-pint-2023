@@ -17,14 +17,14 @@ setInterval(async () => {
 		},
 	});
 
-	console.log("Upcoming reuniões", reunioes.length);
-
 	if (!reunioes.length) return;
 
-	const reunioesComUsers = reunioes.map(async (reuniao) => ({
-		utilizadores: await reuniao.getUsers(),
-		reuniao,
-	}));
+	const reunioesComUsers = await Promise.all(
+		reunioes.map(async (reuniao) => ({
+			utilizadores: await reuniao.getUsers(),
+			reuniao,
+		})),
+	);
 
 	await Notificacao.bulkCreate(
 		reunioesComUsers
