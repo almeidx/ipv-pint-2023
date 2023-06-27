@@ -21,6 +21,50 @@
 			android:orientation="vertical"
 		>
 
+			<Button
+				android:id="@+id/selectUsers"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:background="@android:color/white"
+				android:onClick="selectUsers"
+				android:text="@string/selecionar_utilizadores"
+				android:textColor="@color/white"
+				android:textSize="16sp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="1.0"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+				app:layout_constraintVertical_bias="0.0"
+				/>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/usersReuniao"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="25dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="25dp"
+				android:hint="Users da Reuniao"
+				app:boxBackgroundColor="@color/white"
+				app:boxStrokeColor="@color/black"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/selectUsers"
+				>
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/usersReuniaoEditText"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
 				android:id="@+id/linearLayout"
 				android:layout_width="match_parent"
@@ -38,7 +82,7 @@
 					android:layout_height="64dp"
 					android:layout_marginStart="25dp"
 					android:layout_marginEnd="25dp"
-					android:text="data da Reuniao"
+					android:text="Data da Reuniao"
 				/>
 
                 <EditText
@@ -60,49 +104,7 @@
 				/>
             </LinearLayout>
 
-            <Button
-				android:id="@+id/selectUsers"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginStart="25dp"
-				android:layout_marginTop="25dp"
-				android:layout_marginEnd="25dp"
-				android:background="@android:color/white"
-				android:onClick="selectUsers"
-				android:text="@string/selecionar_utilizadores"
-				android:textColor="@color/white"
-				android:textSize="16sp"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="1.0"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-				app:layout_constraintVertical_bias="0.0"
-			/>
 
-            <com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/usersReuniao"
-				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="25dp"
-				android:layout_marginTop="25dp"
-				android:layout_marginEnd="25dp"
-				android:hint="Users da Reuniao"
-				app:boxBackgroundColor="@color/white"
-				app:boxStrokeColor="@color/black"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/selectUsers"
-			>
-
-                <com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/usersReuniaoEditText"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-				/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/textInputLayout8"
