@@ -47,6 +47,8 @@ module.exports = function (passport) {
 
 				if (user.disabled && user.disabledBy) {
 					return done(new Error("Admin disabled"), false);
+				} else if (user.disabled) {
+					await user.update({ disabled: false, disabledBy: null, disabledAt: null });
 				}
 
 				if (
@@ -109,8 +111,10 @@ module.exports = function (passport) {
 					...selectOptions,
 				});
 
-				if (user && user.disabled && user.disabledBy) {
+				if (user?.disabled && user.disabledBy) {
 					return cb(new Error("Admin disabled"), false);
+				} else if (user?.disabled) {
+					await user.update({ disabled: false, disabledBy: null, disabledAt: null });
 				}
 
 				if (!user) {
@@ -160,8 +164,10 @@ module.exports = function (passport) {
 					...selectOptions,
 				});
 
-				if (user && user.disabled && user.disabledBy) {
+				if (user?.disabled && user.disabledBy) {
 					return cb(new Error("Admin disabled"), false);
+				} else if (user?.disabled) {
+					await user.update({ disabled: false, disabledBy: null, disabledAt: null });
 				}
 
 				if (!user) {

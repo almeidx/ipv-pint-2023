@@ -47,8 +47,7 @@ module.exports = {
 		validate(
 			z
 				.object({
-					// TODO: Update min length to 12
-					passwordAtual: z.string().min(1).max(128),
+					passwordAtual: z.string().min(12).max(128),
 					newPassword: z
 						.string()
 						.min(12, "Password deve ter pelo menos 12 caracteres")
