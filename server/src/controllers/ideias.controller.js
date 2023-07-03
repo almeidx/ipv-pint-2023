@@ -12,13 +12,17 @@ module.exports = {
 			z
 				.object({
 					content: z.string().min(1).max(1000),
-					categoria: z.enum(["Geral", "Estabelecimento", "Investimentos", "Negócios"]),
+					categoria: z.enum(["Geral", "Estabelecimento", "Investimentos", "Negócios", "Investimento", "Negócio"]),
 				})
 				.strict(),
 		),
 
 		async (req, res) => {
-			const { content, categoria } = req.body;
+			let { content, categoria } = req.body;
+
+			// Corrigir categoria (mobile)
+			if (categoria === "Investimento") categoria = "Investimentos";
+			if (categoria === "Negócio") categoria = "Negócios";
 
 			const ideia = await Ideia.create({
 				idCriador: req.user.id,
